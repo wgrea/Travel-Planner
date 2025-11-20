@@ -2,12 +2,32 @@
 import { visaData, defaultVisaInfo } from '$lib/data/visaData';
 import type { CountryCode, VisaInfo } from '$lib/types/visa';
 
-export function getVisaInfo(country: string): VisaInfo {
-  return visaData[country as CountryCode] || defaultVisaInfo;
+// Updated to accept both home country and destination country
+export function getVisaInfo(homeCountry: string, destinationCountry: CountryCode): VisaInfo {
+  return visaData[homeCountry]?.[destinationCountry] || defaultVisaInfo;
 }
 
 export function getAvailableCountries(): CountryCode[] {
-  return Object.keys(visaData) as CountryCode[];
+  // Get all destination countries from the first passport country (United States)
+  const firstPassportCountry = Object.keys(visaData)[0];
+  return Object.keys(visaData[firstPassportCountry] || {}) as CountryCode[];
+}
+
+// Alternative: Get all unique destination countries across all passport countries
+export function getAllDestinationCountries(): CountryCode[] {
+  const allDestinations = new Set<CountryCode>();
+  
+  Object.values(visaData).forEach(passportData => {
+    Object.keys(passportData).forEach(destination => {
+      allDestinations.add(destination as CountryCode);
+    });
+  });
+  
+  return Array.from(allDestinations);
+}
+
+export function getPassportCountries(): string[] {
+  return Object.keys(visaData);
 }
 
 export function checkVisaRequirements(homeCountry: string, destinationCountry: string): Promise<void> {
@@ -17,4 +37,9 @@ export function checkVisaRequirements(homeCountry: string, destinationCountry: s
       resolve();
     }, 500);
   });
+}
+
+// Helper function to check if a specific visa combination exists
+export function hasVisaData(homeCountry: string, destinationCountry: CountryCode): boolean {
+  return !!visaData[homeCountry]?.[destinationCountry];
 }

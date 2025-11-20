@@ -1,5 +1,6 @@
 <!-- src/routes/visa/components/DocumentChecklist.svelte -->
 <script lang="ts">
+
   // Import the VisaInfo type
   import type { VisaInfo } from '$lib/types/visa';
   

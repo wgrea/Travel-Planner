@@ -33,6 +33,14 @@ I definitely need to look back at old messages to add that code back.
 
   const menuItems = [
     {
+      title: "Visa Requirements",
+      description: "Check visa needs and application process",
+      icon: "📝",
+      path: "/visa",
+      color: "from-stone-400 to-stone-600", // Fixed - use same gradient format as others
+      bgColor: "bg-gradient-to-br from-stone-500 via-stone-600 to-stone-700"
+    },  
+    {
       title: "Flight Costs & Timing",
       description: "Find best seasons and flight prices",
       icon: "✈️",
@@ -55,14 +63,6 @@ I definitely need to look back at old messages to add that code back.
       path: "/digital-nomad",
       color: "from-purple-500 to-indigo-500",
       bgColor: "bg-gradient-to-br from-purple-400 via-indigo-500 to-blue-300"
-    },
-    {
-      title: "Visa Requirements",
-      description: "Check visa needs and application process",
-      icon: "📝",
-      path: "/visa",
-      color: "from-stone-400 to-stone-600", // Fixed - use same gradient format as others
-      bgColor: "bg-gradient-to-br from-stone-500 via-stone-600 to-stone-700"
     },
     {
       title: "Destination Finder",
@@ -173,33 +173,3 @@ I definitely need to look back at old messages to add that code back.
     </p>
   </div>
 </div>
-
-<style>
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  .animate-float-delayed {
-    animation: float 7s ease-in-out 1s infinite;
-  }
-  .animate-float-slow {
-    animation: float 8s ease-in-out 2s infinite;
-  }
-  .animate-swim-delayed {
-    animation: swim 10s ease-in-out 2s infinite;
-  }
-  .animate-swim-slow {
-    animation: swim 12s ease-in-out 4s infinite;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
-  }
-  
-  @keyframes swim {
-    0%, 100% { transform: translateX(0px) translateY(0px); }
-    25% { transform: translateX(10px) translateY(-10px); }
-    50% { transform: translateX(0px) translateY(-20px); }
-    75% { transform: translateX(-10px) translateY(-10px); }
-  }
-</style>

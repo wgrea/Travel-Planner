@@ -1,10 +1,12 @@
 <!-- src/routes/visa/components/VisaResults.svelte -->
 <script lang="ts">
   import type { VisaInfo } from '$lib/types/visa';
+  import type { Country } from '$lib/types/minimalData'; // Changed from MinimalCountry
 
   export let homeCountry: string;
   export let destinationCountry: string;
   export let visaInfo: VisaInfo;
+  export let countryData: Country | undefined; // Changed from MinimalCountry
   export let error: string;
 </script>
 
@@ -16,9 +18,22 @@
 
 <!-- Results Display -->
 <div class="space-y-3">
-  <h3 class="text-lg font-medium mt-2 mb-5 text-stone-800">
-    {homeCountry} → {destinationCountry}
-  </h3>
+  <div class="flex items-center justify-between mb-5">
+    <h3 class="text-lg font-medium text-stone-800">
+      {homeCountry} → {destinationCountry}
+    </h3>
+    {#if countryData?.visa}
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-stone-500 font-medium">Visa Difficulty:</span>
+        <span class="text-xs font-semibold px-2 py-1 rounded-full capitalize 
+          {countryData.visa.difficulty === 'easy' ? 'bg-green-100 text-green-800' : 
+           countryData.visa.difficulty === 'medium' ? 'bg-amber-100 text-amber-800' : 
+           'bg-red-100 text-red-800'}">
+          {countryData.visa.difficulty}
+        </span>
+      </div>
+    {/if}
+  </div>
   
   <!-- Visa Ease Index -->
   <div class="p-4 rounded-lg bg-stone-50 border border-stone-200 flex justify-between items-center">
