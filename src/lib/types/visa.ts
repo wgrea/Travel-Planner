@@ -20,4 +20,4 @@ export type CountryCode =
   | 'Spain'
   | 'Mexico';
 
-export type VisaData = Record<CountryCode, VisaInfo>;
+export type VisaData = Record<string, Record<string, VisaInfo>>; // Home -> Dest -> VisaInfo

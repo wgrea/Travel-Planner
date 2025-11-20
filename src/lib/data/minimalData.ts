@@ -1,5 +1,4 @@
 // src/lib/data/minimalData.ts
-// Unless necessary, avoid making a masterData.ts file
 import type { MinimalData } from '$lib/types/minimalData';
 
 export const minimalData: MinimalData = {
@@ -10,10 +9,10 @@ export const minimalData: MinimalData = {
       continent: 'Asia',
       region: 'Southeast Asia',
       popularCities: ['bangkok', 'chiang-mai'],
-      visa: { difficulty: 'easy' },
+      visa: { difficulty: 'easy' }, // ADD THIS
       costs: { tier: 'low' },
       filters: { activities: ['beach', 'cultural', 'food'] },
-      seasonality: { bestMonths: [11, 12, 1, 2], worstMonths: [4, 5, 6, 7, 8, 9] } // Add this
+      seasonality: { bestMonths: [11, 12, 1, 2], worstMonths: [4, 5, 6, 7, 8, 9] }
     },
     'portugal': {
       id: 'portugal', 
@@ -21,10 +20,10 @@ export const minimalData: MinimalData = {
       continent: 'Europe',
       region: 'Western Europe',
       popularCities: ['lisbon', 'porto'],
-      visa: { difficulty: 'medium' },
+      visa: { difficulty: 'medium' }, // ADD THIS
       costs: { tier: 'medium' },
       filters: { activities: ['cultural', 'food', 'historic'] },
-      seasonality: { bestMonths: [4, 5, 6, 9, 10], worstMonths: [7, 8, 12, 1] } // Add this
+      seasonality: { bestMonths: [4, 5, 6, 9, 10], worstMonths: [7, 8, 12, 1] }
     }
   },
   cities: {
@@ -55,6 +54,6 @@ export const minimalData: MinimalData = {
     regions: ['Southeast Asia', 'Western Europe'],
     activities: ['beach', 'cultural', 'food', 'historic'],
     costTiers: ['low', 'medium', 'high'],
-    visaDifficulties: ['easy', 'medium', 'hard']
+    visaDifficulties: ['easy', 'medium', 'hard'] // ADD THIS
   }
 };

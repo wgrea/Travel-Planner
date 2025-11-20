@@ -1,5 +1,10 @@
 <!-- src/routes/visa/+page.svelte -->
 <!-- Official/Professional Aesthetic -->
+
+<!--
+I will not worry about the look for now.
+-->
+
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { getVisaInfo, getAvailableCountries, checkVisaRequirements } from '$lib/utils/visa';
