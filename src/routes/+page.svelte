@@ -6,6 +6,7 @@ Later I want to add:
 - later should add a page about forms like a tax form
 - If there is something I want to jot down. I don't want to just jot it down on a separate doc. I want to save it on this app.
 After essentials:
+- Keep font style the same accross the site
 - Aesthetics
 
 Way later:

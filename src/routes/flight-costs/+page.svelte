@@ -9,8 +9,7 @@ The top bottoms disappeared as I was trying to fix something
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { flyDataByRegion, type FlightData, type RegionData } from './data/flyData';
-  import CountrySelector from '$lib/components/CountrySelector.svelte';
-  import type { CountryData } from '$lib/components/CountrySelector.svelte';
+  import CountrySelector, { type CountryData } from '$lib/components/CountrySelector.svelte';
   import CheapestCountries from './components/CheapestCountries.svelte';
   import TipsSection from './components/TipsSection.svelte';
 

@@ -1,4 +1,5 @@
 <!-- src/routes/visa/+page.svelte -->
+<!-- Official/Professional Aesthetic -->
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { getVisaInfo, getAvailableCountries, checkVisaRequirements } from '$lib/utils/visa';
@@ -171,7 +172,7 @@
         <!-- Home Country Selector -->
         <div class="mb-8">
           <label for="home-country" class="block text-sm font-medium mb-2.5 text-stone-700 tracking-wide">
-            Your Passport Country
+            Passport Country
           </label>
           <select 
             id="home-country"
@@ -185,11 +186,9 @@
           </select>
         </div>
 
+        <!-- Replace the entire Destination Country section with this: -->
         <div class="mb-8">
-          <label for="destination-country-selector" class="block text-sm font-medium mb-4 text-stone-700 tracking-wide">
-            Destination Country
-          </label>
-          <div id="destination-country-selector" class="p-6 bg-stone-50/80 backdrop-blur-sm rounded-xl border border-stone-200">
+          <div class="rounded-lg border border-stone-200 bg-white overflow-hidden">
             <CountrySelector 
               selectedCountry={destinationCountry}
               selectedRegion={selectedRegion}
