@@ -37,120 +37,349 @@ function getSweetSpotFromMonths(months?: number[]): string[] {
 
 function getRegionForCountry(country: string): string {
   const regionMap: Record<string, string> = {
+    // Southeast Asia
     'Thailand': 'Southeast Asia',
-    'Portugal': 'Western Europe',
-    'Spain': 'Southern Europe',
-    'Mexico': 'North America',
-    'Brazil': 'South America',
-    'Australia': 'Oceania',
-    'Japan': 'East Asia',
-    'Georgia': 'Eastern Europe',
-    'Sri Lanka': 'South Asia',
-    'Malaysia': 'Southeast Asia',
-    'China': 'East Asia',
+    'Malaysia': 'Southeast Asia', 
     'Indonesia': 'Southeast Asia',
     'Vietnam': 'Southeast Asia',
-    'Czech Republic': 'Eastern Europe',
-    'Costa Rica': 'Central America',
-    'United Kingdom': 'Western Europe',
+    'Philippines': 'Southeast Asia',
+    
+    // East Asia
+    'China': 'East Asia',
+    'Japan': 'East Asia',
+    'South Korea': 'East Asia',
+    
+    // South Asia
+    'India': 'South Asia',
+    'Nepal': 'South Asia',
+    'Sri Lanka': 'South Asia',
+    
+    // Europe - Western
+    'Portugal': 'Western Europe',
+    'Spain': 'Southern Europe',
+    'France': 'Western Europe',
     'Germany': 'Western Europe',
-    'Colombia': 'South America'
+    'United Kingdom': 'Western Europe',
+    
+    // Europe - Eastern
+    'Czech Republic': 'Eastern Europe',
+    'Poland': 'Eastern Europe',
+    'Romania': 'Eastern Europe',
+    'Slovenia': 'Eastern Europe',
+    
+    // Europe - Northern
+    'Estonia': 'Northern Europe',
+    'Norway': 'Northern Europe',
+    'Sweden': 'Northern Europe',
+    
+    // Europe - Southern
+    'Croatia': 'Southern Europe',
+    'Greece': 'Southern Europe',
+    'Italy': 'Southern Europe',
+    
+    // Caucasus
+    'Georgia': 'Caucasus',
+    'Armenia': 'Caucasus',
+    'Azerbaijan': 'Caucasus',
+    
+    // North America
+    'United States': 'North America',
+    'Canada': 'North America',
+    'Mexico': 'North America',
+    
+    // Central America
+    'Belize': 'Central America',
+    'Costa Rica': 'Central America',
+    'Guatemala': 'Central America',
+    'Panama': 'Central America',
+    
+    // South America
+    'Argentina': 'South America',
+    'Bolivia': 'South America',
+    'Brazil': 'South America',
+    'Chile': 'South America',
+    'Colombia': 'South America',
+    'Peru': 'South America',
+    
+    // Oceania
+    'Australia': 'Oceania',
+    'New Zealand': 'Oceania',
+    
+    // Middle East
+    'Turkey': 'Middle East',
+    'United Arab Emirates': 'Middle East'
   };
   return regionMap[country] || 'Other';
 }
 
 function getCitiesForCountry(country: string): string[] {
   const cityMap: Record<string, string[]> = {
+    // Southeast Asia
     'Thailand': ['Bangkok', 'Chiang Mai', 'Phuket'],
-    'Portugal': ['Lisbon', 'Porto', 'Faro'],
-    'Spain': ['Madrid', 'Barcelona', 'Valencia'],
-    'Mexico': ['Mexico City', 'Cancun', 'Guadalajara'],
-    'Brazil': ['Rio de Janeiro', 'São Paulo', 'Florianópolis'],
-    'Australia': ['Sydney', 'Melbourne', 'Brisbane'],
-    'Japan': ['Tokyo', 'Osaka', 'Kyoto'],
-    'Georgia': ['Tbilisi', 'Batumi', 'Kutaisi'],
-    'Sri Lanka': ['Colombo', 'Kandy', 'Galle'],
     'Malaysia': ['Kuala Lumpur', 'Penang', 'Langkawi'],
-    'China': ['Beijing', 'Shanghai', 'Guangzhou'],
     'Indonesia': ['Bali', 'Jakarta', 'Yogyakarta'],
     'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang'],
-    'Czech Republic': ['Prague', 'Brno', 'Český Krumlov'],
-    'Costa Rica': ['San José', 'Liberia', 'Puerto Viejo'],
-    'United Kingdom': ['London', 'Manchester', 'Edinburgh'],
+    'Philippines': ['Manila', 'Cebu', 'Palawan'],
+    
+    // East Asia
+    'China': ['Beijing', 'Shanghai', 'Guangzhou'],
+    'Japan': ['Tokyo', 'Osaka', 'Kyoto'],
+    'South Korea': ['Seoul', 'Busan', 'Jeju'],
+    
+    // South Asia
+    'India': ['Delhi', 'Mumbai', 'Goa'],
+    'Nepal': ['Kathmandu', 'Pokhara', 'Chitwan'],
+    'Sri Lanka': ['Colombo', 'Kandy', 'Galle'],
+    
+    // Europe
+    'Portugal': ['Lisbon', 'Porto', 'Faro'],
+    'Spain': ['Madrid', 'Barcelona', 'Valencia'],
+    'France': ['Paris', 'Lyon', 'Nice'],
     'Germany': ['Berlin', 'Munich', 'Hamburg'],
-    'Colombia': ['Bogotá', 'Medellín', 'Cartagena']
+    'Czech Republic': ['Prague', 'Brno', 'Český Krumlov'],
+    'Poland': ['Warsaw', 'Krakow', 'Gdansk'],
+    'Romania': ['Bucharest', 'Brasov', 'Cluj-Napoca'],
+    'Slovenia': ['Ljubljana', 'Bled', 'Piran'],
+    'Estonia': ['Tallinn', 'Tartu', 'Pärnu'],
+    'Norway': ['Oslo', 'Bergen', 'Tromsø'],
+    'Sweden': ['Stockholm', 'Gothenburg', 'Malmö'],
+    'Croatia': ['Zagreb', 'Dubrovnik', 'Split'],
+    'Greece': ['Athens', 'Thessaloniki', 'Santorini'],
+    'Italy': ['Rome', 'Florence', 'Venice'],
+    
+    // Caucasus
+    'Georgia': ['Tbilisi', 'Batumi', 'Kutaisi'],
+    'Armenia': ['Yerevan', 'Gyumri', 'Dilijan'],
+    'Azerbaijan': ['Baku', 'Ganja', 'Sheki'],
+    
+    // Americas
+    'United States': ['New York', 'Los Angeles', 'Miami'],
+    'Canada': ['Toronto', 'Vancouver', 'Montreal'],
+    'Mexico': ['Mexico City', 'Cancun', 'Guadalajara'],
+    'Belize': ['Belize City', 'San Ignacio', 'Caye Caulker'],
+    'Costa Rica': ['San José', 'Liberia', 'Puerto Viejo'],
+    'Guatemala': ['Guatemala City', 'Antigua', 'Lake Atitlán'],
+    'Panama': ['Panama City', 'Bocas del Toro', 'Boquete'],
+    
+    // South America
+    'Argentina': ['Buenos Aires', 'Mendoza', 'Bariloche'],
+    'Bolivia': ['La Paz', 'Sucre', 'Uyuni'],
+    'Brazil': ['Rio de Janeiro', 'São Paulo', 'Florianópolis'],
+    'Chile': ['Santiago', 'Valparaíso', 'Puerto Natales'],
+    'Colombia': ['Bogotá', 'Medellín', 'Cartagena'],
+    'Peru': ['Lima', 'Cusco', 'Arequipa'],
+    
+    // Oceania
+    'Australia': ['Sydney', 'Melbourne', 'Brisbane'],
+    'New Zealand': ['Auckland', 'Wellington', 'Queenstown'],
+    
+    // Middle East
+    'Turkey': ['Istanbul', 'Ankara', 'Antalya'],
+    'United Arab Emirates': ['Dubai', 'Abu Dhabi', 'Sharjah']
   };
   return cityMap[country] || [];
 }
 
 function getAveragePrice(country: string): number {
   const priceMap: Record<string, number> = {
+    // Southeast Asia
     'Thailand': 850,
-    'Portugal': 650,
-    'Spain': 700,
-    'Mexico': 450,
-    'Brazil': 800,
-    'Australia': 1200,
-    'Japan': 950,
-    'Georgia': 600,
-    'Sri Lanka': 750,
     'Malaysia': 700,
-    'China': 900,
     'Indonesia': 800,
     'Vietnam': 750,
+    'Philippines': 800,
+    
+    // East Asia
+    'China': 900,
+    'Japan': 950,
+    'South Korea': 850,
+    
+    // South Asia
+    'India': 600,
+    'Nepal': 500,
+    'Sri Lanka': 750,
+    
+    // Europe
+    'Portugal': 650,
+    'Spain': 700,
+    'France': 800,
+    'Germany': 750,
     'Czech Republic': 650,
+    'Poland': 600,
+    'Romania': 550,
+    'Slovenia': 650,
+    'Estonia': 600,
+    'Norway': 1100,
+    'Sweden': 900,
+    'Croatia': 700,
+    'Greece': 750,
+    'Italy': 800,
+    
+    // Caucasus
+    'Georgia': 600,
+    'Armenia': 550,
+    'Azerbaijan': 650,
+    
+    // Americas
+    'United States': 1200,
+    'Canada': 1000,
+    'Mexico': 450,
+    'Belize': 600,
     'Costa Rica': 550,
-    'United Kingdom': 600,
-    'Germany': 650,
-    'Colombia': 500
+    'Guatemala': 500,
+    'Panama': 600,
+    
+    // South America
+    'Argentina': 700,
+    'Bolivia': 450,
+    'Brazil': 800,
+    'Chile': 750,
+    'Colombia': 500,
+    'Peru': 550,
+    
+    // Oceania
+    'Australia': 1200,
+    'New Zealand': 1100,
+    
+    // Middle East
+    'Turkey': 650,
+    'United Arab Emirates': 900
   };
   return priceMap[country] || 700;
 }
 
 function getSweetSpot(country: string): string[] {
   const sweetSpotMap: Record<string, string[]> = {
+    // Southeast Asia
     'Thailand': ['November to February'],
-    'Portugal': ['April to June', 'September to October'],
-    'Spain': ['May to June', 'September'],
-    'Mexico': ['December to April'],
-    'Brazil': ['April to June', 'August to October'],
-    'Australia': ['September to November', 'March to May'],
-    'Japan': ['March to May', 'September to November'],
-    'Georgia': ['May to June', 'September to October'],
-    'Sri Lanka': ['December to March'],
     'Malaysia': ['December to February', 'June to July'],
-    'China': ['April to May', 'September to October'],
     'Indonesia': ['April to October'],
     'Vietnam': ['February to April', 'August to October'],
-    'Czech Republic': ['May to September'],
-    'Costa Rica': ['December to April'],
-    'United Kingdom': ['May to September'],
+    'Philippines': ['December to February'],
+    
+    // East Asia
+    'China': ['April to May', 'September to October'],
+    'Japan': ['March to May', 'September to November'],
+    'South Korea': ['April to June', 'September to November'],
+    
+    // South Asia
+    'India': ['October to March'],
+    'Nepal': ['October to November', 'February to April'],
+    'Sri Lanka': ['December to March'],
+    
+    // Europe
+    'Portugal': ['April to June', 'September to October'],
+    'Spain': ['May to June', 'September'],
+    'France': ['April to June', 'September to October'],
     'Germany': ['May to September'],
-    'Colombia': ['December to March', 'June to September']
+    'Czech Republic': ['May to September'],
+    'Poland': ['May to September'],
+    'Romania': ['May to September'],
+    'Slovenia': ['May to September'],
+    'Estonia': ['June to August'],
+    'Norway': ['June to August'],
+    'Sweden': ['June to August'],
+    'Croatia': ['May to June', 'September'],
+    'Greece': ['May to June', 'September to October'],
+    'Italy': ['April to June', 'September to October'],
+    
+    // Caucasus
+    'Georgia': ['May to June', 'September to October'],
+    'Armenia': ['May to June', 'September to October'],
+    'Azerbaijan': ['April to June', 'September to October'],
+    
+    // Americas
+    'United States': ['April to May', 'September to October'],
+    'Canada': ['June to August'],
+    'Mexico': ['December to April'],
+    'Belize': ['December to April'],
+    'Costa Rica': ['December to April'],
+    'Guatemala': ['November to April'],
+    'Panama': ['December to April'],
+    
+    // South America
+    'Argentina': ['October to April'],
+    'Bolivia': ['May to October'],
+    'Brazil': ['April to June', 'August to October'],
+    'Chile': ['December to February'],
+    'Colombia': ['December to March', 'June to September'],
+    'Peru': ['May to September'],
+    
+    // Oceania
+    'Australia': ['September to November', 'March to May'],
+    'New Zealand': ['December to February'],
+    
+    // Middle East
+    'Turkey': ['April to May', 'September to October'],
+    'United Arab Emirates': ['November to March']
   };
   return sweetSpotMap[country] || ['Spring and Fall'];
 }
 
 function getCheapestMonths(country: string): string[] {
   const cheapMap: Record<string, string[]> = {
+    // Southeast Asia
     'Thailand': ['May to October'],
-    'Portugal': ['November to February'],
-    'Spain': ['January to March', 'November'],
-    'Mexico': ['May to November'],
-    'Brazil': ['February to March', 'August'],
-    'Australia': ['April to August'],
-    'Japan': ['January to February', 'June to July'],
-    'Georgia': ['November to March'],
-    'Sri Lanka': ['May to August'],
     'Malaysia': ['March to May', 'September to November'],
-    'China': ['January', 'November to December'],
     'Indonesia': ['January to March', 'October to November'],
     'Vietnam': ['May to September'],
-    'Czech Republic': ['October to March'],
-    'Costa Rica': ['May to November'],
-    'United Kingdom': ['January to March', 'October to November'],
+    'Philippines': ['June to October'],
+    
+    // East Asia
+    'China': ['January', 'November to December'],
+    'Japan': ['January to February', 'June to July'],
+    'South Korea': ['January to February', 'July to August'],
+    
+    // South Asia
+    'India': ['April to September'],
+    'Nepal': ['December to January', 'June to August'],
+    'Sri Lanka': ['May to August'],
+    
+    // Europe
+    'Portugal': ['November to February'],
+    'Spain': ['January to March', 'November'],
+    'France': ['November to March'],
     'Germany': ['January to March', 'October to December'],
-    'Colombia': ['April to May', 'October to November']
+    'Czech Republic': ['October to March'],
+    'Poland': ['October to March'],
+    'Romania': ['October to April'],
+    'Slovenia': ['October to March'],
+    'Estonia': ['September to May'],
+    'Norway': ['September to May'],
+    'Sweden': ['September to May'],
+    'Croatia': ['October to April'],
+    'Greece': ['November to March'],
+    'Italy': ['November to March'],
+    
+    // Caucasus
+    'Georgia': ['November to March'],
+    'Armenia': ['November to March'],
+    'Azerbaijan': ['November to March'],
+    
+    // Americas
+    'United States': ['January to March', 'October to November'],
+    'Canada': ['April to May', 'September to October'],
+    'Mexico': ['May to November'],
+    'Belize': ['May to November'],
+    'Costa Rica': ['May to November'],
+    'Guatemala': ['May to October'],
+    'Panama': ['May to November'],
+    
+    // South America
+    'Argentina': ['May to September'],
+    'Bolivia': ['November to March'],
+    'Brazil': ['February to March', 'August'],
+    'Chile': ['March to May', 'September to November'],
+    'Colombia': ['April to May', 'October to November'],
+    'Peru': ['October to April'],
+    
+    // Oceania
+    'Australia': ['April to August'],
+    'New Zealand': ['June to August'],
+    
+    // Middle East
+    'Turkey': ['November to March'],
+    'United Arab Emirates': ['June to August']
   };
   return cheapMap[country] || ['Off-season months'];
 }

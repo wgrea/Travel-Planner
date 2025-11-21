@@ -1,4 +1,12 @@
 <!-- src/routes/visa/+page.svelte -->
+
+<!--
+Now that I finally got that data done, I want to add which countries have a certain visa or the types of visas a country has
+Make the page easier to navigate.
+
+
+-->
+
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { getVisaInfo, checkVisaRequirements, getPassportCountries } from '$lib/utils/visa';

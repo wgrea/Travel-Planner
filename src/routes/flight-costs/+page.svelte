@@ -2,8 +2,7 @@
 <!-- Clean Girl x Outrun - Sophisticated retro-futuristic aesthetic -->
 
 <!--
-The top bottoms disappeared as I was trying to fix something
-
+Improve the country selection. Should be immediate now that the data is sorted out. 
 -->
 
 <script lang="ts">
