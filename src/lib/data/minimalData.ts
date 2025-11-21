@@ -9,7 +9,7 @@ export const minimalData: MinimalData = {
       continent: 'Asia',
       region: 'Southeast Asia',
       popularCities: ['bangkok', 'chiang-mai'],
-      visa: { difficulty: 'easy' }, // ADD THIS
+      visa: { difficulty: 'easy' }, // ← MINIMAL - just difficulty for filtering
       costs: { tier: 'low' },
       filters: { activities: ['beach', 'cultural', 'food'] },
       seasonality: { bestMonths: [11, 12, 1, 2], worstMonths: [4, 5, 6, 7, 8, 9] }
@@ -20,10 +20,32 @@ export const minimalData: MinimalData = {
       continent: 'Europe',
       region: 'Western Europe',
       popularCities: ['lisbon', 'porto'],
-      visa: { difficulty: 'medium' }, // ADD THIS
+      visa: { difficulty: 'medium' }, // ← MINIMAL
       costs: { tier: 'medium' },
       filters: { activities: ['cultural', 'food', 'historic'] },
       seasonality: { bestMonths: [4, 5, 6, 9, 10], worstMonths: [7, 8, 12, 1] }
+    },
+    'georgia': {
+      id: 'georgia',
+      name: 'Georgia', 
+      continent: 'Europe',
+      region: 'Caucasus',
+      popularCities: ['tbilisi', 'batumi'],
+      visa: { difficulty: 'very-easy' }, // ← MINIMAL
+      costs: { tier: 'low' },
+      filters: { activities: ['cultural', 'historic', 'mountain'] },
+      seasonality: { bestMonths: [5, 6, 9, 10], worstMonths: [1, 2, 7, 8] }
+    },
+    'united-states': {
+      id: 'united-states',
+      name: 'United States',
+      continent: 'North America', 
+      region: 'North America',
+      popularCities: ['new-york', 'los-angeles', 'miami'],
+      visa: { difficulty: 'hard' }, // ← MINIMAL
+      costs: { tier: 'high' },
+      filters: { activities: ['urban', 'food', 'nature'] },
+      seasonality: { bestMonths: [4, 5, 9, 10], worstMonths: [1, 2, 7, 8, 12] }
     }
   },
   cities: {
@@ -47,13 +69,20 @@ export const minimalData: MinimalData = {
       countryCode: 'portugal', 
       costTier: 'medium', 
       vibe: ['historic'] 
+    },
+    'tbilisi': {
+      id: 'tbilisi',
+      name: 'Tbilisi',
+      countryCode: 'georgia',
+      costTier: 'low',
+      vibe: ['cultural', 'historic']
     }
   },
   filters: {
-    continents: ['Asia', 'Europe'],
-    regions: ['Southeast Asia', 'Western Europe'],
-    activities: ['beach', 'cultural', 'food', 'historic'],
+    continents: ['Asia', 'Europe', 'North America'],
+    regions: ['Southeast Asia', 'Western Europe', 'Caucasus', 'North America'],
+    activities: ['beach', 'cultural', 'food', 'historic', 'urban', 'mountain', 'nature'],
     costTiers: ['low', 'medium', 'high'],
-    visaDifficulties: ['easy', 'medium', 'hard'] // ADD THIS
+    visaDifficulties: ['very-easy', 'easy', 'medium', 'hard']
   }
 };

@@ -9,7 +9,7 @@ export interface Country {
   region: string;
   popularCities: string[];
   visa: {
-    difficulty: 'easy' | 'medium' | 'hard';
+    difficulty: 'very-easy' | 'easy' | 'medium' | 'hard';
   };
   costs: {
     tier: 'low' | 'medium' | 'high';
