@@ -186,19 +186,41 @@ export const getAllCountries = (): FlightPattern[] => {
   });
 };
 
-export const getCountriesByRegion = (region: string): FlightPattern[] => {
-  const regionData = flyDataByRegion.find(r => r.region === region);
-  if (!regionData) return [];
-  
-  if (regionData.subregions) {
-    return regionData.subregions.flatMap(subregion => subregion.countries);
+export const getCountriesByRegion = (regionName: string): FlightPattern[] => {
+  // First check if it's a European subregion
+  for (const region of flyDataByRegion) {
+    if (region.region === "Europe" && region.subregions) {
+      const subregion = region.subregions.find(sr => sr.subregion === regionName);
+      if (subregion) {
+        return subregion.countries;
+      }
+    }
+    
+    // Check regular regions
+    if (region.region === regionName && region.countries) {
+      return region.countries;
+    }
   }
   
-  return regionData.countries || [];
+  return [];
 };
 
 export const getAllRegions = (): string[] => {
-  return flyDataByRegion.map(region => region.region);
+  const regions: string[] = [];
+  
+  flyDataByRegion.forEach(region => {
+    if (region.region === "Europe" && region.subregions) {
+      // For Europe, add all subregions instead of just "Europe"
+      region.subregions.forEach(subregion => {
+        regions.push(subregion.subregion);
+      });
+    } else {
+      // For all other regions, add the region name
+      regions.push(region.region);
+    }
+  });
+  
+  return regions;
 };
 
 export const findCountry = (countryName: string): FlightPattern | undefined => {
