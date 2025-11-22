@@ -5,9 +5,10 @@
 Improve the country selection. Should be immediate now that the data is sorted out. 
 -->
 
+// In src/routes/flight-costs/+page.svelte
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { flyDataByRegion } from '$lib/data/flyData';
+  import { flyDataByRegion, getAllRegions, getAllCountries as getAllFlightCountries } from '$lib/data/flyData';
   import type { FlightPattern, RegionData } from '$lib/data/flyData';
   import CountrySelector, { type CountryData } from '$lib/components/CountrySelector.svelte';
   import CheapestCountries from './components/CheapestCountries.svelte';
@@ -16,41 +17,62 @@ Improve the country selection. Should be immediate now that the data is sorted o
   let selectedCountry: string = 'Thailand';
   let selectedRegion: string = 'Southeast Asia';
   let isLoading = false;
-
+  let filteredData: CountryData[] = [];
+  
   // Convert your region-based data to flat country data for the selector
   function getAllCountries(): CountryData[] {
     const allCountries: CountryData[] = [];
     
     flyDataByRegion.forEach((regionData: RegionData) => {
-      regionData.countries.forEach((flightData: FlightPattern) => { // ← Changed to FlightPattern
-        allCountries.push({
-          country: flightData.country,
-          region: regionData.region,
-          cities: flightData.cities,
-          averagePrice: flightData.averagePrice,
-          sweetSpot: flightData.sweetSpot,
-          cheapestMonths: flightData.cheapestMonths
+      // Handle Europe specially (the only region with subregions)
+      if (regionData.region === "Europe" && regionData.subregions) {
+        regionData.subregions.forEach((subregion) => {
+          subregion.countries.forEach((flightData: FlightPattern) => {
+            allCountries.push({
+              country: flightData.country,
+              region: regionData.region,
+              cities: flightData.cities,
+              averagePrice: flightData.averagePrice,
+              sweetSpot: flightData.sweetSpot,
+              cheapestMonths: flightData.cheapestMonths
+            });
+          });
         });
-      });
+      } 
+      // Handle all other regions normally
+      else if (regionData.countries) {
+        regionData.countries.forEach((flightData: FlightPattern) => {
+          allCountries.push({
+            country: flightData.country,
+            region: regionData.region,
+            cities: flightData.cities,
+            averagePrice: flightData.averagePrice,
+            sweetSpot: flightData.sweetSpot,
+            cheapestMonths: flightData.cheapestMonths
+          });
+        });
+      }
     });
     
     return allCountries;
   }
 
-  // Get all unique regions for filtering
-  function getAllRegions(): string[] {
-    return [...new Set(flyDataByRegion.map(region => region.region))];
-  }
-
   // Get countries by region
-  function getCountriesByRegion(region: string): FlightPattern[] { // ← Changed to FlightPattern
+  function getCountriesByRegion(region: string): FlightPattern[] {
     const regionData = flyDataByRegion.find(r => r.region === region);
-    return regionData ? regionData.countries : [];
+    if (!regionData) return [];
+    
+    // Handle Europe specially
+    if (region === "Europe" && regionData.subregions) {
+      return regionData.subregions.flatMap(subregion => subregion.countries);
+    }
+    
+    // Handle all other regions
+    return regionData.countries || [];
   }
 
   function handleCountryChange(country: string) {
     selectedCountry = country;
-    // Find the region for the selected country to keep them in sync
     const countryData = getAllCountries().find(c => c.country === country);
     if (countryData && countryData.region) {
       selectedRegion = countryData.region;
@@ -66,24 +88,19 @@ Improve the country selection. Should be immediate now that the data is sorted o
         selectedCountry = countriesInRegion[0].country;
       }
     } else {
-      // If no region selected, choose first country from all data
       selectedCountry = getAllCountries()[0]?.country || '';
     }
   }
 
-  // Get current country data for display
-  $: currentCountryData = getAllCountries().find(country => country.country === selectedCountry);
-  $: currentFlightData = flyDataByRegion
-    .flatMap(region => region.countries)
-    .find(country => country.country === selectedCountry);
+  // At the top with other variables
+let currentFlightData: FlightPattern | undefined;
 
-  // For CheapestCountries component
-  $: filteredData = getAllCountries();
+// Then the reactive assignment (without type annotation)
+$: currentFlightData = getAllFlightCountries().find(country => country.country === selectedCountry);
 
   // Load initial data
   $: if (selectedCountry) {
     isLoading = true;
-    // Simulate loading
     setTimeout(() => isLoading = false, 500);
   }
 </script>
@@ -145,30 +162,23 @@ Improve the country selection. Should be immediate now that the data is sorted o
 
     <!-- Country Details Section -->
     {#if currentFlightData && !isLoading}
-      <div class="mb-12">
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- Price Analysis -->
-          <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-            <h3 class="text-2xl font-bold mb-4 text-gray-900">💰 Price Analysis</h3>
-            <div class="space-y-3">
-              <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                <span class="font-medium text-green-800">Cheapest Months:</span>
-                <span class="font-bold text-green-900">{currentFlightData?.cheapestMonths?.join(', ') || ''}</span>
-              </div>
-              <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                <span class="font-medium text-red-800">Expensive Months:</span>
-                <span class="font-bold text-red-900">{currentFlightData?.expensiveMonths?.join(', ') || ''}</span>
-              </div>
-              <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                <span class="font-medium text-blue-800">Sweet Spot:</span>
-                <span class="font-bold text-blue-900">{currentFlightData?.sweetSpot?.join(', ') || ''}</span>
-              </div>
-              <div class="flex justify-between items-center p-3 bg-amber-50 rounded-lg">
-                <span class="font-medium text-amber-800">Average Price:</span>
-                <span class="font-bold text-amber-900">${currentFlightData.averagePrice}</span>
-              </div>
+    <div class="mb-12">
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Price Analysis -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+          <h3 class="text-2xl font-bold mb-4 text-gray-900">💰 Price Analysis</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+              <span class="font-medium text-green-800">Cheapest Months:</span>
+              <span class="font-bold text-green-900">{currentFlightData.cheapestMonths.join(', ')}</span>
             </div>
+          <!-- Add similar null checks for other properties -->
+          <div class="flex justify-between items-center p-3 bg-amber-50 rounded-lg">
+            <span class="font-medium text-amber-800">Average Price:</span>
+            <span class="font-bold text-amber-900">${currentFlightData.averagePrice || 'N/A'}</span>
           </div>
+        </div>
+      </div>
 
           <!-- Cities & Tips -->
           <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">

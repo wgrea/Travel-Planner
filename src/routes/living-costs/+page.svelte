@@ -1,5 +1,9 @@
 <!-- src/routes/living-costs/+page.svelte -->
 <!-- 
+Make sure you know how you will improve this page instead of jumping right into "fixing/improving"
+
+
+
 - Select country first, then city
 - show living costs: accommodation, food, daily expenses
 - travel style: budget, midrange, luxury
