@@ -7,7 +7,7 @@ Improve the country selection. Should be immediate now that the data is sorted o
 
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { flyDataByRegion, type FlightData, type RegionData } from './data/flyData';
+  import { flyDataByRegion, type FlightData, type RegionData } from '$lib/data/flyData';
   import CountrySelector, { type CountryData } from '$lib/components/CountrySelector.svelte';
   import CheapestCountries from './components/CheapestCountries.svelte';
   import TipsSection from './components/TipsSection.svelte';
@@ -130,16 +130,17 @@ Improve the country selection. Should be immediate now that the data is sorted o
       </p>
     </div>
     
-    <!-- Country Selector Section -->
+        <!-- Country Selector Section -->
     <div class="mb-12 p-8 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
       <CountrySelector 
-        selectedCountry={selectedCountry}
+        selectedDestination={selectedCountry}
         selectedRegion={selectedRegion}
         countryData={getAllCountries()}
-        onCountryChange={handleCountryChange}
+        onDestinationChange={handleCountryChange}
         onRegionChange={handleRegionChange}
+        mode="flight"
       />
-    </div>
+    </div>  <!-- This should be the matching closing div -->
 
     <!-- Country Details Section -->
     {#if currentFlightData && !isLoading}

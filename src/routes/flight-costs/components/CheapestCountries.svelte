@@ -1,6 +1,6 @@
 <!-- src/routes/flight-costs/components/CheapestCountries.svelte -->
 <script lang="ts">
-  import type { FlightData } from '../data/flyData';
+    import type { FlightData } from '$lib/data/flyData';
   let { filteredData } = $props();
 </script>
 
