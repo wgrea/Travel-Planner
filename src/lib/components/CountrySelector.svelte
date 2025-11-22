@@ -11,29 +11,42 @@
     cheapestMonths?: string[];
   }
 
-  interface Props {
-    selectedPassport: string;
-    selectedDestination: string;
+    interface Props {
+    // Make passport props optional
+    selectedPassport?: string;
+    selectedDestination?: string;
+    // Add flight-specific props
+    selectedCountry?: string;
+    // Keep other props
     selectedRegion: string;
     countryData: CountryData[];
-    onPassportChange: (country: string) => void;
-    onDestinationChange: (country: string) => void;
+    onPassportChange?: (country: string) => void;
+    onDestinationChange?: (country: string) => void;
+    onCountryChange?: (country: string) => void;
     onRegionChange: (region: string) => void;
     showInsights?: boolean;
-    variant?: 'default' | 'minimal';
+    variant?: 'default' | 'minimal' | 'flight';
+    mode?: 'visa' | 'flight'; // Add mode to distinguish usage
   }
   
   let { 
-    selectedPassport, 
-    selectedDestination, 
+    selectedPassport = '', 
+    selectedDestination = '',
+    selectedCountry = '',
     selectedRegion, 
     countryData, 
-    onPassportChange, 
-    onDestinationChange,
+    onPassportChange = () => {},
+    onDestinationChange = () => {},
+    onCountryChange = () => {},
     onRegionChange,
     showInsights = true,
-    variant = 'default'
+    variant = 'default',
+    mode = 'visa'
   }: Props = $props();
+
+  // Determine which country to use based on mode
+  const effectiveCountry = mode === 'flight' ? selectedCountry : selectedDestination;
+  const onEffectiveCountryChange = mode === 'flight' ? onCountryChange : onDestinationChange;
 
   // Get available passport countries from visaData
   const passportCountries = Object.keys(visaData);
