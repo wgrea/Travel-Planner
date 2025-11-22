@@ -7,7 +7,8 @@ Improve the country selection. Should be immediate now that the data is sorted o
 
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { flyDataByRegion, type FlightData, type RegionData } from '$lib/data/flyData';
+  import { flyDataByRegion } from '$lib/data/flyData';
+  import type { FlightPattern, RegionData } from '$lib/data/flyData';
   import CountrySelector, { type CountryData } from '$lib/components/CountrySelector.svelte';
   import CheapestCountries from './components/CheapestCountries.svelte';
   import TipsSection from './components/TipsSection.svelte';
@@ -21,10 +22,10 @@ Improve the country selection. Should be immediate now that the data is sorted o
     const allCountries: CountryData[] = [];
     
     flyDataByRegion.forEach((regionData: RegionData) => {
-      regionData.countries.forEach((flightData: FlightData) => {
+      regionData.countries.forEach((flightData: FlightPattern) => { // ← Changed to FlightPattern
         allCountries.push({
           country: flightData.country,
-          region: regionData.region, // Add region from the parent
+          region: regionData.region,
           cities: flightData.cities,
           averagePrice: flightData.averagePrice,
           sweetSpot: flightData.sweetSpot,
@@ -42,7 +43,7 @@ Improve the country selection. Should be immediate now that the data is sorted o
   }
 
   // Get countries by region
-  function getCountriesByRegion(region: string): FlightData[] {
+  function getCountriesByRegion(region: string): FlightPattern[] { // ← Changed to FlightPattern
     const regionData = flyDataByRegion.find(r => r.region === region);
     return regionData ? regionData.countries : [];
   }
