@@ -18,19 +18,19 @@ Improve the country selection. Should be immediate now that the data is sorted o
   let selectedRegion: string = 'Southeast Asia';
   let isLoading = false;
   let filteredData: CountryData[] = [];
-  
-  // Convert your region-based data to flat country data for the selector
+
+  // In src/routes/flight-costs/+page.svelte - Update getAllCountries function
   function getAllCountries(): CountryData[] {
     const allCountries: CountryData[] = [];
     
     flyDataByRegion.forEach((regionData: RegionData) => {
-      // Handle Europe specially (the only region with subregions)
-      if (regionData.region === "Europe" && regionData.subregions) {
+      // Handle Europe with subregions
+      if (regionData.subregions) {
         regionData.subregions.forEach((subregion) => {
           subregion.countries.forEach((flightData: FlightPattern) => {
             allCountries.push({
               country: flightData.country,
-              region: regionData.region,
+              region: subregion.subregion, // Use subregion name instead of "Europe"
               cities: flightData.cities,
               averagePrice: flightData.averagePrice,
               sweetSpot: flightData.sweetSpot,
@@ -57,18 +57,24 @@ Improve the country selection. Should be immediate now that the data is sorted o
     return allCountries;
   }
 
-  // Get countries by region
-  function getCountriesByRegion(region: string): FlightPattern[] {
-    const regionData = flyDataByRegion.find(r => r.region === region);
-    if (!regionData) return [];
-    
-    // Handle Europe specially
-    if (region === "Europe" && regionData.subregions) {
-      return regionData.subregions.flatMap(subregion => subregion.countries);
+  // Get countries by region (now handles both main regions and European subregions)
+  function getCountriesByRegion(regionName: string): FlightPattern[] {
+    // First, check if it's a European subregion
+    for (const region of flyDataByRegion) {
+      if (region.subregions) {
+        const subregion = region.subregions.find(sr => sr.subregion === regionName);
+        if (subregion) {
+          return subregion.countries;
+        }
+      }
+      
+      // Check if it's a main region (non-European)
+      if (region.region === regionName && region.countries) {
+        return region.countries;
+      }
     }
     
-    // Handle all other regions
-    return regionData.countries || [];
+    return [];
   }
 
   function handleCountryChange(country: string) {
