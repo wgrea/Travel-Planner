@@ -1,6 +1,7 @@
 // src/lib/data/flyData.ts
+// Doesn't care where you're flying FROM
 
-export interface FlightData {
+export interface FlightPattern {
   country: string;
   cities: string[];
   cheapestMonths: string[];
@@ -15,37 +16,18 @@ export interface FlightData {
 export interface RegionData {
   region: string;
   description: string;
-  countries: FlightData[];
+  countries: FlightPattern[];
 }
+
+// Import SOME countries that have flight patterns
+import { thailandFlightPattern } from './countries/southeast-asia/thailand';
 
 export const flyDataByRegion: RegionData[] = [
   {
     region: "Southeast Asia", 
     description: "Budget-friendly tropical destinations with rich cultures",
     countries: [
-      {
-        country: "Thailand",
-        cities: ["Bangkok", "Phuket", "Chiang Mai"],
-        cheapestMonths: ["May", "June", "September"],
-        expensiveMonths: ["December", "January"],
-        sweetSpot: ["February", "March", "October", "November"],
-        averagePrice: 800,
-        alternativeRoutes: "Fly to Kuala Lumpur first, then budget airline to Bangkok",
-        planningTips: ["Book 2-3 months in advance", "Avoid Songkran festival in April"],
-        notes: "Islands are more expensive than northern cities"
-      },
-      // will often show one country at a time just to show what the rest of the file looks like.
-      {
-        country: "Vietnam",
-        cities: ["Hanoi", "Ho Chi Minh City", "Da Nang"],
-        cheapestMonths: ["May", "June", "September"],
-        expensiveMonths: ["December", "January"],
-        sweetSpot: ["February", "March", "October", "November"],
-        averagePrice: 750,
-        alternativeRoutes: "Consider flying to Bangkok first",
-        planningTips: ["Visa required for most nationalities"],
-        notes: "North has distinct seasons, south is tropical year-round"
-      },
+      thailandFlightPattern,  // ← Imported from country file
       {
         country: "Indonesia",
         cities: ["Bali", "Jakarta", "Yogyakarta"],
@@ -315,12 +297,12 @@ export const flyDataByRegion: RegionData[] = [
 ];
 // Rest of the file
 // Helper function to get all countries flat (for backward compatibility)
-export const getAllCountries = (): FlightData[] => {
+export const getAllCountries = (): FlightPattern[] => {
   return flyDataByRegion.flatMap(region => region.countries);
 };
 
 // Helper to get countries by region
-export const getCountriesByRegion = (region: string): FlightData[] => {
+export const getCountriesByRegion = (region: string): FlightPattern[] => {
   const regionData = flyDataByRegion.find(r => r.region === region);
   return regionData ? regionData.countries : [];
 };
@@ -331,14 +313,14 @@ export const getAllRegions = (): string[] => {
 };
 
 // Search countries by name
-export const findCountry = (countryName: string): FlightData | undefined => {
+export const findCountry = (countryName: string): FlightPattern | undefined => {
   return getAllCountries().find(country => 
     country.country.toLowerCase() === countryName.toLowerCase()
   );
 };
 
 // Get countries by average price range
-export const getCountriesByPriceRange = (min: number, max: number): FlightData[] => {
+export const getCountriesByPriceRange = (min: number, max: number): FlightPattern[] => {
   return getAllCountries().filter(country => 
     country.averagePrice >= min && country.averagePrice <= max
   );

@@ -1,4 +1,4 @@
-// src/routes/flight-costs/types/flight.ts
+// src/lib/types/flight.ts
 
 export interface CountryInfo {
   bestMonth: string;
@@ -32,3 +32,25 @@ export interface CountryPeakPeriod {
   peakCost: string;
   avoidIfBudget: string;
 }
+
+export interface FlightInfo {
+  economy: number;
+  business: number;
+  season?: string;
+  bestTimeToBook?: string;
+  airports?: string[];
+  airlines?: string[];
+}
+
+export interface FlightCostData {  // ← RENAMED from FlightData
+  [originCountry: string]: FlightInfo;
+}
+
+export const defaultFlightInfo: FlightInfo = {
+  economy: 0,
+  business: 0,
+  season: 'Unknown',
+  bestTimeToBook: 'Check airlines',
+  airports: [],
+  airlines: []
+};

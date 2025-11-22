@@ -1,5 +1,6 @@
 // /src/lib/data/countries/central-america/costaRica.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData } from '$lib/types/flight';
 
 export const costaRicaData: Record<string, VisaInfo> = {
     'United States': {
@@ -44,4 +45,15 @@ export const costaRicaData: Record<string, VisaInfo> = {
       extensionsPossible: true,
       extensionDuration: 90
     }
+};
+
+export const costaRicaFlightData: FlightCostData = {
+  'United States': {
+    economy: 400,
+    business: 900,
+    season: 'Dry season (Dec-Apr)',
+    bestTimeToBook: '2-3 months in advance',
+    airports: ['SJO', 'LIR'],
+    airlines: ['American', 'United', 'Delta', 'Spirit']
+  }
 };

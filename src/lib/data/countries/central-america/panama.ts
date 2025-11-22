@@ -1,5 +1,6 @@
 // /src/lib/data/countries/central-america/panama.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData } from '$lib/types/flight';
 
 export const panamaData: Record<string, VisaInfo> = {
     'United States': {
@@ -41,4 +42,15 @@ export const panamaData: Record<string, VisaInfo> = {
       entryType: "multiple",
       extensionsPossible: true
     }
+};
+
+export const panamaFlightData: FlightCostData = {
+  'United States': {
+    economy: 420,
+    business: 950,
+    season: 'Dry season (Dec-Apr)',
+    bestTimeToBook: '2-4 months in advance',
+    airports: ['PTY'],
+    airlines: ['Copa', 'American', 'United']
+  }
 };

@@ -1,7 +1,23 @@
-// src/lib/data/visaData.ts
-import type { VisaData } from '$lib/types/visa';
-import { argentinaData } from './countries/south-america/argentina';
+// src/lib/data/flightCosts.ts
+// Depends entirely on where you're flying FROM
+
+import type { FlightCostData  } from '$lib/types/flight';
 // rest of the countries repeat
+import { belizeFlightData } from './countries/central-america/belize';
+import { costaRicaFlightData } from './countries/central-america/costaRica';
+import { guatemalaFlightData } from './countries/central-america/guatemala';
+import { panamaFlightData } from './countries/central-america/panama';
+
+export const flightData: Record<string, FlightCostData > = {
+  "Belize": belizeFlightData,
+  "Costa Rica": costaRicaFlightData,
+  "Guatemala": guatemalaFlightData,
+  "Panama": panamaFlightData,
+  // ... add other countries
+};
+
+/*
+import { argentinaData } from './countries/south-america/argentina';
 import { armeniaData } from './countries/europe/caucasus/armenia';
 import { australiaData } from './countries/oceania/australia';
 import { azerbaijanData } from './countries/europe/caucasus/azerbaijan';
@@ -47,7 +63,7 @@ import { unitedArabEmiratesData } from './countries/middle-east/unitedArabEmirat
 import { unitedStatesData } from './countries/north-america/united-states';
 import { vietnamData } from './countries/southeast-asia/vietnam';
 
-export const visaData: VisaData = {
+export const flightData: FlightData = {
   "Australia": {
     "Argentina": argentinaData["Australia"],
     // rest of the countries repeat
@@ -305,11 +321,6 @@ export const visaData: VisaData = {
   }
 };
 
-export const defaultVisaInfo = {
-  ease: "Information not available",
-  freeLength: "Check official sources",
-  workPolicy: "Research required",
-  incomeReq: "Unknown",
-  category: "Unknown",
-  nomadVisa: false
-};
+*/
+
+export { defaultFlightInfo } from '$lib/types/flight'; // Could do the same for types/visa.ts if this works
