@@ -1,5 +1,18 @@
 // src/lib/data/visa/destinations/south-america/colombia.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const colombiaFlightPattern: FlightPattern = {
+  country: "Colombia",
+  cities: ["Bogotá", "Medellín", "Cartagena"],
+  cheapestMonths: ["April", "May", "September", "October"],
+  expensiveMonths: ["December", "January", "June", "July"],
+  sweetSpot: ["February", "March", "August", "November"],
+  averagePrice: 650,
+  planningTips: ["Domestic flights are affordable"],
+  notes: "Weather varies by region and altitude"
+};
 
 export const colombiaData: Record<string, VisaInfo> = {
     'United States': {

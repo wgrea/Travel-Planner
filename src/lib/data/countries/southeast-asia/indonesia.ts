@@ -1,5 +1,18 @@
 // src/lib/data/visa/destinations/southeastAsia/indonesia.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const indonesiaFlightPattern: FlightPattern = {
+  country: "Indonesia",
+  cities: ["Bali", "Jakarta", "Yogyakarta"],
+  cheapestMonths: ["January", "February", "October"],
+  expensiveMonths: ["July", "August", "December"],
+  sweetSpot: ["April", "May", "September"],
+  averagePrice: 900,
+  planningTips: ["Domestic flights are very cheap"],
+  notes: "Bali is most expensive, other islands more affordable"
+};
 
 export const indonesiaData: Record<string, VisaInfo> = {
   "United States": {

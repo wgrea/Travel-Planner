@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/caucasus/poland.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const polandFlightPattern: FlightPattern = {
+  country: "Poland",
+  cities: ["Warsaw", "Krakow", "Gdansk"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 700,
+  planningTips: ["Multiple airport options", "Affordable domestic travel"],
+  notes: "Rich history and affordable travel costs"
+};
 
 export const polandData: Record<string, VisaInfo> = {
     'United States': {

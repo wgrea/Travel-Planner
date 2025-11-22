@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/caucasus/czechRepublic.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const czechRepublicFlightPattern: FlightPattern = {
+  country: "Czech Republic",
+  cities: ["Prague", "Brno", "Český Krumlov"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 750,
+  planningTips: ["Prague is main hub", "Excellent train connections"],
+  notes: "Beautiful architecture and rich history"
+};
 
 export const czechRepublicData: Record<string, VisaInfo> = {
     'United States': {

@@ -1,5 +1,18 @@
 // src/lib/data/visa/destinations/south-america/argentina.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const argentinaFlightPattern: FlightPattern = {
+  country: "Argentina",
+  cities: ["Buenos Aires", "Mendoza", "Bariloche"],
+  cheapestMonths: ["May", "June"],
+  expensiveMonths: ["December", "January"],
+  sweetSpot: ["March", "April", "September", "October"],
+  averagePrice: 1150,
+  planningTips: ["Long domestic flights, consider overnight buses"],
+  notes: "Diverse climates from Patagonia to Buenos Aires, opposite seasons from Northern Hemisphere"
+};
 
 export const argentinaData: Record<string, VisaInfo> = {
     'United States': {

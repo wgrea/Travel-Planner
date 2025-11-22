@@ -1,5 +1,18 @@
 // src/lib/data/visa/destinations/south-america/chile.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const chileFlightPattern: FlightPattern = {
+  country: "Chile",
+  cities: ["Santiago", "Valparaíso", "Puerto Natales"],
+  cheapestMonths: ["May", "June", "July"],
+  expensiveMonths: ["December", "January"],
+  sweetSpot: ["March", "April", "September", "October"],
+  averagePrice: 1100,
+  planningTips: ["Country is very long north to south, plan accordingly"],
+  notes: "Famous for Patagonia and deserts, diverse geography"
+};
 
 export const chileData: Record<string, VisaInfo> = {
     'United States': {

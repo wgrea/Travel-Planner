@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/southern-europe/croatia.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const croatiaFlightPattern: FlightPattern = {
+  country: "Croatia",
+  cities: ["Zagreb", "Dubrovnik", "Split"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 850,
+  planningTips: ["Coastal cities more expensive in summer", "Ferry connections to islands"],
+  notes: "Dalmatian coast and historic cities"
+};
 
 export const croatiaData: Record<string, VisaInfo> = {
     'United States': {

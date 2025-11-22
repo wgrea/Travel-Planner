@@ -1,5 +1,18 @@
 // /src/lib/data/countries/east-asia/southKorea.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const southKoreaFlightPattern: FlightPattern = {
+  country: "South Korea",
+  cities: ["Seoul", "Busan", "Jeju Island"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["April", "August", "October"],
+  sweetSpot: ["May", "June", "September"],
+  averagePrice: 1100,
+  planningTips: ["Spring and fall have the best weather"],
+  notes: "Jeju Island is popular for domestic tourism"
+};
 
 export const southKoreaData: Record<string, VisaInfo> = {
     'United States': {

@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/northern-europe/estonia.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const estoniaFlightPattern: FlightPattern = {
+  country: "Estonia",
+  cities: ["Tallinn", "Tartu", "Pärnu"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["May", "June", "September"],
+  averagePrice: 850,
+  planningTips: ["Ferry connections from Helsinki", "Digital nomad friendly"],
+  notes: "Modern digital society with medieval old town"
+};
 
 export const estoniaData: Record<string, VisaInfo> = {
     'United States': {

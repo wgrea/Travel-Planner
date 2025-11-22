@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/northern-europe/norway.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const norwayFlightPattern: FlightPattern = {
+  country: "Norway",
+  cities: ["Oslo", "Bergen", "Tromsø"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["May", "June", "September"],
+  averagePrice: 1100,
+  planningTips: ["Domestic flights can be expensive", "Consider overnight trains"],
+  notes: "Fjords and northern lights, high cost of living"
+};
 
 export const norwayData: Record<string, VisaInfo> = {
     'United States': {

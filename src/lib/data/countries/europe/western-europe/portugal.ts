@@ -1,5 +1,18 @@
 // src/lib/data/countries//europe/western-europe/portugal.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const portugalFlightPattern: FlightPattern = {
+  country: "Portugal",
+  cities: ["Lisbon", "Porto", "Faro"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["March", "April", "May", "September", "October"],
+  averagePrice: 825,
+  planningTips: ["Easy train connections between Lisbon and Porto"],
+  notes: "Mild climate in spring and fall, great for coastal exploration"
+};
 
 export const portugalData: Record<string, VisaInfo> = {
     'United States': {

@@ -1,5 +1,18 @@
 // src/lib/data/countries//europe/western-europe/spain.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const spainFlightPattern: FlightPattern = {
+  country: "Spain",
+  cities: ["Madrid", "Barcelona", "Seville"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 875,
+  planningTips: ["Consider smaller airlines for inter-Europe flights"],
+  notes: "Southern Spain very hot in summer"
+};
 
 export const spainData: Record<string, VisaInfo> = {
     'United States': {

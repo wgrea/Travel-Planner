@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/southern-europe/greece.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const greeceFlightPattern: FlightPattern = {
+  country: "Greece",
+  cities: ["Athens", "Santorini", "Mykonos"],
+  cheapestMonths: ["October", "November", "December", "January", "February", "March", "April"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["May", "September"],
+  averagePrice: 925,
+  planningTips: ["Island hopping is popular but book ferries in advance"],
+  notes: "Noted for islands and Mediterranean climate"
+};
 
 export const greeceData: Record<string, VisaInfo> = {
     'United States': {

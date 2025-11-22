@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/caucasus/slovenia.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const sloveniaFlightPattern: FlightPattern = {
+  country: "Slovenia",
+  cities: ["Ljubljana", "Bled", "Piran"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 800,
+  planningTips: ["Small country, easy to explore", "Close to Italian and Austrian borders"],
+  notes: "Alpine scenery and Adriatic coast"
+};
 
 export const sloveniaData: Record<string, VisaInfo> = {
     'United States': {

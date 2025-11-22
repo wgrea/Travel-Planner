@@ -1,6 +1,22 @@
 // /src/lib/data/countries/central-america/costaRica.ts
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData } from '$lib/types/flight';
+import type { FlightPattern } from '$lib/data/flyData';
+
+export const costaRicaFlightPattern: FlightPattern = {
+  country: "Costa Rica",
+  cities: ["San José", "Liberia", "Tamarindo", "Puerto Viejo"],
+  cheapestMonths: ["May", "June", "September", "October"],
+  expensiveMonths: ["December", "January", "February"],
+  sweetSpot: ["March", "April", "November"],
+  averagePrice: 550,
+  alternativeRoutes: "Consider flying to Panama first for better deals",
+  planningTips: [
+    "Fly into Liberia for Pacific coast destinations",
+    "Domestic flights connect major destinations quickly"
+  ],
+  notes: "Eco-tourism hotspot with excellent infrastructure"
+};
 
 export const costaRicaData: Record<string, VisaInfo> = {
     'United States': {

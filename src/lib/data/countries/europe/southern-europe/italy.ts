@@ -1,5 +1,19 @@
 //src/lib/data/countries/europe/southern-europe/italy.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const italyFlightPattern: FlightPattern = {
+  country: "Italy",
+  cities: ["Rome", "Florence", "Venice"],
+  cheapestMonths: ["November", "January"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["April", "May", "September"],
+  averagePrice: 900,
+  alternativeRoutes: "Fly to Milan instead of Rome for better deals",
+  planningTips: ["Train travel is efficient between cities"],
+  notes: "Coastal areas crowded in summer, cities hot in August"
+};
 
 export const italyData: Record<string, VisaInfo> = {
     'United States': {

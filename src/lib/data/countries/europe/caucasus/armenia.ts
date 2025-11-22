@@ -1,5 +1,18 @@
 // /src/lib/data/countries/europe/caucasus/armenia.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const armeniaFlightPattern: FlightPattern = {
+  country: "Armenia",
+  cities: ["Yerevan", "Gyumri", "Dilijan"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 850,
+  planningTips: ["Visa-free for many nationalities", "Domestic travel is affordable"],
+  notes: "Ancient Christian heritage and mountainous landscapes"
+};
 
 export const armeniaData: Record<string, VisaInfo> = {
     'United States': {

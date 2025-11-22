@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/northern-europe/sweden.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const swedenFlightPattern: FlightPattern = {
+  country: "Sweden",
+  cities: ["Stockholm", "Gothenburg", "Malmö"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["May", "June", "September"],
+  averagePrice: 1000,
+  planningTips: ["Good ferry connections to neighboring countries"],
+  notes: "Modern design and natural beauty"
+};
 
 export const swedenData: Record<string, VisaInfo> = {
     'United States': {

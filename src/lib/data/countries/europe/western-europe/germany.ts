@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/western-europe/germany.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const germanyFlightPattern: FlightPattern = {
+  country: "Germany",
+  cities: ["Berlin", "Munich", "Hamburg"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 900,
+  planningTips: ["Multiple airport options", "Efficient train system"],
+  notes: "Modern cities with rich history and culture"
+};
 
 export const germanyData: Record<string, VisaInfo> = {
     'United States': {

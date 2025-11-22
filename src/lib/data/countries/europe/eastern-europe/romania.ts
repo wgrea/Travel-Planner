@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/caucasus/romania.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const romaniaFlightPattern: FlightPattern = {
+  country: "Romania",
+  cities: ["Bucharest", "Brasov", "Cluj-Napoca"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 650,
+  planningTips: ["Consider flying to Budapest or Vienna as alternatives"],
+  notes: "Carpathian mountains and medieval towns"
+};
 
 export const romaniaData: Record<string, VisaInfo> = {
     'United States': {

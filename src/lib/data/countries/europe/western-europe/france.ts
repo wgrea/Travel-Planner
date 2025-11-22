@@ -1,5 +1,18 @@
 //src/lib/data/countries/europe/western-europe/france.ts
+import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
+import type { FlightCostData  } from '$lib/types/flight';
+
+export const franceFlightPattern: FlightPattern = {
+  country: "France",
+  cities: ["Paris", "Lyon", "Nice"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["April", "May", "September", "October"],
+  averagePrice: 950,
+  planningTips: ["Regional airports often cheaper than Paris", "Excellent train network"],
+  notes: "Diverse regions from Alps to Mediterranean"
+};
 
 export const franceData: Record<string, VisaInfo> = {
     'United States': {
