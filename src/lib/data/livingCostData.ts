@@ -8,10 +8,10 @@ import { japanLivingCosts } from './countries/east-asia/japan';
 import { turkeyLivingCosts } from './countries/europe/southern-europe/turkey';
 import { georgiaLivingCosts } from './countries/europe/caucasus/georgia';
 import { azerbaijanLivingCosts } from './countries/europe/caucasus/azerbaijan';
-// import { spainLivingCosts } from './countries/europe/western-europe/spain';
-// import { argentinaLivingCosts } from './countries/south-america/argentina';
-// import { panamaLivingCosts } from './countries/central-america/panama';
-// import { unitedStatesLivingCosts } from './countries/north-america/united-states';
+import { spainLivingCosts } from './countries/europe/western-europe/spain';
+import { argentinaLivingCosts } from './countries/south-america/argentina';
+import { panamaLivingCosts } from './countries/central-america/panama';
+import { unitedStatesLivingCosts } from './countries/north-america/united-states';
 // Import other countries as you add them...
 
 export interface SubRegionLivingCosts {
@@ -64,27 +64,33 @@ export const livingCostsByRegion: RegionData[] = [
           georgiaLivingCosts,
           azerbaijanLivingCosts,
         ]
+      },
+      {
+        subregion: "Western Europe",
+        countries: [
+          spainLivingCosts,
+        ]
       }
     ]
   },
   {
     region: "South America",
     countries: [
-      // argentinaLivingCosts,
+      argentinaLivingCosts,
       // Add other South American countries...
     ]
   },
   {
     region: "Central America",
     countries: [
-      // panamaLivingCosts,
+      panamaLivingCosts,
       // Add other Central American countries...
     ]
   },
   {
     region: "North America",
     countries: [
-      // unitedStatesLivingCosts,
+      unitedStatesLivingCosts,
       // Add other North American countries...
     ]
   }

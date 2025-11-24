@@ -14,11 +14,12 @@ export const exchangeRates: Record<string, number> = {
   INR: 83.10,    // Indian Rupee
   CNY: 7.18,     // Chinese Yuan
   KRW: 1320,     // South Korean Won
-  // Add these currencies for your countries:
   AZN: 1.70,     // Azerbaijani Manat (1 USD = 1.70 AZN)
   TRY: 30.15,    // Turkish Lira (1 USD = 30.15 TRY)
   GEL: 2.67,     // Georgian Lari (1 USD = 2.67 GEL)
   NPR: 133.45,   // Nepalese Rupee (1 USD = 133.45 NPR)
+  ARS: 815.50,   // Argentine Peso (1 USD = 815 ARS)
+  PAB: 1.00,     // Panamanian Balboa (1:1 with USD)
 };
 
 export const currencySymbols: Record<string, string> = {
@@ -36,11 +37,12 @@ export const currencySymbols: Record<string, string> = {
   INR: '₹',
   CNY: '¥',
   KRW: '₩',
-  // Add these currency symbols:
   AZN: '₼',
   TRY: '₺', 
   GEL: '₾',
   NPR: 'रू',
+  ARS: '$',      // Argentine Peso uses $
+  PAB: 'B/.',    // Panamanian Balboa
 };
 
 export function convertCurrency(amount: number, fromCurrency: string, toCurrency: string): number {
