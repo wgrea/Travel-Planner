@@ -5,7 +5,6 @@
 Improve the country selection. Should be immediate now that the data is sorted out. 
 -->
 
-// In src/routes/flight-costs/+page.svelte
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { flyDataByRegion, getAllRegions, getAllCountries as getAllFlightCountries } from '$lib/data/flyData';

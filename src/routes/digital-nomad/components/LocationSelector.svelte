@@ -1,70 +1,44 @@
 <!-- src/routes/digital-nomad/components/LocationSelector.svelte -->
 <script lang="ts">
-  import CountrySelector from "$lib/components/CountrySelector.svelte";
-  
   export let selectedCountry: string;
   export let selectedCity: string;
   export let availableCities: string[] = [];
-  
-  // You'll need to define these based on your CountrySelector requirements
-  export let selectedRegion: string = '';
-  export let countryData: any[] = []; // Replace 'any' with your actual country data type
-  
-  // Handle country change
-  function handleCountryChange(country: string) {
-    selectedCountry = country;
-    updateAvailableCities();
-  }
-  
-  // Handle region change
-  function handleRegionChange(region: string) {
-    selectedRegion = region;
-  }
-  
-  // Update available cities when country changes
-  function updateAvailableCities() {
-    if (selectedCountry) {
-      availableCities = cityOptions[selectedCountry] || [];
-      // Reset city if it's not available in the new country
-      if (selectedCity && !availableCities.includes(selectedCity)) {
-        selectedCity = '';
-      }
-    }
-  }
-  
-  $: updateAvailableCities();
   
   const cityOptions: Record<string, string[]> = {
     'Thailand': ['Bangkok', 'Chiang Mai', 'Phuket', 'Koh Samui'],
     'Vietnam': ['Ho Chi Minh', 'Hanoi', 'Da Nang'],
     'Indonesia': ['Bali', 'Jakarta'],
     'Portugal': ['Lisbon', 'Porto'],
-    'Colombia': ['Medellin', 'Bogota']
+    'Colombia': ['Medellin', 'Bogota'],
+    'Spain': ['Barcelona', 'Madrid', 'Valencia'],
+    'Mexico': ['Mexico City', 'Playa del Carmen', 'Tulum']
   };
 </script>
 
-<!-- src/routes/digital-nomad/components/LocationSelector.svelte -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-  <div role="group">
-    <label class="block text-white/90 text-sm font-medium mb-2">
-      Select Country
-      <CountrySelector 
-        selectedCountry={selectedCountry}
-        selectedRegion={selectedRegion}
-        countryData={countryData}
-        onCountryChange={handleCountryChange}
-        onRegionChange={handleRegionChange}
-        showInsights={false}
-      />
-    </label>
+  <div>
+    <label for="country-select" class="block text-gray-700 text-sm font-medium mb-2">Select Country</label>
+    <select 
+      id="country-select"
+      bind:value={selectedCountry} 
+      class="w-full rounded-lg bg-white border border-gray-300 px-4 py-3 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+    >
+      <option value="Thailand">Thailand</option>
+      <option value="Vietnam">Vietnam</option>
+      <option value="Indonesia">Indonesia</option>
+      <option value="Portugal">Portugal</option>
+      <option value="Colombia">Colombia</option>
+      <option value="Spain">Spain</option>
+      <option value="Mexico">Mexico</option>
+    </select>
   </div>
   
   <div>
-    <label for="city-select" class="block text-white/90 text-sm font-medium mb-2">Select City</label>
+    <label for="city-select" class="block text-gray-700 text-sm font-medium mb-2">Select City</label>
     <select 
       id="city-select"
       bind:value={selectedCity} 
-      class="w-full rounded-lg bg-white/90 border border-white/50 px-4 py-3 text-gray-800"
+      class="w-full rounded-lg bg-white border border-gray-300 px-4 py-3 text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors disabled:bg-gray-100 disabled:text-gray-500"
       disabled={!selectedCountry}
     >
       <option value="">Select a city</option>

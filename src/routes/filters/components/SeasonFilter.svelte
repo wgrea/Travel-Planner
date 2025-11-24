@@ -12,26 +12,17 @@
   ];
 </script>
 
-<div class="season-filter">
-  <h3 class="text-lg font-semibold mb-3 text-white">🗓️ When are you traveling?</h3>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+  <h3 class="text-lg font-semibold text-gray-900 mb-4">🗓️ When are you traveling?</h3>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
     {#each seasons as season}
       <button
-        class:active={selectedSeason === season.value}
+        class="p-3 text-left rounded-lg border-2 transition-all duration-200 bg-white border-gray-200 hover:border-blue-300 hover:bg-blue-50 text-gray-900 {selectedSeason === season.value ? 'border-blue-500 bg-blue-50' : ''}"
         on:click={() => selectedSeason = season.value}
-        class="p-3 text-left rounded-lg border-2 transition-all duration-200 text-white bg-white/10 border-white/20 hover:border-cyan-400/50 hover:bg-cyan-500/20"
-        class:active="border-cyan-400 bg-cyan-500/30"
       >
-        <div class="font-medium">{season.label}</div>
-        <div class="text-sm opacity-80">{season.description}</div>
+        <div class="font-medium text-sm">{season.label}</div>
+        <div class="text-xs text-gray-600 mt-1">{season.description}</div>
       </button>
     {/each}
   </div>
 </div>
-
-<style>
-  .active {
-    border-color: rgb(34 211 238) !important;
-    background-color: rgba(34, 211, 238, 0.3) !important;
-  }
-</style>

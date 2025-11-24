@@ -4,7 +4,7 @@
   import { minimalData } from '$lib/data/minimalData';
   import type { Country, City } from '$lib/types/minimalData';
   
-  // Filter stores - defined in module context so they're shared
+  // Filter stores
   export const selectedContinent = writable<string>('');
   export const selectedRegion = writable<string>('');
   export const selectedActivities = writable<string[]>([]);
@@ -40,7 +40,6 @@
     }
   );
 
-  // FIXED: Proper derived store syntax for availableCities
   export const availableCities = derived([selectedCountry], ([$country]) => {
     if (!$country) return [] as City[];
     const countryData = minimalData.countries[$country];
@@ -51,14 +50,12 @@
       .filter((city): city is City => city !== undefined);
   });
 
-  // Reset city when country changes
   selectedCountry.subscribe(() => {
     selectedCity.set('');
   });
 </script>
 
 <script lang="ts">
-  // Component instance logic - REMOVE the duplicate clearAllFilters import
   function clearAllFilters() {
     selectedContinent.set('');
     selectedRegion.set('');
@@ -70,12 +67,12 @@
   }
 </script>
 
-<div class="filter-system bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-lg">
+<div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
   <div class="flex items-center justify-between mb-6">
-    <h3 class="text-xl font-bold text-white">🌍 Destination Filters</h3>
+    <h3 class="text-xl font-semibold text-gray-900">🌍 Destination Filters</h3>
     <button 
       on:click={clearAllFilters}
-      class="text-sm text-white/70 hover:text-white transition-colors px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20"
+      class="text-sm text-gray-600 hover:text-gray-900 transition-colors px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200"
     >
       Clear All
     </button>
@@ -84,11 +81,11 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
     <!-- Continent Filter -->
     <div>
-      <label for="continent-select" class="block text-sm font-medium text-white/80 mb-2">Continent</label>
+      <label for="continent-select" class="block text-sm font-medium text-gray-700 mb-2">Continent</label>
       <select 
         id="continent-select"
         bind:value={$selectedContinent}
-        class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
         <option value="">All Continents</option>
         {#each minimalData.filters.continents as continent}
@@ -99,12 +96,12 @@
 
     <!-- Region Filter -->
     <div>
-      <label for="region-select" class="block text-sm font-medium text-white/80 mb-2">Region</label>
+      <label for="region-select" class="block text-sm font-medium text-gray-700 mb-2">Region</label>
       <select 
         id="region-select"
         bind:value={$selectedRegion} 
         disabled={!$availableRegions.length}
-        class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-500"
       >
         <option value="">All Regions</option>
         {#each $availableRegions as region}
@@ -115,11 +112,11 @@
 
     <!-- Country Selection -->
     <div>
-      <label for="country-select" class="block text-sm font-medium text-white/80 mb-2">Country</label>
+      <label for="country-select" class="block text-sm font-medium text-gray-700 mb-2">Country</label>
       <select 
         id="country-select"
         bind:value={$selectedCountry}
-        class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
         <option value="">Select Country</option>
         {#each $filteredCountries as country}
@@ -131,11 +128,11 @@
     <!-- City Selection -->
     {#if $selectedCountry}
       <div>
-        <label for="city-select" class="block text-sm font-medium text-white/80 mb-2">City</label>
+        <label for="city-select" class="block text-sm font-medium text-gray-700 mb-2">City</label>
         <select 
           id="city-select"
           bind:value={$selectedCity}
-          class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+          class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="">Select City</option>
           {#each $availableCities as city}
@@ -148,13 +145,13 @@
     {/if}
   </div>
 
-  <!-- In ConnectedFilters.svelte, around line 153, find the Activities section and fix it like this: -->
+  <!-- Activities Section -->
   <div class="mb-4">
-    <h4 id="activities-heading" class="block text-sm font-medium text-white/80 mb-3">Activities & Interests</h4>
-    <div class="flex flex-wrap gap-2" role="group" aria-labelledby="activities-heading">
+    <h4 class="block text-sm font-medium text-gray-700 mb-3">Activities & Interests</h4>
+    <div class="flex flex-wrap gap-2">
       {#each minimalData.filters.activities as activity}
         <button 
-          class="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 border backdrop-blur-sm {$selectedActivities.includes(activity) ? 'bg-cyan-500/80 text-white border-cyan-400' : 'bg-white/10 text-white/80 border-white/20 hover:bg-white/20 hover:text-white'}"
+          class="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 border {$selectedActivities.includes(activity) ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400'}"
           on:click={() => {
             if ($selectedActivities.includes(activity)) {
               selectedActivities.update(activities => activities.filter(a => a !== activity));
@@ -173,11 +170,11 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- Cost Tier Filter -->
     <div>
-      <label for="cost-tier-select" class="block text-sm font-medium text-white/80 mb-2">Cost Tier</label>
+      <label for="cost-tier-select" class="block text-sm font-medium text-gray-700 mb-2">Cost Tier</label>
       <select 
         id="cost-tier-select"
         bind:value={$selectedCostTier}
-        class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
         <option value="">Any Cost</option>
         <option value="low">💰 Low Cost</option>
@@ -188,11 +185,11 @@
 
     <!-- Visa Difficulty Filter -->
     <div>
-      <label for="visa-select" class="block text-sm font-medium text-white/80 mb-2">Visa Difficulty</label>
+      <label for="visa-select" class="block text-sm font-medium text-gray-700 mb-2">Visa Difficulty</label>
       <select 
         id="visa-select"
         bind:value={$selectedVisaDifficulty}
-        class="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+        class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
         <option value="">Any Visa</option>
         <option value="easy">✅ Easy</option>
@@ -204,37 +201,37 @@
 
   <!-- Selected Filters Summary -->
   {#if $selectedContinent || $selectedRegion || $selectedCountry || $selectedActivities.length > 0 || $selectedCostTier || $selectedVisaDifficulty}
-    <div class="mt-4 pt-4 border-t border-white/20">
-      <p class="text-sm font-medium text-white/80 mb-2">Active Filters:</p>
+    <div class="mt-4 pt-4 border-t border-gray-200">
+      <p class="text-sm font-medium text-gray-700 mb-2">Active Filters:</p>
       <div class="flex flex-wrap gap-2">
         {#if $selectedContinent}
-          <span class="inline-flex items-center gap-1 px-2 py-1 bg-cyan-500/50 rounded text-xs text-white">
+          <span class="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 rounded text-xs text-gray-700">
             🌍 {$selectedContinent} 
-            <button on:click={() => selectedContinent.set('')} class="hover:text-white/80">×</button>
+            <button on:click={() => selectedContinent.set('')} class="hover:text-gray-900">×</button>
           </span>
         {/if}
         {#if $selectedRegion}
-          <span class="inline-flex items-center gap-1 px-2 py-1 bg-cyan-500/50 rounded text-xs text-white">
+          <span class="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 rounded text-xs text-gray-700">
             🗺️ {$selectedRegion} 
-            <button on:click={() => selectedRegion.set('')} class="hover:text-white/80">×</button>
+            <button on:click={() => selectedRegion.set('')} class="hover:text-gray-900">×</button>
           </span>
         {/if}
         {#if $selectedCountry}
-          <span class="inline-flex items-center gap-1 px-2 py-1 bg-cyan-500/50 rounded text-xs text-white">
+          <span class="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 rounded text-xs text-gray-700">
             🇺🇳 {$selectedCountry} 
-            <button on:click={() => selectedCountry.set('')} class="hover:text-white/80">×</button>
+            <button on:click={() => selectedCountry.set('')} class="hover:text-gray-900">×</button>
           </span>
         {/if}
         {#if $selectedCity}
-          <span class="inline-flex items-center gap-1 px-2 py-1 bg-cyan-500/50 rounded text-xs text-white">
+          <span class="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 rounded text-xs text-gray-700">
             🏙️ {$selectedCity} 
-            <button on:click={() => selectedCity.set('')} class="hover:text-white/80">×</button>
+            <button on:click={() => selectedCity.set('')} class="hover:text-gray-900">×</button>
           </span>
         {/if}
         {#each $selectedActivities as activity}
-          <span class="inline-flex items-center gap-1 px-2 py-1 bg-cyan-500/50 rounded text-xs text-white">
+          <span class="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 rounded text-xs text-gray-700">
             {activity} 
-            <button on:click={() => selectedActivities.update(activities => activities.filter(a => a !== activity))} class="hover:text-white/80">×</button>
+            <button on:click={() => selectedActivities.update(activities => activities.filter(a => a !== activity))} class="hover:text-gray-900">×</button>
           </span>
         {/each}
       </div>

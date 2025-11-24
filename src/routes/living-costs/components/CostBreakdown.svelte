@@ -1,47 +1,191 @@
+<!-- src/routes/living-costs/components/CostBreakdown.svelte -->
+<script lang="ts">
+  import type { LivingCostData } from '$lib/types/living-costs';
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+
+  export let livingCostData: LivingCostData | undefined;
+  export let selectedCurrency: string = 'USD';
+  
+  // Remove travelStyle if not used, or use it to highlight current style
+  export let travelStyle: 'budget' | 'midrange' | 'luxury' = 'midrange';
+</script>
+
+{#if livingCostData}
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
   <!-- Daily Expenses -->
-  <div class="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30">
-    <h3 class="text-2xl font-bold text-white mb-4">🍽️ Daily Expenses</h3>
-    <div class="space-y-4">
-      <div class="flex justify-between items-center p-3 bg-white/10 rounded-lg">
-        <div class="text-white">Street Food & Local Eats</div>
-        <div class="text-white font-bold">$5-10/day</div>
+  <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">🍽️ Daily Expenses</h3>
+    <div class="space-y-3">
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+        <div class="text-gray-700">Street Food</div>
+        <div class="text-emerald-600 font-semibold">
+          {formatCurrency(
+            convertCurrency(
+              livingCostData.baseCosts.food.streetFood,
+              livingCostData.currency,
+              selectedCurrency
+            ),
+            selectedCurrency
+          )}
+        </div>
       </div>
-      <div class="flex justify-between items-center p-3 bg-white/10 rounded-lg">
-        <div class="text-white">Restaurant Meals</div>
-        <div class="text-white font-bold">$15-25/day</div>
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+        <div class="text-gray-700">Restaurant Meal</div>
+        <div class="text-emerald-600 font-semibold">
+          {formatCurrency(
+            convertCurrency(
+              livingCostData.baseCosts.food.restaurantMeal,
+              livingCostData.currency,
+              selectedCurrency
+            ),
+            selectedCurrency
+          )}
+        </div>
       </div>
-      <div class="flex justify-between items-center p-3 bg-white/10 rounded-lg">
-        <div class="text-white">Groceries & Cooking</div>
-        <div class="text-white font-bold">$8-15/day</div>
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+        <div class="text-gray-700">Local Transportation</div>
+        <div class="text-emerald-600 font-semibold">
+          {formatCurrency(
+            convertCurrency(
+              livingCostData.baseCosts.transportation.localBus,
+              livingCostData.currency,
+              selectedCurrency
+            ),
+            selectedCurrency
+          )}
+        </div>
       </div>
-      <div class="flex justify-between items-center p-3 bg-white/10 rounded-lg">
-        <div class="text-white">Local Transportation</div>
-        <div class="text-white font-bold">$3-8/day</div>
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+        <div class="text-gray-700">Taxi Ride</div>
+        <div class="text-emerald-600 font-semibold">
+          {formatCurrency(
+            convertCurrency(
+              livingCostData.baseCosts.transportation.taxi,
+              livingCostData.currency,
+              selectedCurrency
+            ),
+            selectedCurrency
+          )}
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Additional Costs -->
-  <div class="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30">
-    <h3 class="text-2xl font-bold text-white mb-4">🎯 Additional Costs</h3>
-    <div class="space-y-4">
-      <div class="flex justify-between items-center p-3 bg-white/10 rounded-lg">
-        <div class="text-white">Activities & Tours</div>
-        <div class="text-white font-bold">$20-50/day</div>
+  <!-- Accommodation Costs -->
+  <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">🏨 Accommodation (per night)</h3>
+    <div class="space-y-3">
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg {travelStyle === 'budget' ? 'ring-2 ring-emerald-500' : ''}">
+        <div class="text-gray-700">Hostel</div>
+        <div class="text-emerald-600 font-semibold">
+          {formatCurrency(
+            convertCurrency(
+              livingCostData.baseCosts.accommodation.budget.hostel,
+              livingCostData.currency,
+              selectedCurrency
+            ),
+            selectedCurrency
+          )}
+        </div>
       </div>
-      <div class="flex justify-between items-center p-3 bg-white/10 rounded-lg">
-        <div class="text-white">SIM Card & Data</div>
-        <div class="text-white font-bold">$15-30/month</div>
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg {travelStyle === 'budget' ? 'ring-2 ring-emerald-500' : ''}">
+        <div class="text-gray-700">Budget Hotel</div>
+        <div class="text-emerald-600 font-semibold">
+          {formatCurrency(
+            convertCurrency(
+              livingCostData.baseCosts.accommodation.budget.budgetHotel,
+              livingCostData.currency,
+              selectedCurrency
+            ),
+            selectedCurrency
+          )}
+        </div>
       </div>
-      <div class="flex justify-between items-center p-3 bg-white/10 rounded-lg">
-        <div class="text-white">Travel Insurance</div>
-        <div class="text-white font-bold">$40-100/month</div>
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg {travelStyle === 'midrange' ? 'ring-2 ring-emerald-500' : ''}">
+        <div class="text-gray-700">Mid-range Hotel</div>
+        <div class="text-emerald-600 font-semibold">
+          {formatCurrency(
+            convertCurrency(
+              livingCostData.baseCosts.accommodation.midrange.hotel,
+              livingCostData.currency,
+              selectedCurrency
+            ),
+            selectedCurrency
+          )}
+        </div>
       </div>
-      <div class="flex justify-between items-center p-3 bg-white/10 rounded-lg">
-        <div class="text-white">Emergency Fund</div>
-        <div class="text-white font-bold">$100-200</div>
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg {travelStyle === 'luxury' ? 'ring-2 ring-emerald-500' : ''}">
+        <div class="text-gray-700">Luxury Hotel</div>
+        <div class="text-emerald-600 font-semibold">
+          {formatCurrency(
+            convertCurrency(
+              livingCostData.baseCosts.accommodation.luxury.hotel,
+              livingCostData.currency,
+              selectedCurrency
+            ),
+            selectedCurrency
+          )}
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Monthly Rent Section -->
+<div class="bg-white rounded-2xl p-6 mt-8 border border-gray-200 shadow-sm">
+  <h3 class="text-lg font-semibold text-gray-900 mb-4">🏠 Monthly Rent (Long-term)</h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="text-center p-4 bg-blue-50 rounded-lg border border-blue-100">
+      <div class="font-semibold text-blue-700 text-lg">
+        {formatCurrency(
+          convertCurrency(
+            livingCostData.baseCosts.accommodation.monthlyRent.studio,
+            livingCostData.currency,
+            selectedCurrency
+          ),
+          selectedCurrency
+        )}
+      </div>
+      <div class="text-sm text-gray-600 mt-1">Studio Apartment</div>
+    </div>
+    <div class="text-center p-4 bg-green-50 rounded-lg border border-green-100">
+      <div class="font-semibold text-green-700 text-lg">
+        {formatCurrency(
+          convertCurrency(
+            livingCostData.baseCosts.accommodation.monthlyRent.oneBedroom,
+            livingCostData.currency,
+            selectedCurrency
+          ),
+          selectedCurrency
+        )}
+      </div>
+      <div class="text-sm text-gray-600 mt-1">1-Bedroom</div>
+    </div>
+    <div class="text-center p-4 bg-purple-50 rounded-lg border border-purple-100">
+      <div class="font-semibold text-purple-700 text-lg">
+        {formatCurrency(
+          convertCurrency(
+            livingCostData.baseCosts.accommodation.monthlyRent.threeBedroom,
+            livingCostData.currency,
+            selectedCurrency
+          ),
+          selectedCurrency
+        )}
+      </div>
+      <div class="text-sm text-gray-600 mt-1">3-Bedroom</div>
+    </div>
+  </div>
+</div>
+{:else}
+<!-- Fallback when no data -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+  <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">🍽️ Daily Expenses</h3>
+    <div class="text-gray-500 text-center py-8">Cost data loading...</div>
+  </div>
+  <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">🏨 Accommodation</h3>
+    <div class="text-gray-500 text-center py-8">Cost data loading...</div>
+  </div>
+</div>
+{/if}
