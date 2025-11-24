@@ -1,6 +1,8 @@
 // src/lib/data/flightCosts.ts
 // Depends entirely on where you're flying FROM
 
+// flight costs based on where you are at needs to be added.
+
 import type { FlightCostData  } from '$lib/types/flight';
 // rest of the countries repeat
 import { belizeFlightData } from './countries/central-america/belize';
