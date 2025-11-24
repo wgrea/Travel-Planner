@@ -1,13 +1,4 @@
 <!-- src/routes/docs/+page.svelte -->
-<!--
-When I am not busy, I do want to add how I struggled with figuring out how to add the country data.
-I also wanted to make sure to use the same reusable components accross pages.
-I ended up using the same country files accross the pages.
-What caused an error was trying to use filght data inside the same export as the visa data. They had to be two different exports so that caused an error when trying. 
-
-
-
--->
 
 <!-- This is for documentation of how the project was built, not for filling forms -->
 <div class="min-h-screen bg-gray-50 text-gray-900">
@@ -106,7 +97,7 @@ What caused an error was trying to use filght data inside the same export as the
         </ul>
       </section>
 
-      <section id="lessons">
+           <section id="lessons">
         <h2 class="text-2xl font-semibold mb-4 text-gray-800">💡 Lessons Learned & Challenges</h2>
         <div class="space-y-4">
           <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -124,6 +115,16 @@ What caused an error was trying to use filght data inside the same export as the
               <li>Reactive declarations in Svelte simplify state management</li>
               <li>Modular imports make scaling manageable</li>
               <li>Region/subregion pattern enables sophisticated filtering</li>
+            </ul>
+          </div>
+          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+            <h3 class="font-semibold text-green-800">Living Costs Page Breakthroughs</h3>
+            <ul class="list-disc ml-6 text-green-700 space-y-1">
+              <li><strong>Specialized components</strong> beat one-size-fits-all solutions</li>
+              <li><strong>Currency conversion</strong> must be handled at the data level, not display level</li>
+              <li><strong>Reactive statements</strong> in Svelte make complex state changes manageable</li>
+              <li><strong>Debugging with console.log</strong> quickly reveals data flow issues</li>
+              <li><strong>NaN errors</strong> usually mean missing data or currency rates</li>
             </ul>
           </div>
         </div>
@@ -156,6 +157,75 @@ What caused an error was trying to use filght data inside the same export as the
         <div class="mt-4 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
           <h3 class="font-semibold text-yellow-800">Core Philosophy</h3>
           <p class="text-yellow-700">"Build a flexible foundation that can grow with user needs, not a rigid structure that limits possibilities."</p>
+        </div>
+      </section>
+
+            <section id="european-subregions">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🇪🇺 European Subregions Challenge</h2>
+        <div class="space-y-4">
+          <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+            <h3 class="font-semibold text-orange-800">The Problem</h3>
+            <p class="text-orange-700"><strong>Europe is too diverse</strong> - Treating all European countries as one region made filtering useless for users looking for specific experiences</p>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg border border-gray-200">
+            <h3 class="font-semibold text-gray-800">The Solution: Nested Region Structure</h3>
+            <div class="bg-gray-100 p-4 rounded text-sm font-mono">
+              <p>Europe uses nested subregions (Western, Southern, Eastern, Northern, Caucasus)</p>
+              <p>Other regions use flat country lists (Southeast Asia, South Asia, etc.)</p>
+              <p class="mt-2 text-gray-600">// Flexible data structure supports both patterns</p>
+            </div>
+          </div>
+
+          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+            <h3 class="font-semibold text-green-800">Component-Based Breakthrough</h3>
+            <p class="text-green-700"><strong>LivingCostCountrySelector</strong> - Created a dedicated component when generic CountrySelector became too complex</p>
+            <ul class="list-disc ml-6 text-green-700 space-y-1 mt-2">
+              <li><strong>Simplified interface</strong>: No need for flight-specific properties like sweetSpot and cheapestMonths</li>
+              <li><strong>Better UX</strong>: Cleaner design focused on living costs use case</li>
+              <li><strong>Maintainable</strong>: Easier to update without breaking other pages</li>
+              <li><strong>Currency integration</strong>: Built-in currency conversion display</li>
+            </ul>
+          </div>
+
+          <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <h3 class="font-semibold text-blue-800">Key Technical Insight</h3>
+            <p class="text-blue-700"><strong>Different pages need different component variations</strong> - What works for visa requirements might not work for living costs, even with the same underlying data</p>
+            <p class="text-blue-600 mt-2">The solution wasn't forcing one component to handle all cases, but creating specialized components that share the same data structure.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="currency-integration">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">💱 Currency Conversion Implementation</h2>
+        <div class="space-y-4">
+          <div class="bg-white p-4 rounded-lg border border-gray-200">
+            <h3 class="font-semibold text-gray-800">The Challenge</h3>
+            <p class="text-gray-700">Living costs data comes in local currencies, but users want to see prices in their preferred currency</p>
+          </div>
+          
+          <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <h3 class="font-semibold text-purple-800">Solution Architecture</h3>
+            <ul class="list-disc ml-6 text-purple-700 space-y-2">
+              <li><strong>Centralized currency utilities</strong>: Single source of truth for exchange rates</li>
+              <li><strong>Reactive conversion</strong>: Costs update automatically when currency changes</li>
+              <li><strong>Fallback handling</strong>: Graceful degradation when currencies are missing</li>
+              <li><strong>Local storage</strong>: Remember user's currency preference</li>
+            </ul>
+          </div>
+
+          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+            <h3 class="font-semibold text-green-800">Code Pattern</h3>
+            <div class="bg-gray-100 p-4 rounded text-sm font-mono">
+              <p>// Reactive conversion in +page.svelte</p>
+              <p>$: convertedDailyLiving = currentLivingCostData ? {'{'}</p>
+              <p class="ml-4">budget: convertCurrency(currentLivingCostData.baseCosts.dailyLiving.budget, </p>
+              <p class="ml-8">currentLivingCostData.currency, selectedCurrency),</p>
+              <p class="ml-4">midrange: convertCurrency(...),</p>
+              <p class="ml-4">luxury: convertCurrency(...)</p>
+              <p>{'}'} : null;</p>
+            </div>
+          </div>
         </div>
       </section>
 

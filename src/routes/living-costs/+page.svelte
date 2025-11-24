@@ -1,4 +1,12 @@
 <!-- src/routes/living-costs/+page.svelte -->
+
+<!--
+I should shorten this file.
+Filter by which are the cheaper countries for living costs
+I definitely need to look at cities
+Also filter by cost of transportation, food, hostels (make sure to filter by single room or more than one room)
+-->
+
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { minimalData } from '$lib/data/minimalData';
