@@ -3,11 +3,10 @@
   import type { LivingCostData } from '$lib/types/living-costs';
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
 
-  export let livingCostData: LivingCostData | undefined;
+  export let livingCostData: any;
   export let selectedCurrency: string = 'USD';
+  export let travelStyle: 'budget' | 'midrange' | 'luxury';
   
-  // Remove travelStyle if not used, or use it to highlight current style
-  export let travelStyle: 'budget' | 'midrange' | 'luxury' = 'midrange';
 </script>
 
 {#if livingCostData}

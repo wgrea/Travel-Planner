@@ -6,7 +6,7 @@
   export let travelStyle: 'budget' | 'midrange' | 'luxury';
   export let setTravelStyle: (style: 'budget' | 'midrange' | 'luxury') => void;
   export let selectedCurrency: string = 'USD';
-  export let livingCostData: LivingCostData | undefined; // Add this prop
+  export let livingCostData: any; // Your LivingCostData type
 
   const travelStyles = [
     { 
@@ -28,28 +28,20 @@
 
   // Function to get formatted daily cost
   function getDailyCost(style: 'budget' | 'midrange' | 'luxury'): string {
-    if (!livingCostData) {
-      // Fallback to approximate ranges if no data
-      const fallbackRanges: Record<'budget' | 'midrange' | 'luxury', string> = {
-        budget: '30-50',
-        midrange: '60-100', 
-        luxury: '150+'
-      };
-      return `${fallbackRanges[style]}/day`;
+    if (!livingCostData) return 'Check overview for prices';
+    
+    const baseCosts = livingCostData.baseCosts.dailyLiving[style];
+    
+    // If you have range data in your structure
+    if (typeof baseCosts === 'object' && baseCosts.min && baseCosts.max) {
+      const min = convertCurrency(baseCosts.min, livingCostData.currency, selectedCurrency);
+      const max = convertCurrency(baseCosts.max, livingCostData.currency, selectedCurrency);
+      return `${formatCurrency(min, selectedCurrency)}-${formatCurrency(max, selectedCurrency)}/day`;
     }
-
-    const dailyCost = livingCostData.baseCosts.dailyLiving[style];
-    const convertedCost = convertCurrency(
-      dailyCost, 
-      livingCostData.currency, 
-      selectedCurrency
-    );
     
-    // Format as range (±20% for visual appeal)
-    const min = Math.round(convertedCost * 0.8);
-    const max = Math.round(convertedCost * 1.2);
-    
-    return `${formatCurrency(min, selectedCurrency)}-${formatCurrency(max, selectedCurrency)}/day`;
+    // Single value fallback
+    const convertedCost = convertCurrency(baseCosts, livingCostData.currency, selectedCurrency);
+    return `${formatCurrency(Math.round(convertedCost), selectedCurrency)}/day`;
   }
 </script>
 
@@ -67,7 +59,6 @@
       >
         <div class="text-2xl mb-2">{style.icon}</div>
         <div class="text-gray-900 font-medium mb-1">{style.label}</div>
-        <div class="text-gray-600 text-sm">{getDailyCost(style.value)}</div>
       </button>
     {/each}
   </div>

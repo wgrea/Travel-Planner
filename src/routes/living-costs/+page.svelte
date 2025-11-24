@@ -205,6 +205,26 @@
     }
   }
 
+  // Add these reactive conversions (replace any existing ones)
+  $: convertedDailyLiving = currentLivingCostData ? {
+    budget: convertCurrency(currentLivingCostData.baseCosts.dailyLiving.budget, currentLivingCostData.currency, selectedCurrency),
+    midrange: convertCurrency(currentLivingCostData.baseCosts.dailyLiving.midrange, currentLivingCostData.currency, selectedCurrency),
+    luxury: convertCurrency(currentLivingCostData.baseCosts.dailyLiving.luxury, currentLivingCostData.currency, selectedCurrency)
+  } : null;
+
+  $: convertedFood = currentLivingCostData ? {
+    streetFood: convertCurrency(currentLivingCostData.baseCosts.food.streetFood, currentLivingCostData.currency, selectedCurrency),
+    restaurantMeal: convertCurrency(currentLivingCostData.baseCosts.food.restaurantMeal, currentLivingCostData.currency, selectedCurrency),
+    groceryWeekly: convertCurrency(currentLivingCostData.baseCosts.food.groceryWeekly, currentLivingCostData.currency, selectedCurrency)
+  } : null;
+
+  $: convertedTransport = currentLivingCostData ? {
+    localBus: convertCurrency(currentLivingCostData.baseCosts.transportation.localBus, currentLivingCostData.currency, selectedCurrency),
+    taxi: convertCurrency(currentLivingCostData.baseCosts.transportation.taxi, currentLivingCostData.currency, selectedCurrency),
+    intercityBus: convertCurrency(currentLivingCostData.baseCosts.transportation.intercityBus, currentLivingCostData.currency, selectedCurrency),
+    train: convertCurrency(currentLivingCostData.baseCosts.transportation.train, currentLivingCostData.currency, selectedCurrency)
+  } : null;
+
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 px-4 py-8 relative overflow-hidden">
@@ -291,6 +311,7 @@
 
       <!-- Travel Style Selector -->
       <div class="mb-8 p-6 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg">
+        <!-- In your +page.svelte -->
         <TravelStyleSelector 
           {travelStyle}
           {setTravelStyle}
@@ -305,40 +326,19 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="text-center p-4 bg-emerald-50 rounded-lg">
             <div class="text-2xl font-bold text-emerald-700">
-              {formatCurrency(
-                convertCurrency(
-                  currentLivingCostData.baseCosts.dailyLiving.budget,
-                  currentLivingCostData.currency,
-                  selectedCurrency
-                ),
-                selectedCurrency
-              )}
+              {convertedDailyLiving ? formatCurrency(convertedDailyLiving.budget, selectedCurrency) : 'N/A'}
             </div>
             <div class="text-sm text-gray-600 mt-1">Budget Travel / day</div>
           </div>
           <div class="text-center p-4 bg-blue-50 rounded-lg">
             <div class="text-2xl font-bold text-blue-700">
-              {formatCurrency(
-                convertCurrency(
-                  currentLivingCostData.baseCosts.dailyLiving.midrange,
-                  currentLivingCostData.currency,
-                  selectedCurrency
-                ),
-                selectedCurrency
-              )}
+              {convertedDailyLiving ? formatCurrency(convertedDailyLiving.midrange, selectedCurrency) : 'N/A'}
             </div>
             <div class="text-sm text-gray-600 mt-1">Mid-range / day</div>
           </div>
           <div class="text-center p-4 bg-purple-50 rounded-lg">
             <div class="text-2xl font-bold text-purple-700">
-              {formatCurrency(
-                convertCurrency(
-                  currentLivingCostData.baseCosts.dailyLiving.luxury,
-                  currentLivingCostData.currency,
-                  selectedCurrency
-                ),
-                selectedCurrency
-              )}
+              {convertedDailyLiving ? formatCurrency(convertedDailyLiving.luxury, selectedCurrency) : 'N/A'}
             </div>
             <div class="text-sm text-gray-600 mt-1">Luxury / day</div>
           </div>
