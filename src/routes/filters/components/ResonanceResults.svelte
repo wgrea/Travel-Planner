@@ -12,7 +12,7 @@
   <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-xl font-semibold text-gray-900">
-        Your Perfect Matches <span class="text-indigo-600">({matches.length} countries)</span>
+        Your Perfect Matches <span class="text-indigo-600">({matches.length} locations)</span>
       </h2>
       <div class="text-sm text-gray-500">
         Sorted by resonance score
@@ -29,9 +29,25 @@
                 #{index + 1}
               </div>
               <div>
+                <!-- FIX: Show the actual name (city or country overview) -->
                 <h3 class="text-xl font-bold text-gray-900 group-hover:text-indigo-700 transition-colors">
-                  {match.country}
+                  {match.name}
                 </h3>
+                <div class="flex items-center gap-2 mt-1">
+                  <div class="text-sm text-gray-600">
+                    <!-- FIX: Show city, country properly -->
+                    {match.city === 'Multiple Cities' ? match.country : `${match.city}, ${match.country}`}
+                  </div>
+                  {#if match.city !== 'Multiple Cities'}
+                    <div class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+                      City
+                    </div>
+                  {:else}
+                    <div class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                      Country
+                    </div>
+                  {/if}
+                </div>
                 <div class="flex items-center gap-2 mt-1">
                   <div class="text-2xl font-bold text-indigo-600">{match.score}%</div>
                   <div class="text-sm text-gray-500">match</div>

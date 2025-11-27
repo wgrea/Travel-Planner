@@ -1,8 +1,9 @@
 <!-- src/routes/filters/+page.svelte -->
 <script lang="ts">
+  import { onMount } from 'svelte'; // ADD THIS IMPORT
   import { goto } from '$app/navigation';
   import { ResonanceMatcher } from '$lib/utils/resonanceMatcher';
-  import { resonanceDataByRegion, activityCategories, getAllActivities, getAllTags, getAllCountries, getAllBestFor } from '$lib/data/filterData';
+  import { resonanceDataByRegion, activityCategories, getAllActivities, getAllTags, getAllBestFor, getAllLocations } from '$lib/data/filterData';
   import type { ResonancePreferences, ResonanceScore } from '$lib/types/resonance';
   
   import ResonanceFilters from './components/ResonanceFilters.svelte';
@@ -33,10 +34,20 @@
   let activeTab: 'tags' | 'activities' | 'bestFor' = 'tags';
 
   // Get all available data
-  const allCountries = getAllCountries();
+  const allLocations = getAllLocations();
   const allActivities = getAllActivities();
   const allTags = getAllTags();
   const allBestFor = getAllBestFor();
+
+  // Debug: log available locations
+  onMount(() => {
+    console.log('=== RESONANCE DEBUG ===');
+    console.log('All locations:', allLocations);
+    console.log('Argentina locations:', allLocations.filter(l => l.country === 'Argentina'));
+    console.log('Total locations count:', allLocations.length);
+    console.log('Argentina cities:', allLocations.filter(l => l.country === 'Argentina' && l.type === 'city'));
+    console.log('=====================');
+  });
 
   // Filter activities by category
   $: filteredActivities = selectedCategory === 'all' 
@@ -45,25 +56,32 @@
         Object.values(activityCategories).flat().includes(activity)
       );
 
-  function findMatches() {
+    function findMatches() {
     isLoading = true;
     setTimeout(() => {
-      // Filter countries by selected tags first, then run resonance matching
-      let filteredCountries = allCountries;
+      // Filter locations by selected tags first, then run resonance matching
+      let filteredLocations = allLocations;
       
       if (selectedTags.length > 0) {
-        filteredCountries = filteredCountries.filter(country => 
-          selectedTags.some(tag => country.tags.includes(tag))
+        filteredLocations = filteredLocations.filter(location => 
+          selectedTags.some(tag => location.tags.includes(tag))
         );
       }
       
       if (selectedBestFor.length > 0) {
-        filteredCountries = filteredCountries.filter(country => 
-          selectedBestFor.some(category => country.bestFor.includes(category))
+        filteredLocations = filteredLocations.filter(location => 
+          selectedBestFor.some(category => location.bestFor.includes(category))
         );
       }
       
-      matches = ResonanceMatcher.findTopMatches(preferences, filteredCountries);
+      console.log('=== MATCHING DEBUG ===');
+      console.log('Filtered locations before scoring:', filteredLocations.map(l => l.name));
+      
+      matches = ResonanceMatcher.findTopMatches(preferences, filteredLocations);
+      
+      console.log('Final matches:', matches);
+      console.log('=====================');
+      
       isLoading = false;
     }, 800);
   }
@@ -118,15 +136,15 @@
     <div class="text-center mb-12">
       <h1 class="text-5xl font-light mb-4 text-gray-900">Destination Resonance Finder</h1>
       <p class="text-gray-700 text-lg font-light max-w-2xl mx-auto">
-        Discover countries that match your travel personality, interests, and style
+        Discover countries and cities that match your travel personality, interests, and style
       </p>
     </div>
 
-    <!-- Quick Stats -->
+        <!-- Quick Stats -->
     <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
       <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
-        <div class="text-2xl font-semibold text-indigo-600">{allCountries.length}</div>
-        <div class="text-sm text-gray-600">Countries</div>
+        <div class="text-2xl font-semibold text-indigo-600">{allLocations.length}</div>
+        <div class="text-sm text-gray-600">Locations</div>
       </div>
       <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
         <div class="text-2xl font-semibold text-green-600">{allTags.length}</div>
