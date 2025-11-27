@@ -1,5 +1,9 @@
 <!-- src/routes/digital-nomad/components/WorkPreferenceSelector.svelte -->
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+  
+  const dispatch = createEventDispatcher();
+  
   export let workPreference: string;
   
   const workOptions = [
@@ -8,6 +12,13 @@
     { value: 'hostel', label: 'Hostel Workspace', icon: '🏠' },
     { value: 'hotel', label: 'Hotel Workspace', icon: '🏨' }
   ];
+
+  function handlePreferenceChange(preference: string) {
+    console.log('🔘 Button clicked:', preference);
+    workPreference = preference;
+    dispatch('workPreferenceChange', preference);
+    console.log('🔘 Event dispatched:', preference);
+  }
 </script>
 
 <div class="bg-white rounded-2xl p-6 mb-8 border border-gray-200 shadow-sm">
@@ -20,7 +31,7 @@
             ? 'bg-blue-50 border-blue-200 shadow-sm' 
             : 'bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300'
         }`}
-        on:click={() => workPreference = option.value}
+        on:click={() => handlePreferenceChange(option.value)}
       >
         <div class="text-2xl mb-2">{option.icon}</div>
         <div class="text-gray-900 font-medium text-sm">{option.label}</div>

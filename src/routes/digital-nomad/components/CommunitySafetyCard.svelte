@@ -1,12 +1,15 @@
 <!-- src/routes/digital-nomad/components/CommunitySafetyCard.svelte -->
 <script lang="ts">
   import { nomadData } from '$lib/data/nomadData';
+  import type { NomadData } from '$lib/data/nomadData';
   
   export let selectedCountry: string;
-  export let selectedCity: string; // ADD THIS
+  export let selectedCity: string;
+  export let countryData: NomadData | undefined; // Remove cityData prop
   
+  $: communityData = countryData?.community;  
   $: countryData = nomadData.find(item => item.country === selectedCountry);
-  $: communityData = countryData?.community;
+
   
   function getRatingLabel(rating: number): string {
     if (rating >= 8) return 'Excellent';

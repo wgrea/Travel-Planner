@@ -1,14 +1,13 @@
 <!-- src/routes/digital-nomad/components/InternetQualtyCard.svelte -->
 <script lang="ts">
   import { nomadData } from '$lib/data/nomadData';
-  import { getCityDetails } from '$lib/data/cityData';
+  import type { NomadData } from '$lib/data/nomadData';
   
   export let selectedCountry: string;
-  export let selectedCity: string; // ADD THIS
+  export let selectedCity: string;
+  export let countryData: NomadData | undefined; // Remove cityData prop
   
-  $: countryData = nomadData.find(item => item.country === selectedCountry);
-  $: cityData = selectedCountry && selectedCity ? getCityDetails(selectedCity, selectedCountry) : null;
-  $: internetData = countryData?.internet; // FIXED: Use country data for now since city data doesn't have internet
+  $: internetData = countryData?.internet;
 </script>
 
 <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">

@@ -1,12 +1,9 @@
 <!-- src/routes/digital-nomad/components/VisaInfoCard.svelte -->
-<!-- src/routes/digital-nomad/components/VisaInfoCard.svelte -->
 <script lang="ts">
-  import { minimalData } from '$lib/data/minimalData';
-  
   export let selectedCountry: string;
+  export let visaData: any;
   
-  $: countryData = minimalData.countries[selectedCountry?.toLowerCase()];
-  $: visaDifficulty = countryData?.visa?.difficulty;
+  $: visaDifficulty = visaData?.visa?.difficulty;
   
   function getVisaColor(difficulty: string): string {
     switch(difficulty) {
