@@ -1,203 +1,199 @@
 <!-- src/routes/filters/+page.svelte -->
 <script lang="ts">
-  import ConnectedFilters from './components/ConnectedFilters.svelte';
   import { goto } from '$app/navigation';
-  import BudgetFilters from './components/BudgetFilters.svelte';
-  import ActivityFilters from './components/ActivityFilters.svelte';
-  import SocialLifestyleFilters from './components/SocialLifestyleFilters.svelte';
-  import TransportationFilters from './components/TransportationFilters.svelte';
-  import FoodHealthFilters from './components/FoodHealthFilters.svelte';
-  import ResultsSection from './components/ResultsSection.svelte';
-  import RecommendedDestinations from './components/RecommendedDestinations.svelte';
-  import QuickDecisionHelper from './components/QuickDecisionHelper.svelte';
-
-  // Shared state
-  export let monthlyBudget: [number, number] = [1000, 2000];
-  export let travelStyle: string = 'Slow Travel';
-  export let transportationPriority: string = 'Walkable Cities';
-  export let flightAccess: string = 'Direct from Chicago';
-  export let foodPreferences: string[] = ['Street Food', 'Vegan Options'];
-  export let socialEnvironment: string[] = ['Hug Culture', 'Touch-Friendly', 'Meetups Like Parties'];
-  export let activities: string[] = ['Scuba Diving', 'Spa & Wellness', 'Dance & Social'];
-  export let legalPreferences: string[] = ['Freelancer Visa', 'Low Tax', 'Crypto Legal'];
+  import { ResonanceMatcher } from '$lib/utils/resonanceMatcher';
+  import { resonanceDataByRegion, activityCategories, getAllActivities, getAllTags, getAllCountries, getAllBestFor } from '$lib/data/filterData';
+  import type { ResonancePreferences, ResonanceScore } from '$lib/types/resonance';
   
-  // Original filters state
-  export let isCheap: boolean = true;
-  export let isVisaFree: boolean = true;
-  export let isWarmWeather: boolean = false;
-  export let maxDays: number = 90;
-  export let minInternetSpeed: number = 50;
-  export let safetyScore: number = 4;
+  import ResonanceFilters from './components/ResonanceFilters.svelte';
+  import ResonanceTabs from './components/ResonanceTabs.svelte';
+  import ResonanceResults from './components/ResonanceResults.svelte';
 
-  // Computed result
-  $: filteredResultText = `Searching for ${isCheap ? 'affordable' : 'premium'} destinations with ${activities?.join(', ') || ''} that fit $${monthlyBudget[0]}-$${monthlyBudget[1]}/month...`;
+  // Resonance state
+  let preferences: ResonancePreferences = {
+    travelStyle: 'slow',
+    socialPreference: 'balanced',
+    energyLevel: 'medium',
+    climate: 'temperate',
+    vibe: 'balanced',
+    density: 'mixed',
+    activities: [],
+    foodScene: 'mixed',
+    nightlife: 'moderate',
+    budget: 'midrange',
+    internetImportance: 8,
+    safetyImportance: 8
+  };
 
-  function navigate(path: string) {
-    goto(path);
+  let matches: ResonanceScore[] = [];
+  let isLoading = false;
+  let selectedCategory: string = 'all';
+  let selectedTags: string[] = [];
+  let selectedBestFor: string[] = [];
+  let activeTab: 'tags' | 'activities' | 'bestFor' = 'tags';
+
+  // Get all available data
+  const allCountries = getAllCountries();
+  const allActivities = getAllActivities();
+  const allTags = getAllTags();
+  const allBestFor = getAllBestFor();
+
+  // Filter activities by category
+  $: filteredActivities = selectedCategory === 'all' 
+    ? allActivities 
+    : allActivities.filter(activity => 
+        Object.values(activityCategories).flat().includes(activity)
+      );
+
+  function findMatches() {
+    isLoading = true;
+    setTimeout(() => {
+      // Filter countries by selected tags first, then run resonance matching
+      let filteredCountries = allCountries;
+      
+      if (selectedTags.length > 0) {
+        filteredCountries = filteredCountries.filter(country => 
+          selectedTags.some(tag => country.tags.includes(tag))
+        );
+      }
+      
+      if (selectedBestFor.length > 0) {
+        filteredCountries = filteredCountries.filter(country => 
+          selectedBestFor.some(category => country.bestFor.includes(category))
+        );
+      }
+      
+      matches = ResonanceMatcher.findTopMatches(preferences, filteredCountries);
+      isLoading = false;
+    }, 800);
   }
+
+  function toggleActivity(activity: string) {
+    if (preferences.activities.includes(activity)) {
+      preferences.activities = preferences.activities.filter(a => a !== activity);
+    } else {
+      preferences.activities = [...preferences.activities, activity];
+    }
+  }
+
+  function toggleTag(tag: string) {
+    if (selectedTags.includes(tag)) {
+      selectedTags = selectedTags.filter(t => t !== tag);
+    } else {
+      selectedTags = [...selectedTags, tag];
+    }
+  }
+
+  function toggleBestFor(category: string) {
+    if (selectedBestFor.includes(category)) {
+      selectedBestFor = selectedBestFor.filter(b => b !== category);
+    } else {
+      selectedBestFor = [...selectedBestFor, category];
+    }
+  }
+
+  function selectCategory(category: string) {
+    selectedCategory = category;
+  }
+
+  function clearAllFilters() {
+    selectedTags = [];
+    selectedBestFor = [];
+    preferences.activities = [];
+    matches = [];
+  }
+
+  function updatePreferences(event: { detail: { field: string; value: any } }) {
+    preferences = { ...preferences, [event.detail.field]: event.detail.value };
+  }
+
+  // Auto-update matches count when filters change
+  $: totalFilters = selectedTags.length + selectedBestFor.length + preferences.activities.length;
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 px-4 py-8 relative overflow-hidden">
-  <!-- Simple Background Elements -->
-  <div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-    <div class="absolute top-20 left-[10%] w-32 h-32 rounded-full bg-indigo-50/80 border border-indigo-100 shadow-sm"></div>
-    <div class="absolute top-40 right-[15%] w-24 h-24 rounded-full bg-purple-50/80 border border-purple-100 shadow-sm"></div>
-    <div class="absolute top-1/2 right-[8%] text-4xl opacity-20">🎛️</div>
-    <div class="absolute bottom-1/4 left-[12%] text-3xl opacity-15">🗺️</div>
-  </div>
-  
-  <div class="max-w-4xl mx-auto relative z-10">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 px-4 py-8">
+  <div class="max-w-7xl mx-auto">
     
-    <!-- Back Button -->
-    <button
-      on:click={() => navigate('/')}
-      class="group mb-8 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200"
-    >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-      <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
-    </button>
-
-    <!-- Before You Start Section -->
-    <div class="mb-12 text-center">
-      <p class="text-gray-700 text-sm font-light mb-4 tracking-wide">
-        Narrow down your perfect destination with personalized filters
-      </p>
-      <div class="flex gap-3 justify-center flex-wrap">
-        <button on:click={() => goto('/living-costs')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          🏠 Living Costs
-        </button>
-        <button on:click={() => goto('/digital-nomad')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          💻 Digital Nomad
-        </button>
-        <button on:click={() => goto('/visa')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          📝 Visa Requirements
-        </button>
-      </div>
-    </div>
-
     <!-- Header -->
-    <div class="mb-12 text-center">
-      <h1 class="text-5xl font-light mb-4 text-gray-900 tracking-tight">Destination Finder</h1>
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-light mb-4 text-gray-900">Destination Resonance Finder</h1>
       <p class="text-gray-700 text-lg font-light max-w-2xl mx-auto">
-        Find destinations that match your budget, lifestyle, and travel preferences
+        Discover countries that match your travel personality, interests, and style
       </p>
     </div>
 
-    <!-- Connected Filters Section -->
-    <div class="mb-8">
-      <ConnectedFilters />
-    </div>
-
-    <!-- Quick Decision Helper -->
-    <div class="mb-8">
-      <QuickDecisionHelper />
-    </div>
-
-    <!-- Main Content Card -->
-    <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-lg">
-      
-      <!-- Budget Filters -->
-      <div class="mb-8">
-        <BudgetFilters 
-          bind:monthlyBudget 
-          bind:travelStyle 
-        />
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-indigo-600">{allCountries.length}</div>
+        <div class="text-sm text-gray-600">Countries</div>
       </div>
-      
-      <!-- Activity Filters -->
-      <div class="mb-8">
-        <ActivityFilters 
-          bind:activities 
-        />
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-green-600">{allTags.length}</div>
+        <div class="text-sm text-gray-600">Tags</div>
       </div>
-      
-      <!-- Social & Lifestyle Filters -->
-      <div class="mb-8">
-        <SocialLifestyleFilters 
-          bind:socialEnvironment 
-          bind:legalPreferences 
-          bind:isCheap
-          bind:isVisaFree
-          bind:isWarmWeather
-          bind:maxDays
-          bind:minInternetSpeed
-          bind:safetyScore
-        />
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-purple-600">{allActivities.length}</div>
+        <div class="text-sm text-gray-600">Activities</div>
       </div>
-      
-      <!-- Transportation Filters -->
-      <div class="mb-8">
-        <TransportationFilters 
-          bind:transportationPriority 
-          bind:flightAccess 
-        />
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-blue-600">{allBestFor.length}</div>
+        <div class="text-sm text-gray-600">Categories</div>
       </div>
-      
-      <!-- Food & Health Filters -->
-      <div class="mb-8">
-        <FoodHealthFilters 
-          bind:foodPreferences 
-        />
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-orange-600">{totalFilters}</div>
+        <div class="text-sm text-gray-600">Filters Active</div>
       </div>
-      
-      <!-- Results Section -->
-      <div class="mb-8">
-        <ResultsSection 
-          {filteredResultText}
-          {activities}
-          {monthlyBudget}
-          {isCheap}
-          {isVisaFree}
-        />
-      </div>
-      
-    </div>
-
-    <!-- Recommended Destinations -->
-    <div class="mt-8">
-      <RecommendedDestinations />
-    </div>
-
-    <!-- Next Steps Section -->
-    <div class="mt-12 text-center">
-      <p class="text-gray-700 text-sm font-light mb-4 tracking-wide">
-        Ready to explore your matches?
-      </p>
-      <div class="flex gap-3 justify-center flex-wrap">
-        <button on:click={() => goto('/living-costs')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          💰 Calculate Costs
-        </button>
-        <button on:click={() => goto('/digital-nomad')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          💻 Remote Work Info
-        </button>
-        <button on:click={() => goto('/quick-plan')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          ⚡ Quick Plan
-        </button>
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-red-600">{matches.length}</div>
+        <div class="text-sm text-gray-600">Matches</div>
       </div>
     </div>
 
-    <!-- Filter Tips -->
-    <div class="mt-8 p-6 bg-white/90 backdrop-blur-md rounded-2xl border border-indigo-200 max-w-2xl mx-auto">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-          </svg>
-        </div>
-        <div class="text-left">
-          <p class="font-medium text-gray-900">Smart Filtering</p>
-          <p class="text-sm text-gray-600 mt-1">
-            Start with 2-3 key preferences, then refine based on your matches
-          </p>
-        </div>
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+      
+      <!-- Filters Sidebar -->
+      <div class="xl:col-span-1">
+        <ResonanceFilters
+          {preferences}
+          {selectedTags}
+          {selectedBestFor}
+          {totalFilters}
+          {isLoading}
+          on:updatePreferences={updatePreferences}
+          on:toggleTag={(e) => toggleTag(e.detail)}
+          on:toggleBestFor={(e) => toggleBestFor(e.detail)}
+          on:clearAll={clearAllFilters}
+          on:findMatches={findMatches}
+        />
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="xl:col-span-3">
+        <ResonanceTabs
+          {preferences}
+          {selectedTags}
+          {selectedBestFor}
+          {selectedCategory}
+          {activeTab}
+          {allTags}
+          {allBestFor}
+          {allActivities}
+          {filteredActivities}
+          {activityCategories}
+          on:toggleTag={(e) => toggleTag(e.detail)}
+          on:toggleBestFor={(e) => toggleBestFor(e.detail)}
+          on:toggleActivity={(e) => toggleActivity(e.detail)}
+          on:selectCategory={(e) => selectCategory(e.detail)}
+          on:changeTab={(e) => activeTab = e.detail}
+        />
+
+        <ResonanceResults
+          {matches}
+          {isLoading}
+          {totalFilters}
+        />
       </div>
     </div>
   </div>

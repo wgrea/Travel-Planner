@@ -1,4 +1,12 @@
 <!-- src/routes/digital-nomad/+page.svelte -->
+
+<!-- 
+
+Probably should shorten this file again now that the page is working
+I do want to add support sources and also how to work abroad page 
+
+-->
+
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { nomadData, nomadDataByRegion, getAllRegions, getSubregionsByRegion, type Workspace } from '$lib/data/nomadData';
