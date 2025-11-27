@@ -2,7 +2,8 @@
 <script lang="ts">
   import { livingCostsByRegion } from '$lib/data/livingCostData';
   import { convertCurrency, formatCurrency, currencySymbols } from '$lib/utils/currency';
-  import type { TravelStyle } from './types';
+  import { getDailyCostForCity } from './data-helpers';
+  import type { TravelStyle, LivingCostData } from './types';
   
   // Import CostDetails component
   import CostDetails from './CostDetails.svelte';
@@ -27,24 +28,32 @@
   // Data
   const availableCurrencies = Object.keys(currencySymbols);
 
-  // Get current country data
-  $: currentCountryData = livingCostsByRegion
-    .flatMap(region => {
-      if (region.subregions) {
-        return region.subregions.flatMap(subregion => subregion.countries);
-      }
-      return region.countries || [];
-    })
-    .find(country => country.country === selectedCountry);
+  // Get current country data with proper type handling
+  $: currentCountryData = (() => {
+    const country = livingCostsByRegion
+      .flatMap(region => {
+        if (region.subregions) {
+          return region.subregions.flatMap(subregion => subregion.countries);
+        }
+        return region.countries || [];
+      })
+      .find(country => country.country === selectedCountry);
 
-  // Calculate total cost
+    // Ensure the data matches our LivingCostData type
+    if (country && country.baseCosts) {
+      return country as LivingCostData;
+    }
+    return null;
+  })();
+
+  // Calculate total cost using the helper function
   $: totalCost = (() => {
-    if (!currentCountryData?.baseCosts || !tripLength || !travelerCount) return 0;
+    if (!selectedCountry || !tripLength || !travelerCount) return 0;
     
-    const dailyCost = currentCountryData.baseCosts.dailyLiving[travelStyle];
+    const dailyCost = getDailyCostForCity(selectedCountry, selectedCity, travelStyle);
     let cost = dailyCost * tripLength * travelerCount;
     
-    if (currentCountryData.currency !== selectedCurrency) {
+    if (currentCountryData?.currency && currentCountryData.currency !== selectedCurrency) {
       cost = convertCurrency(cost, currentCountryData.currency, selectedCurrency);
     }
     
@@ -98,18 +107,17 @@
     </div>
   {:else if currentCountryData}
     <!-- Cost details -->
-    <!-- In MainContent.svelte, fix the CostDetails usage -->
     <CostDetails 
-    {currentCountryData}
-        {selectedCountry}
-        {selectedCity}
-        {travelStyle}
-        {tripLength}
-        {totalCost}
-        {selectedCurrency}
-        on:travelStyleChange={handleTravelStyleChange}
-        on:tripLengthChange={handleTripLengthChange}
-        on:travelerCountChange={handleTravelerCountChange}
+      {currentCountryData}
+      {selectedCountry}
+      {selectedCity}
+      {travelStyle}
+      {tripLength}
+      {totalCost}
+      {selectedCurrency}
+      on:travelStyleChange={handleTravelStyleChange}
+      on:tripLengthChange={handleTripLengthChange}
+      on:travelerCountChange={handleTravelerCountChange}
     />
   {:else}
     <!-- No data state -->

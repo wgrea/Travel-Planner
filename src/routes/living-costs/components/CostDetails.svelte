@@ -38,6 +38,20 @@
   function handleTravelerCountChange(e: CustomEvent<number>) {
     dispatch('travelerCountChange', e.detail);
   }
+
+  // Helper function to get cost data for current selection (country or city)
+  $: currentCostData = (() => {
+    if (selectedCity && currentCountryData?.cities?.[selectedCity]) {
+      const cityData = currentCountryData.cities[selectedCity];
+      // Use city data if available, fall back to country data
+      return {
+        baseCosts: cityData.baseCosts || currentCountryData.baseCosts,
+        currency: currentCountryData.currency,
+        tips: cityData.tips || currentCountryData.tips
+      };
+    }
+    return currentCountryData;
+  })();
 </script>
 
 <!-- Travel Style Selector -->
@@ -60,14 +74,14 @@
       {selectedCountry}
     {/if}
   </h2>
-  {#if currentCountryData.baseCosts}
+  {#if currentCostData?.baseCosts}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="text-center p-4 bg-emerald-50 rounded-lg">
         <div class="text-2xl font-bold text-emerald-700">
           {formatCurrency(
             convertCurrency(
-              currentCountryData.baseCosts.dailyLiving.budget, 
-              currentCountryData.currency, 
+              currentCostData.baseCosts.dailyLiving.budget, 
+              currentCostData.currency, 
               selectedCurrency
             ), 
             selectedCurrency
@@ -79,8 +93,8 @@
         <div class="text-2xl font-bold text-blue-700">
           {formatCurrency(
             convertCurrency(
-              currentCountryData.baseCosts.dailyLiving.midrange, 
-              currentCountryData.currency, 
+              currentCostData.baseCosts.dailyLiving.midrange, 
+              currentCostData.currency, 
               selectedCurrency
             ), 
             selectedCurrency
@@ -92,8 +106,8 @@
         <div class="text-2xl font-bold text-purple-700">
           {formatCurrency(
             convertCurrency(
-              currentCountryData.baseCosts.dailyLiving.luxury, 
-              currentCountryData.currency, 
+              currentCostData.baseCosts.dailyLiving.luxury, 
+              currentCostData.currency, 
               selectedCurrency
             ), 
             selectedCurrency
@@ -131,7 +145,7 @@
 <!-- Money Saving Tips -->
 <div class="mb-12">
   <MoneySavingTips 
-    tips={currentCountryData.tips || []}
+    tips={currentCostData?.tips || currentCountryData?.tips || []}
     country={selectedCountry}
     city={selectedCity}
   />

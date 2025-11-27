@@ -1,6 +1,7 @@
 <!-- src/routes/living-costs/components/CostBreakdown.svelte -->
 <script lang="ts">
   import type { LivingCostData } from '$lib/types/living-costs';
+  import { getNumericCost } from './data-helpers';
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
 
   export let livingCostData: any;

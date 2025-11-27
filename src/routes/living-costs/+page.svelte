@@ -9,8 +9,8 @@
   
   // Import reusable components
   import BeforeYouStart from './components/BeforeYouStart.svelte';
-import NextSteps from './components/NextSteps.svelte';
-import BudgetReminder from './components/BudgetReminder.svelte';
+  import NextSteps from './components/NextSteps.svelte';
+  import BudgetReminder from './components/BudgetReminder.svelte';
 
   // State
   let selectedCountry: string = '';
@@ -33,14 +33,18 @@ import BudgetReminder from './components/BudgetReminder.svelte';
   // Event handlers
   function handleCountryChange(country: string) {
     selectedCountry = country;
-    selectedCity = '';
+    selectedCity = ''; // Reset city when country changes
   }
 
   function handleRegionChange(region: string) {
     selectedRegion = region;
   }
 
-  function handleCitySelect(event: CustomEvent<{ city: string; country: string }>) {
+  function handleCityChange(event: CustomEvent<string>) {
+    selectedCity = event.detail;
+  }
+
+  function handleSelectCity(event: CustomEvent<{ city: string; country: string }>) {
     selectedCity = event.detail.city;
   }
 
@@ -89,10 +93,12 @@ import BudgetReminder from './components/BudgetReminder.svelte';
       <LivingCostCountrySelector 
         {selectedCountry}
         {selectedRegion}
+        {selectedCity}
         countryData={getAllCountries()}
         onCountryChange={handleCountryChange}
         onRegionChange={handleRegionChange}
-        on:selectCity={handleCitySelect}
+        on:selectCity={handleSelectCity}
+        on:cityChange={handleCityChange}
       />
     </div>
   </div>
