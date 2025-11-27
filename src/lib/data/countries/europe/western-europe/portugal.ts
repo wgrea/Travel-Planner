@@ -1,5 +1,6 @@
 // src/lib/data/countries//europe/western-europe/portugal.ts
 import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
+import type { NomadData } from '$lib/data/nomadData';
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData  } from '$lib/types/flight';
 
@@ -12,6 +13,26 @@ export const portugalFlightPattern: FlightPattern = {
   averagePrice: 825,
   planningTips: ["Easy train connections between Lisbon and Porto"],
   notes: "Mild climate in spring and fall, great for coastal exploration"
+};
+
+
+export const portugalNomadData: NomadData = {
+  country: 'Portugal',
+  internet: {
+    speed: 95,
+    reliability: 9,
+    coworkingSpaces: 35
+  },
+  costs: {
+    coworkingMonthly: 250,
+    simCardMonthly: 20,
+    coffeeShopWork: 12
+  },
+  community: {
+    expatSize: 8,
+    englishLevel: 8,
+    safety: 9
+  }
 };
 
 export const portugalData: Record<string, VisaInfo> = {

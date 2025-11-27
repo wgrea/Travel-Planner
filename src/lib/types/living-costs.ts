@@ -48,98 +48,118 @@ export type CountryCode =
   | 'United States'
   | 'Vietnam';
 
-// Define the type here since it's missing
+export type TravelStyle = 'budget' | 'midrange' | 'luxury';
+export type AccommodationType = 'hostel' | 'guesthouse' | 'hotel' | 'apartment' | 'luxury';
+
+// src/lib/types/living-costs.ts
+
+// ... your existing CountryCode and other types ...
+
+// Make all nested interfaces partial to allow overrides
+export interface TransportationCosts {
+  localBus?: number;
+  taxi?: number;
+  intercityBus?: number;
+  train?: number;
+}
+
+export interface FoodCosts {
+  streetFood?: number;
+  restaurantMeal?: number;
+  groceryWeekly?: number;
+}
+
+export interface AccommodationBudget {
+  hostel?: number;
+  budgetHotel?: number;
+  guesthouse?: number;
+}
+
+export interface AccommodationMidrange {
+  hotel?: number;
+  apartment?: number;
+  boutiqueHotel?: number;
+}
+
+export interface AccommodationLuxury {
+  hotel?: number;
+  resort?: number;
+  villa?: number;
+}
+
+export interface MonthlyRent {
+  studio?: number;
+  oneBedroom?: number;
+  threeBedroom?: number;
+}
+
+export interface AccommodationCosts {
+  budget?: AccommodationBudget;
+  midrange?: AccommodationMidrange;
+  luxury?: AccommodationLuxury;
+  monthlyRent?: MonthlyRent;
+}
+
+export interface DailyLivingBreakdown {
+  food?: number;
+  transport?: number;
+  activities?: number;
+  misc?: number;
+}
+
+export interface DailyLivingCosts {
+  budget?: number;
+  midrange?: number;
+  luxury?: number;
+  breakdown?: DailyLivingBreakdown;
+}
+
+export interface BaseCosts {
+  accommodation?: AccommodationCosts;
+  dailyLiving?: DailyLivingCosts;
+  transportation?: TransportationCosts;
+  food?: FoodCosts;
+}
+
+export interface CityData {
+  baseCosts: BaseCosts;  // All properties are optional now
+  tips?: string[];
+}
+
 export interface LivingCostData {
   country: string;
-  countryCode: CountryCode; // Added countryCode
-  cities: string[];
+  countryCode: CountryCode;
   currency: string;
-  baseCosts: {
-    accommodation: {
-      budget: {
-        hostel: number;
-        budgetHotel: number;
-        guesthouse: number;
-      };
-      midrange: {
-        hotel: number;
-        apartment: number;
-        boutiqueHotel: number;
-      };
-      luxury: {
-        hotel: number;
-        resort: number;
-        villa: number;
-      };
-      monthlyRent: {
-        studio: number;
-        oneBedroom: number;
-        threeBedroom: number;
-      };
-    };
-    dailyLiving: {
-      budget: number;
-      midrange: number;
-      luxury: number;
-      breakdown: {
-        food: number;
-        transport: number;
-        activities: number;
-        misc: number;
-      };
-    };
-    transportation: {
-      localBus: number;
-      taxi: number;
-      intercityBus: number;
-      train: number;
-    };
-    food: {
-      streetFood: number;
-      restaurantMeal: number;
-      groceryWeekly: number;
-    };
-  };
-  tips: string[];
-  bestAreas: {
+  lastUpdated: string;
+  
+  // Country-level data
+  baseCosts: BaseCosts;  // All properties are optional now
+  tips?: string[];
+  bestAreas?: {
     budget: string[];
     midrange: string[];
     luxury: string[];
   };
-  lastUpdated: string;
-}
-
-export interface AccommodationCosts {
-  budget: {
-    hostel: number;
-    budgetHotel: number;
-    guesthouse: number;
-  };
-  midrange: {
-    hotel: number;
-    apartment: number;
-    boutiqueHotel: number;
-  };
-  luxury: {
-    hotel: number;
-    resort: number;
-    villa: number;
-  };
-  monthlyRent: {
-    studio: number;
-    oneBedroom: number;
-    threeBedroom: number;
+  
+  // City-specific data
+  cities: {
+    [cityName: string]: CityData;
   };
 }
+// For component usage (simplified version)
+export interface CountryData {
+  country: string;
+  region: string;
+  cities: string[];
+  averagePrice?: number;
+}
 
-export interface DailyLivingCosts {
-  budget: number;  // Total daily cost for budget travel
-  midrange: number; // Total daily cost for midrange travel  
-  luxury: number;   // Total daily cost for luxury travel
-  breakdown: {
-    food: number;
-    transport: number;
-    activities: number;
-    misc: number;
+export interface CityCostData {
+  baseCosts?: BaseCosts;
+  dailyLiving?: {
+    budget: number;
+    midrange: number;
+    luxury: number;
   };
+  [key: string]: any;
 }

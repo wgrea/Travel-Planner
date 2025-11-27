@@ -1,6 +1,7 @@
 // src/lib/data/visa/destinations/south-america/argentina.ts
 import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { LivingCostData  } from '$lib/types/living-costs';
+import type { NomadData } from '$lib/data/nomadData';
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData  } from '$lib/types/flight';
 
@@ -97,6 +98,91 @@ export const argentinaLivingCosts: LivingCostData = {
     ]
   },
   lastUpdated: "2024-01-15"
+};
+
+export const argentinaNomadData: NomadData = {
+  country: 'Argentina',
+  internet: {
+    speed: 65,
+    reliability: 7,
+    coworkingSpaces: 22
+  },
+  costs: {
+    coworkingMonthly: 140,
+    simCardMonthly: 10,
+    coffeeShopWork: 9
+  },
+  community: {
+    expatSize: 7,
+    englishLevel: 4,
+    safety: 7
+  }
+};
+
+// src/lib/data/visa/destinations/south-america/argentina.ts
+
+// Add this city-level cost data
+export const argentinaCityCosts = {
+  'Buenos Aires': {
+    accommodation: {
+      budget: 400,    // USD per month
+      midrange: 700,
+      luxury: 1200
+    },
+    dailyLiving: {
+      budget: 25,
+      midrange: 45, 
+      luxury: 85
+    },
+    coworking: {
+      monthly: 180,
+      dayPass: 15
+    },
+    transportation: {
+      monthly: 20,
+      taxi: 0.5
+    }
+  },
+  'Mendoza': {
+    accommodation: {
+      budget: 280,
+      midrange: 450,
+      luxury: 800
+    },
+    dailyLiving: {
+      budget: 20,
+      midrange: 35,
+      luxury: 65
+    },
+    coworking: {
+      monthly: 120,
+      dayPass: 10
+    },
+    transportation: {
+      monthly: 15,
+      taxi: 0.4
+    }
+  },
+  'Bariloche': {
+    accommodation: {
+      budget: 350,
+      midrange: 550,
+      luxury: 900
+    },
+    dailyLiving: {
+      budget: 30,
+      midrange: 50,
+      luxury: 90
+    },
+    coworking: {
+      monthly: 150,
+      dayPass: 12
+    },
+    transportation: {
+      monthly: 25,
+      taxi: 0.6
+    }
+  }
 };
 
 export const argentinaData: Record<string, VisaInfo> = {

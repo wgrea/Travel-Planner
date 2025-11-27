@@ -60,7 +60,6 @@ export const belizeData: Record<string, VisaInfo> = {
     }
 };
 
-// NEW - matches your visa pattern
 export const belizeFlightData: FlightCostData  = {
   'United States': {
     economy: 350,
@@ -75,5 +74,3 @@ export const belizeFlightData: FlightCostData  = {
     business: 950
   }
 };
-
-// So when you add living costs, and digital nomad information, leave them here

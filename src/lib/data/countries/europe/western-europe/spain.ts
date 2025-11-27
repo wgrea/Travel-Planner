@@ -1,6 +1,7 @@
 // src/lib/data/countries//europe/western-europe/spain.ts
 import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { LivingCostData  } from '$lib/types/living-costs';
+import type { NomadData } from '$lib/data/nomadData';
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData  } from '$lib/types/flight';
 
@@ -97,6 +98,25 @@ export const spainLivingCosts: LivingCostData = {
     ]
   },
   lastUpdated: "2024-01-15"
+};
+
+export const spainNomadData: NomadData = {
+  country: 'Spain',
+  internet: {
+    speed: 90,
+    reliability: 9,
+    coworkingSpaces: 50
+  },
+  costs: {
+    coworkingMonthly: 280,
+    simCardMonthly: 25,
+    coffeeShopWork: 15
+  },
+  community: {
+    expatSize: 8,
+    englishLevel: 6,
+    safety: 9
+  }
 };
 
 export const spainData: Record<string, VisaInfo> = {

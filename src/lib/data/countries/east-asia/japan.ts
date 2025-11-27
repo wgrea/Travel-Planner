@@ -16,173 +16,270 @@ export const japanFlightPattern: FlightPattern = {
   notes: "Cherry blossom season (April) is most expensive"
 };
 
-
-export const turkeyLivingCosts: LivingCostData = {
-  country: "Turkey",
-  countryCode: "Turkey",
-  cities: ["Istanbul", "Antalya", "Cappadocia", "Izmir", "Bodrum", "Ankara", "Pamukkale"],
-  currency: "TRY",
-  baseCosts: {
-    accommodation: {
-      budget: {
-        hostel: 200, // ~$6 USD
-        budgetHotel: 400, // ~$12 USD
-        guesthouse: 300 // ~$9 USD
-      },
-      midrange: {
-        hotel: 1000, // ~$30 USD
-        apartment: 800, // ~$24 USD
-        boutiqueHotel: 1500 // ~$45 USD
-      },
-      luxury: {
-        hotel: 3000, // ~$90 USD
-        resort: 5000, // ~$150 USD
-        villa: 8000 // ~$240 USD
-      },
-      monthlyRent: {
-        studio: 5000, // ~$150 USD
-        oneBedroom: 8000, // ~$240 USD
-        threeBedroom: 15000 // ~$450 USD
-      }
-    },
-    dailyLiving: {
-      budget: 300, // ~$9 USD
-      midrange: 800, // ~$24 USD
-      luxury: 2000, // ~$60 USD
-      breakdown: {
-        food: 150, // ~$4.50 USD
-        transport: 50, // ~$1.50 USD
-        activities: 80, // ~$2.40 USD
-        misc: 20 // ~$0.60 USD
-      }
-    },
-    transportation: {
-      localBus: 10, // ~$0.30 USD
-      taxi: 30, // ~$0.90 USD per km
-      intercityBus: 200, // ~$6 USD
-      train: 400 // ~$12 USD (Istanbul to Ankara)
-    },
-    food: {
-      streetFood: 50, // ~$1.50 USD
-      restaurantMeal: 200, // ~$6 USD
-      groceryWeekly: 500 // ~$15 USD
-    }
-  },
-  tips: [
-    "Try Turkish breakfast - it's a feast and great value",
-    "Use Istanbulkart for public transportation in Istanbul",
-    "Bargain at bazaars but be respectful",
-    "Visit hamams (Turkish baths) for authentic cultural experience",
-    "Try Turkish tea and coffee everywhere",
-    "Carry some cash for small purchases and local markets",
-    "Visit both European and Asian sides of Istanbul",
-    "Try local desserts like baklava and Turkish delight"
-  ],
-  bestAreas: {
-    budget: [
-      "Sultanahmet, Istanbul",
-      "Lara, Antalya", 
-      "Goreme, Cappadocia",
-      "Konak, Izmir"
-    ],
-    midrange: [
-      "Beyoglu, Istanbul",
-      "Kaleici, Antalya",
-      "Urgup, Cappadocia",
-      "Cesme, Izmir"
-    ],
-    luxury: [
-      "Bebek, Istanbul",
-      "Konyaalti, Antalya",
-      "Cave hotels in Cappadocia",
-      "Bodrum Peninsula"
-    ]
-  },
-  lastUpdated: "2024-01-15"
-};
-
 export const japanLivingCosts: LivingCostData = {
   country: "Japan",
-  countryCode: "Japan",
-  cities: ["Tokyo", "Osaka", "Kyoto", "Hokkaido", "Hiroshima", "Fukuoka", "Nara"],
+  countryCode: "Japan", 
   currency: "JPY",
+  lastUpdated: "2024-01-15",
+  
+  // Country-level averages
   baseCosts: {
     accommodation: {
       budget: {
-        hostel: 3000, // ~$20 USD
-        budgetHotel: 6000, // ~$40 USD
-        guesthouse: 5000 // ~$33 USD
+        hostel: 3000,        // ~$20 USD
+        budgetHotel: 6000,   // ~$40 USD
+        guesthouse: 4500     // ~$30 USD
       },
       midrange: {
-        hotel: 15000, // ~$100 USD
-        apartment: 12000, // ~$80 USD
-        boutiqueHotel: 20000 // ~$133 USD
+        hotel: 12000,        // ~$80 USD
+        apartment: 9000,     // ~$60 USD
+        boutiqueHotel: 18000 // ~$120 USD
       },
       luxury: {
-        hotel: 40000, // ~$267 USD
-        resort: 60000, // ~$400 USD
-        villa: 100000 // ~$667 USD
+        hotel: 30000,        // ~$200 USD
+        resort: 52500,       // ~$350 USD
+        villa: 75000         // ~$500 USD
       },
       monthlyRent: {
-        studio: 80000, // ~$533 USD
-        oneBedroom: 120000, // ~$800 USD
-        threeBedroom: 250000 // ~$1,667 USD
+        studio: 75000,       // ~$500 USD
+        oneBedroom: 105000,  // ~$700 USD
+        threeBedroom: 150000 // ~$1,000 USD
       }
     },
     dailyLiving: {
-      budget: 5000, // ~$33 USD
-      midrange: 12000, // ~$80 USD
-      luxury: 30000, // ~$200 USD
+      budget: 5250,          // ~$35 USD
+      midrange: 10500,       // ~$70 USD
+      luxury: 22500,         // ~$150 USD
       breakdown: {
-        food: 2500, // ~$17 USD
-        transport: 1000, // ~$7 USD
-        activities: 1000, // ~$7 USD
-        misc: 500 // ~$3 USD
+        food: 3000,          // ~$20 USD
+        transport: 750,      // ~$5 USD
+        activities: 1200,    // ~$8 USD
+        misc: 300            // ~$2 USD
       }
     },
     transportation: {
-      localBus: 210, // ~$1.40 USD
-      taxi: 500, // ~$3.33 USD per km
-      intercityBus: 4000, // ~$27 USD
-      train: 15000 // ~$100 USD (Tokyo to Osaka)
+      localBus: 250,         // ~$1.65 USD
+      taxi: 750,             // ~$5 USD per km
+      intercityBus: 2250,    // ~$15 USD
+      train: 3750            // ~$25 USD
     },
     food: {
-      streetFood: 500, // ~$3.33 USD
-      restaurantMeal: 1500, // ~$10 USD
-      groceryWeekly: 8000 // ~$53 USD
+      streetFood: 450,       // ~$3 USD
+      restaurantMeal: 2250,  // ~$15 USD
+      groceryWeekly: 9000    // ~$60 USD
     }
   },
+  
   tips: [
-    "Get a JR Pass if traveling between cities - it can save you money",
-    "Try convenience store food (7-Eleven, FamilyMart) - it's surprisingly good and cheap",
-    "Learn basic Japanese phrases - English is not widely spoken outside tourist areas",
-    "Use IC cards (Suica/Pasmo) for easy public transportation",
-    "Carry cash as many places don't accept credit cards",
-    "Try ramen, sushi, and takoyaki from local shops",
-    "Visit during cherry blossom season (late March-early April) or autumn for beautiful scenery",
-    "Use luggage forwarding services when changing cities"
+    "Get a JR Pass for unlimited train travel if visiting multiple cities",
+    "Convenience stores (7-Eleven, FamilyMart) have great cheap meals",
+    "Learn basic Japanese phrases - English is not widely spoken",
+    "Use IC cards (Suica/Pasmo) for easy public transport payments",
+    "Visit during cherry blossom season (late March-April) or autumn (October-November)",
+    "Try local convenience store foods - they're surprisingly good",
+    "Carry cash - many places don't accept credit cards",
+    "Take off shoes when entering traditional accommodations and some restaurants"
   ],
+  
   bestAreas: {
     budget: [
       "Asakusa, Tokyo",
-      "Shin-Osaka area", 
-      "Central Kyoto hostels",
-      "Namba, Osaka"
+      "Namba, Osaka", 
+      "Gion, Kyoto (hostels)",
+      "Hakata, Fukuoka"
     ],
     midrange: [
-      "Shibuya, Tokyo",
+      "Shinjuku, Tokyo",
       "Umeda, Osaka",
-      "Gion, Kyoto",
-      "Hakodate, Hokkaido"
+      "Southern Higashiyama, Kyoto",
+      "Susukino, Sapporo"
     ],
     luxury: [
       "Ginza, Tokyo",
-      "Minato, Tokyo",
+      "Kita, Osaka",
       "Arashiyama, Kyoto",
-      "Niseko, Hokkaido"
+      "Niseko ski resorts"
     ]
   },
-  lastUpdated: "2024-01-15"
+  
+  // City-specific data (overrides only)
+  cities: {
+    "Tokyo": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 3500,        // +500 from country average
+            budgetHotel: 7500    // +1500 from country average
+          },
+          midrange: {
+            hotel: 15000,        // +3000 from country average
+            apartment: 12000     // +3000 from country average
+          },
+          luxury: {
+            hotel: 40000,        // +10000 from country average
+            resort: 60000        // +7500 from country average
+          },
+          monthlyRent: {
+            studio: 90000,       // +15000 from country average
+            oneBedroom: 135000   // +30000 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 6750,          // +1500 from country average
+          midrange: 13500,       // +3000 from country average
+          luxury: 30000          // +7500 from country average
+        },
+        transportation: {
+          localBus: 300,         // +50 from country average
+          taxi: 900              // +150 from country average
+        },
+        food: {
+          streetFood: 600,       // +150 from country average
+          restaurantMeal: 3000   // +750 from country average
+        }
+      },
+      tips: [
+        "Use Tokyo Metro day passes for unlimited travel",
+        "Visit Tsukiji Outer Market for fresh seafood",
+        "Explore different neighborhoods - each has unique character",
+        "Book accommodations near Yamanote Line stations for easy access"
+      ]
+    },
+    
+    "Kyoto": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 3200,        // +200 from country average
+            guesthouse: 5000     // +500 from country average
+          },
+          midrange: {
+            hotel: 13000,        // +1000 from country average
+            boutiqueHotel: 20000 // +2000 from country average
+          },
+          luxury: {
+            hotel: 35000,        // +5000 from country average
+            resort: 55000        // +2500 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 6000,          // +750 from country average
+          midrange: 12000,       // +1500 from country average
+          luxury: 25000          // +2500 from country average
+        },
+        transportation: {
+          localBus: 280,         // +30 from country average
+          taxi: 800              // +50 from country average
+        }
+      },
+      tips: [
+        "Visit temples early to avoid crowds",
+        "Rent a bicycle to explore the city",
+        "Try kaiseki (traditional multi-course) meals",
+        "Book accommodations months in advance during peak seasons"
+      ]
+    },
+    
+    "Osaka": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 2800,        // -200 from country average
+            budgetHotel: 5500    // -500 from country average
+          },
+          midrange: {
+            hotel: 11000,        // -1000 from country average
+            apartment: 8500      // -500 from country average
+          },
+          monthlyRent: {
+            studio: 70000,       // -5000 from country average
+            oneBedroom: 95000    // -10000 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 4800,          // -450 from country average
+          midrange: 9750,        // -750 from country average
+          luxury: 21000          // -1500 from country average
+        },
+        food: {
+          streetFood: 400,       // -50 from country average
+          restaurantMeal: 2000   // -250 from country average
+        }
+      },
+      tips: [
+        "Try street food in Dotonbori",
+        "Use Osaka Amazing Pass for attractions and transport",
+        "Visit Universal Studios Japan",
+        "Osaka is known as 'Japan's Kitchen' - eat everything!"
+      ]
+    },
+    
+    "Hokkaido (Sapporo)": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 2500,        // -500 from country average
+            guesthouse: 4000     // -500 from country average
+          },
+          midrange: {
+            hotel: 10000,        // -2000 from country average
+            apartment: 7500      // -1500 from country average
+          },
+          luxury: {
+            resort: 60000        // +7500 from country average (ski resorts)
+          }
+        },
+        dailyLiving: {
+          budget: 4500,          // -750 from country average
+          midrange: 9000         // -1500 from country average
+        },
+        transportation: {
+          intercityBus: 2000,    // -250 from country average
+          train: 3500            // -250 from country average
+        }
+      },
+      tips: [
+        "Visit during winter for snow festivals and skiing",
+        "Try Hokkaido's famous dairy products and seafood",
+        "Rent a car to explore the countryside",
+        "Hot springs (onsen) are abundant and affordable"
+      ]
+    },
+    
+    "Okinawa": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 3200,        // +200 from country average
+            guesthouse: 4800     // +300 from country average
+          },
+          midrange: {
+            hotel: 14000,        // +2000 from country average
+            boutiqueHotel: 22000 // +4000 from country average
+          },
+          luxury: {
+            resort: 60000,       // +7500 from country average
+            villa: 90000         // +15000 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 6000,          // +750 from country average
+          midrange: 12000,       // +1500 from country average
+          luxury: 27000          // +4500 from country average
+        },
+        transportation: {
+          taxi: 900,             // +150 from country average
+          intercityBus: 2500     // +250 from country average
+        }
+      },
+      tips: [
+        "Rent a car to explore the islands",
+        "Try Okinawan cuisine - different from mainland Japan",
+        "Great for diving and beach activities",
+        "Visit Shuri Castle and other Ryukyu Kingdom sites"
+      ]
+    }
+  }
 };
 
 export const japanData: Record<string, VisaInfo> = {

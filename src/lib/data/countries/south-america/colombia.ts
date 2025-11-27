@@ -1,5 +1,6 @@
 // src/lib/data/visa/destinations/south-america/colombia.ts
 import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
+import type { NomadData } from '$lib/data/nomadData';
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData  } from '$lib/types/flight';
 
@@ -12,6 +13,25 @@ export const colombiaFlightPattern: FlightPattern = {
   averagePrice: 650,
   planningTips: ["Domestic flights are affordable"],
   notes: "Weather varies by region and altitude"
+};
+
+export const colombiaNomadData: NomadData = {
+  country: 'Colombia',
+  internet: {
+    speed: 60,
+    reliability: 7,
+    coworkingSpaces: 28
+  },
+  costs: {
+    coworkingMonthly: 160,
+    simCardMonthly: 12,
+    coffeeShopWork: 8
+  },
+  community: {
+    expatSize: 7,
+    englishLevel: 4,
+    safety: 6
+  }
 };
 
 export const colombiaData: Record<string, VisaInfo> = {

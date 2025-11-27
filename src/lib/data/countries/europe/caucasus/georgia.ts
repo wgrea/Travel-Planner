@@ -1,6 +1,7 @@
 // /src/lib/data/countries/europe/caucasus/georgia.ts
 import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { LivingCostData } from '$lib/types/living-costs';
+import type { NomadData } from '$lib/data/nomadData';
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData  } from '$lib/types/flight';
 
@@ -97,6 +98,25 @@ export const georgiaLivingCosts: LivingCostData = {
     ]
   },
   lastUpdated: "2024-01-15"
+};
+
+export const georgiaNomadData: NomadData = {
+  country: 'Georgia',
+  internet: {
+    speed: 70,
+    reliability: 8,
+    coworkingSpaces: 15
+  },
+  costs: {
+    coworkingMonthly: 120,
+    simCardMonthly: 8,
+    coffeeShopWork: 5
+  },
+  community: {
+    expatSize: 6,
+    englishLevel: 4,
+    safety: 8
+  }
 };
 
 export const georgiaData: Record<string, VisaInfo> = {

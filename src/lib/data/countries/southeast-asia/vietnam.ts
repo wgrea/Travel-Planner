@@ -1,5 +1,6 @@
 //src/lib/data/countries/southeast-asia/vietnam.ts
 import type { LivingCostData } from '$lib/types/living-costs';
+import type { NomadData } from '$lib/data/nomadData';
 import type { VisaInfo } from '$lib/types/visa';
 
 export const vietnamLivingCosts: LivingCostData = {
@@ -83,6 +84,25 @@ export const vietnamLivingCosts: LivingCostData = {
     ]
   },
   lastUpdated: "2024-01-15"
+};
+
+export const vietnamNomadData: NomadData = {
+  country: 'Vietnam',
+  internet: {
+    speed: 65,
+    reliability: 7,
+    coworkingSpaces: 25
+  },
+  costs: {
+    coworkingMonthly: 150,
+    simCardMonthly: 10,
+    coffeeShopWork: 6
+  },
+  community: {
+    expatSize: 7,
+    englishLevel: 5,
+    safety: 7
+  }
 };
 
 export const vietnamData: Record<string, VisaInfo> = {
