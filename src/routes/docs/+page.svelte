@@ -6,7 +6,7 @@ Wait until everything is working and then worry about the structure
 page files do not need to be 500 pages long
 Start with/modify what is working instead of going into creating a new page
 
-
+For the digital nomad page, it was hard to test. Have live debug shown in front of me really helped. I ended up putting a lot of debug messages. I may keep the live debug in for now even if I share my site publicly.
 
 -->
 
