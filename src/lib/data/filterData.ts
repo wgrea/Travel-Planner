@@ -1,5 +1,5 @@
 // src/lib/data/filterData.ts
-import type { CountryResonanceProfile } from '$lib/types/resonance';
+import type { CityResonanceProfile } from '$lib/types/resonance';
 
 // Import country resonance data
 import { argentinaResonance } from './countries/south-america/argentina';
@@ -148,46 +148,44 @@ export const resonanceDataByRegion = [
   }
 ];
 
-// Helper function to flatten all countries for filtering
-export const getAllCountries = (): CountryResonanceProfile[] => {
+// Helper function to flatten all locations for filtering
+export const getAllLocations = (): CityResonanceProfile[] => {
   return resonanceDataByRegion.flatMap(region => 
-    region.countries ? region.countries : 
-    region.subregions?.flatMap(sub => sub.countries) || []
+    region.countries ? region.countries.flat() : 
+    region.subregions?.flatMap(sub => sub.countries.flat()) || []
   );
 };
 
-// Helper function to get all unique activities
+// Helper functions remain the same
 export const getAllActivities = (): string[] => {
   const allActivities = new Set<string>();
-  getAllCountries().forEach(country => {
-    country.popularActivities.forEach(activity => allActivities.add(activity));
+  getAllLocations().forEach(location => {
+    location.popularActivities.forEach(activity => allActivities.add(activity));
   });
   return Array.from(allActivities).sort();
 };
 
-// Helper function to get all unique tags
 export const getAllTags = (): string[] => {
   const allTags = new Set<string>();
-  getAllCountries().forEach(country => {
-    country.tags.forEach(tag => allTags.add(tag));
+  getAllLocations().forEach(location => {
+    location.tags.forEach(tag => allTags.add(tag));
   });
   return Array.from(allTags).sort();
 };
 
-// Helper to get countries by region
-export const getCountriesByRegion = (region: string): CountryResonanceProfile[] => {
-  const regionData = resonanceDataByRegion.find(r => r.region === region);
-  if (!regionData) return [];
-  
-  return regionData.countries ? regionData.countries : 
-         regionData.subregions?.flatMap(sub => sub.countries) || [];
-};
-
-// Helper to get all unique "bestFor" categories
 export const getAllBestFor = (): string[] => {
   const allBestFor = new Set<string>();
-  getAllCountries().forEach(country => {
-    country.bestFor.forEach(category => allBestFor.add(category));
+  getAllLocations().forEach(location => {
+    location.bestFor.forEach(category => allBestFor.add(category));
   });
   return Array.from(allBestFor).sort();
+};
+
+// Helper to get locations by region
+export const getLocationsByRegion = (regionName: string): CityResonanceProfile[] => {
+  const region = resonanceDataByRegion.find(r => r.region === regionName);
+  if (!region) return [];
+  
+  return region.countries ? region.countries.flat() : 
+         region.subregions?.flatMap(sub => sub.countries.flat()) || [];
 };

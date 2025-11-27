@@ -23,8 +23,14 @@ export interface ResonancePreferences {
   internetImportance: number; // 1-10
   safetyImportance: number; // 1-10
 }
+import type { Workspace } from '$lib/data/nomadData';
+export interface ResonancePreferences {
+  // ... keep existing preferences the same ...
+}
 
 export interface ResonanceScore {
+  name: string;
+  city: string;
   country: string;
   score: number;
   breakdown: {
@@ -37,14 +43,13 @@ export interface ResonanceScore {
   matchReasons: string[];
 }
 
-// Updated to match your workspace structure
-export interface CountryResonanceProfile {
+// Remove CountryResonanceProfile, just use CityResonanceProfile for both
+export interface CityResonanceProfile {
   name: string;
   city: string;
   country: string;
-  type: 'country';
+  type: 'city' | 'country-overview';
   region: string;
-  subregion?: string;
   
   // Personality & Vibe
   travelStyle: ('slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural')[];
@@ -69,8 +74,9 @@ export interface CountryResonanceProfile {
   // Tags for matching
   tags: string[];
   
-  // Additional metadata like your workspace data
+  // Additional metadata
   rating?: number;
   bestFor: string[];
   highlights: string[];
+  description?: string;
 }

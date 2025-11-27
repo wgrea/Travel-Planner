@@ -2,7 +2,7 @@
 import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { LivingCostData  } from '$lib/types/living-costs';
 import type { NomadData, Workspace } from '$lib/data/nomadData';
-import type { CountryResonanceProfile } from '$lib/types/resonance'; // Add this import
+import type { CityResonanceProfile } from '$lib/types/resonance'; // Add this import
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData  } from '$lib/types/flight';
 
@@ -296,60 +296,167 @@ export const argentinaNomadData: NomadData = {
   workspaces: argentinaWorkspaces
 };
 
-export const argentinaResonance: CountryResonanceProfile = {
-  name: 'Argentina Experience',
-  city: 'Multiple Cities',
-  country: 'Argentina',
-  type: 'country',
-  region: 'south-america',
-  
-  // Personality & Vibe
-  travelStyle: ['slow', 'cultural', 'adventure'],
-  socialVibe: 'social',
-  energyLevel: 'medium',
-  
-  // Environment
-  climate: 'temperate',
-  vibe: 'balanced',
-  density: 'mixed',
-  
-  // Activities
-  popularActivities: [
-    'wine tasting', 'tango', 'hiking', 'city exploration', 'food tours',
-    'steak houses', 'malbec wine', 'patagonia trekking', 'gaucho culture',
-    'evita history', 'street art', 'football matches', 'cafe culture'
-  ],
-  foodScene: 'mixed',
-  nightlife: 'vibrant',
-  
-  // Practical
-  costLevel: 'midrange',
-  internetQuality: 7,
-  safetyScore: 7,
-  
-  // Tags for matching
-  tags: [
-    'wine', 'tango', 'european-influence', 'spanish', 'affordable-luxury',
-    'steak', 'patagonia', 'buenos-aires', 'gaucho', 'passionate', 'cafe-culture'
-  ],
-  
-  // Additional metadata
-  rating: 4.5,
-  bestFor: [
-    'Food and wine lovers',
-    'Cultural immersion', 
-    'Adventure seekers',
-    'City explorers',
-    'Photography enthusiasts'
-  ],
-  highlights: [
-    'World-class wine regions in Mendoza',
-    'Tango culture in Buenos Aires',
-    'Patagonian wilderness trekking',
-    'European-style architecture',
-    'Vibrant cafe and nightlife scene'
-  ]
-};
+export const argentinaResonance: CityResonanceProfile[] = [
+  {
+    name: 'Argentina Overview',
+    city: 'Multiple Cities',
+    country: 'Argentina',
+    type: 'country-overview',
+    region: 'south-america',
+    travelStyle: ['slow', 'cultural', 'adventure'],
+    socialVibe: 'social',
+    energyLevel: 'medium',
+    climate: 'temperate',
+    vibe: 'balanced',
+    density: 'mixed',
+    popularActivities: [
+      'wine tasting', 'tango', 'hiking', 'city exploration', 'food tours',
+      'steak houses', 'malbec wine', 'patagonia trekking', 'gaucho culture'
+    ],
+    foodScene: 'mixed',
+    nightlife: 'vibrant',
+    costLevel: 'midrange',
+    internetQuality: 7,
+    safetyScore: 7,
+    tags: [
+      'wine', 'tango', 'european-influence', 'spanish', 'affordable-luxury',
+      'steak', 'patagonia', 'gaucho', 'passionate'
+    ],
+    rating: 4.5,
+    bestFor: [
+      'Food and wine lovers',
+      'Cultural immersion',
+      'Adventure seekers',
+      'City explorers'
+    ],
+    highlights: [
+      'World-class wine regions',
+      'Tango culture in Buenos Aires',
+      'Patagonian wilderness',
+      'European-style architecture'
+    ]
+  },
+  {
+    name: 'Buenos Aires',
+    city: 'Buenos Aires',
+    country: 'Argentina',
+    type: 'city',
+    region: 'south-america',
+    travelStyle: ['fast', 'cultural', 'adventure'],
+    socialVibe: 'social',
+    energyLevel: 'high',
+    climate: 'temperate',
+    vibe: 'chaotic',
+    density: 'urban',
+    popularActivities: [
+      'tango dancing', 'city exploration', 'food tours', 'steak houses',
+      'cafe culture', 'art galleries', 'street art', 'football matches'
+    ],
+    foodScene: 'mixed',
+    nightlife: 'vibrant',
+    costLevel: 'midrange',
+    internetQuality: 8,
+    safetyScore: 6,
+    tags: [
+      'tango', 'urban', 'cosmopolitan', 'cafe-culture', 'nightlife',
+      'artsy', 'historical', 'passionate', 'steak'
+    ],
+    rating: 4.7,
+    bestFor: [
+      'City lovers',
+      'Food and wine enthusiasts', 
+      'Nightlife seekers',
+      'Cultural immersion'
+    ],
+    highlights: [
+      'World-class steak and Malbec wine',
+      'Tango shows in San Telmo',
+      'European-style architecture',
+      '24/7 cafe culture'
+    ],
+    description: 'The Paris of South America with passionate tango and non-stop energy'
+  },
+  {
+    name: 'Mendoza',
+    city: 'Mendoza',
+    country: 'Argentina', 
+    type: 'city',
+    region: 'south-america',
+    travelStyle: ['slow', 'relaxation', 'adventure'],
+    socialVibe: 'balanced',
+    energyLevel: 'medium',
+    climate: 'temperate',
+    vibe: 'chill',
+    density: 'mixed',
+    popularActivities: [
+      'wine tasting', 'vineyard tours', 'hiking', 'mountain biking',
+      'hot springs', 'cooking classes', 'olive oil tasting'
+    ],
+    foodScene: 'local',
+    nightlife: 'moderate',
+    costLevel: 'midrange',
+    internetQuality: 7,
+    safetyScore: 8,
+    tags: [
+      'wine', 'mountains', 'outdoors', 'relaxing', 'malbec',
+      'adventure', 'scenic', 'culinary'
+    ],
+    rating: 4.5,
+    bestFor: [
+      'Wine lovers',
+      'Outdoor enthusiasts',
+      'Relaxation seekers',
+      'Food experiences'
+    ],
+    highlights: [
+      'World-renowned Malbec wine region',
+      'Stunning Andes mountain backdrop', 
+      'Thermal springs and spa treatments',
+      'Olive oil and gourmet food tours'
+    ],
+    description: 'Argentina\'s premier wine region with breathtaking mountain scenery'
+  },
+  {
+    name: 'Cordoba',
+    city: 'Cordoba',
+    country: 'Argentina',
+    type: 'city',
+    region: 'south-america',
+    travelStyle: ['cultural', 'slow'],
+    socialVibe: 'social',
+    energyLevel: 'medium',
+    climate: 'temperate',
+    vibe: 'balanced',
+    density: 'urban',
+    popularActivities: [
+      'university tours', 'historical sites', 'local music', 'cafe studying',
+      'nightlife', 'street markets', 'artisan crafts'
+    ],
+    foodScene: 'local', 
+    nightlife: 'vibrant',
+    costLevel: 'budget',
+    internetQuality: 7,
+    safetyScore: 7,
+    tags: [
+      'student-city', 'university', 'budget', 'cultural', 'historical',
+      'nightlife', 'local-experience', 'artsy'
+    ],
+    rating: 4.3,
+    bestFor: [
+      'Budget travelers',
+      'Students and digital nomads', 
+      'Cultural immersion',
+      'Local experiences'
+    ],
+    highlights: [
+      'Vibrant student nightlife and culture',
+      'Historical Jesuit architecture',
+      'Affordable living costs',
+      'Local music and art scene'
+    ],
+    description: 'Argentina\'s student capital with rich history and budget-friendly living'
+  }
+];
 
 // Make sure you change the name to argentinaVisaData
 export const argentinaData: Record<string, VisaInfo> = {
