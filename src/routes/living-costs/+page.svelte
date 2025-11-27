@@ -4,8 +4,8 @@
   import LivingCostCountrySelector from './components/LivingCostCountrySelector.svelte';
   import MainContent from './components/MainContent.svelte';
   import BackgroundElements from './components/BackgroundElements.svelte';
-  import { getAllCountries, getAllRegions } from './components/data-helpers';
-  import type { TravelStyle } from './components/types';
+  import { getAllCountries, getAllRegions } from '$lib/utils/living-costs';
+  import type { TravelStyle } from '$lib/types/living-costs';
   
   // Import reusable components
   import BeforeYouStart from './components/BeforeYouStart.svelte';

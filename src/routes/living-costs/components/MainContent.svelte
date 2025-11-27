@@ -2,8 +2,8 @@
 <script lang="ts">
   import { livingCostsByRegion } from '$lib/data/livingCostData';
   import { convertCurrency, formatCurrency, currencySymbols } from '$lib/utils/currency';
-  import { getDailyCostForCity } from './data-helpers';
-  import type { TravelStyle, LivingCostData } from './types';
+  import { getDailyCostForCity } from '$lib/utils/living-costs';
+  import type { TravelStyle, LivingCostData } from '$lib/types/living-costs';
   
   // Import CostDetails component
   import CostDetails from './CostDetails.svelte';

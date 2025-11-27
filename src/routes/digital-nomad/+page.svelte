@@ -1,12 +1,11 @@
 <!-- src/routes/digital-nomad/+page.svelte -->
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { minimalData } from '$lib/data/minimalData';
-  import CountrySelector from '$lib/components/CountrySelector.svelte';
+  import { nomadData } from '$lib/data/nomadData';
+  import CitySelector from '$lib/components/CitySelector.svelte';
   import type { CountryData } from '$lib/components/CountrySelector.svelte';
   
   // Import components
-  import LocationSelector from './components/LocationSelector.svelte';
   import WorkPreferenceSelector from './components/WorkPreferenceSelector.svelte';
   import InternetQualityCard from './components/InternetQualityCard.svelte';
   import CoworkingSpacesCard from './components/CoworkingSpacesCard.svelte';
@@ -15,77 +14,77 @@
   import PopularCoworkingSpaces from './components/PopularCoworkingSpaces.svelte';
   import BackgroundElements from './components/BackgroundElements.svelte';
   
+  // ADD THE MISSING VARIABLES
   let selectedCountry: string = 'Thailand';
-  let selectedRegion: string = 'Southeast Asia';
+  let selectedRegion: string = '';
   let selectedCity: string = 'Bangkok';
   let workPreference: string = 'coworking';
   let isLoading = false;
 
-  // Add city options for each country
-  const cityOptions: Record<string, string[]> = {
-    'Thailand': ['Bangkok', 'Chiang Mai', 'Phuket', 'Koh Samui'],
-    'Vietnam': ['Ho Chi Minh', 'Hanoi', 'Da Nang'],
-    'Indonesia': ['Bali', 'Jakarta'],
-    'Portugal': ['Lisbon', 'Porto'],
-    'Colombia': ['Medellin', 'Bogota'],
-    'Spain': ['Barcelona', 'Madrid', 'Valencia'],
-    'Mexico': ['Mexico City', 'Playa del Carmen', 'Tulum']
-  };
-
-  // Get country data for selector
-  function getAllCountries(): CountryData[] {
-    const allCountries: CountryData[] = [];
-    
-    Object.entries(minimalData.countries).forEach(([countryCode, countryData]) => {
-      allCountries.push({
-        country: countryData.name,
-        region: countryData.region
-      });
-    });
-    
-    return allCountries.sort((a, b) => a.country.localeCompare(b.country));
+  // Get country data for selector from nomadData
+  function getAllCountries(): { country: string; region: string; cities?: string[] }[] {
+    return nomadData.map(item => ({
+      country: item.country,
+      region: '' // We don't have regions in nomadData, so leave empty
+    })).sort((a, b) => a.country.localeCompare(b.country));
   }
 
-  function getCountriesByRegion(regionName: string): CountryData[] {
-    return getAllCountries().filter(country => country.region === regionName);
-  }
-
+  // ADD THE MISSING FUNCTIONS
   function handleCountryChange(country: string) {
-    selectedCountry = country;
-    const countryData = getAllCountries().find(c => c.country === country);
-    if (countryData && countryData.region) {
-      selectedRegion = countryData.region;
-    }
+    // Optional: Add any country-specific logic here
+    console.log('Country changed to:', country);
   }
 
   function handleRegionChange(region: string) {
-    selectedRegion = region;
-    
-    if (region) {
-      const countriesInRegion = getCountriesByRegion(region);
-      if (countriesInRegion.length > 0) {
-        selectedCountry = countriesInRegion[0].country;
-      }
-    } else {
-      selectedCountry = getAllCountries()[0]?.country || '';
-    }
+    // Optional: Add any region-specific logic here  
+    console.log('Region changed to:', region);
   }
 
-  // Get current country data
-  $: currentCountryData = minimalData.countries[selectedCountry.toLowerCase()];
-  
-  // Update cities when country changes
-  $: availableCities = cityOptions[selectedCountry] || ['Bangkok'];
-  $: if (!availableCities.includes(selectedCity)) {
-    selectedCity = availableCities[0];
+  function handleCityChange(city: string) {
+    // Optional: Add any city-specific logic here
+    console.log('City changed to:', city);
   }
-  
+
   // Load initial data
   $: if (selectedCountry) {
     isLoading = true;
     setTimeout(() => isLoading = false, 500);
   }
 </script>
+
+<!-- I need to know where to put this code. This was on the very top for some reason. 
+
+Rest of your template remains the same, just use the new CitySelector 
+<div class="mb-12 p-8 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+  <CitySelector 
+    bind:selectedCountry
+    bind:selectedRegion
+    bind:selectedCity
+    countryData={getAllCountries()}
+    onCountryChange={handleCountryChange}
+    onRegionChange={handleRegionChange}
+    onCityChange={handleCityChange}
+    showQuickFilters={true}
+    showCityInfo={true}
+    variant="default"
+  />
+</div>
+
+Update all components to also receive selectedCity
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+  <InternetQualityCard {selectedCountry} {selectedCity} />
+  <CoworkingSpacesCard {selectedCountry} {selectedCity} />
+  <VisaInfoCard {selectedCountry} />
+  <CommunitySafetyCard {selectedCountry} {selectedCity} />
+</div>
+
+<PopularCoworkingSpaces 
+  {selectedCountry}
+  {selectedCity}
+  {workPreference}
+/>
+
+-->
 
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 px-4 py-8 relative overflow-hidden">
   <!-- Background Elements -->
@@ -134,22 +133,20 @@
     </div>
 
     <!-- Country & Location Selector Section -->
+    <!-- Now just one component does everything! -->
     <div class="mb-12 p-8 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <CountrySelector 
-        selectedDestination={selectedCountry}
-        selectedRegion={selectedRegion}
+      <CitySelector 
+        bind:selectedCountry
+        bind:selectedRegion
+        bind:selectedCity
         countryData={getAllCountries()}
-        onDestinationChange={handleCountryChange}
+        onCountryChange={handleCountryChange}
         onRegionChange={handleRegionChange}
+        onCityChange={handleCityChange}
+        showQuickFilters={true}
+        showCityInfo={true}
+        variant="default"
       />
-      
-      <div class="mt-6">
-        <LocationSelector 
-          bind:selectedCountry
-          bind:selectedCity
-          {availableCities}
-        />
-      </div>
     </div>
 
     {#if isLoading}
@@ -157,7 +154,7 @@
         <div class="inline-block w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
         <p class="mt-4 text-gray-600">Loading digital nomad data...</p>
       </div>
-    {:else if currentCountryData}
+    {:else if selectedCountry}
       
       <!-- Work Preference Section -->
       <div class="mb-12">
@@ -168,15 +165,19 @@
 
       <!-- Two Column Layout -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-        <InternetQualityCard />
-        <CoworkingSpacesCard />
-        <VisaInfoCard />
-        <CommunitySafetyCard />
+        <InternetQualityCard {selectedCountry} {selectedCity} />
+        <CoworkingSpacesCard {selectedCountry} {selectedCity} />
+        <VisaInfoCard {selectedCountry} />
+        <CommunitySafetyCard {selectedCountry} {selectedCity} />
       </div>
 
       <!-- Popular Coworking Spaces -->
       <div class="mb-12">
-        <PopularCoworkingSpaces />
+        <PopularCoworkingSpaces 
+          {selectedCountry}
+          {selectedCity}
+          {workPreference}
+        />
       </div>
 
     {:else}
@@ -186,10 +187,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <h3 class="text-xl font-light text-gray-900 mb-2">Digital Nomad Data Unavailable</h3>
+        <h3 class="text-xl font-light text-gray-900 mb-2">Select a Country</h3>
         <p class="text-gray-600 max-w-md mx-auto">
-          We're currently gathering digital nomad information for {selectedCountry}. 
-          Check back soon or explore other destinations.
+          Choose a country from the dropdown above to see digital nomad information.
         </p>
       </div>
     {/if}

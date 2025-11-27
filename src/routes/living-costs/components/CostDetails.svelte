@@ -1,7 +1,6 @@
-<!-- src/routes/living-costs/components/CostDetails.svelte -->
 <script lang="ts">
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
-  import type { LivingCostData, TravelStyle } from './types';
+  import type { LivingCostData, TravelStyle } from '$lib/types/living-costs';
   
   // Import sub-components
   import TravelStyleSelector from './TravelStyleSelector.svelte';
@@ -25,6 +24,15 @@
     travelerCountChange: number;
   }>();
 
+  // Helper function to safely get cost with fallback
+  function getSafeDailyCost(costData: LivingCostData, style: TravelStyle): number {
+    return costData.baseCosts?.dailyLiving?.[style] || 0;
+  }
+
+  function getSafeCurrency(costData: LivingCostData): string {
+    return costData.currency || 'USD';
+  }
+
   // Provide the setTravelStyle function that TravelStyleSelector expects
   function setTravelStyle(style: TravelStyle) {
     travelStyle = style;
@@ -45,8 +53,12 @@
       const cityData = currentCountryData.cities[selectedCity];
       // Use city data if available, fall back to country data
       return {
-        baseCosts: cityData.baseCosts || currentCountryData.baseCosts,
-        currency: currentCountryData.currency,
+        ...currentCountryData,
+        ...cityData,
+        baseCosts: {
+          ...currentCountryData.baseCosts,
+          ...cityData.baseCosts
+        },
         tips: cityData.tips || currentCountryData.tips
       };
     }
@@ -74,14 +86,14 @@
       {selectedCountry}
     {/if}
   </h2>
-  {#if currentCostData?.baseCosts}
+  {#if currentCostData?.baseCosts?.dailyLiving}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="text-center p-4 bg-emerald-50 rounded-lg">
         <div class="text-2xl font-bold text-emerald-700">
           {formatCurrency(
             convertCurrency(
-              currentCostData.baseCosts.dailyLiving.budget, 
-              currentCostData.currency, 
+              getSafeDailyCost(currentCostData, 'budget'), 
+              getSafeCurrency(currentCostData), 
               selectedCurrency
             ), 
             selectedCurrency
@@ -93,8 +105,8 @@
         <div class="text-2xl font-bold text-blue-700">
           {formatCurrency(
             convertCurrency(
-              currentCostData.baseCosts.dailyLiving.midrange, 
-              currentCostData.currency, 
+              getSafeDailyCost(currentCostData, 'midrange'), 
+              getSafeCurrency(currentCostData), 
               selectedCurrency
             ), 
             selectedCurrency
@@ -106,8 +118,8 @@
         <div class="text-2xl font-bold text-purple-700">
           {formatCurrency(
             convertCurrency(
-              currentCostData.baseCosts.dailyLiving.luxury, 
-              currentCostData.currency, 
+              getSafeDailyCost(currentCostData, 'luxury'), 
+              getSafeCurrency(currentCostData), 
               selectedCurrency
             ), 
             selectedCurrency

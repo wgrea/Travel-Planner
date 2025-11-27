@@ -1,12 +1,24 @@
 <!-- src/routes/living-costs/components/TripBudgetCalculator.svelte -->
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+  
   export let tripLength: number;
   export let totalCost: number;
   export let selectedCurrency: string = 'USD';
-  
-  // Remove travelStyle if not used, or use it
-  // If you want to show which style the budget is for:
   export let travelStyle: 'budget' | 'midrange' | 'luxury';
+
+  // Add event dispatcher
+  const dispatch = createEventDispatcher<{
+    tripLengthChange: number;
+    travelerCountChange: number;
+  }>();
+
+  // Handle slider input and emit event immediately
+  function handleSliderInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const newLength = parseInt(target.value);
+    dispatch('tripLengthChange', newLength);
+  }
 </script>
 
 <div class="bg-white rounded-2xl p-6 mb-8 border border-gray-200 shadow-sm">
@@ -19,7 +31,8 @@
       <input 
         id="trip-length-slider"
         type="range" 
-        bind:value={tripLength}
+        value={tripLength}
+        on:input={handleSliderInput}
         min="7" 
         max="90" 
         step="1"
@@ -29,7 +42,6 @@
         <span>1 week</span>
         <span>3 months</span>
       </div>
-      <!-- Show which travel style this budget is for -->
       <div class="mt-4 text-sm text-gray-600">
         <span class="font-medium">Travel Style:</span> {travelStyle}
       </div>
@@ -47,26 +59,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .slider::-webkit-slider-thumb {
-    appearance: none;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: #10b981;
-    cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .slider::-moz-range-thumb {
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: #10b981;
-    cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-</style>

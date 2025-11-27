@@ -1,5 +1,15 @@
 <!-- src/routes/docs/+page.svelte -->
 
+<!-- Add:
+
+Wait until everything is working and then worry about the structure
+page files do not need to be 500 pages long
+Start with/modify what is working instead of going into creating a new page
+
+
+
+-->
+
 <!-- This is for documentation of how the project was built, not for filling forms -->
 <div class="min-h-screen bg-gray-50 text-gray-900">
   <div class="flex flex-col lg:flex-row">
