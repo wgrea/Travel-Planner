@@ -57,9 +57,29 @@ export const nomadDataByRegion: RegionNomadData[] = [
   // Add more regions as needed...
 ];
 
-// SINGLE INTERFACE DECLARATIONS
+// src/lib/data/nomadData.ts - Update the interface
+export interface Workspace {
+  name: string;
+  city: string;
+  country: string;
+  type: 'coworking' | 'cafe' | 'hostel' | 'hotel' | 'library' | 'public_space'  // Add 'cafe_coworking'
+  dayPassPrice?: number;
+  monthlyPrice?: number;
+  hourlyRate?: number;
+  rating: number;
+  amenities: string[];
+  bestFor: string[];
+  wifiSpeed: number; // Mbps
+  powerOutlets: number; // 1-5 scale
+  noiseLevel: number; // 1-5 scale (1=quiet, 5=loud)
+  hours?: string;
+  address?: string;
+  website?: string;
+}
+
 export interface NomadData {
   country: string;
+  cities?: string[]; // Add this line
   internet: {
     speed: number;
     reliability: number;
@@ -75,6 +95,7 @@ export interface NomadData {
     englishLevel: number;
     safety: number;
   };
+  workspaces?: Workspace[]; // Add this line
 }
 
 export interface SubregionNomadData {
@@ -88,12 +109,17 @@ export interface RegionNomadData {
   countries?: NomadData[];
 }
 
-// FLAT ARRAY FOR EASY ACCESS
-export const nomadData: NomadData[] = nomadDataByRegion.flatMap(region => 
-  region.subregions 
-    ? region.subregions.flatMap((subregion: SubregionNomadData) => subregion.countries)
-    : (region.countries || [])
-);
+// FLAT ARRAY FOR EASY ACCESS - FIXED VERSION
+export const nomadData: NomadData[] = nomadDataByRegion.flatMap(region => {
+  if (region.subregions) {
+    // Regions with subregions (like Europe)
+    return region.subregions.flatMap((subregion: SubregionNomadData) => subregion.countries);
+  } else if (region.countries) {
+    // Regions without subregions (like Southeast Asia) - THIS WAS MISSING!
+    return region.countries;
+  }
+  return [];
+});
 
 // HELPER FUNCTIONS
 export function getNomadDataByCountry(countryName: string): NomadData | undefined {

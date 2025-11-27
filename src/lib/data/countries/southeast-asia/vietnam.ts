@@ -1,108 +1,319 @@
 //src/lib/data/countries/southeast-asia/vietnam.ts
 import type { LivingCostData } from '$lib/types/living-costs';
-import type { NomadData } from '$lib/data/nomadData';
+import type { NomadData, Workspace } from '$lib/data/nomadData';
 import type { VisaInfo } from '$lib/types/visa';
 
 export const vietnamLivingCosts: LivingCostData = {
   country: "Vietnam",
-  countryCode: "Vietnam",
-  cities: ["Hanoi", "Ho Chi Minh City", "Da Nang", "Hoi An", "Nha Trang", "Hue"],
+  countryCode: "Vietnam", 
   currency: "VND",
+  lastUpdated: "2024-01-15",
+  
+  // Country-level averages
   baseCosts: {
     accommodation: {
       budget: {
-        hostel: 150000, // ~$6 USD
-        budgetHotel: 300000, // ~$12 USD
-        guesthouse: 250000 // ~$10 USD
+        hostel: 150000,      // ~$6 USD
+        budgetHotel: 400000, // ~$16 USD
+        guesthouse: 300000   // ~$12 USD
       },
       midrange: {
-        hotel: 800000, // ~$32 USD
-        apartment: 600000, // ~$24 USD
+        hotel: 800000,       // ~$32 USD
+        apartment: 600000,   // ~$24 USD
         boutiqueHotel: 1200000 // ~$48 USD
       },
       luxury: {
-        hotel: 2500000, // ~$100 USD
-        resort: 4000000, // ~$160 USD
-        villa: 6000000 // ~$240 USD
+        hotel: 2000000,      // ~$80 USD
+        resort: 3500000,     // ~$140 USD
+        villa: 5000000       // ~$200 USD
       },
       monthlyRent: {
-        studio: 8000000, // ~$320 USD
+        studio: 8000000,     // ~$320 USD
         oneBedroom: 12000000, // ~$480 USD
-        threeBedroom: 25000000 // ~$1000 USD
+        threeBedroom: 20000000 // ~$800 USD
       }
     },
     dailyLiving: {
-      budget: 400000, // ~$16 USD
-      midrange: 1000000, // ~$40 USD
-      luxury: 2500000, // ~$100 USD
+      budget: 350000,        // ~$14 USD
+      midrange: 700000,      // ~$28 USD
+      luxury: 1500000,       // ~$60 USD
       breakdown: {
-        food: 200000, // ~$8 USD
-        transport: 50000, // ~$2 USD
-        activities: 100000, // ~$4 USD
-        misc: 50000 // ~$2 USD
+        food: 200000,        // ~$8 USD
+        transport: 50000,    // ~$2 USD
+        activities: 80000,   // ~$3 USD
+        misc: 20000          // ~$0.80 USD
       }
     },
     transportation: {
-      localBus: 7000, // ~$0.30 USD
-      taxi: 15000, // ~$0.60 USD per km
-      intercityBus: 200000, // ~$8 USD
-      train: 500000 // ~$20 USD (Hanoi to Ho Chi Minh)
+      localBus: 7000,        // ~$0.28 USD
+      taxi: 15000,           // ~$0.60 USD per km
+      intercityBus: 300000,  // ~$12 USD
+      train: 500000          // ~$20 USD
     },
     food: {
-      streetFood: 30000, // ~$1.20 USD
+      streetFood: 30000,     // ~$1.20 USD
       restaurantMeal: 150000, // ~$6 USD
-      groceryWeekly: 500000 // ~$20 USD
+      groceryWeekly: 600000  // ~$24 USD
     }
   },
+  
   tips: [
-    "Street food is excellent and very affordable - try pho, banh mi, and bun cha",
-    "Download Grab app for reliable and cheap transportation",
-    "Bargain at local markets but be respectful",
-    "Learn basic Vietnamese phrases - locals appreciate it",
-    "Carry cash as many places don't accept credit cards",
-    "Be careful with street crossing in big cities - traffic can be intense",
-    "Try local coffee - it's strong and delicious"
+    "Negotiate prices in markets and with taxi drivers",
+    "Use Grab app for transportation (like Uber)",
+    "Try street food - it's safe and delicious",
+    "Learn basic Vietnamese phrases for better prices",
+    "Visit during dry season (November-April)",
+    "Carry small bills - change can be hard to find",
+    "Get a local SIM card - data is very cheap",
+    "Be careful when crossing streets - traffic is chaotic"
   ],
+  
   bestAreas: {
     budget: [
-      "District 4, Ho Chi Minh City",
-      "Old Quarter, Hanoi", 
-      "An Bang, Hoi An",
-      "Nha Trang City Center"
+      "Pham Ngu Lao, Ho Chi Minh City",
+      "Old Quarter, Hanoi",
+      "Hoi An Ancient Town",
+      "Nha Trang beach area"
     ],
     midrange: [
       "District 1, Ho Chi Minh City",
       "Tay Ho, Hanoi",
-      "My Khe, Da Nang",
-      "Cam Chau, Hoi An"
+      "Da Lat city center",
+      "Phu Quoc island"
     ],
     luxury: [
-      "District 2 (Thao Dien), Ho Chi Minh City",
-      "Ba Dinh, Hanoi",
-      "Son Tra Peninsula, Da Nang",
-      "Vinpearl Island, Nha Trang"
+      "District 2, Ho Chi Minh City",
+      "West Lake, Hanoi",
+      "Da Nang beachfront",
+      "Con Dao Islands"
     ]
   },
-  lastUpdated: "2024-01-15"
+  
+  // City-specific data
+  cities: {
+    "Ho Chi Minh City": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 200000,    // +50,000 from country average
+            budgetHotel: 500000 // +100,000 from country average
+          },
+          midrange: {
+            hotel: 1000000,    // +200,000 from country average
+            apartment: 800000  // +200,000 from country average
+          },
+          monthlyRent: {
+            studio: 10000000,  // +2,000,000 from country average
+            oneBedroom: 15000000 // +3,000,000 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 450000,      // +100,000 from country average
+          midrange: 900000,    // +200,000 from country average
+          luxury: 1800000      // +300,000 from country average
+        },
+        transportation: {
+          taxi: 20000,         // +5,000 from country average
+        }
+      },
+      tips: [
+        "Use Grab bike for quick and cheap transportation",
+        "Visit Ben Thanh Market but negotiate hard",
+        "Explore different districts - each has unique character",
+        "Try Vietnamese coffee culture in local cafes"
+      ]
+    },
+    
+    "Hanoi": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 180000,    // +30,000 from country average
+            guesthouse: 350000 // +50,000 from country average
+          },
+          midrange: {
+            hotel: 900000,     // +100,000 from country average
+            boutiqueHotel: 1400000 // +200,000 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 400000,      // +50,000 from country average
+          midrange: 800000,    // +100,000 from country average
+        }
+      },
+      tips: [
+        "Visit Hoan Kiem Lake in early morning for tai chi",
+        "Try egg coffee in the Old Quarter",
+        "Take a day trip to Halong Bay or Ninh Binh",
+        "Winter can be surprisingly cold - bring layers"
+      ]
+    },
+    
+    "Da Nang": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 120000,    // -30,000 from country average
+            guesthouse: 250000 // -50,000 from country average
+          },
+          midrange: {
+            apartment: 500000, // -100,000 from country average
+            boutiqueHotel: 1000000 // -200,000 from country average
+          },
+          luxury: {
+            resort: 3000000    // -500,000 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 300000,      // -50,000 from country average
+          midrange: 600000,    // -100,000 from country average
+        }
+      },
+      tips: [
+        "Great for digital nomads with good internet",
+        "Beautiful beaches and nearby mountains",
+        "Visit Marble Mountains and Lady Buddha",
+        "Rent a motorbike to explore the coast"
+      ]
+    },
+    
+    "Hoi An": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            guesthouse: 280000 // -20,000 from country average
+          },
+          midrange: {
+            boutiqueHotel: 1100000 // -100,000 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 320000,      // -30,000 from country average
+          midrange: 650000     // -50,000 from country average
+        }
+      },
+      tips: [
+        "Get custom clothing made - it's affordable and fast",
+        "Visit the ancient town in the evening when lanterns light up",
+        "Take a cooking class to learn Vietnamese cuisine",
+        "Rent a bicycle to explore the countryside"
+      ]
+    }
+  }
 };
 
+export const vietnamWorkspaces: Workspace[] = [
+  {
+    name: 'Dreamplex',
+    city: 'Ho Chi Minh City',
+    country: 'Vietnam',
+    type: 'coworking',
+    dayPassPrice: 15,
+    monthlyPrice: 200,
+    rating: 4.5,
+    wifiSpeed: 80,
+    powerOutlets: 5,
+    noiseLevel: 3,
+    amenities: ['High-speed WiFi', 'Meeting Rooms', 'Coffee', 'Event Space', 'Phone Booths'],
+    bestFor: ['Professional meetings', 'Team work', 'Networking'],
+    hours: '24/7',
+    address: 'Multiple locations in District 1 and District 2'
+  },
+  {
+    name: 'Saigon Coworking',
+    city: 'Ho Chi Minh City',
+    country: 'Vietnam',
+    type: 'coworking',
+    dayPassPrice: 12,
+    monthlyPrice: 160,
+    rating: 4.3,
+    wifiSpeed: 75,
+    powerOutlets: 4,
+    noiseLevel: 2,
+    amenities: ['24/7 Access', 'Kitchen', 'Printing', 'Lockers'],
+    bestFor: ['Focused work', 'Long hours', 'Privacy'],
+    hours: '24/7'
+  },
+  {
+    name: 'Toong Coworking Space',
+    city: 'Hanoi',
+    country: 'Vietnam',
+    type: 'coworking',
+    dayPassPrice: 14,
+    monthlyPrice: 180,
+    rating: 4.4,
+    wifiSpeed: 85,
+    powerOutlets: 5,
+    noiseLevel: 3,
+    amenities: ['High-speed WiFi', 'Meeting Rooms', 'Cafe', 'Event Space'],
+    bestFor: ['Creative work', 'Networking', 'Startups'],
+    hours: '24/7'
+  },
+  {
+    name: 'UP Coworking Space',
+    city: 'Hanoi',
+    country: 'Vietnam',
+    type: 'coworking',
+    dayPassPrice: 10,
+    monthlyPrice: 140,
+    rating: 4.2,
+    wifiSpeed: 70,
+    powerOutlets: 4,
+    noiseLevel: 2,
+    amenities: ['Quiet zones', 'Meeting Rooms', 'Kitchen', 'Printing'],
+    bestFor: ['Focused work', 'Students', 'Remote workers'],
+    hours: '7:00 AM - 10:00 PM'
+  },
+  {
+    name: 'The Workshop Coffee',
+    city: 'Ho Chi Minh City',
+    country: 'Vietnam',
+    type: 'cafe',
+    hourlyRate: 3,
+    rating: 4.1,
+    wifiSpeed: 45,
+    powerOutlets: 3,
+    noiseLevel: 4,
+    amenities: ['Specialty Coffee', 'Power Outlets', 'WiFi', 'Food'],
+    bestFor: ['Coffee lovers', 'Creative work', 'Short sessions'],
+    hours: '7:30 AM - 10:00 PM'
+  },
+  {
+    name: 'DNES Coworking Space',
+    city: 'Da Nang',
+    country: 'Vietnam',
+    type: 'coworking',
+    dayPassPrice: 8,
+    monthlyPrice: 120,
+    rating: 4.3,
+    wifiSpeed: 75,
+    powerOutlets: 4,
+    noiseLevel: 2,
+    amenities: ['Beach proximity', 'Meeting Rooms', 'Coffee', 'Events'],
+    bestFor: ['Beach lifestyle', 'Digital nomads', 'Relaxed work'],
+    hours: '24/7'
+  }
+];
+
 export const vietnamNomadData: NomadData = {
-  country: 'Vietnam',
+  country: "Vietnam",
+  cities: ["Ho Chi Minh City", "Hanoi", "Da Nang"],
   internet: {
     speed: 65,
     reliability: 7,
-    coworkingSpaces: 25
+    coworkingSpaces: 80
   },
   costs: {
-    coworkingMonthly: 150,
+    coworkingMonthly: 120,
     simCardMonthly: 10,
-    coffeeShopWork: 6
+    coffeeShopWork: 5
   },
   community: {
-    expatSize: 7,
+    expatSize: 8,
     englishLevel: 5,
     safety: 7
-  }
+  },
+  workspaces: vietnamWorkspaces
 };
 
 export const vietnamData: Record<string, VisaInfo> = {

@@ -22,21 +22,28 @@ export function getAllCountries() {
   livingCostsByRegion.forEach(region => {
     if (region.subregions) {
       region.subregions.forEach(subregion => {
-        subregion.countries.forEach(country => {
-          allCountries.push({
-            country: country.country,
-            region: subregion.subregion,
-            cities: Object.keys(country.cities || {})
+        // Add null/undefined checks
+        if (subregion?.countries) {
+          subregion.countries.forEach(country => {
+            if (country && country.country) { // Check if country exists and has country property
+              allCountries.push({
+                country: country.country,
+                region: subregion.subregion || region.region || 'Unknown',
+                cities: Object.keys(country.cities || {})
+              });
+            }
           });
-        });
+        }
       });
     } else if (region.countries) {
       region.countries.forEach(country => {
-        allCountries.push({
-          country: country.country,
-          region: region.region,
-          cities: Object.keys(country.cities || {})
-        });
+        if (country && country.country) { // Check if country exists and has country property
+          allCountries.push({
+            country: country.country,
+            region: region.region || 'Unknown',
+            cities: Object.keys(country.cities || {})
+          });
+        }
       });
     }
   });
@@ -50,13 +57,15 @@ export function getCountriesByRegion(regionName: string): CountryData[] {
   const europeRegion = livingCostsByRegion.find(r => r.region === "Europe");
   if (europeRegion?.subregions) {
     const subregion = europeRegion.subregions.find(sr => sr.subregion === regionName);
-    if (subregion) {
-      return subregion.countries.map(country => ({
-        country: country.country,
-        region: regionName,
-        cities: Object.keys(country.cities || {}),
-        averagePrice: 700
-      }));
+    if (subregion?.countries) {
+      return subregion.countries
+        .filter(country => country && country.country) // Filter out invalid countries
+        .map(country => ({
+          country: country.country,
+          region: regionName,
+          cities: Object.keys(country.cities || {}),
+          averagePrice: 700
+        }));
     }
   }
   
