@@ -154,10 +154,9 @@
   console.log('🚨 getCurrentWorkspaceData() CALLED with country:', selectedCountry, 'city:', selectedCity, 'workPref:', workPreference);
   if (!selectedCountry) return [];
   
-  // This should find Vietnam data when selectedCountry is "Vietnam"
+  // Force fresh lookup every time
   const countryData = nomadData.find(item => item.country === selectedCountry);
-  console.log('DEBUG: Looking for country:', selectedCountry);
-  console.log('DEBUG: Found country data:', countryData);
+  console.log('🔍 Fresh country data lookup:', countryData?.country, 'workspaces:', countryData?.workspaces?.length);
   
   let workspaces = countryData?.workspaces || [];
   console.log('Workspaces for', selectedCountry, ':', workspaces);
@@ -250,7 +249,19 @@
   $: countryData = getAllCountries();
   $: currentCountryData = getCurrentCountryData();
   $: currentVisaData = getVisaData();
+  // WITH this - force update on ALL dependency changes:
+  let currentWorkspaceData: Workspace[] = [];
+  $: {
+    // Force reactivity by using all dependencies
+    const trigger = `${selectedCountry}-${selectedCity}-${workPreference}`;
+    const newData = getCurrentWorkspaceData();
+    console.log('🔄 UPDATING currentWorkspaceData:', newData.length, 'items (triggered by:', trigger, ')');
+    currentWorkspaceData = newData;
+  }
+
+  // Individual reactive declarations that include ALL dependencies
   $: currentWorkspaceData = getCurrentWorkspaceData();
+  $: console.log('🔄 currentWorkspaceData UPDATED:', currentWorkspaceData.length, 'Country:', selectedCountry, 'City:', selectedCity, 'WorkPref:', workPreference);
 
   // ADD this to force update when workPreference changes:
   $: {
@@ -277,6 +288,9 @@
     console.log('🔍 =====================');
   }
   $: console.log('📢 workPreference REACTIVE UPDATE:', workPreference);
+
+  // Add this to track when data actually changes
+  $: console.log('🔄 PAGE DATA CHANGED - Country:', selectedCountry, 'City:', selectedCity, 'WorkPref:', workPreference, 'Workspaces:', currentWorkspaceData.length);
 
 </script>
 

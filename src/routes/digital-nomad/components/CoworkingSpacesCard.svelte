@@ -10,6 +10,10 @@
   // Add reactive tracking to see when props update
   $: console.log('📊 CoworkingSpacesCard UPDATED - workPreference:', workPreference, 'workspaceData:', workspaceData.length);
 
+  // Force reactivity by tracking all props
+  $: reactiveKey = `${selectedCountry}-${selectedCity}-${workPreference}-${workspaceData.length}`;
+  $: console.log('🔄 CoworkingSpacesCard FORCED UPDATE:', reactiveKey);
+
   // Your existing filtering logic (keep this as-is)
   $: filteredWorkspaces = workspaceData.filter(space => {
     // Filter by work preference

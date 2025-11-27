@@ -7,7 +7,8 @@
   export let workPreference: string;
   export let workspaceData: Workspace[] = [];
 
-  // Add reactive tracking
+  $: reactiveKey = `${selectedCountry}-${selectedCity}-${workPreference}-${workspaceData.length}`;
+  $: console.log('🔄 PopularCoworkingSpaces FORCED UPDATE:', reactiveKey);
   $: console.log('📊 PopularCoworkingSpaces UPDATED - workPreference:', workPreference, 'workspaceData:', workspaceData.length);
 </script>
 
@@ -27,7 +28,7 @@
   
   {#if workspaceData.filter(space => space.type === workPreference).length > 0}
   <div class="space-y-4">
-    {#each workspaceData.filter(space => space.type === workPreference).slice(0, 5) as space}
+    {#each workspaceData.filter(space => space.type === workPreference) as space}
       <div class="flex items-start justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
         <div class="flex-1">
           <div class="flex items-center gap-2 mb-2">
@@ -92,14 +93,14 @@
     {/each}
   </div>
   
-  <!-- KEEP ONLY THIS "VIEW ALL" BUTTON SECTION (NOT THE DUPLICATE) -->
-  {#if workspaceData.filter(space => space.type === workPreference).length > 5}
-    <div class="mt-4 text-center">
-      <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-        View all {workspaceData.filter(space => space.type === workPreference).length} spaces
-      </button>
-    </div>
-  {/if}
+    <!-- FIXED: Show "View all" button when there are MORE than 5 filtered workspaces -->
+    {#if workspaceData.filter(space => space.type === workPreference).length > 5}
+      <div class="mt-4 text-center">
+        <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+          View all {workspaceData.filter(space => space.type === workPreference).length} spaces
+        </button>
+      </div>
+    {/if}  
   
 {:else if workspaceData.filter(space => space.type === workPreference).length === 0}
   <div class="text-center py-8 text-gray-500">
