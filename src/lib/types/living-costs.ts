@@ -51,10 +51,6 @@ export type CountryCode =
 export type TravelStyle = 'budget' | 'midrange' | 'luxury';
 export type AccommodationType = 'hostel' | 'guesthouse' | 'hotel' | 'apartment' | 'luxury';
 
-// src/lib/types/living-costs.ts
-
-// ... your existing CountryCode and other types ...
-
 // Make all nested interfaces partial to allow overrides
 export interface TransportationCosts {
   localBus?: number;

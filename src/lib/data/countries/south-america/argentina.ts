@@ -225,7 +225,52 @@ export const argentinaWorkspaces: Workspace[] = [
     bestFor: ['Focused work', 'Long hours', 'Privacy'],
     hours: '24/7'
   },
-  // ... other Argentina workspaces
+  {
+    name: 'Café Martínez',
+    city: 'Buenos Aires',
+    country: 'Argentina',
+    type: 'cafe',
+    hourlyRate: 4,
+    rating: 4.2,
+    wifiSpeed: 45,
+    powerOutlets: 3,
+    noiseLevel: 4,
+    amenities: ['Specialty Coffee', 'Pastries', 'Power Outlets', 'WiFi', 'Outdoor Seating'],
+    bestFor: ['Casual work', 'Coffee breaks', 'Quick sessions'],
+    hours: '7:00-22:00',
+    address: 'Multiple locations throughout Buenos Aires'
+  },
+  {
+    name: 'Starbucks Reserve',
+    city: 'Buenos Aires',
+    country: 'Argentina',
+    type: 'cafe',
+    hourlyRate: 5,
+    rating: 4.0,
+    wifiSpeed: 50,
+    powerOutlets: 4,
+    noiseLevel: 5,
+    amenities: ['Premium Coffee', 'Comfortable Seating', 'Power Outlets', 'WiFi', 'Food Menu'],
+    bestFor: ['Reliable WiFi', 'Consistent environment', 'Group work'],
+    hours: '6:30-23:00',
+    address: 'Alto Palermo Shopping Center'
+  },
+  {
+    name: 'LAB Tostadores de Café',
+    city: 'Cordoba',
+    country: 'Argentina',
+    type: 'cafe',
+    hourlyRate: 3,
+    rating: 4.4,
+    wifiSpeed: 40,
+    powerOutlets: 2,
+    noiseLevel: 3,
+    amenities: ['Artisan Coffee', 'Local Atmosphere', 'Power Outlets', 'WiFi'],
+    bestFor: ['Focused work', 'Coffee enthusiasts', 'Local experience'],
+    hours: '8:00-20:00',
+    address: 'Güemes neighborhood, Cordoba'
+  }
+  // ... your existing workspaces
 ];
 
 // Remove the duplicate argentinaNomadData declaration - keep only this one:

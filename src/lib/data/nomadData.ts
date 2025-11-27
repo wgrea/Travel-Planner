@@ -10,6 +10,7 @@ import { georgiaNomadData } from './countries/europe/caucasus/georgia';
 import { mexicoNomadData } from './countries/north-america/mexico';
 import { colombiaNomadData } from './countries/south-america/colombia';
 import { argentinaNomadData } from './countries/south-america/argentina';
+import { azerbaijanNomadData } from './countries/europe/caucasus/azerbaijan';
 
 export const nomadDataByRegion: RegionNomadData[] = [
   {
@@ -35,6 +36,7 @@ export const nomadDataByRegion: RegionNomadData[] = [
         subregion: "Caucasus", 
         countries: [
           georgiaNomadData,
+          azerbaijanNomadData, // ADD THIS LINE
         ]
       }
     ]
