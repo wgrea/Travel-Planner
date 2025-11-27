@@ -2,6 +2,7 @@
 import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { LivingCostData  } from '$lib/types/living-costs';
 import type { NomadData, Workspace } from '$lib/data/nomadData';
+import type { CountryResonanceProfile } from '$lib/types/resonance'; // Add this import
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData  } from '$lib/types/flight';
 
@@ -295,6 +296,62 @@ export const argentinaNomadData: NomadData = {
   workspaces: argentinaWorkspaces
 };
 
+export const argentinaResonance: CountryResonanceProfile = {
+  name: 'Argentina Experience',
+  city: 'Multiple Cities',
+  country: 'Argentina',
+  type: 'country',
+  region: 'south-america',
+  
+  // Personality & Vibe
+  travelStyle: ['slow', 'cultural', 'adventure'],
+  socialVibe: 'social',
+  energyLevel: 'medium',
+  
+  // Environment
+  climate: 'temperate',
+  vibe: 'balanced',
+  density: 'mixed',
+  
+  // Activities
+  popularActivities: [
+    'wine tasting', 'tango', 'hiking', 'city exploration', 'food tours',
+    'steak houses', 'malbec wine', 'patagonia trekking', 'gaucho culture',
+    'evita history', 'street art', 'football matches', 'cafe culture'
+  ],
+  foodScene: 'mixed',
+  nightlife: 'vibrant',
+  
+  // Practical
+  costLevel: 'midrange',
+  internetQuality: 7,
+  safetyScore: 7,
+  
+  // Tags for matching
+  tags: [
+    'wine', 'tango', 'european-influence', 'spanish', 'affordable-luxury',
+    'steak', 'patagonia', 'buenos-aires', 'gaucho', 'passionate', 'cafe-culture'
+  ],
+  
+  // Additional metadata
+  rating: 4.5,
+  bestFor: [
+    'Food and wine lovers',
+    'Cultural immersion', 
+    'Adventure seekers',
+    'City explorers',
+    'Photography enthusiasts'
+  ],
+  highlights: [
+    'World-class wine regions in Mendoza',
+    'Tango culture in Buenos Aires',
+    'Patagonian wilderness trekking',
+    'European-style architecture',
+    'Vibrant cafe and nightlife scene'
+  ]
+};
+
+// Make sure you change the name to argentinaVisaData
 export const argentinaData: Record<string, VisaInfo> = {
     'United States': {
       ease: "Visa-free",
