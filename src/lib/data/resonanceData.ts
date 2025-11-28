@@ -131,8 +131,7 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
 export const tagCategories = {
   // Experience Types - What kind of trip is this?
   experience: [
-    'adventure', 'cultural', 'relaxation', 'party',
-    'digital-nomad', 'backpacker', '', 'local-experience'
+    'adventure', 'cultural', 'relaxation', 'party', 'digital-nomad', 'backpacker', 'local-experience'
   ],
   
   // Vibe & Atmosphere - How does it feel?

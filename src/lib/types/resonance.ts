@@ -15,8 +15,8 @@ export interface ResonancePreferences {
   foodScene: 'local' | 'international' | 'mixed';
   nightlife: 'quiet' | 'moderate' | 'vibrant';
   
-  // Practical
-  budget: 'budget' | 'midrange' | 'luxury';
+  // Practical - ADD 'any' option here
+  budget: 'budget' | 'midrange' | 'luxury' | 'any' | 'budget-midrange' | 'midrange-luxury' | 'all-levels';
   internetImportance: number; // 1-10
   safetyImportance: number; // 1-10
 }
