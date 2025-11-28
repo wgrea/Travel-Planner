@@ -16,7 +16,7 @@
             class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
       ✈️ Flight Costs
     </button>
-    <button on:click={() => goto('/filters')} 
+    <button on:click={() => goto('/resonance')} 
             class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
       🔍 Destination Finder
     </button>

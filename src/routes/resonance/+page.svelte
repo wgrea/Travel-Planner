@@ -1,141 +1,241 @@
 <!-- src/routes/resonance/+page.svelte -->
 
-<!--
-I do not know what this page is for. Maybe it can be where my saved filters go to
-
-
--->
-
-<!-- Tailwind CSS & Svelte -->
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
+  import { ResonanceMatcher } from '$lib/utils/resonanceMatcher';
+  import { resonanceDataByRegion, activityCategories, getAllActivities, getAllTags, getAllLocations, tagCategories } from '$lib/data/resonanceData';
+  import type { ResonancePreferences, ResonanceScore, CityResonanceProfile } from '$lib/types/resonance';
   
-  // Example state for Capsule Logging feature
-  let bookmarkedCountries = [
-    { name: 'Iceland', reason: 'Northern Lights potential', icon: '🌌' },
-    { name: 'Peru (Machu Picchu)', reason: 'Bucket list hike', icon: '⛰️' },
-    { name: 'Kyoto, Japan', reason: 'Cultural depth & history', icon: '⛩️' },
-  ];
+  // FIX: Import as named export
+  import ResonanceFilters from './components/ResonanceFilters.svelte';
+  import ResonanceTabs from './components/ResonanceTabs.svelte';
+  import ResonanceResults from './components/ResonanceResults.svelte';
 
-  function navigate(path: string) {
-    goto(path);
+  // FIXED: Now 'any' is valid for both budget and climate
+  let preferences: ResonancePreferences = {
+    travelStyle: 'slow',
+    socialPreference: 'balanced',
+    energyLevel: 'medium',
+    climate: 'any',
+    vibe: 'balanced',
+    density: 'mixed',
+    activities: [],
+    foodScene: 'mixed',
+    nightlife: 'moderate',
+    budget: 'any', // Now valid
+    internetImportance: 8,
+    safetyImportance: 8
+  };
+
+  let matches: ResonanceScore[] = [];
+  let isLoading = false;
+  let selectedCategory: string = 'all';
+  let selectedTags: string[] = [];
+  let activeTab: 'tags' | 'activities' = 'tags';
+
+  // Get all available data
+  const allLocations = getAllLocations();
+  const allActivities = getAllActivities();
+  const allTags = getAllTags();
+
+  // Debug: log available locations
+  onMount(() => {
+    console.log('=== RESONANCE DEBUG ===');
+    console.log('All locations:', allLocations);
+    console.log('Total locations count:', allLocations.length);
+    console.log('=====================');
+  });
+
+  // FIXED: Type-safe activity filtering with proper type assertion
+  $: filteredActivities = selectedCategory === 'all' 
+    ? allActivities 
+    : (activityCategories as Record<string, string[]>)[selectedCategory] || [];
+
+  function findMatches() {
+    isLoading = true;
+    setTimeout(() => {
+      let filteredLocations = allLocations.filter((location: CityResonanceProfile) => {
+        // FIXED: Complete budget hierarchy
+        if (preferences.budget !== 'any') {
+          const budgetHierarchy = {
+            'budget': ['budget'], // Only budget
+            'midrange': ['midrange'], // Only comfortable
+            'luxury': ['luxury'], // Only luxury
+            'budget-midrange': ['budget', 'midrange'], // Budget + comfortable
+            'midrange-luxury': ['midrange', 'luxury'], // Comfortable + luxury
+            'all-levels': ['budget', 'midrange', 'luxury'] // All levels
+          };
+          
+          if (!budgetHierarchy[preferences.budget].includes(location.costLevel)) {
+            return false;
+          }
+        }
+        
+        // Climate filter - only apply if not 'any'
+        if (preferences.climate !== 'any' && location.climate !== preferences.climate) return false;
+        
+        // Internet quality filter (meets minimum)
+        if (location.internetQuality < preferences.internetImportance - 2) return false;
+        
+        // Safety filter (meets minimum)  
+        if (location.safetyScore < preferences.safetyImportance - 2) return false;
+        
+        return true;
+      });
+      
+      // 2. THEN: Filter by selected tags (experience characteristics)
+      if (selectedTags.length > 0) {
+        filteredLocations = filteredLocations.filter((location: CityResonanceProfile) =>
+          selectedTags.some(tag => location.tags.includes(tag))
+        );
+      }
+      
+      console.log('=== MATCHING DEBUG ===');
+      console.log('Budget filter:', preferences.budget);
+      console.log('Climate filter:', preferences.climate);
+      console.log('After practical filters:', filteredLocations.map((l: CityResonanceProfile) => l.name));
+      console.log('Selected tags:', selectedTags);
+      
+      matches = ResonanceMatcher.findTopMatches(preferences, filteredLocations);
+      
+      console.log('Final matches:', matches);
+      console.log('=====================');
+      
+      isLoading = false;
+    }, 800);
   }
 
-  // Tailwind CSS classes for animations used on the home page (assuming they are defined globally or via a shared config)
-  // .animate-float, .animate-float-delayed, .animate-float-slow, .animate-swim-delayed, .animate-swim-slow, .animate-pulse 
+  function toggleActivity(activity: string) {
+    if (preferences.activities.includes(activity)) {
+      preferences.activities = preferences.activities.filter(a => a !== activity);
+    } else {
+      preferences.activities = [...preferences.activities, activity];
+    }
+  }
+
+  function toggleTag(tag: string) {
+    if (selectedTags.includes(tag)) {
+      selectedTags = selectedTags.filter(t => t !== tag);
+    } else {
+      selectedTags = [...selectedTags, tag];
+    }
+  }
+
+  function selectCategory(category: string) {
+    selectedCategory = category;
+  }
+
+  function clearAllFilters() {
+    selectedTags = [];
+    preferences.activities = [];
+    matches = [];
+  }
+
+  function updatePreferences(event: { detail: { field: string; value: any } }) {
+    preferences = { ...preferences, [event.detail.field]: event.detail.value };
+  }
+
+  // Auto-update matches count when filters change
+  $: totalFilters = selectedTags.length + preferences.activities.length;
+
+  // FIX: Update event handlers to accept the correct parameter types
+  function removeTag(event: { detail: string }) {
+    selectedTags = selectedTags.filter(t => t !== event.detail);
+  }
+
+  function removeActivity(event: { detail: string }) {
+    preferences.activities = preferences.activities.filter(a => a !== event.detail);
+  }
+
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-blue-400 via-cyan-500 to-sky-300 px-4 py-12 relative overflow-hidden">
-  <div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-    <!-- Replicating the floating visual elements for aesthetic consistency -->
-    <div class="absolute top-20 left-[10%] w-32 h-32 rounded-full bg-white/30 backdrop-blur-md border border-white/40 shadow-lg animate-float-delayed"></div>
-    <div class="absolute top-40 right-[15%] w-24 h-24 rounded-full bg-cyan-200/40 backdrop-blur-md border border-white/40 shadow-lg animate-float-slow"></div>
-    <div class="absolute bottom-32 left-[20%] w-40 h-40 rounded-full bg-blue-200/30 backdrop-blur-md border border-white/40 shadow-lg animate-float"></div>
-    <div class="absolute bottom-20 right-[25%] w-28 h-28 rounded-full bg-white/25 backdrop-blur-md border border-white/40 shadow-lg animate-float-slow"></div>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 px-4 py-8">
+  <div class="max-w-7xl mx-auto">
     
-    <div class="absolute top-1/4 right-[8%] text-4xl opacity-70 animate-swim-slow">⭐️</div>
-    <div class="absolute bottom-1/4 left-[12%] text-3xl opacity-60 animate-swim-delayed">🌟</div>
+  <!-- Back Button -->
+  <button on:click={() => goto('/')} class="group mb-8 ml-8 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+    <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
+  </button>
 
-    <div class="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-white/50 via-white/20 to-transparent rotate-12 opacity-80"></div>
-    <div class="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-white/40 via-white/15 to-transparent -rotate-12 opacity-70"></div>
-    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-48 h-48 bg-white/20 rounded-full blur-3xl animate-pulse"></div>
-  </div>
-
-  <div class="max-w-3xl mx-auto relative z-10">
-    <!-- Back Button -->
-    <button
-      on:click={() => navigate('/')}
-      class="group mb-10 inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors duration-200"
-    >
-      <span class="text-3xl">👈</span>
-      <span class="font-semibold text-lg drop-shadow-md">Back to Main Menu</span>
-    </button>
-    
-    <!-- Title Section -->
-    <div class="mb-12 text-center">
-      <div class="inline-block mb-6 relative">
-        <div class="absolute inset-0 bg-white/20 blur-2xl"></div>
-        <div class="relative text-7xl filter drop-shadow-lg">✨</div> 
-      </div>
-      
-      <h1 class="text-6xl md:text-7xl font-bold mb-4 text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] tracking-tight">
-        Extra Resonance
-      </h1>
-      
-      <p class="text-white/95 text-xl font-light tracking-wide drop-shadow-md">
-        Go beyond the basics with advanced planning and collaborative tools.
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-light mb-4 text-gray-900">Destination Resonance Finder</h1>
+      <p class="text-gray-700 text-lg font-light max-w-2xl mx-auto">
+        Discover countries and cities that match your travel personality, interests, and style
       </p>
     </div>
 
-    <!-- Main Content Card -->
-    <div class="bg-white/15 backdrop-blur-xl rounded-[28px] p-8 border-2 border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.2)] text-white">
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-indigo-600">{allLocations.length}</div>
+        <div class="text-sm text-gray-600">Locations</div>
+      </div>
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-green-600">{allTags.length}</div>
+        <div class="text-sm text-gray-600">Tags</div>
+      </div>
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-purple-600">{allActivities.length}</div>
+        <div class="text-sm text-gray-600">Activities</div>
+      </div>
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-orange-600">{totalFilters}</div>
+        <div class="text-sm text-gray-600">Filters Active</div>
+      </div>
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center border border-gray-200">
+        <div class="text-2xl font-semibold text-red-600">{matches.length}</div>
+        <div class="text-sm text-gray-600">Matches</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
       
-      <!-- 1. Comparison View -->
-      <h2 class="text-3xl font-bold mb-6 border-b border-white/50 pb-3 flex items-center gap-2">
-        <span class="text-3xl">⚖️</span> Side-by-Side Comparison
-      </h2>
-      <p class="mb-4 text-white/80">Compare two destinations across key metrics instantly.</p>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-        <!-- Country Card 1 -->
-        <div class="p-4 rounded-xl bg-white/20 border border-white/40 shadow-lg">
-          <h3 class="text-2xl font-semibold mb-2 text-cyan-200">Country A: Italy</h3>
-          <ul class="text-sm list-none space-y-1">
-            <li>💰 Cost Index: High</li>
-            <li>📝 Visa Ease: Simple (Schengen)</li>
-            <li>☀️ Best Season: Spring/Autumn</li>
-            <li>👥 Contributor Warmth: 8.5/10</li>
-          </ul>
-        </div>
-        <!-- Country Card 2 -->
-        <div class="p-4 rounded-xl bg-white/20 border border-white/40 shadow-lg">
-          <h3 class="text-2xl font-semibold mb-2 text-lime-300">Country B: Thailand</h3>
-          <ul class="text-sm list-none space-y-1">
-            <li>💰 Cost Index: Low</li>
-            <li>📝 Visa Ease: Very Simple (Exempt)</li>
-            <li>☀️ Best Season: Nov - Feb</li>
-            <li>👥 Contributor Warmth: 9.2/10</li>
-          </ul>
-        </div>
+      <!-- Filters Sidebar -->
+      <div class="xl:col-span-1">
+        <ResonanceFilters
+          {preferences}
+          {selectedTags}
+          {isLoading}
+          on:updatePreferences={updatePreferences}
+          on:toggleTag={(e) => toggleTag(e.detail)}
+          on:removeTag={removeTag}  
+          on:removeActivity={removeActivity} 
+          on:clearAll={clearAllFilters}
+          on:findMatches={findMatches}
+        />
       </div>
 
-      <!-- 2. Capsule Logging (Bookmarks) -->
-      <h2 class="text-3xl font-bold mb-6 border-b border-white/50 pb-3 flex items-center gap-2">
-        <span class="text-3xl">📌</span> Capsule Logging
-      </h2>
-      <p class="mb-4 text-white/80">Your personally curated list of destinations to explore later.</p>
+      <!-- Main Content Area -->
+      <div class="xl:col-span-3">
+        <ResonanceTabs
+          {preferences}
+          {selectedTags}
+          {selectedCategory}
+          {activeTab}
+          {allTags}
+          {allActivities}
+          {filteredActivities}
+          {activityCategories}
+          {tagCategories}
+          on:toggleTag={(e) => toggleTag(e.detail)}
+          on:toggleActivity={(e) => toggleActivity(e.detail)}
+          on:selectCategory={(e) => selectCategory(e.detail)}
+          on:changeTab={(e) => activeTab = e.detail}
+        />
 
-      <div class="space-y-3 mb-10">
-        {#each bookmarkedCountries as country}
-          <div class="p-3 rounded-xl bg-white/20 border border-white/40 flex justify-between items-center transition duration-200 hover:bg-white/30">
-            <span class="text-lg font-medium flex items-center gap-3">
-              <span class="text-2xl">{country.icon}</span> {country.name}
-            </span>
-            <span class="text-sm font-light italic text-white/90">{country.reason}</span>
-            <button class="text-white/70 hover:text-red-400 transition-colors">🗑️</button>
-          </div>
-        {/each}
+        <ResonanceResults
+          {matches}
+          {isLoading}
+          {totalFilters}
+        />
       </div>
-
-      <!-- 3. Trust/Fit Signals -->
-      <h2 class="text-3xl font-bold mb-6 border-b border-white/50 pb-3 flex items-center gap-2">
-        <span class="text-3xl">🤝</span> Trust & Fit Signals
-      </h2>
-      <p class="mb-4 text-white/80">Insights into the community's warmth and helpfulness.</p>
-      
-      <div class="p-5 rounded-xl bg-white/20 border border-white/40 shadow-xl relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-300/30 to-transparent animate-pulse-slow"></div>
-        <div class="relative z-10">
-            <p class="text-2xl font-bold text-yellow-300 mb-2 drop-shadow-lg">Community Warmth Score: 9.1/10</p>
-            <p class="text-sm text-white/80">This score is based on contributor response tone, review detail quality, and collaborative interaction history. Higher scores indicate a more supportive community.</p>
-            <div class="mt-3">
-                <span class="inline-block bg-white/40 text-xs font-semibold px-3 py-1 rounded-full mr-2">#HighlyEngaged</span>
-                <span class="inline-block bg-white/40 text-xs font-semibold px-3 py-1 rounded-full">#QualitativeReviews</span>
-            </div>
-        </div>
-      </div>
-      
     </div>
   </div>
 </div>
-

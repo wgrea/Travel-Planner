@@ -111,7 +111,7 @@ Document checklist could be on another page. Maybe the first page after Destinat
         Explore destinations before checking requirements
       </p>
       <div class="flex gap-3 justify-center flex-wrap">
-        <button on:click={() => goto('/filters')} 
+        <button on:click={() => goto('/resonance')} 
                 class="px-5 py-2.5 rounded-full bg-white border border-stone-200 text-stone-700 hover:border-stone-300 hover:shadow-sm transition-all duration-200 text-sm font-medium">
           Destination Finder
         </button>

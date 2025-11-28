@@ -12,13 +12,6 @@
             class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
       💻 Digital Nomad Essentials
     </button>
-    <button on:click={() => goto('/planning')} 
-            class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-      📅 Trip Planning
-    </button>
-    <button on:click={() => goto('/quick-plan')} 
-            class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-      ⚡ Quick Plan
-    </button>
+    <!--  Removed buttons for now -->
   </div>
 </div>

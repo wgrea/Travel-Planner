@@ -1,10 +1,9 @@
 <!-- src/routes/digital-nomad/+page.svelte -->
 
 <!-- 
-
-Probably should shorten this file again now that the page is working
-I do want to add support sources and also how to work abroad page 
-
+I want to add these pages:
+Supports
+How to work from anywhere, how to get a job that lets you work from anywhere. These pages can be accessed at the top and maybe also be on the landing page. The landing page can get a digital nomad section, with this page being the main one.
 -->
 
 <script lang="ts">

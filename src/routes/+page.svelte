@@ -2,22 +2,72 @@
 <!-- Tailwind CSS --> 
 
 <!-- 
-Later I want to add:
-- later should add a page about forms like a tax form
-- If there is something I want to jot down. I don't want to just jot it down on a separate doc. I want to save it on this app.
-After essentials:
-- Keep font style the same accross the site
-- Aesthetics
+🚧 REMAINING HIGH PRIORITY:
+Resonance Page Improvements:
+🚧 Add X buttons to remove individual filters
 
-Way later:
-- Links to visas 
-- fun things to do around the city
-- Map
+🚧 Tag category selection (like activities filtering)
+
+🚧 Country selector for resonance data
+
+🚧 Save plans feature to "Travel Resonance"
+
+🚧 Visa information integration
+
+🚧 Back button and recommended next pages
+
+Flight Costs Page Improvements:
+🚧 Fix country selection for immediate results
+
+🚧 Two-country price comparison (data ready, needs implementation)
+
+🚧 Cheapest countries by specific month
+
+🚧 Most expensive months for specific countries
+
+🚧 Multi-leg flight pricing suggestions
+
+🚧 Price tips for flights over $800
+
+🚧 Frutiger Aero aesthetic implementation
+
+Visa Page Improvements:
+🚧 Filter by visa type across countries
+
+🚧 Filter by country to see available visas
+
+🚧 Fix "Prepare" buttons in Document Checklist
+
+🚧 Improve navigation structure
+
+Digital Nomad Section:
+🚧 Add new pages: "Supports" and "How to work from anywhere"
+
+🚧 Update landing page with digital nomad section
 -->
 
 <!--
 How about a note sheet that follows you througout the site (while I figure how to save stuff)
 Make sure all countries have each import that you have ready before sharing your project
+-->
+
+<!--
+
+📋 MEDIUM PRIORITY:
+Living Costs Page:
+🚧 Fix responsive layout (Trip Duration & Budget squeezing)
+
+🚧 Consistent currency display across all pages
+
+🚧 Add transportation page with city selector
+
+Design & UX:
+🚧 Standardize fonts across all pages
+
+🚧 Implement note-taking feature that follows users
+
+🚧 Add country data validation before sharing project
+
 -->
 
 <script lang="ts">
@@ -32,7 +82,7 @@ Make sure all countries have each import that you have ready before sharing your
       title: "Destination Finder",
       description: "Find places that match your travel style",
       icon: "🔍", 
-      path: "/filters",
+      path: "/resonance",
       color: "from-amber-50 to-orange-50",
       accent: "text-amber-700"
     },  

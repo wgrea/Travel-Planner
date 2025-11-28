@@ -7,12 +7,18 @@ Improve the country selection. Should be immediate now that the data is sorted o
 I want to select which countries are cheapest for a specific month. I should add which month is most expensive for a certain country
 I still need to change the text.
 Also about tips for each country on getting the most affordable price possible. Over $800 for an average price can be a turn off. What if someone goes to a country first then towards their destination they want to stay at
+
+I don't think this page still is showing the price between two countries but I already have the data ready.  I think the component was already made, but just needs to show the data
+
+Maybe also later add the price to when to go to one airport then take another flight to go to your targeted destination
+
+I still need to make sure the right font matches
 -->
 
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { flyDataByRegion, getAllRegions, getAllCountries as getAllFlightCountries } from '$lib/data/flyData';
-  import type { FlightPattern, RegionData } from '$lib/data/flyData';
+  import { flyDataByRegion, getAllRegions, getAllCountries as getAllFlightCountries } from '$lib/data/flightPatternData';
+  import type { FlightPattern, RegionData } from '$lib/data/flightPatternData';
   import CountrySelector, { type CountryData } from '$lib/components/CountrySelector.svelte';
   import CheapestCountries from './components/CheapestCountries.svelte';
   import TipsSection from './components/TipsSection.svelte';
@@ -138,14 +144,11 @@ $: currentFlightData = getAllFlightCountries().find(country => country.country =
                 class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
           📝 Visa Requirements
         </button>
-        <button onclick={() => goto('/filters')} 
+        <button onclick={() => goto('/resonance')} 
                 class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
           🔍 Destination Finder
         </button>
-        <button onclick={() => goto('/resonance')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          🌊 Resonance
-        </button>
+        <!-- Removed button -->
       </div>
     </div>
 
@@ -281,10 +284,7 @@ $: currentFlightData = getAllFlightCountries().find(country => country.country =
                 class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
           💻 Essentials
         </button>
-        <button onclick={() => goto('/flight-costs#tips')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          💡 More Tips
-        </button>
+<!-- Removed Button -->
       </div>
     </div>
   </div>

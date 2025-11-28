@@ -1,4 +1,8 @@
 <!-- src/routes/living-costs/+page.svelte -->
+
+<!-- I should also show the different currencies on other pages like I do on this page -->
+<!-- Trip Duration & Budget is squeezed when the page is in full screen -->
+
 <script lang="ts">
   import { goto } from '$app/navigation';
   import LivingCostCountrySelector from './components/LivingCostCountrySelector.svelte';

@@ -10,6 +10,14 @@ For the digital nomad page, it was hard to test. Have live debug shown in front 
 
 The resonance filters page was the quickest and easiest to make. I filtered by cities just for any yellow area filters
 
+
+When adding countries for resonance filters, it is important I show necessary files before I ask a chatbot to draft data for a country. Before asking a bot to add resonance data for another country, make sure you show these files:
+
+- Data structure (the resonance.ts files you shared)
+- Type definitions (ResonancePreferences, CityResonanceProfile)
+- Tag and activity categories (from resonanceData.ts)
+- Existing country examples (Thailand, Brazil, Argentina)
+
 -->
 
 <!-- This is for documentation of how the project was built, not for filling forms -->
