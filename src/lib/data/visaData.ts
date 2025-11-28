@@ -1,13 +1,13 @@
 // src/lib/data/visaData.ts
 import type { VisaData } from '$lib/types/visa';
-import { argentinaData } from './countries/south-america/argentina';
+import { argentinaVisaData } from './countries/south-america/argentina';
 // rest of the countries repeat
 import { armeniaData } from './countries/europe/caucasus/armenia';
 import { australiaData } from './countries/oceania/australia';
-import { azerbaijanData } from './countries/europe/caucasus/azerbaijan';
+import { azerbaijanVisaData } from './countries/europe/caucasus/azerbaijan';
 import { belizeData } from './countries/central-america/belize';
 import { boliviaData } from './countries/south-america/bolivia';
-import { brazilData } from './countries/south-america/brazil';
+import { brazilVisaData } from './countries/south-america/brazil';
 import { canadaData } from './countries/north-america/canada'; // ← ADDED CANADA
 import { chileData } from './countries/south-america/chile';
 import { chinaData } from './countries/east-asia/china';
@@ -41,7 +41,7 @@ import { sloveniaData } from './countries/europe/eastern-europe/slovenia';
 import { southKoreaData } from './countries/east-asia/southKorea';
 import { spainData } from './countries/europe/western-europe/spain';
 import { swedenData } from './countries/europe/northern-europe/sweden';
-import { thailandData } from './countries/southeast-asia/thailand';
+import { thailandVisaData } from './countries/southeast-asia/thailand';
 import { turkeyData } from './countries/europe/southern-europe/turkey';
 import { unitedArabEmiratesData } from './countries/middle-east/unitedArabEmirates';
 import { unitedStatesData } from './countries/north-america/united-states';
@@ -49,12 +49,12 @@ import { vietnamData } from './countries/southeast-asia/vietnam';
 
 export const visaData: VisaData = {
   "Australia": {
-    "Argentina": argentinaData["Australia"],
+    "Argentina": argentinaVisaData["Australia"],
     // rest of the countries repeat
     "Armenia": armeniaData["Australia"],
-    "Azerbaijan": azerbaijanData["Australia"],
+    "Azerbaijan": azerbaijanVisaData["Australia"],
     "Bolivia": boliviaData["Australia"],
-    "Brazil": brazilData["Australia"],
+    "Brazil": brazilVisaData["Australia"],
     "Chile": chileData["Australia"],
     "China": chinaData["Australia"],
     "Colombia": colombiaData["Australia"],
@@ -84,19 +84,19 @@ export const visaData: VisaData = {
     "Spain": spainData["Australia"],
     "Sri Lanka": sirLankaData["Australia"],
     "Sweden": swedenData["Australia"],
-    "Thailand": thailandData["Australia"],
+    "Thailand": thailandVisaData["Australia"],
     "Turkey": turkeyData["Australia"],
     "United Arab Emirates": unitedArabEmiratesData["Australia"],
     "United States": unitedStatesData["Australia"],
     "Vietnam": vietnamData["Australia"]
   },
   "China": {
-    "Argentina": argentinaData["China"],
+    "Argentina": argentinaVisaData["China"],
     "Armenia": armeniaData["China"],
-    "Azerbaijan": azerbaijanData["China"],
+    "Azerbaijan": azerbaijanVisaData["China"],
     "Australia": australiaData["China"],
     "Bolivia": boliviaData["China"],
-    "Brazil": brazilData["China"],
+    "Brazil": brazilVisaData["China"],
     "Chile": chileData["China"],
     "Colombia": colombiaData["China"],
     "Croatia": croatiaData["China"],
@@ -125,19 +125,19 @@ export const visaData: VisaData = {
     "Spain": spainData["China"],
     "Sri Lanka": sirLankaData["China"],
     "Sweden": swedenData["China"],
-    "Thailand": thailandData["China"],
+    "Thailand": thailandVisaData["China"],
     "Turkey": turkeyData["China"],
     "United Arab Emirates": unitedArabEmiratesData["China"],
     "United States": unitedStatesData["China"],
     "Vietnam": vietnamData["China"]
   },
   "Germany": {
-    "Argentina": argentinaData["Germany"],
+    "Argentina": argentinaVisaData["Germany"],
     "Armenia": armeniaData["Germany"],
-    "Azerbaijan": azerbaijanData["Germany"],
+    "Azerbaijan": azerbaijanVisaData["Germany"],
     "Australia": australiaData["Germany"],
     "Bolivia": boliviaData["Germany"],
-    "Brazil": brazilData["Germany"],
+    "Brazil": brazilVisaData["Germany"],
     "Chile": chileData["Germany"],
     "China": chinaData["Germany"],
     "Colombia": colombiaData["Germany"],
@@ -167,19 +167,19 @@ export const visaData: VisaData = {
     "Spain": spainData["Germany"],
     "Sri Lanka": sirLankaData["Germany"],
     "Sweden": swedenData["Germany"],
-    "Thailand": thailandData["Germany"],
+    "Thailand": thailandVisaData["Germany"],
     "Turkey": turkeyData["Germany"],
     "United Arab Emirates": unitedArabEmiratesData["Germany"],
     "United States": unitedStatesData["Germany"],
     "Vietnam": vietnamData["Germany"]
   },
   "Thailand": {
-    "Argentina": argentinaData["Thailand"],
+    "Argentina": argentinaVisaData["Thailand"],
     "Armenia": armeniaData["Thailand"],
-    "Azerbaijan": azerbaijanData["Thailand"],
+    "Azerbaijan": azerbaijanVisaData["Thailand"],
     "Australia": australiaData["Thailand"],
     "Bolivia": boliviaData["Thailand"],
-    "Brazil": brazilData["Thailand"],
+    "Brazil": brazilVisaData["Thailand"],
     "Chile": chileData["Thailand"],
     "China": chinaData["Thailand"],
     "Colombia": colombiaData["Thailand"],
@@ -209,19 +209,19 @@ export const visaData: VisaData = {
     "Spain": spainData["Thailand"],
     "Sri Lanka": sirLankaData["Thailand"],
     "Sweden": swedenData["Thailand"],
-    "Thailand": thailandData["Thailand"],
+    "Thailand": thailandVisaData["Thailand"],
     "Turkey": turkeyData["Thailand"],
     "United Arab Emirates": unitedArabEmiratesData["Thailand"],
     "United States": unitedStatesData["Thailand"],
     "Vietnam": vietnamData["Thailand"]
   },
   "United Kingdom": {
-    "Argentina": argentinaData["United Kingdom"],
+    "Argentina": argentinaVisaData["United Kingdom"],
     "Armenia": armeniaData["United Kingdom"],
-    "Azerbaijan": azerbaijanData["United Kingdom"],
+    "Azerbaijan": azerbaijanVisaData["United Kingdom"],
     "Australia": australiaData["United Kingdom"],
     "Bolivia": boliviaData["United Kingdom"],
-    "Brazil": brazilData["United Kingdom"],
+    "Brazil": brazilVisaData["United Kingdom"],
     "Chile": chileData["United Kingdom"],
     "China": chinaData["United Kingdom"],
     "Colombia": colombiaData["United Kingdom"],
@@ -251,20 +251,20 @@ export const visaData: VisaData = {
     "Spain": spainData["United Kingdom"],
     "Sri Lanka": sirLankaData["United Kingdom"],
     "Sweden": swedenData["United Kingdom"],
-    "Thailand": thailandData["United Kingdom"],
+    "Thailand": thailandVisaData["United Kingdom"],
     "Turkey": turkeyData["United Kingdom"],
     "United Arab Emirates": unitedArabEmiratesData["United Kingdom"],
     "United States": unitedStatesData["United Kingdom"],
     "Vietnam": vietnamData["United Kingdom"]
   },
    "United States": {
-    "Argentina": argentinaData["United States"],
+    "Argentina": argentinaVisaData["United States"],
     "Armenia": armeniaData["United States"],
     "Australia": australiaData["United States"],
-    "Azerbaijan": azerbaijanData["United States"],
+    "Azerbaijan": azerbaijanVisaData["United States"],
     "Belize": belizeData["United States"],
     "Bolivia": boliviaData["United States"],
-    "Brazil": brazilData["United States"],
+    "Brazil": brazilVisaData["United States"],
     "Canada": canadaData["United States"], // ← ADDED CANADA (alphabetical order)
     "Chile": chileData["United States"],
     "China": chinaData["United States"],
@@ -298,7 +298,7 @@ export const visaData: VisaData = {
     "Spain": spainData["United States"],
     "Sri Lanka": sirLankaData["United States"],
     "Sweden": swedenData["United States"],
-    "Thailand": thailandData["United States"],
+    "Thailand": thailandVisaData["United States"],
     "Turkey": turkeyData["United States"],
     "United Arab Emirates": unitedArabEmiratesData["United States"],
     "Vietnam": vietnamData["United States"]

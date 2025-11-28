@@ -1,7 +1,4 @@
 // src/lib/types/resonance.ts
-// this is the type for the filterData.ts 
-// Will change the names later on to make them match
-
 export interface ResonancePreferences {
   // Personality & Travel Style
   travelStyle: 'slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural';
@@ -23,10 +20,6 @@ export interface ResonancePreferences {
   internetImportance: number; // 1-10
   safetyImportance: number; // 1-10
 }
-import type { Workspace } from '$lib/data/nomadData';
-export interface ResonancePreferences {
-  // ... keep existing preferences the same ...
-}
 
 export interface ResonanceScore {
   name: string;
@@ -43,7 +36,6 @@ export interface ResonanceScore {
   matchReasons: string[];
 }
 
-// Remove CountryResonanceProfile, just use CityResonanceProfile for both
 export interface CityResonanceProfile {
   name: string;
   city: string;
@@ -71,12 +63,11 @@ export interface CityResonanceProfile {
   internetQuality: number; // 1-10
   safetyScore: number; // 1-10
   
-  // Tags for matching
+  // Tags for matching (replaces bestFor)
   tags: string[];
   
   // Additional metadata
   rating?: number;
-  bestFor: string[];
   highlights: string[];
   description?: string;
 }

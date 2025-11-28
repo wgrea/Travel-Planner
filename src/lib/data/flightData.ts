@@ -9,12 +9,15 @@ import { belizeFlightData } from './countries/central-america/belize';
 import { costaRicaFlightData } from './countries/central-america/costaRica';
 import { guatemalaFlightData } from './countries/central-america/guatemala';
 import { panamaFlightData } from './countries/central-america/panama';
+import { argentinaFlightData } from './countries/south-america/argentina';
+
 
 export const flightData: Record<string, FlightCostData > = {
   "Belize": belizeFlightData,
   "Costa Rica": costaRicaFlightData,
   "Guatemala": guatemalaFlightData,
   "Panama": panamaFlightData,
+  "Argentina": argentinaFlightData,
   // ... add other countries
 };
 
