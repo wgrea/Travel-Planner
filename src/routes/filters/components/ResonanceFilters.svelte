@@ -5,39 +5,30 @@
   
   export let preferences: ResonancePreferences;
   export let selectedTags: string[] = [];
-  export let selectedBestFor: string[] = [];
   export let totalFilters: number = 0;
   export let isLoading: boolean = false;
 
-  // Remove unused exports since we're not using them in this component
-  // export let allTags: string[] = [];
-  // export let allBestFor: string[] = [];
-  // export let allActivities: string[] = [];
-
-  const travelStyles = [
-    { value: 'slow', label: 'Slow Travel', emoji: '🐢', description: 'Immerse yourself deeply' },
-    { value: 'fast', label: 'Fast-paced', emoji: '⚡', description: 'See as much as possible' },
-    { value: 'adventure', label: 'Adventure', emoji: '🧗', description: 'Active exploration' },
-    { value: 'relaxation', label: 'Relaxation', emoji: '🏖️', description: 'Unwind and recharge' },
-    { value: 'cultural', label: 'Cultural', emoji: '🏛️', description: 'History and traditions' }
+  // MAKE SURE THIS IS YOUR UPDATED ARRAY (7 options)
+  const budgetOptions = [
+    { value: 'any', label: 'Any Budget Level' },
+    { value: 'budget', label: 'Budget Only 💰' },
+    { value: 'midrange', label: 'Comfortable Only 💵' },
+    { value: 'luxury', label: 'Luxury Only 💎' },
+    { value: 'budget-midrange', label: 'Budget + Comfortable 🪙' },
+    { value: 'midrange-luxury', label: 'Comfortable + Luxury �️' },
+    { value: 'all-levels', label: 'All Budget Levels 🌟' }
   ];
 
-  const socialOptions = [
-    { value: 'solo', label: 'Solo Travel', emoji: '🙋' },
-    { value: 'social', label: 'Very Social', emoji: '👥' },
-    { value: 'balanced', label: 'Balanced', emoji: '⚖️' }
-  ];
-
-  const energyOptions = [
-    { value: 'high', label: 'High Energy', emoji: '🔥' },
-    { value: 'medium', label: 'Medium Energy', emoji: '💫' },
-    { value: 'low', label: 'Low Energy', emoji: '😌' }
+  const climateOptions = [
+    { value: 'any', label: 'Any Climate' },
+    { value: 'warm', label: 'Warm & Sunny ☀️' },
+    { value: 'cool', label: 'Cool & Crisp ❄️' },
+    { value: 'temperate', label: 'Temperate & Mild 🌤️' }
   ];
 
   const dispatch = createEventDispatcher<{
     updatePreferences: { field: string; value: any };
     toggleTag: string;
-    toggleBestFor: string;
     clearAll: void;
     findMatches: void;
   }>();
@@ -49,27 +40,35 @@
   <div class="space-y-4 mb-6">
     <div>
       <label for="budget-select" class="block text-sm font-medium mb-2 text-gray-700">Budget Level</label>
+      <!-- MAKE SURE YOU'RE USING budgetOptions HERE -->
       <select 
         id="budget-select"
         bind:value={preferences.budget}
         class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
       >
-        <option value="budget">Budget Friendly 💰</option>
-        <option value="midrange">Comfortable Mid-range 💵</option>
-        <option value="luxury">Luxury Experience 💎</option>
+        {#each budgetOptions as option}
+          <option value={option.value}>{option.label}</option>
+        {/each}
       </select>
     </div>
 
-    <!-- In ResonanceFilters.svelte, after the budget section -->
-    <!-- Make sure there is no contradition from the living costs page -->
+    <!-- Budget tooltip -->
     <div class="text-xs text-gray-500 mt-1">
-    {#if preferences.budget === 'budget'}
-        💡 Typically $20-40/day for budget travel
-    {:else if preferences.budget === 'midrange'}  
-        💡 Typically $40-80/day for comfortable travel
-    {:else if preferences.budget === 'luxury'}
-        💡 Typically $80+/day for luxury experiences
-    {/if}
+      {#if preferences.budget === 'budget'}
+        💡 Only budget-friendly locations
+      {:else if preferences.budget === 'midrange'}  
+        💡 Only comfortable mid-range locations
+      {:else if preferences.budget === 'luxury'}
+        💡 Only luxury experiences
+      {:else if preferences.budget === 'budget-midrange'}
+        💡 Budget + comfortable locations
+      {:else if preferences.budget === 'midrange-luxury'}
+        💡 Comfortable + luxury locations  
+      {:else if preferences.budget === 'all-levels'}
+        💡 All budget levels (most options)
+      {:else}
+        💡 Showing all locations
+      {/if}
     </div>
 
     <div>
@@ -79,10 +78,9 @@
         bind:value={preferences.climate}
         class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
       >
-        <option value="warm">Warm & Sunny ☀️</option>
-        <option value="cool">Cool & Crisp ❄️</option>
-        <option value="temperate">Temperate & Mild 🌤️</option>
-        <option value="any">Any Climate</option>
+        {#each climateOptions as option}
+          <option value={option.value}>{option.label}</option>
+        {/each}
       </select>
     </div>
 
@@ -118,7 +116,7 @@
   <!-- Find Matches Button -->
   <button
     on:click={() => dispatch('findMatches')}
-    disabled={isLoading || totalFilters === 0}
+    disabled={isLoading}
     class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
   >
     {#if isLoading}
@@ -145,11 +143,6 @@
         {#each selectedTags as tag}
           <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
             #{tag}
-          </span>
-        {/each}
-        {#each selectedBestFor as category}
-          <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">
-            ✓ {category}
           </span>
         {/each}
         {#each preferences.activities as activity}

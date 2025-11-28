@@ -1,36 +1,51 @@
 <!-- src/routes/filters/+page.svelte -->
 
-<!--
-No countries show up when I filter luxury and budget. Just comfort shows up.
+<!-- Before asking a bot to add resonance data for another country, make sure you show these files:
 
-Still need to categorize Things to Do. there are categories but they don't do anything.
+- Data structure (the resonance.ts files you shared)
+- Type definitions (ResonancePreferences, CityResonanceProfile)
+- Tag and activity categories (from resonanceData.ts)
+- Existing country examples (Thailand, Brazil, Argentina)
 
-We should make sure All Climates is the default and also make an "any budget level" filter and make that a default.
+Check that each tag has a filter or either get rid of the tag or add a country
+
+Don't forget to add a back button and the next pages to check. It will be recommended to look at the visa page. 
+
+I think this is also a good page to show what type of visa there are for a specific county. 
+
+I might want users to see what data is from a certain country. The country selector might get on here.
+
+Maybe also add a save feature and that can go to what is now "Travel Resonance" which will be the save plans page
+
+There may be overlaps but I don't want so much on one page way more than the others.
+
+
+
+
 -->
 
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
   import { ResonanceMatcher } from '$lib/utils/resonanceMatcher';
-  import { resonanceDataByRegion, activityCategories, getAllActivities, getAllTags, getAllLocations, tagCategories } from '$lib/data/resonanceData'; // CHANGED: filterData → resonanceData
-  import type { ResonancePreferences, ResonanceScore, CityResonanceProfile } from '$lib/types/resonance'; // ADDED: CityResonanceProfile
+  import { resonanceDataByRegion, activityCategories, getAllActivities, getAllTags, getAllLocations, tagCategories } from '$lib/data/resonanceData';
+  import type { ResonancePreferences, ResonanceScore, CityResonanceProfile } from '$lib/types/resonance';
   
   import ResonanceFilters from './components/ResonanceFilters.svelte';
   import ResonanceTabs from './components/ResonanceTabs.svelte';
   import ResonanceResults from './components/ResonanceResults.svelte';
 
-  // Resonance state
+  // FIXED: Now 'any' is valid for both budget and climate
   let preferences: ResonancePreferences = {
     travelStyle: 'slow',
     socialPreference: 'balanced',
     energyLevel: 'medium',
-    climate: 'temperate',
+    climate: 'any',
     vibe: 'balanced',
     density: 'mixed',
     activities: [],
     foodScene: 'mixed',
     nightlife: 'moderate',
-    budget: 'midrange',
+    budget: 'any', // Now valid
     internetImportance: 8,
     safetyImportance: 8
   };
@@ -54,22 +69,32 @@ We should make sure All Climates is the default and also make an "any budget lev
     console.log('=====================');
   });
 
-  // Filter activities by category
+  // FIXED: Type-safe activity filtering with proper type assertion
   $: filteredActivities = selectedCategory === 'all' 
     ? allActivities 
-    : allActivities.filter((activity: string) =>  // ADDED type annotation
-        Object.values(activityCategories).flat().includes(activity)
-      );
+    : (activityCategories as Record<string, string[]>)[selectedCategory] || [];
 
   function findMatches() {
     isLoading = true;
     setTimeout(() => {
-      // 1. FIRST: Apply sidebar practical filters (OVERRIDE everything)
-      let filteredLocations = allLocations.filter((location: CityResonanceProfile) => {  // ADDED type annotation
-        // Budget filter (exact match required)
-        if (location.costLevel !== preferences.budget) return false;
+      let filteredLocations = allLocations.filter((location: CityResonanceProfile) => {
+        // FIXED: Complete budget hierarchy
+        if (preferences.budget !== 'any') {
+          const budgetHierarchy = {
+            'budget': ['budget'], // Only budget
+            'midrange': ['midrange'], // Only comfortable
+            'luxury': ['luxury'], // Only luxury
+            'budget-midrange': ['budget', 'midrange'], // Budget + comfortable
+            'midrange-luxury': ['midrange', 'luxury'], // Comfortable + luxury
+            'all-levels': ['budget', 'midrange', 'luxury'] // All levels
+          };
+          
+          if (!budgetHierarchy[preferences.budget].includes(location.costLevel)) {
+            return false;
+          }
+        }
         
-        // Climate filter (if not 'any')
+        // Climate filter - only apply if not 'any'
         if (preferences.climate !== 'any' && location.climate !== preferences.climate) return false;
         
         // Internet quality filter (meets minimum)
@@ -83,13 +108,15 @@ We should make sure All Climates is the default and also make an "any budget lev
       
       // 2. THEN: Filter by selected tags (experience characteristics)
       if (selectedTags.length > 0) {
-        filteredLocations = filteredLocations.filter((location: CityResonanceProfile) =>  // ADDED type annotation
+        filteredLocations = filteredLocations.filter((location: CityResonanceProfile) =>
           selectedTags.some(tag => location.tags.includes(tag))
         );
       }
       
       console.log('=== MATCHING DEBUG ===');
-      console.log('After practical filters:', filteredLocations.map((l: CityResonanceProfile) => l.name));  // ADDED type annotation
+      console.log('Budget filter:', preferences.budget);
+      console.log('Climate filter:', preferences.climate);
+      console.log('After practical filters:', filteredLocations.map((l: CityResonanceProfile) => l.name));
       console.log('Selected tags:', selectedTags);
       
       matches = ResonanceMatcher.findTopMatches(preferences, filteredLocations);
