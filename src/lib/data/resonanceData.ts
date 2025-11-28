@@ -174,7 +174,7 @@ export const activityCategories = {
     'street art tours', 'theater', 'football matches', 'shopping malls'
   ],
   
-  adventure: [
+  adventure: [ // I don't think I should see Thailand when I select 'amazon river tours'
     'amazon river tours', 'elephant sanctuaries', 'canyon exploration',
     'motorbike touring', 'boat expeditions', 'jungle hiking', 'full moon party'
   ],
