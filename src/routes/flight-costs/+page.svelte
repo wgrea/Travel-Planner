@@ -3,6 +3,10 @@
 
 <!--
 Improve the country selection. Should be immediate now that the data is sorted out. 
+
+I want to select which countries are cheapest for a specific month. I should add which month is most expensive for a certain country
+I still need to change the text.
+Also about tips for each country on getting the most affordable price possible. Over $800 for an average price can be a turn off. What if someone goes to a country first then towards their destination they want to stay at
 -->
 
 <script lang="ts">

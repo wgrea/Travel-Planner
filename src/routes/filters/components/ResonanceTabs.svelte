@@ -5,22 +5,20 @@
   
   export let preferences: ResonancePreferences;
   export let selectedTags: string[] = [];
-  export let selectedBestFor: string[] = [];
   export let selectedCategory: string = 'all';
-  export let activeTab: 'tags' | 'activities' | 'bestFor' = 'tags';
+  export let activeTab: 'tags' | 'activities' = 'tags';
   
   export let allTags: string[] = [];
-  export let allBestFor: string[] = [];
   export let allActivities: string[] = [];
   export let filteredActivities: string[] = [];
   export let activityCategories: Record<string, string[]> = {};
+  export let tagCategories: Record<string, string[]> = {}; // ADD THIS
 
   const dispatch = createEventDispatcher<{
     toggleTag: string;
-    toggleBestFor: string;
     toggleActivity: string;
     selectCategory: string;
-    changeTab: 'tags' | 'activities' | 'bestFor';
+    changeTab: 'tags' | 'activities';
   }>();
 </script>
 
@@ -32,18 +30,8 @@
   >
     <div class="text-center">
       <div class="text-lg">🏷️</div>
-      <div>Browse by Tags</div>
-      <div class="text-xs text-gray-400 mt-1">{allTags.length} available</div>
-    </div>
-  </button>
-  <button
-    class="flex-1 px-4 py-3 font-medium rounded-lg transition-all {activeTab === 'bestFor' ? 'text-indigo-600 bg-indigo-50 shadow-sm' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'}"
-    on:click={() => dispatch('changeTab', 'bestFor')}
-  >
-    <div class="text-center">
-      <div class="text-lg">⭐</div>
-      <div>Best For</div>
-      <div class="text-xs text-gray-400 mt-1">{allBestFor.length} categories</div>
+      <div>Location Vibes</div>
+      <div class="text-xs text-gray-400 mt-1">{allTags.length} tags</div>
     </div>
   </button>
   <button
@@ -52,51 +40,63 @@
   >
     <div class="text-center">
       <div class="text-lg">🎯</div>
-      <div>Activities</div>
+      <div>Things to Do</div>
       <div class="text-xs text-gray-400 mt-1">{allActivities.length} activities</div>
     </div>
   </button>
 </div>
 
-<!-- Tags Tab -->
+<!-- Tags Tab - ORGANIZED BY CATEGORIES -->
 {#if activeTab === 'tags'}
   <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg mb-6">
     <h2 class="text-xl font-semibold mb-4 text-gray-900">
       Start with Tags to Narrow Down
     </h2>
     <p class="text-gray-600 mb-6">Select tags that describe the kind of experience you're looking for:</p>
-    <div class="flex flex-wrap gap-3">
-      {#each allTags as tag}
-        <button
-          class="px-5 py-3 rounded-full border-2 transition-all duration-200 hover:scale-105 {selectedTags.includes(tag) 
-            ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-md' 
-            : 'border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50/50'}"
-          on:click={() => dispatch('toggleTag', tag)}
-        >
-          #{tag}
-        </button>
-      {/each}
-    </div>
-  </div>
-{/if}
-
-<!-- Best For Tab -->
-{#if activeTab === 'bestFor'}
-  <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg mb-6">
-    <h2 class="text-xl font-semibold mb-4 text-gray-900">
-      What Type of Traveler Are You?
-    </h2>
-    <p class="text-gray-600 mb-6">Select categories that best describe your travel style:</p>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {#each allBestFor as category}
-        <button
-          class="p-4 rounded-xl border-2 text-left transition-all duration-200 hover:scale-105 {selectedBestFor.includes(category) 
-            ? 'border-green-500 bg-green-50 text-green-700 shadow-md' 
-            : 'border-gray-200 text-gray-600 hover:border-green-300 hover:bg-green-50/50'}"
-          on:click={() => dispatch('toggleBestFor', category)}
-        >
-          <div class="font-medium">{category}</div>
-        </button>
+    
+    <!-- Organized Tag Categories -->
+    <div class="space-y-8">
+      {#each Object.entries(tagCategories) as [category, tags]}
+        <div class="border-b border-gray-100 pb-6 last:border-b-0 last:pb-0">
+          <h3 class="font-semibold text-gray-900 mb-4 text-lg flex items-center gap-2">
+            {#if category === 'experience'}
+              <span>🎯</span> Experience Types
+            {:else if category === 'vibe'}
+              <span>🌡️</span> Vibe & Atmosphere
+            {:else if category === 'geography'}
+              <span>🗺️</span> Geography & Setting
+            {:else if category === 'culture'}
+              <span>🎭</span> Culture & Activities
+            {:else if category === 'specific'}
+              <span>⭐</span> Unique Features
+            {/if}
+          </h3>
+          <p class="text-sm text-gray-600 mb-3">
+            {#if category === 'experience'}
+              What kind of trip are you looking for?
+            {:else if category === 'vibe'}
+              How do you want it to feel?
+            {:else if category === 'geography'}
+              What setting appeals to you?
+            {:else if category === 'culture'}
+              What cultural aspects interest you?
+            {:else if category === 'specific'}
+              Any specific interests or features?
+            {/if}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {#each tags as tag}
+              <button
+                class="px-4 py-2 rounded-full border-2 transition-all duration-200 hover:scale-105 {selectedTags.includes(tag) 
+                  ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-md' 
+                  : 'border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50/50'}"
+                on:click={() => dispatch('toggleTag', tag)}
+              >
+                #{tag.replace('-', ' ')}
+              </button>
+            {/each}
+          </div>
+        </div>
       {/each}
     </div>
   </div>

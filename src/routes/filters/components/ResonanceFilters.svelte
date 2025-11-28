@@ -44,78 +44,6 @@
 </script>
 
 <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg sticky top-8">
-  
-  <!-- Clear Filters -->
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-lg font-semibold text-gray-900">Filters</h2>
-    {#if totalFilters > 0}
-      <button
-        on:click={() => dispatch('clearAll')}
-        class="text-sm text-red-600 hover:text-red-700 font-medium"
-      >
-        Clear All
-      </button>
-    {/if}
-  </div>
-
-  <!-- Travel Style -->
-  <div class="mb-6">
-    <h3 class="font-semibold text-gray-900 mb-3">Travel Style</h3>
-    <div class="space-y-2">
-      {#each travelStyles as style}
-        <button
-          class="w-full p-3 rounded-lg border text-left transition-all {preferences.travelStyle === style.value 
-            ? 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm' 
-            : 'border-gray-200 hover:border-gray-300 text-gray-700 hover:bg-gray-50'}"
-          on:click={() => dispatch('updatePreferences', { field: 'travelStyle', value: style.value })}
-        >
-          <div class="flex items-center gap-3">
-            <span class="text-xl">{style.emoji}</span>
-            <div>
-              <div class="font-medium">{style.label}</div>
-              <div class="text-xs text-gray-500">{style.description}</div>
-            </div>
-          </div>
-        </button>
-      {/each}
-    </div>
-  </div>
-
-  <!-- Social & Energy -->
-  <div class="grid grid-cols-2 gap-4 mb-6">
-    <div>
-      <h3 class="font-semibold text-gray-900 mb-2">Social Style</h3>
-      <div class="space-y-1">
-        {#each socialOptions as option}
-          <button
-            class="w-full p-2 rounded-lg border text-center text-sm {preferences.socialPreference === option.value 
-              ? 'border-blue-500 bg-blue-50 text-blue-700' 
-              : 'border-gray-200 hover:border-gray-300 text-gray-600'}"
-            on:click={() => dispatch('updatePreferences', { field: 'socialPreference', value: option.value })}
-          >
-            <span class="text-lg mr-1">{option.emoji}</span>
-            {option.label}
-          </button>
-        {/each}
-      </div>
-    </div>
-    <div>
-      <h3 class="font-semibold text-gray-900 mb-2">Energy Level</h3>
-      <div class="space-y-1">
-        {#each energyOptions as option}
-          <button
-            class="w-full p-2 rounded-lg border text-center text-sm {preferences.energyLevel === option.value 
-              ? 'border-orange-500 bg-orange-50 text-orange-700' 
-              : 'border-gray-200 hover:border-gray-300 text-gray-600'}"
-            on:click={() => dispatch('updatePreferences', { field: 'energyLevel', value: option.value })}
-          >
-            <span class="text-lg mr-1">{option.emoji}</span>
-            {option.label}
-          </button>
-        {/each}
-      </div>
-    </div>
-  </div>
 
   <!-- Budget & Practical -->
   <div class="space-y-4 mb-6">
@@ -130,6 +58,18 @@
         <option value="midrange">Comfortable Mid-range 💵</option>
         <option value="luxury">Luxury Experience 💎</option>
       </select>
+    </div>
+
+    <!-- In ResonanceFilters.svelte, after the budget section -->
+    <!-- Make sure there is no contradition from the living costs page -->
+    <div class="text-xs text-gray-500 mt-1">
+    {#if preferences.budget === 'budget'}
+        💡 Typically $20-40/day for budget travel
+    {:else if preferences.budget === 'midrange'}  
+        💡 Typically $40-80/day for comfortable travel
+    {:else if preferences.budget === 'luxury'}
+        💡 Typically $80+/day for luxury experiences
+    {/if}
     </div>
 
     <div>

@@ -28,6 +28,14 @@ Make sure all countries have each import that you have ready before sharing your
   }
 
   const menuItems = [
+      {
+      title: "Destination Finder",
+      description: "Find places that match your travel style",
+      icon: "🔍", 
+      path: "/filters",
+      color: "from-amber-50 to-orange-50",
+      accent: "text-amber-700"
+    },  
     {
       title: "Visa Requirements",
       description: "Check visa needs and application process",
@@ -59,14 +67,6 @@ Make sure all countries have each import that you have ready before sharing your
       path: "/digital-nomad",
       color: "from-indigo-50 to-purple-50",
       accent: "text-indigo-700"
-    },
-    {
-      title: "Destination Finder",
-      description: "Find places that match your travel style",
-      icon: "🔍", 
-      path: "/filters",
-      color: "from-amber-50 to-orange-50",
-      accent: "text-amber-700"
     },
     {
       title: "Travel Resonance",

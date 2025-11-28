@@ -8,6 +8,8 @@ Start with/modify what is working instead of going into creating a new page
 
 For the digital nomad page, it was hard to test. Have live debug shown in front of me really helped. I ended up putting a lot of debug messages. I may keep the live debug in for now even if I share my site publicly.
 
+The resonance filters page was the quickest and easiest to make. I filtered by cities just for any yellow area filters
+
 -->
 
 <!-- This is for documentation of how the project was built, not for filling forms -->
