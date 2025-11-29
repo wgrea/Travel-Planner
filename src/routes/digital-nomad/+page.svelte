@@ -318,6 +318,23 @@ How to work from anywhere, how to get a job that lets you work from anywhere. Th
       <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
     </button>
 
+    
+    <!-- Navigation to new pages -->
+    <div class="mb-8 flex gap-4 justify-center">
+      <button
+        on:click={() => goto('/digital-nomad/support')}
+        class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium"
+      >
+        📋 Supports & Visas
+      </button>
+      <button
+        on:click={() => goto('/digital-nomad/how-to-work-from-anywhere')}
+        class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium"
+      >
+        💼 How to Work From Anywhere
+      </button>
+    </div>
+
     <!-- Before You Start Section -->
     <BeforeYouStart />
 
