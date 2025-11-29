@@ -15,6 +15,8 @@
   let isLoading = $state(false);
   let origin = '';
   let destination = '';
+  let originCountry = $state('United States'); // Default to United States
+  
 
   // Use $derived for reactive values
   const currentRouteCosts  = $derived(getAllFlightCountries().find(country => country.country === selectedCountry));
@@ -59,6 +61,7 @@
     return allCountries;
   }
 
+  // Update this function to handle origin country changes
   function handleCountryChange(country: string) {
     selectedCountry = country;
     const countryData = getAllCountries().find(c => c.country === country);
@@ -119,12 +122,13 @@
     <!-- Country Selector -->
     <div class="mb-12 p-8 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg">
       <CountrySelector 
-        {selectedCountry}
-        {selectedRegion}
+        selectedCountry={selectedCountry}
+        selectedRegion={selectedRegion}
         countryData={getAllCountries()}
-        onDestinationChange={handleCountryChange}
+        onCountryChange={handleCountryChange}
         onRegionChange={handleRegionChange}
         mode="flight"
+        originCountry={originCountry}
       />
     </div>
 
@@ -188,7 +192,8 @@
       <div class="card">
         <CheapestCountries 
           filteredData={currentRouteCosts ? [currentRouteCosts] : []} 
-          selectedCountry={selectedCountry} 
+          selectedCountry={selectedCountry}
+          originCountry={originCountry}
         />
       </div>
       
