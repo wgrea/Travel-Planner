@@ -2,56 +2,65 @@
 <script lang="ts">
   import type { FlightPattern } from '$lib/data/flightPatternData';
   import { routeCosts } from '$lib/data/routeCosts';
-  import type { RouteCostData } from '$lib/types/flight';
   
-  let { filteredData, selectedCountry } = $props<{ 
+  let { filteredData, selectedCountry, originCountry } = $props<{ 
     filteredData: FlightPattern[], 
-    selectedCountry: string 
+    selectedCountry: string,
+    originCountry: string 
   }>();
   
-  // Use $derived for reactive values in runes mode
-  const originPricing = $derived(routeCosts[selectedCountry] || {});
-  const originCountries = $derived(Object.keys(originPricing));
-  const hasrouteCosts = $derived(originCountries.length > 0);
+  // FIX: Use let instead of const for originPricing
+  let originPricing: any = $state(null);
+  
+  // Update pricing when origin or destination changes
+  $effect(() => {
+    if (routeCosts && originCountry && selectedCountry) {
+      const originData = (routeCosts as any)[originCountry];
+      if (originData && originData[selectedCountry]) {
+        originPricing = originData[selectedCountry];
+      } else {
+        originPricing = null;
+      }
+    }
+  });
+  
+  const hasRouteCosts = $derived(!!originPricing);
   const hasPatternData = $derived(filteredData.length > 0 && filteredData[0]);
 </script>
 
+<!-- The rest of the template remains the same -->
 <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
   <h2 class="text-2xl font-bold mb-6 text-gray-900 border-b border-gray-200 pb-4 flex items-center gap-3">
     <span class="text-amber-500 text-2xl">💰</span> 
-    Flight Costs from Various Origins
+    Flight Cost from Origin
   </h2>
   
-  {#if hasrouteCosts}
+  {#if hasRouteCosts}
     <div class="space-y-6">
-      <!-- Origin-based Pricing -->
+      <!-- Single Origin Pricing -->
       <div class="p-5 rounded-xl bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 shadow-sm">
         <h3 class="font-semibold text-blue-900 mb-4 text-lg flex items-center gap-2">
           <span class="text-blue-600">✈️</span>
-          Prices Flying to {selectedCountry}
+          Prices from {originCountry} to {selectedCountry}
         </h3>
         <div class="grid gap-3">
-          {#each originCountries as origin}
-            {#if originPricing[origin]}
-              <div class="flex justify-between items-center p-4 bg-white/80 rounded-lg border border-blue-200/50 backdrop-blur-sm hover:bg-white transition-colors duration-200">
-                <div class="flex-1">
-                  <span class="font-medium text-gray-800 text-sm">From {origin}</span>
-                  {#if originPricing[origin].season}
-                    <span class="text-xs text-gray-500 ml-2 font-normal">({originPricing[origin].season})</span>
-                  {/if}
-                  {#if originPricing[origin].bestTimeToBook}
-                    <p class="text-xs text-gray-600 mt-1">📅 {originPricing[origin].bestTimeToBook}</p>
-                  {/if}
-                </div>
-                <div class="text-right min-w-[120px]">
-                  <div class="font-bold text-green-700 text-sm">${originPricing[origin].economy} economy</div>
-                  {#if originPricing[origin].business}
-                    <div class="text-xs text-gray-500 mt-1">${originPricing[origin].business} business</div>
-                  {/if}
-                </div>
-              </div>
-            {/if}
-          {/each}
+          <div class="flex justify-between items-center p-4 bg-white/80 rounded-lg border border-blue-200/50 backdrop-blur-sm hover:bg-white transition-colors duration-200">
+            <div class="flex-1">
+              <span class="font-medium text-gray-800 text-sm">From {originCountry}</span>
+              {#if originPricing.season}
+                <span class="text-xs text-gray-500 ml-2 font-normal">({originPricing.season})</span>
+              {/if}
+              {#if originPricing.bestTimeToBook}
+                <p class="text-xs text-gray-600 mt-1">📅 {originPricing.bestTimeToBook}</p>
+              {/if}
+            </div>
+            <div class="text-right min-w-[120px]">
+              <div class="font-bold text-green-700 text-sm">${originPricing.economy} economy</div>
+              {#if originPricing.business}
+                <div class="text-xs text-gray-500 mt-1">${originPricing.business} business</div>
+              {/if}
+            </div>
+          </div>
         </div>
       </div>
       
@@ -105,8 +114,7 @@
       <div class="text-4xl mb-4">🌍</div>
       <p class="text-gray-600 font-medium mb-2 text-lg">No flight data available</p>
       <p class="text-sm text-gray-500 max-w-md mx-auto">
-        Flight cost data shows prices from various countries to {selectedCountry}. 
-        Data for this destination is currently being updated.
+        Flight cost data from {originCountry} to {selectedCountry} is currently being updated.
       </p>
     </div>
   {/if}
