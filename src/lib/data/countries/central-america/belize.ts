@@ -1,7 +1,7 @@
 // /src/lib/data/countries/central-america/belize.ts
 import type { VisaInfo } from '$lib/types/visa';
-import type { FlightCostData  } from '$lib/types/flight'; // ← ADD THIS IMPORT
-import type { FlightPattern } from '$lib/data/flyData';
+import type { RouteCostData  } from '$lib/types/flight'; // ← ADD THIS IMPORT
+import type { FlightPattern } from '$lib/data/flightPatternData';
 
 export const belizeFlightPattern: FlightPattern = {
   country: "Belize",
@@ -60,7 +60,7 @@ export const belizeData: Record<string, VisaInfo> = {
     }
 };
 
-export const belizeFlightData: FlightCostData  = {
+export const belizeRouteCost: RouteCostData = {
   'United States': {
     economy: 350,
     business: 800,
@@ -71,6 +71,18 @@ export const belizeFlightData: FlightCostData  = {
   },
   'Canada': {
     economy: 450,
-    business: 950
+    business: 950,
+    season: 'Winter peak',
+    bestTimeToBook: '4-5 months in advance',
+    airports: ['BZE'],
+    airlines: ['Air Canada', 'WestJet']
+  },
+  'Mexico': {
+    economy: 250,
+    business: 600,
+    season: 'year-round',
+    bestTimeToBook: '2-3 months in advance',
+    airports: ['BZE'],
+    airlines: ['Tropic Air', 'Mayan Air']
   }
 };

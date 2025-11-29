@@ -70,6 +70,8 @@ import { belizeFlightPattern } from './countries/central-america/belize';
 import { costaRicaFlightPattern } from './countries/central-america/costaRica';
 import { guatemalaFlightPattern } from './countries/central-america/guatemala';
 import { panamaFlightPattern } from './countries/central-america/panama';
+import { unitedStatesFlightPattern } from './countries/north-america/united-states';
+import { canadaFlightPattern } from './countries/north-america/canada';
 
 export const flyDataByRegion: RegionData[] = [
   {
@@ -172,7 +174,9 @@ export const flyDataByRegion: RegionData[] = [
   {
     region: "North America",
     countries: [
-      mexicoFlightPattern
+      canadaFlightPattern,
+      mexicoFlightPattern,
+      unitedStatesFlightPattern
     ]
   }
 ];

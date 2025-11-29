@@ -8,9 +8,9 @@ import { azerbaijanVisaData } from './countries/europe/caucasus/azerbaijan';
 import { belizeData } from './countries/central-america/belize';
 import { boliviaData } from './countries/south-america/bolivia';
 import { brazilVisaData } from './countries/south-america/brazil';
-import { canadaData } from './countries/north-america/canada'; // ← ADDED CANADA
+import { canadaVisaData } from './countries/north-america/canada'; // ← ADDED CANADA
 import { chileData } from './countries/south-america/chile';
-import { chinaData } from './countries/east-asia/china';
+import { chinaVisaData } from './countries/east-asia/china';
 import { colombiaData } from './countries/south-america/colombia';
 import { costaRicaData } from './countries/central-america/costaRica';
 import { croatiaData } from './countries/europe/southern-europe/croatia';
@@ -44,9 +44,11 @@ import { swedenData } from './countries/europe/northern-europe/sweden';
 import { thailandVisaData } from './countries/southeast-asia/thailand';
 import { turkeyData } from './countries/europe/southern-europe/turkey';
 import { unitedArabEmiratesData } from './countries/middle-east/unitedArabEmirates';
-import { unitedStatesData } from './countries/north-america/united-states';
+import { unitedStatesVisaData } from './countries/north-america/united-states';
 import { vietnamData } from './countries/southeast-asia/vietnam';
 
+// Might need to try to change something, this also changes what I can select on the flight page, but can only be changed through here. Maybe because import { visaData } from '$lib/data/visaData'; 
+   
 export const visaData: VisaData = {
   "Australia": {
     "Argentina": argentinaVisaData["Australia"],
@@ -56,7 +58,7 @@ export const visaData: VisaData = {
     "Bolivia": boliviaData["Australia"],
     "Brazil": brazilVisaData["Australia"],
     "Chile": chileData["Australia"],
-    "China": chinaData["Australia"],
+    "China": chinaVisaData["Australia"],
     "Colombia": colombiaData["Australia"],
     "Croatia": croatiaData["Australia"],
     "Czech Republic": czechRepublicData["Australia"],
@@ -87,9 +89,16 @@ export const visaData: VisaData = {
     "Thailand": thailandVisaData["Australia"],
     "Turkey": turkeyData["Australia"],
     "United Arab Emirates": unitedArabEmiratesData["Australia"],
-    "United States": unitedStatesData["Australia"],
+    "United States": unitedStatesVisaData["Australia"],
     "Vietnam": vietnamData["Australia"]
   },
+  "Canada": {
+    "Argentina": argentinaVisaData["Canada"],
+    "Australia": australiaData["Canada"], 
+    "United States": canadaVisaData["United States"], // Reference the data we just created
+    // ... add other destinations
+  },
+  // ... rest of your visa data
   "China": {
     "Argentina": argentinaVisaData["China"],
     "Armenia": armeniaData["China"],
@@ -128,7 +137,7 @@ export const visaData: VisaData = {
     "Thailand": thailandVisaData["China"],
     "Turkey": turkeyData["China"],
     "United Arab Emirates": unitedArabEmiratesData["China"],
-    "United States": unitedStatesData["China"],
+    "United States": unitedStatesVisaData["China"],
     "Vietnam": vietnamData["China"]
   },
   "Germany": {
@@ -139,7 +148,7 @@ export const visaData: VisaData = {
     "Bolivia": boliviaData["Germany"],
     "Brazil": brazilVisaData["Germany"],
     "Chile": chileData["Germany"],
-    "China": chinaData["Germany"],
+    "China": chinaVisaData["Germany"],
     "Colombia": colombiaData["Germany"],
     "Croatia": croatiaData["Germany"],
     "Czech Republic": czechRepublicData["Germany"],
@@ -170,7 +179,7 @@ export const visaData: VisaData = {
     "Thailand": thailandVisaData["Germany"],
     "Turkey": turkeyData["Germany"],
     "United Arab Emirates": unitedArabEmiratesData["Germany"],
-    "United States": unitedStatesData["Germany"],
+    "United States": unitedStatesVisaData["Germany"],
     "Vietnam": vietnamData["Germany"]
   },
   "Thailand": {
@@ -181,7 +190,7 @@ export const visaData: VisaData = {
     "Bolivia": boliviaData["Thailand"],
     "Brazil": brazilVisaData["Thailand"],
     "Chile": chileData["Thailand"],
-    "China": chinaData["Thailand"],
+    "China": chinaVisaData["Thailand"],
     "Colombia": colombiaData["Thailand"],
     "Croatia": croatiaData["Thailand"],
     "Czech Republic": czechRepublicData["Thailand"],
@@ -212,7 +221,7 @@ export const visaData: VisaData = {
     "Thailand": thailandVisaData["Thailand"],
     "Turkey": turkeyData["Thailand"],
     "United Arab Emirates": unitedArabEmiratesData["Thailand"],
-    "United States": unitedStatesData["Thailand"],
+    "United States": unitedStatesVisaData["Thailand"],
     "Vietnam": vietnamData["Thailand"]
   },
   "United Kingdom": {
@@ -223,7 +232,7 @@ export const visaData: VisaData = {
     "Bolivia": boliviaData["United Kingdom"],
     "Brazil": brazilVisaData["United Kingdom"],
     "Chile": chileData["United Kingdom"],
-    "China": chinaData["United Kingdom"],
+    "China": chinaVisaData["United Kingdom"],
     "Colombia": colombiaData["United Kingdom"],
     "Croatia": croatiaData["United Kingdom"],
     "Czech Republic": czechRepublicData["United Kingdom"],
@@ -254,7 +263,7 @@ export const visaData: VisaData = {
     "Thailand": thailandVisaData["United Kingdom"],
     "Turkey": turkeyData["United Kingdom"],
     "United Arab Emirates": unitedArabEmiratesData["United Kingdom"],
-    "United States": unitedStatesData["United Kingdom"],
+    "United States": unitedStatesVisaData["United Kingdom"],
     "Vietnam": vietnamData["United Kingdom"]
   },
    "United States": {
@@ -265,9 +274,9 @@ export const visaData: VisaData = {
     "Belize": belizeData["United States"],
     "Bolivia": boliviaData["United States"],
     "Brazil": brazilVisaData["United States"],
-    "Canada": canadaData["United States"], // ← ADDED CANADA (alphabetical order)
+    "Canada": canadaVisaData["United States"], // ← ADDED CANADA (alphabetical order)
     "Chile": chileData["United States"],
-    "China": chinaData["United States"],
+    "China": chinaVisaData["United States"],
     "Colombia": colombiaData["United States"],
     "Costa Rica": costaRicaData["United States"],
     "Croatia": croatiaData["United States"],

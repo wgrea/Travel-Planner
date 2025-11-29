@@ -1,6 +1,6 @@
 // src/lib/data/visa/destinations/south-america/argentina/flight.ts
-import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
-import type { FlightCostData  } from '$lib/types/flight';
+import type { FlightPattern } from '$lib/data/flightPatternData';  // ← Import from flyData.ts
+import type { RouteCostData } from '$lib/types/flight';
 
 export const argentinaFlightPattern: FlightPattern = {
   country: "Argentina",
@@ -13,45 +13,37 @@ export const argentinaFlightPattern: FlightPattern = {
   notes: "Diverse climates from Patagonia to Buenos Aires, opposite seasons from Northern Hemisphere"
 };
 
-export const argentinaFlightData: FlightCostData = {
+export const argentinaRouteCost: RouteCostData  = {
   'United States': {
-    economy: 700,
-    business: 1500,
-    season: 'October to March',
-    bestTimeToBook: '2-3 months in advance',
-    airports: ['EZE', 'AEP'],
-    airlines: ['American', 'United', 'Delta', 'Aerolíneas Argentinas']
-  },
-  'Canada': {
-    economy: 850,
-    business: 1800,
-    season: 'October to March',
-    bestTimeToBook: '3-4 months in advance',
-    airports: ['EZE'],
-    airlines: ['Air Canada', 'American', 'United']
-  },
-  'United Kingdom': {
     economy: 800,
-    business: 1700,
-    season: 'October to March',
+    business: 1800,
+    season: 'Summer peak (Dec-Feb)',
     bestTimeToBook: '4-5 months in advance',
     airports: ['EZE'],
-    airlines: ['British Airways', 'Iberia', 'Air Europa']
+    airlines: ['Aerolineas Argentinas', 'American', 'United']
   },
-  'Australia': {
-    economy: 1500,
-    business: 3000,
-    season: 'October to March',
-    bestTimeToBook: '5-6 months in advance',
+  'Brazil': {
+    economy: 300,
+    business: 700,
+    season: 'year-round',
+    bestTimeToBook: '2-3 months in advance',
     airports: ['EZE'],
-    airlines: ['Qantas', 'Air New Zealand', 'LATAM']
+    airlines: ['LATAM', 'Aerolineas Argentinas']
   },
-  'European Union': {
-    economy: 750,
-    business: 1600,
-    season: 'October to March',
-    bestTimeToBook: '3-4 months in advance',
+  'Chile': {
+    economy: 200,
+    business: 500,
+    season: 'year-round',
+    bestTimeToBook: '1-2 months in advance',
     airports: ['EZE'],
-    airlines: ['Air France', 'Lufthansa', 'KLM', 'Iberia']
+    airlines: ['LATAM', 'Aerolineas Argentinas', 'Sky Airline']
+  },
+  'Spain': {
+    economy: 900,
+    business: 2000,
+    season: 'Summer peak',
+    bestTimeToBook: '4-5 months in advance',
+    airports: ['EZE'],
+    airlines: ['Iberia', 'Aerolineas Argentinas', 'Air Europa']
   }
 };

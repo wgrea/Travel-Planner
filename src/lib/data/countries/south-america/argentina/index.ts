@@ -4,4 +4,4 @@ export { argentinaLivingCosts } from './living-costs';
 export { argentinaNomadData, argentinaWorkspaces } from './nomad';
 export { argentinaResonance } from './resonance';
 export { argentinaVisaData as argentinaVisaData } from './visa';
-export { argentinaFlightData } from './flight';
+export { argentinaRouteCost } from './flight';

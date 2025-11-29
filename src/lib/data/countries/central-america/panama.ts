@@ -1,8 +1,8 @@
 // /src/lib/data/countries/central-america/panama.ts
 import type { VisaInfo } from '$lib/types/visa';
 import type { LivingCostData  } from '$lib/types/living-costs';
-import type { FlightCostData } from '$lib/types/flight';
-import type { FlightPattern } from '$lib/data/flyData';
+import type { RouteCostData } from '$lib/types/flight';
+import type { FlightPattern } from '$lib/data/flightPatternData';
 
 export const panamaFlightPattern: FlightPattern = {
   country: "Panama",
@@ -313,7 +313,7 @@ export const panamaData: Record<string, VisaInfo> = {
     }
 };
 
-export const panamaFlightData: FlightCostData = {
+export const panamaRouteCost: RouteCostData = {
   'United States': {
     economy: 420,
     business: 950,
@@ -321,5 +321,29 @@ export const panamaFlightData: FlightCostData = {
     bestTimeToBook: '2-4 months in advance',
     airports: ['PTY'],
     airlines: ['Copa', 'American', 'United']
+  },
+  'Canada': {
+    economy: 500,
+    business: 1100,
+    season: 'Winter peak',
+    bestTimeToBook: '3-4 months in advance',
+    airports: ['PTY'],
+    airlines: ['Air Canada', 'Copa']
+  },
+  'Costa Rica': {
+    economy: 150,
+    business: 350,
+    season: 'year-round',
+    bestTimeToBook: '1-2 months in advance',
+    airports: ['PTY'],
+    airlines: ['Copa', 'Volaris']
+  },
+  'Colombia': {
+    economy: 120,
+    business: 300,
+    season: 'year-round',
+    bestTimeToBook: '1-2 months in advance',
+    airports: ['PTY'],
+    airlines: ['Copa', 'Avianca', 'Viva Air']
   }
 };

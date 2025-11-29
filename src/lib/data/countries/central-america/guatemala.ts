@@ -1,7 +1,7 @@
 // /src/lib/data/countries/central-america/guatemala.ts
 import type { VisaInfo } from '$lib/types/visa';
-import type { FlightCostData } from '$lib/types/flight';
-import type { FlightPattern } from '$lib/data/flyData';
+import type { RouteCostData } from '$lib/types/flight';
+import type { FlightPattern } from '$lib/data/flightPatternData';
 
 export const guatemalaFlightPattern: FlightPattern = {
   country: "Guatemala",
@@ -57,7 +57,7 @@ export const guatemalaData: Record<string, VisaInfo> = {
     }
 };
 
-export const guatemalaFlightData: FlightCostData = {
+export const guatemalaRouteCost: RouteCostData = {
   'United States': {
     economy: 380,
     business: 850,
@@ -65,5 +65,13 @@ export const guatemalaFlightData: FlightCostData = {
     bestTimeToBook: '1-2 months in advance',
     airports: ['GUA'],
     airlines: ['American', 'United', 'Delta']
+  },
+  'Mexico': {
+    economy: 200,
+    business: 500,
+    season: 'year-round',
+    bestTimeToBook: '1-2 months in advance',
+    airports: ['GUA'],
+    airlines: ['Aeromexico', 'Volaris']
   }
 };

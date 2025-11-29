@@ -1,7 +1,23 @@
 // src/lib/data/countries/north-america/canada.ts
+import type { FlightPattern } from '$lib/data/flightPatternData';
+import type { RouteCostData } from '$lib/types/flight';
 import type { VisaInfo } from '$lib/types/visa';
 
-export const canadaData: Record<string, VisaInfo> = {
+export const canadaFlightPattern: FlightPattern = {
+  country: "Canada",
+  cities: ["Toronto", "Vancouver", "Montreal", "Calgary"],
+  cheapestMonths: ["January", "February", "November"],
+  expensiveMonths: ["June", "July", "August"],
+  sweetSpot: ["May", "September"],
+  averagePrice: 0,
+  planningTips: [
+    "Consider flying into secondary airports for better deals",
+    "Book domestic flights separately for potential savings",
+    "Winter months offer lower prices but colder weather"
+  ]
+};
+
+export const canadaVisaData: Record<string, VisaInfo> = {
   "United States": {
     ease: "Easy",
     freeLength: "180 days",
@@ -193,5 +209,56 @@ export const canadaData: Record<string, VisaInfo> = {
     entryType: "Multiple",
     extensionsPossible: true, 
     extensionDuration: 180
+  }
+};
+
+export const canadaRouteCost: RouteCostData = {
+  'United States': {
+    economy: 250,
+    business: 600,
+    season: 'year-round',
+    bestTimeToBook: '2-3 months in advance',
+    airports: ['YYZ', 'YVR', 'YUL', 'YYC'],
+    airlines: ['Air Canada', 'WestJet', 'American', 'United', 'Delta']
+  },
+  'United Kingdom': {
+    economy: 550,
+    business: 1200,
+    season: 'Summer peak',
+    bestTimeToBook: '3-4 months in advance for summer',
+    airports: ['YYZ', 'YVR', 'YUL'],
+    airlines: ['Air Canada', 'British Airways', 'WestJet']
+  },
+  'Australia': {
+    economy: 1200,
+    business: 2500,
+    season: 'year-round',
+    bestTimeToBook: '5-6 months in advance',
+    airports: ['YVR', 'YYZ'],
+    airlines: ['Air Canada', 'Qantas', 'Air New Zealand']
+  },
+  'Mexico': {
+    economy: 400,
+    business: 900,
+    season: 'Winter peak',
+    bestTimeToBook: '2-3 months in advance',
+    airports: ['YYZ', 'YVR', 'YUL'],
+    airlines: ['Air Canada', 'Aeromexico', 'WestJet']
+  },
+  'Costa Rica': {
+    economy: 450,
+    business: 1000,
+    season: 'Dry season (Dec-Apr)',
+    bestTimeToBook: '3-4 months in advance',
+    airports: ['SJO', 'LIR'],
+    airlines: ['Air Canada', 'United', 'American']
+  },
+  'Panama': {
+    economy: 500,
+    business: 1100,
+    season: 'Dry season (Dec-Apr)',
+    bestTimeToBook: '3-4 months in advance',
+    airports: ['PTY'],
+    airlines: ['Air Canada', 'Copa']
   }
 };

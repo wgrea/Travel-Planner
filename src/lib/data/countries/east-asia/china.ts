@@ -1,7 +1,7 @@
 // /src/lib/data/countries/east-asia/china.ts
 import type { VisaInfo } from '$lib/types/visa';
 
-export const chinaData: Record<string, VisaInfo> = {
+export const chinaVisaData: Record<string, VisaInfo> = {
   "United States": {
     ease: "Medium", // Research this!
     freeLength: "None", // Or "X days" if visa-free

@@ -1,7 +1,7 @@
 // /src/lib/data/countries/central-america/costaRica.ts
 import type { VisaInfo } from '$lib/types/visa';
-import type { FlightCostData } from '$lib/types/flight';
-import type { FlightPattern } from '$lib/data/flyData';
+import type { RouteCostData } from '$lib/types/flight';
+import type { FlightPattern } from '$lib/data/flightPatternData';
 
 export const costaRicaFlightPattern: FlightPattern = {
   country: "Costa Rica",
@@ -63,7 +63,7 @@ export const costaRicaData: Record<string, VisaInfo> = {
     }
 };
 
-export const costaRicaFlightData: FlightCostData = {
+export const costaRicaRouteCost: RouteCostData = {
   'United States': {
     economy: 400,
     business: 900,
@@ -71,5 +71,21 @@ export const costaRicaFlightData: FlightCostData = {
     bestTimeToBook: '2-3 months in advance',
     airports: ['SJO', 'LIR'],
     airlines: ['American', 'United', 'Delta', 'Spirit']
+  },
+  'Canada': {
+    economy: 450,
+    business: 1000,
+    season: 'Winter peak',
+    bestTimeToBook: '3-4 months in advance',
+    airports: ['SJO', 'LIR'],
+    airlines: ['Air Canada', 'WestJet']
+  },
+  'Mexico': {
+    economy: 300,
+    business: 700,
+    season: 'year-round',
+    bestTimeToBook: '2-3 months in advance',
+    airports: ['SJO'],
+    airlines: ['Aeromexico', 'Volaris']
   }
 };
