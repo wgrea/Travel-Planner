@@ -4,42 +4,22 @@
 <!-- 
 🚧 REMAINING HIGH PRIORITY:
 
+🚧 STILL IN PROGRESS:
 Flight Costs Page Improvements:
-🚧 Fix country selection for immediate results
-
-🚧 Two-country price comparison (data ready, needs implementation)
-
-🚧 Cheapest countries by specific month
-
-🚧 Most expensive months for specific countries
-
-🚧 Multi-leg flight pricing suggestions
-
-🚧 Price tips for flights over $800
-
-🚧 Frutiger Aero aesthetic implementation
+🚧 Two-country price comparison (data ready, needs implementation) - NOT STARTED
+- Your routeCosts data structure supports this, but we haven't implemented the UI
+🚧 Cheapest countries by specific month - NOT STARTED
+🚧 Most expensive months for specific countries - NOT STARTED
+🚧 Multi-leg flight pricing suggestions - NOT STARTED
+🚧 Price tips for flights over $800 - NOT STARTED
+🚧 Frutiger Aero aesthetic implementation - NOT STARTED
 
 Visa Page Improvements:
 🚧 Filter by visa type across countries
-
 🚧 Filter by country to see available visas
-
 🚧 Fix "Prepare" buttons in Document Checklist
-
 🚧 Improve navigation structure
 
-Digital Nomad Section:
-🚧 Add new pages: "Supports" and "How to work from anywhere"
-
-🚧 Update landing page with digital nomad section
--->
-
-<!--
-How about a note sheet that follows you througout the site (while I figure how to save stuff)
-Make sure all countries have each import that you have ready before sharing your project
--->
-
-<!--
 
 📋 MEDIUM PRIORITY:
 Living Costs Page:
@@ -66,7 +46,7 @@ Design & UX:
   }
 
   const menuItems = [
-      {
+    {
       title: "Destination Finder",
       description: "Find places that match your travel style",
       icon: "🔍", 
@@ -113,6 +93,26 @@ Design & UX:
       path: "/resonance", 
       color: "from-cyan-50 to-teal-50",
       accent: "text-cyan-700"
+    }
+  ];
+
+  // Digital Nomad sub-pages - smaller and more subtle
+  const digitalNomadSubPages = [
+    {
+      title: "Supports & Communities",
+      description: "Expat networks and mental health resources",
+      icon: "👥",
+      path: "/digital-nomad/support",
+      color: "from-gray-50 to-gray-100",
+      accent: "text-gray-600"
+    },
+    {
+      title: "Work From Anywhere",
+      description: "Remote jobs and location-independent careers",
+      icon: "💼",
+      path: "/digital-nomad/how-to-work-from-anywhere",
+      color: "from-gray-50 to-gray-100",
+      accent: "text-gray-600"
     }
   ];
 </script>
@@ -166,6 +166,35 @@ Design & UX:
           </div>
         </button>
       {/each}
+    </div>
+
+    <!-- Digital Nomad Sub-pages Section - Smaller and more subtle -->
+    <div class="mb-12">
+      <div class="text-center mb-4">
+        <h2 class="text-lg font-medium text-gray-700">For Remote Workers</h2>
+        <p class="text-gray-500 text-sm mt-1">Additional resources for digital nomads</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+        {#each digitalNomadSubPages as item}
+          <button
+            on:click={() => navigate(item.path)}
+            class="group relative overflow-hidden rounded-xl p-4 text-left transition-all duration-200 hover:scale-102 hover:shadow-md bg-gradient-to-br {item.color} border border-gray-200 hover:border-gray-300"
+          >
+            <!-- Content -->
+            <div class="relative z-10">
+              <div class="text-xl mb-2 {item.accent}">{item.icon}</div>
+              <h3 class="text-base font-medium text-gray-700 mb-1">{item.title}</h3>
+              <p class="text-gray-500 text-xs font-light">{item.description}</p>
+            </div>
+            
+            <!-- Hover arrow - smaller -->
+            <div class="absolute bottom-3 right-3 text-gray-400 group-hover:text-gray-500 group-hover:translate-x-0.5 transition-all duration-200">
+              <span class="text-sm">→</span>
+            </div>
+          </button>
+        {/each}
+      </div>
     </div>
 
     <!-- Features Section -->

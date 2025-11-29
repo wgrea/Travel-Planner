@@ -1,9 +1,36 @@
 <!-- src/routes/digital-nomad/+page.svelte -->
 
 <!-- 
-I want to add these pages:
-Supports
-How to work from anywhere, how to get a job that lets you work from anywhere. These pages can be accessed at the top and maybe also be on the landing page. The landing page can get a digital nomad section, with this page being the main one.
+
+Should add libraries next 
+Also should help people find the cheapest ways to work
+How about showing which countries/cities have certain coworking spot memberships
+
+Should maybe change the name of this page to something more specific
+
+I should add:
+Ways to Avoid the “Money Loop”
+Use free public spaces like libraries, community centers, or hotel lobbies when possible.​
+
+Look for coworking spaces that offer free trial days or discounted memberships for new users.​
+
+Join remote worker communities or nomad groups that share leads on free or low-cost workspaces.​
+
+If you do pay, choose a flexible plan so you can switch to free options when your budget is tight.​
+
+
+Also less touristy areas are less likely to be paid libraries and coffee shops. 
+
+Coffee Shops
+In less touristy or rural areas, coffee shops often don’t have the same pressure to limit laptop use, so remote workers are usually welcome and Wi-Fi is often free.​
+
+In tourist hotspots, many coffee shops restrict laptop use, charge for Wi-Fi, or ban laptops altogether to prioritize short-stay customers and maintain atmosphere.​
+
+Libraries
+Libraries, whether urban or rural, are generally free and open to everyone for remote work, but rural libraries may have fewer resources or amenities compared to large city libraries.​
+
+In less touristy areas, libraries are often the main free workspace option and tend to be more relaxed about remote work, while in tourist cities, libraries may be busier or have stricter rules due to higher demand.​
+
 -->
 
 <script lang="ts">
@@ -325,7 +352,7 @@ How to work from anywhere, how to get a job that lets you work from anywhere. Th
         on:click={() => goto('/digital-nomad/support')}
         class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium"
       >
-        📋 Supports & Visas
+        📋 Support
       </button>
       <button
         on:click={() => goto('/digital-nomad/how-to-work-from-anywhere')}

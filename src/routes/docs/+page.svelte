@@ -18,6 +18,8 @@ When adding countries for resonance filters, it is important I show necessary fi
 - Tag and activity categories (from resonanceData.ts)
 - Existing country examples (Thailand, Brazil, Argentina)
 
+I wish I did not need to write this: it was tough to only show one origin country on the flight page. That was a silly problem to have and I showed DeepSeek my component/CheapestCountry.svelte file and it took a few rounds of debugging to finally show just one country. Redicilious.
+
 -->
 
 <!-- This is for documentation of how the project was built, not for filling forms -->

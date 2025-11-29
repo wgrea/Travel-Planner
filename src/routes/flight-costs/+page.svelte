@@ -84,13 +84,6 @@
   });
 </script>
 
-<div class="debug">
-  <h3>Debug Info:</h3>
-  <p>Canada exists as origin: {'Canada' in routeCosts ? 'YES' : 'NO'}</p>
-  <p>US in Canada data: {routeCosts.Canada?.['United States'] ? 'YES' : 'NO'}</p>
-  <p>Canada flight keys: {routeCosts.Canada ? Object.keys(routeCosts.Canada).join(', ') : 'None'}</p>
-</div>
-
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-8">
   <div class="max-w-6xl mx-auto">
     
