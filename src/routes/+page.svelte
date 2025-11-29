@@ -3,18 +3,6 @@
 
 <!-- 
 🚧 REMAINING HIGH PRIORITY:
-Resonance Page Improvements:
-🚧 Add X buttons to remove individual filters
-
-🚧 Tag category selection (like activities filtering)
-
-🚧 Country selector for resonance data
-
-🚧 Save plans feature to "Travel Resonance"
-
-🚧 Visa information integration
-
-🚧 Back button and recommended next pages
 
 Flight Costs Page Improvements:
 🚧 Fix country selection for immediate results

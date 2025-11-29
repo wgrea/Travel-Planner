@@ -1,18 +1,9 @@
 <!-- src/routes/visa/+page.svelte -->
-
-<!--
-Now that I finally got that data done, I want to add which countries have a certain visa or the types of visas a country has
-Make the page easier to navigate.
-
-How about a page that filters by which countries contain a certain visa to go onto another page.
-
-'Prepare' buttons don't work in the Document Checklist. I do not know exactly what I want to do with it, but it seems like a very important list.
-
-I want this page to focus on visas. Maybe an option to filter by country vs filtering by visa. 
-
-Document checklist could be on another page. Maybe the first page after Destination Finder.
-
-
+<!-- 
+// Detailed visa requirements
+// Specific document checklists  
+// Processing times and costs
+// Country-by-country comparisons
 -->
 
 <script lang="ts">

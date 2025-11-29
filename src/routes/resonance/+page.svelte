@@ -1,5 +1,10 @@
 <!-- src/routes/resonance/+page.svelte -->
 
+<!--
+// Quick visa availability filter
+visaFilter: 'any' | 'visa-free' | 'digital-nomad' | 'easy-process'
+// Shows users which destinations are accessible
+-->
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
@@ -7,12 +12,12 @@
   import { resonanceDataByRegion, activityCategories, getAllActivities, getAllTags, getAllLocations, tagCategories } from '$lib/data/resonanceData';
   import type { ResonancePreferences, ResonanceScore, CityResonanceProfile } from '$lib/types/resonance';
   
-  // FIX: Import as named export
   import ResonanceFilters from './components/ResonanceFilters.svelte';
   import ResonanceTabs from './components/ResonanceTabs.svelte';
   import ResonanceResults from './components/ResonanceResults.svelte';
+  import CountrySelector from './components/CountrySelector.svelte'; // FIXED: Use CountrySelector
 
-  // FIXED: Now 'any' is valid for both budget and climate
+  // Add country and city to preferences
   let preferences: ResonancePreferences = {
     travelStyle: 'slow',
     socialPreference: 'balanced',
@@ -23,9 +28,11 @@
     activities: [],
     foodScene: 'mixed',
     nightlife: 'moderate',
-    budget: 'any', // Now valid
+    budget: 'any',
     internetImportance: 8,
-    safetyImportance: 8
+    safetyImportance: 8,
+    country: 'any', // NEW
+    region: 'any' // NEW: Replace city with region
   };
 
   let matches: ResonanceScore[] = [];
@@ -52,19 +59,42 @@
     ? allActivities 
     : (activityCategories as Record<string, string[]>)[selectedCategory] || [];
 
+  // Get unique countries from all locations
+  $: allCountries = [...new Set(allLocations.map((loc: CityResonanceProfile) => loc.country))].sort();
+  
+    // FIXED: Update event handlers
+  function handleRegionChange(event: { detail: string }) {
+    preferences = { ...preferences, region: event.detail };
+  }
+
+  function handleCountryChange(event: { detail: string }) {
+    preferences = { ...preferences, country: event.detail };
+  }
+
+  // FIXED: Make sure findMatches uses region instead of city
   function findMatches() {
     isLoading = true;
     setTimeout(() => {
       let filteredLocations = allLocations.filter((location: CityResonanceProfile) => {
+        // Region filter (NOT city)
+        if (preferences.region !== 'any' && location.region !== preferences.region) {
+          return false;
+        }
+        
+        // Country filter
+        if (preferences.country !== 'any' && location.country !== preferences.country) {
+          return false;
+        }
+        
         // FIXED: Complete budget hierarchy
         if (preferences.budget !== 'any') {
           const budgetHierarchy = {
-            'budget': ['budget'], // Only budget
-            'midrange': ['midrange'], // Only comfortable
-            'luxury': ['luxury'], // Only luxury
-            'budget-midrange': ['budget', 'midrange'], // Budget + comfortable
-            'midrange-luxury': ['midrange', 'luxury'], // Comfortable + luxury
-            'all-levels': ['budget', 'midrange', 'luxury'] // All levels
+            'budget': ['budget'],
+            'midrange': ['midrange'],
+            'luxury': ['luxury'],
+            'budget-midrange': ['budget', 'midrange'],
+            'midrange-luxury': ['midrange', 'luxury'],
+            'all-levels': ['budget', 'midrange', 'luxury']
           };
           
           if (!budgetHierarchy[preferences.budget].includes(location.costLevel)) {
@@ -92,9 +122,10 @@
       }
       
       console.log('=== MATCHING DEBUG ===');
+      console.log('Country filter:', preferences.country);
+      console.log('Region filter:', preferences.region); // FIXED: Change city to region
       console.log('Budget filter:', preferences.budget);
-      console.log('Climate filter:', preferences.climate);
-      console.log('After practical filters:', filteredLocations.map((l: CityResonanceProfile) => l.name));
+      console.log('After location filters:', filteredLocations.map((l: CityResonanceProfile) => l.name));
       console.log('Selected tags:', selectedTags);
       
       matches = ResonanceMatcher.findTopMatches(preferences, filteredLocations);
@@ -126,9 +157,12 @@
     selectedCategory = category;
   }
 
+  // FIXED: Update clearAllFilters to use region instead of city
   function clearAllFilters() {
     selectedTags = [];
     preferences.activities = [];
+    // FIXED: Use region instead of city
+    preferences = { ...preferences, country: 'any', region: 'any' };
     matches = [];
   }
 
@@ -136,8 +170,12 @@
     preferences = { ...preferences, [event.detail.field]: event.detail.value };
   }
 
-  // Auto-update matches count when filters change
-  $: totalFilters = selectedTags.length + preferences.activities.length;
+  // FIXED: Update totalFilters - use region instead of city
+  $: totalFilters = selectedTags.length + preferences.activities.length + 
+    (preferences.country !== 'any' ? 1 : 0) + 
+    (preferences.region !== 'any' ? 1 : 0) + // ← This should be region, not city
+    (preferences.budget !== 'any' ? 1 : 0) +
+    (preferences.climate !== 'any' ? 1 : 0);
 
   // FIX: Update event handlers to accept the correct parameter types
   function removeTag(event: { detail: string }) {
@@ -153,13 +191,13 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 px-4 py-8">
   <div class="max-w-7xl mx-auto">
     
-  <!-- Back Button -->
-  <button on:click={() => goto('/')} class="group mb-8 ml-8 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-    </svg>
-    <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
-  </button>
+    <!-- Back Button -->
+    <button on:click={() => goto('/')} class="group mb-8 ml-8 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
+    </button>
 
     <!-- Header -->
     <div class="text-center mb-12">
@@ -168,7 +206,6 @@
         Discover countries and cities that match your travel personality, interests, and style
       </p>
     </div>
-
 
     <!-- Quick Stats -->
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -197,20 +234,29 @@
     <!-- Main Content -->
     <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
       
-      <!-- Filters Sidebar -->
-      <div class="xl:col-span-1">
-        <ResonanceFilters
-          {preferences}
-          {selectedTags}
-          {isLoading}
-          on:updatePreferences={updatePreferences}
-          on:toggleTag={(e) => toggleTag(e.detail)}
-          on:removeTag={removeTag}  
-          on:removeActivity={removeActivity} 
-          on:clearAll={clearAllFilters}
-          on:findMatches={findMatches}
-        />
-      </div>
+        <!-- Filters Sidebar -->
+        <div class="xl:col-span-1 space-y-6">
+          <!-- FIXED: Use CountrySelector component -->
+          <CountrySelector
+            {allLocations}
+            selectedRegion={preferences.region}
+            selectedCountry={preferences.country}
+            on:regionChange={handleRegionChange}
+            on:countryChange={handleCountryChange}
+          />
+
+          <ResonanceFilters
+            {preferences}
+            {selectedTags}
+            {isLoading}
+            on:updatePreferences={updatePreferences}
+            on:toggleTag={(e) => toggleTag(e.detail)}
+            on:removeTag={removeTag}
+            on:removeActivity={removeActivity}
+            on:clearAll={clearAllFilters}
+            on:findMatches={findMatches}
+          />
+        </div>
 
       <!-- Main Content Area -->
       <div class="xl:col-span-3">
@@ -237,5 +283,67 @@
         />
       </div>
     </div>
+
+    <!-- NEW: Recommended Next Pages Section -->
+    {#if matches.length > 0}
+      <div class="mt-16 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200">
+        <h3 class="text-2xl font-light text-gray-900 mb-6 text-center">Next Steps for Your Matches</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Visa Requirements -->
+          <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-purple-600 mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+              </svg>
+            </div>
+            <h4 class="text-lg font-semibold text-gray-900 mb-2">Visa Requirements</h4>
+            <p class="text-gray-600 text-sm mb-4">Check visa requirements, processing times, and documentation needed for entry.</p>
+            <a href="/visa" class="inline-flex items-center text-purple-600 hover:text-purple-800 font-medium text-sm">
+              Check Visa Info
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+          
+          <!-- Flight Costs -->
+          <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-blue-600 mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+              </svg>
+            </div>
+            <h4 class="text-lg font-semibold text-gray-900 mb-2">Flight Costs</h4>
+            <p class="text-gray-600 text-sm mb-4">Check current flight prices and find the best deals for your matched destinations.</p>
+            <a href="/flight-costs" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm">
+              Explore Flight Prices
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Living Costs -->
+          <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-green-600 mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+              </svg>
+            </div>
+            <h4 class="text-lg font-semibold text-gray-900 mb-2">Living Costs</h4>
+            <p class="text-gray-600 text-sm mb-4">Analyze accommodation, food, and daily expenses for your potential destinations.</p>
+            <a href="/living-costs" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium text-sm">
+              Calculate Living Expenses
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    {/if}
   </div>
 </div>
