@@ -1,6 +1,6 @@
 <!-- src/lib/components/CountrySelector.svelte -->
 <script lang="ts">
-  import { visaData } from '$lib/data/visaData'; // ✅ Use this instead
+  import { visaData } from '$lib/data/visaData'; // I wonder why this data file needs to be there while there are other data files
   
   export interface CountryData {
     country: string;

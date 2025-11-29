@@ -90,8 +90,8 @@ export interface FlightInfo {
   airlines?: string[];
 }
 
-export interface FlightCostData {  // ← RENAMED from FlightData
-  [originCountry: string]: FlightInfo;
+export interface RouteCostData {
+  [destinationCountry: string]: FlightInfo;
 }
 
 export const defaultFlightInfo: FlightInfo = {

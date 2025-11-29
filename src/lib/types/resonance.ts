@@ -15,10 +15,14 @@ export interface ResonancePreferences {
   foodScene: 'local' | 'international' | 'mixed';
   nightlife: 'quiet' | 'moderate' | 'vibrant';
   
-  // Practical - ADD 'any' option here
+  // Practical
   budget: 'budget' | 'midrange' | 'luxury' | 'any' | 'budget-midrange' | 'midrange-luxury' | 'all-levels';
-  internetImportance: number; // 1-10
-  safetyImportance: number; // 1-10
+  internetImportance: number;
+  safetyImportance: number;
+  
+  // NEW: Location filtering
+  country: string;
+  region: string; // NEW: Replaces city
 }
 
 export interface ResonanceScore {
