@@ -1,291 +1,248 @@
 <!-- src/routes/flight-costs/+page.svelte -->
-<!-- Clean Girl x Outrun - Sophisticated retro-futuristic aesthetic -->
-
-<!--
-Improve the country selection. Should be immediate now that the data is sorted out. 
-
-I want to select which countries are cheapest for a specific month. I should add which month is most expensive for a certain country
-I still need to change the text.
-Also about tips for each country on getting the most affordable price possible. Over $800 for an average price can be a turn off. What if someone goes to a country first then towards their destination they want to stay at
-
-I don't think this page still is showing the price between two countries but I already have the data ready.  I think the component was already made, but just needs to show the data
-
-Maybe also later add the price to when to go to one airport then take another flight to go to your targeted destination
-
-I still need to make sure the right font matches
--->
-
 <script lang="ts">
+  import { routeCosts } from '$lib/data/routeCosts';
   import { goto } from '$app/navigation';
   import { flyDataByRegion, getAllRegions, getAllCountries as getAllFlightCountries } from '$lib/data/flightPatternData';
-  import type { FlightPattern, RegionData } from '$lib/data/flightPatternData';
+  import type { FlightPattern } from '$lib/data/flightPatternData';
   import CountrySelector, { type CountryData } from '$lib/components/CountrySelector.svelte';
   import CheapestCountries from './components/CheapestCountries.svelte';
   import TipsSection from './components/TipsSection.svelte';
+  import IntelligenceItem from './components/IntelligenceItem.svelte';
 
-  let selectedCountry: string = 'Thailand';
-  let selectedRegion: string = 'Southeast Asia';
-  let isLoading = false;
-  let filteredData: CountryData[] = [];
+  // Use $state for reactive variables
+  let selectedCountry = $state('Thailand');
+  let selectedRegion = $state('Southeast Asia');
+  let isLoading = $state(false);
+  let origin = '';
+  let destination = '';
 
-  // In src/routes/flight-costs/+page.svelte - Update getAllCountries function
+  // Use $derived for reactive values
+  const currentRouteCosts  = $derived(getAllFlightCountries().find(country => country.country === selectedCountry));
+  
+  // For side effects, use $effect
+  $effect(() => {
+    if (selectedCountry) {
+      isLoading = true;
+      const timer = setTimeout(() => isLoading = false, 300);
+      return () => clearTimeout(timer);
+    }
+  });
+
+  // Simplified country data extraction
   function getAllCountries(): CountryData[] {
     const allCountries: CountryData[] = [];
     
-    flyDataByRegion.forEach((regionData: RegionData) => {
-      // Handle Europe with subregions
+    flyDataByRegion.forEach(regionData => {
       if (regionData.subregions) {
-        regionData.subregions.forEach((subregion) => {
-          subregion.countries.forEach((flightData: FlightPattern) => {
-            allCountries.push({
-              country: flightData.country,
-              region: subregion.subregion, // Use subregion name instead of "Europe"
-              cities: flightData.cities,
-              averagePrice: flightData.averagePrice,
-              sweetSpot: flightData.sweetSpot,
-              cheapestMonths: flightData.cheapestMonths
-            });
-          });
-        });
-      } 
-      // Handle all other regions normally
-      else if (regionData.countries) {
-        regionData.countries.forEach((flightData: FlightPattern) => {
-          allCountries.push({
+        regionData.subregions.forEach(subregion => {
+          allCountries.push(...subregion.countries.map(flightData => ({
             country: flightData.country,
-            region: regionData.region,
+            region: subregion.subregion,
             cities: flightData.cities,
             averagePrice: flightData.averagePrice,
             sweetSpot: flightData.sweetSpot,
             cheapestMonths: flightData.cheapestMonths
-          });
+          })));
         });
+      } else if (regionData.countries) {
+        allCountries.push(...regionData.countries.map(flightData => ({
+          country: flightData.country,
+          region: regionData.region,
+          cities: flightData.cities,
+          averagePrice: flightData.averagePrice,
+          sweetSpot: flightData.sweetSpot,
+          cheapestMonths: flightData.cheapestMonths
+        })));
       }
     });
     
     return allCountries;
   }
 
-  // Get countries by region (now handles both main regions and European subregions)
-  function getCountriesByRegion(regionName: string): FlightPattern[] {
-    // First, check if it's a European subregion
-    for (const region of flyDataByRegion) {
-      if (region.subregions) {
-        const subregion = region.subregions.find(sr => sr.subregion === regionName);
-        if (subregion) {
-          return subregion.countries;
-        }
-      }
-      
-      // Check if it's a main region (non-European)
-      if (region.region === regionName && region.countries) {
-        return region.countries;
-      }
-    }
-    
-    return [];
-  }
-
   function handleCountryChange(country: string) {
     selectedCountry = country;
     const countryData = getAllCountries().find(c => c.country === country);
-    if (countryData && countryData.region) {
-      selectedRegion = countryData.region;
-    }
+    if (countryData?.region) selectedRegion = countryData.region;
   }
 
   function handleRegionChange(region: string) {
     selectedRegion = region;
-    
-    if (region) {
-      const countriesInRegion = getCountriesByRegion(region);
-      if (countriesInRegion.length > 0) {
-        selectedCountry = countriesInRegion[0].country;
-      }
-    } else {
-      selectedCountry = getAllCountries()[0]?.country || '';
-    }
+    const countriesInRegion = getAllCountries().filter(c => c.region === region);
+    if (countriesInRegion.length > 0) selectedCountry = countriesInRegion[0].country;
   }
 
-  // At the top with other variables
-let currentFlightData: FlightPattern | undefined;
-
-// Then the reactive assignment (without type annotation)
-$: currentFlightData = getAllFlightCountries().find(country => country.country === selectedCountry);
-
-  // Load initial data
-  $: if (selectedCountry) {
-    isLoading = true;
-    setTimeout(() => isLoading = false, 500);
-  }
+  // Debug using $effect
+  $effect(() => {
+    console.log('=== FLIGHT DEBUG ===');
+    console.log('All origins:', Object.keys(routeCosts));
+    console.log('Canada in origins:', 'Canada' in routeCosts);
+    console.log('Canada flight data:', routeCosts.Canada);
+    console.log('US in Canada data:', routeCosts.Canada?.['United States']);
+  });
 </script>
+
+<div class="debug">
+  <h3>Debug Info:</h3>
+  <p>Canada exists as origin: {'Canada' in routeCosts ? 'YES' : 'NO'}</p>
+  <p>US in Canada data: {routeCosts.Canada?.['United States'] ? 'YES' : 'NO'}</p>
+  <p>Canada flight keys: {routeCosts.Canada ? Object.keys(routeCosts.Canada).join(', ') : 'None'}</p>
+</div>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-8">
   <div class="max-w-6xl mx-auto">
     
-    <!-- Back Button -->
-    <button
-      onclick={() => goto('/')}
-      class="group mb-8 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200"
-    >
+    <!-- Navigation -->
+    <button onclick={() => goto('/')} class="group mb-8 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
-      <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
+      <span class="font-medium text-sm">Back to Main Menu</span>
     </button>
 
-    <!-- Before You Start Section -->
+    <!-- Quick Links -->
     <div class="mb-12 text-center">
-      <p class="text-gray-700 text-sm font-light mb-4 tracking-wide">
-        Before you check flight costs, make sure you check these out first if you haven't already
-      </p>
+      <p class="text-gray-700 text-sm mb-4">Check these first if you haven't already</p>
       <div class="flex gap-3 justify-center flex-wrap">
-        <button onclick={() => goto('/visa')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          📝 Visa Requirements
-        </button>
-        <button onclick={() => goto('/resonance')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          🔍 Destination Finder
-        </button>
-        <!-- Removed button -->
+        <button onclick={() => goto('/visa')} class="btn-secondary">📝 Visa Requirements</button>
+        <button onclick={() => goto('/resonance')} class="btn-secondary">🔍 Destination Finder</button>
       </div>
     </div>
 
     <!-- Header -->
     <div class="mb-12 text-center">
-      <h1 class="text-5xl font-light mb-4 text-gray-900 tracking-tight">Flight Costs</h1>
-      <p class="text-gray-700 text-lg font-light max-w-2xl mx-auto">
-        Smart flight planning with seasonal pricing insights and destination intelligence
+      <h1 class="text-5xl font-light mb-4 text-gray-900">Flight Costs</h1>
+      <p class="text-gray-700 text-lg max-w-2xl mx-auto">
+        Smart flight planning with seasonal pricing insights
       </p>
     </div>
     
-        <!-- Country Selector Section -->
-    <div class="mb-12 p-8 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <!-- Country Selector -->
+    <div class="mb-12 p-8 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg">
       <CountrySelector 
-        selectedDestination={selectedCountry}
-        selectedRegion={selectedRegion}
+        {selectedCountry}
+        {selectedRegion}
         countryData={getAllCountries()}
         onDestinationChange={handleCountryChange}
         onRegionChange={handleRegionChange}
         mode="flight"
       />
-    </div>  <!-- This should be the matching closing div -->
+    </div>
 
-    <!-- Country Details Section -->
-    {#if currentFlightData && !isLoading}
-    <div class="mb-12">
-      <div class="grid md:grid-cols-2 gap-8">
+    <!-- In your main page template section for country details -->
+    {#if currentRouteCosts && !isLoading}
+      <div class="mb-12 grid md:grid-cols-2 gap-8">
         <!-- Price Analysis -->
-        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-          <h3 class="text-2xl font-bold mb-4 text-gray-900">💰 Price Analysis</h3>
+        <div class="card">
+          <h3 class="text-2xl font-bold mb-4 text-gray-900 flex items-center gap-2">
+            <span class="text-amber-500">💰</span> Price Analysis
+          </h3>
           <div class="space-y-3">
-            <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-              <span class="font-medium text-green-800">Cheapest Months:</span>
-              <span class="font-bold text-green-900">{currentFlightData.cheapestMonths.join(', ')}</span>
-            </div>
-          <!-- Add similar null checks for other properties -->
-          <div class="flex justify-between items-center p-3 bg-amber-50 rounded-lg">
-            <span class="font-medium text-amber-800">Average Price:</span>
-            <span class="font-bold text-amber-900">${currentFlightData.averagePrice || 'N/A'}</span>
-          </div>
-        </div>
-      </div>
-
-          <!-- Cities & Tips -->
-          <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-            <h3 class="text-2xl font-bold mb-4 text-gray-900">🏙️ Popular Cities</h3>
-            <div class="flex flex-wrap gap-2 mb-6">
-              {#each currentFlightData.cities as city}
-                <span class="px-3 py-1 bg-gray-100 border border-gray-300 rounded-lg text-gray-800 text-sm font-medium">
-                  {city}
-                </span>
-              {/each}
-            </div>
-            
-            {#if currentFlightData.planningTips}
-              <h4 class="text-lg font-semibold mb-3 text-gray-800">📝 Planning Tips</h4>
-              <ul class="space-y-2">
-                {#each currentFlightData.planningTips as tip}
-                  <li class="flex items-start gap-2 text-gray-700">
-                    <span class="text-green-500 mt-1">•</span>
-                    <span>{tip}</span>
-                  </li>
-                {/each}
-              </ul>
+            {#if currentRouteCosts.cheapestMonths && currentRouteCosts.cheapestMonths.length > 0}
+              <div class="info-card bg-green-50 text-green-800 border border-green-200">
+                <span class="font-medium">Cheapest Months:</span>
+                <span class="font-bold">{currentRouteCosts.cheapestMonths.join(', ')}</span>
+              </div>
+            {/if}
+            {#if currentRouteCosts.averagePrice}
+              <div class="info-card bg-amber-50 text-amber-800 border border-amber-200">
+                <span class="font-medium">Average Price:</span>
+                <span class="font-bold">${currentRouteCosts.averagePrice}</span>
+              </div>
             {/if}
           </div>
         </div>
 
-        {#if currentFlightData.alternativeRoutes}
-          <div class="mt-8 bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-            <h3 class="text-2xl font-bold mb-4 text-gray-900">🛫 Alternative Routes</h3>
-            <p class="text-gray-700">{currentFlightData.alternativeRoutes}</p>
-          </div>
-        {/if}
-      </div>
-    {:else if isLoading}
-      <div class="text-center py-12">
-        <div class="inline-block w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-        <p class="mt-4 text-gray-600">Loading flight data...</p>
+        <!-- Cities & Tips -->
+        <div class="card">
+          <h3 class="text-2xl font-bold mb-4 text-gray-900 flex items-center gap-2">
+            <span class="text-blue-500">🏙️</span> Popular Cities
+          </h3>
+          {#if currentRouteCosts.cities && currentRouteCosts.cities.length > 0}
+            <div class="flex flex-wrap gap-2 mb-6">
+              {#each currentRouteCosts.cities as city}
+                <span class="city-tag">{city}</span>
+              {/each}
+            </div>
+          {:else}
+            <p class="text-gray-500 text-sm mb-6">No city data available</p>
+          {/if}
+          
+          <!-- FIX: Changed plantingTips to planningTips -->
+          {#if currentRouteCosts.planningTips && currentRouteCosts.planningTips.length > 0}
+            <h4 class="text-lg font-semibold mb-3 text-gray-800 flex items-center gap-2">
+              <span class="text-green-500">📝</span> Planning Tips
+            </h4>
+            <ul class="space-y-2">
+              {#each currentRouteCosts.planningTips as tip}
+                <li class="tip-item">{tip}</li>
+              {/each}
+            </ul>
+          {/if}
+        </div>
       </div>
     {/if}
     
     <!-- Two Column Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-      <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <CheapestCountries {filteredData} />
+      <!-- Update the CheapestCountries usage line 158 -->
+      <div class="card">
+        <CheapestCountries 
+          filteredData={currentRouteCosts ? [currentRouteCosts] : []} 
+          selectedCountry={selectedCountry} 
+        />
       </div>
       
-      <!-- Additional clean info panel -->
-      <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <h2 class="text-xl font-light text-gray-900 mb-4 pb-3 border-b border-gray-200">Travel Intelligence</h2>
-        <div class="space-y-4 text-gray-800">
-          <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors duration-200">
-            <span class="text-blue-600 mt-0.5">⏱️</span>
-            <div>
-              <p class="font-medium text-gray-900">Optimal Timing</p>
-              <p class="text-sm text-gray-700 mt-1">Book 6-8 weeks ahead for best value</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors duration-200">
-            <span class="text-cyan-600 mt-0.5">💡</span>
-            <div>
-              <p class="font-medium text-gray-900">Smart Routing</p>
-              <p class="text-sm text-gray-700 mt-1">Consider nearby airports for savings</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors duration-200">
-            <span class="text-gray-600 mt-0.5">📊</span>
-            <div>
-              <p class="font-medium text-gray-900">Data Insights</p>
-              <p class="text-sm text-gray-700 mt-1">Seasonal trends affect pricing by 20-40%</p>
-            </div>
-          </div>
+      <!-- Travel Intelligence -->
+      <div class="card">
+        <h2 class="text-xl font-light mb-4 pb-3 border-b border-gray-200">Travel Intelligence</h2>
+        <div class="space-y-4">
+          <IntelligenceItem emoji="⏱️" title="Optimal Timing" text="Book 6-8 weeks ahead for best value" />
+          <IntelligenceItem emoji="💡" title="Smart Routing" text="Consider nearby airports for savings" />
+          <IntelligenceItem emoji="📊" title="Data Insights" text="Seasonal trends affect pricing by 20-40%" />
         </div>
       </div>
     </div>
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <!-- Tips Section -->
+    <div class="card mb-12">
       <TipsSection />
     </div>
 
-    <!-- Next Steps Section -->
-    <div class="mt-12 text-center">
-      <p class="text-gray-700 text-sm font-light mb-4 tracking-wide">
-        Once you've got your destination planned, check out one of these
-      </p>
+    <!-- Next Steps -->
+    <div class="text-center">
+      <p class="text-gray-700 text-sm mb-4">Continue your travel planning</p>
       <div class="flex gap-3 justify-center flex-wrap">
-        <button onclick={() => goto('/living-costs')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          🏠 Living Costs
-        </button>
-        <button onclick={() => goto('/digital-nomad')} 
-                class="px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium">
-          💻 Essentials
-        </button>
-<!-- Removed Button -->
+        <button onclick={() => goto('/living-costs')} class="btn-secondary">🏠 Living Costs</button>
+        <button onclick={() => goto('/digital-nomad')} class="btn-secondary">💻 Digital Nomad Essentials</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- In your main page - add these styles -->
+<style>
+  .btn-secondary {
+    @apply px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium text-sm;
+  }
+  
+  .card {
+    @apply bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300;
+  }
+  
+  .info-card {
+    @apply flex justify-between items-center p-3 rounded-lg font-medium;
+  }
+  
+  .city-tag {
+    @apply px-3 py-1 bg-gray-100 border border-gray-300 rounded-lg text-gray-800 text-sm font-medium;
+  }
+  
+  .tip-item {
+    @apply flex items-start gap-2 text-gray-700;
+  }
+  
+  .tip-item::before {
+    content: "•";
+    @apply text-green-500 mt-1;
+  }
+</style>
