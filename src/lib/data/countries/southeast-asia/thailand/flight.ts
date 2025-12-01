@@ -1,5 +1,5 @@
 import type { FlightPattern } from '$lib/data/flightPatternData';  // ← Import from flyData.ts
-import type { FlightCostData  } from '$lib/types/flight';
+import type { RouteCostData } from '$lib/types/flight';
 
 export const thailandFlightPattern: FlightPattern = {
   country: "Thailand",
@@ -13,8 +13,7 @@ export const thailandFlightPattern: FlightPattern = {
   notes: "Islands are more expensive than northern cities"
 };
 
-
-export const thailandFlightData: FlightCostData = {
+export const thailandRouteCost: RouteCostData = {
   'United States': {
     economy: 900,
     business: 2500,
