@@ -86,14 +86,15 @@ Design & UX:
       color: "from-indigo-50 to-purple-50",
       accent: "text-indigo-700"
     },
+    /*
     {
-      title: "Travel Resonance",
+      title: "Saved Plans",
       description: "Cultural fit and personal compatibility",
       icon: "🌊",
       path: "/resonance", 
       color: "from-cyan-50 to-teal-50",
       accent: "text-cyan-700"
-    }
+    } */
   ];
 
   // Digital Nomad sub-pages - smaller and more subtle
