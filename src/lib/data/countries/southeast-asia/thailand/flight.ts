@@ -1,4 +1,4 @@
-import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
+import type { FlightPattern } from '$lib/data/flightPatternData';  // ← Import from flyData.ts
 import type { FlightCostData  } from '$lib/types/flight';
 
 export const thailandFlightPattern: FlightPattern = {

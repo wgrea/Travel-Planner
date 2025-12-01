@@ -228,47 +228,4 @@
       </div>
     </div>
   {/if}
-
-  <!-- Country Insights -->
-  {#if showInsights && selectedDestinationData && variant === 'default'}
-    <div class="space-y-4 mt-8 pt-6 border-t border-stone-200">
-      <h3 class="text-lg font-light mb-4 text-stone-900">
-        Travel Insights for {selectedDestination}
-      </h3>
-      
-      {#if selectedDestinationData.sweetSpot}
-        <div class="p-4 rounded-lg bg-stone-50 border border-stone-200 flex justify-between items-center">
-          <span class="text-sm font-medium text-stone-700">Best Time to Visit</span>
-          <span class="text-sm font-light text-stone-900">{selectedDestinationData.sweetSpot[0]}</span>
-        </div>
-      {/if}
-
-      {#if selectedDestinationData.cheapestMonths}
-        <div class="p-4 rounded-lg bg-stone-50 border border-stone-200 flex justify-between items-center">
-          <span class="text-sm font-medium text-stone-700">Most Affordable</span>
-          <span class="text-sm font-light text-stone-900">{selectedDestinationData.cheapestMonths[0]}</span>
-        </div>
-      {/if}
-
-      {#if selectedDestinationData.averagePrice}
-        <div class="p-4 rounded-lg bg-stone-50 border border-stone-200 flex justify-between items-center">
-          <span class="text-sm font-medium text-stone-700">Average Flight Price</span>
-          <span class="text-sm font-light text-stone-900">${selectedDestinationData.averagePrice}</span>
-        </div>
-      {/if}
-
-      {#if selectedDestinationData.cities}
-        <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
-          <span class="text-sm font-medium text-stone-700 mb-3 block">Popular Cities</span>
-          <div class="flex flex-wrap gap-2">
-            {#each selectedDestinationData.cities as city}
-              <span class="px-2.5 py-1 bg-white border border-stone-200 rounded text-stone-700 text-xs font-light">
-                {city}
-              </span>
-            {/each}
-          </div>
-        </div>
-      {/if}
-    </div>
-  {/if}
 </div>

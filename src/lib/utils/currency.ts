@@ -45,22 +45,62 @@ export const currencySymbols: Record<string, string> = {
   PAB: 'B/.',    // Panamanian Balboa
 };
 
+// src/lib/utils/currency.ts
 export function convertCurrency(amount: number, fromCurrency: string, toCurrency: string): number {
+  console.log('🔧 convertCurrency DEBUG:', { 
+    amount, 
+    fromCurrency, 
+    toCurrency,
+    fromRate: exchangeRates[fromCurrency],
+    toRate: exchangeRates[toCurrency]
+  });
+  
   if (fromCurrency === toCurrency) return amount;
   
+  if (!exchangeRates[fromCurrency] || !exchangeRates[toCurrency]) {
+    console.error('❌ Missing exchange rate:', { fromCurrency, toCurrency });
+    return amount;
+  }
+  
   // Convert to USD first, then to target currency
-  const usdAmount = amount / exchangeRates[fromCurrency];
-  return usdAmount * exchangeRates[toCurrency];
+  const fromRate = exchangeRates[fromCurrency];
+  const toRate = exchangeRates[toCurrency];
+  
+  const usdAmount = amount / fromRate;
+  const result = usdAmount * toRate;
+  
+  console.log('🔧 Conversion result:', { 
+    original: amount,
+    usdAmount, 
+    result,
+    calculation: `${amount} / ${fromRate} * ${toRate} = ${result}`
+  });
+  
+  return result;
 }
 
+// src/lib/utils/currency.ts - Update formatCurrency function
 export function formatCurrency(amount: number, currency: string): string {
+  console.log('🔧 formatCurrency DEBUG:', { 
+    amount, 
+    currency,
+    symbol: currencySymbols[currency],
+    availableSymbols: currencySymbols
+  });
+  
   const symbol = currencySymbols[currency] || currency;
+  
+  console.log('🔧 Using symbol:', symbol);
   
   // Handle currencies that typically don't use decimals
   const noDecimalCurrencies = ['JPY', 'KRW', 'VND', 'IDR'];
   if (noDecimalCurrencies.includes(currency)) {
-    return `${symbol}${Math.round(amount).toLocaleString()}`;
+    const formatted = `${symbol}${Math.round(amount).toLocaleString()}`;
+    console.log('🔧 No decimal format:', formatted);
+    return formatted;
   }
   
-  return `${symbol}${amount.toFixed(2)}`;
+  const formatted = `${symbol}${amount.toFixed(2)}`;
+  console.log('🔧 Standard format:', formatted);
+  return formatted;
 }

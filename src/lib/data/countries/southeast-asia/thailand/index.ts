@@ -5,3 +5,4 @@ export { thailandNomadData, thailandWorkspaces } from './nomad';
 export { thailandResonance } from './resonance';
 export { thailandVisaData } from './visa';
 export { thailandFlightData } from './flight';
+export { thailandTransportation } from './transportation';

@@ -1,3 +1,4 @@
+// src/lib/data/countries/southeast-asia/thailand/visa.ts
 import type { VisaInfo } from '$lib/types/visa';
 
 export const thailandVisaData: Record<string, VisaInfo> = {
@@ -6,7 +7,7 @@ export const thailandVisaData: Record<string, VisaInfo> = {
     freeLength: "30 days (extendable)",
     workPolicy: "No local work allowed on tourist visa",
     nomadVisa: true,
-    incomeReq: "$2,000/month",
+    incomeReq: "2000/month", // ← Keep as string, just remove the $ symbol
     category: "Easy",
     region: "Southeast Asia",
     
@@ -23,7 +24,7 @@ export const thailandVisaData: Record<string, VisaInfo> = {
     freeLength: "30 days",
     workPolicy: "No local work allowed on tourist visa",
     nomadVisa: true,
-    incomeReq: "$2,000/month",
+    incomeReq: "2000/month", // ← Keep as string, just remove the $ symbol
     category: "Easy",
     region: "Southeast Asia",
     
