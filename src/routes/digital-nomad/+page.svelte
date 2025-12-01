@@ -48,12 +48,20 @@ In less touristy areas, libraries are often the main free workspace option and t
   import NextSteps from './components/NextSteps.svelte';
   import WorkPreferenceSelector from './components/WorkPreferenceSelector.svelte';
 
-  // State
-  let selectedCountry: string = 'Thailand';
-  let selectedRegion: string = '';
-  let selectedCity: string = 'Bangkok';
-  let workPreference: string = 'coworking';
-  let isLoading = false;
+  // === ADD CURRENCY IMPORTS ===
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+  import CurrencySelector from '$lib/components/CurrencySelector.svelte';
+  import { selectedCurrency } from '$lib/stores/currency';
+
+  // State using $state runes
+  let selectedCountry = $state('Thailand');
+  let selectedRegion = $state('');
+  let selectedCity = $state('Bangkok');
+  let workPreference = $state('coworking');
+  let isLoading = $state(false);
+
+  // === ADD REACTIVE CURRENCY ===
+  const currentCurrency = $derived($selectedCurrency);
 
   // Get country data for selector
   function getAllCountries(): { country: string; region: string; cities: string[] }[] {
@@ -160,18 +168,23 @@ In less touristy areas, libraries are often the main free workspace option and t
     selectedCountry = event.detail.country;
   }
 
-  // Load initial data
-  $: if (selectedCountry) {
-    isLoading = true;
-    setTimeout(() => isLoading = false, 500);
-  }
+  // === CONVERT REACTIVE DECLARATIONS TO RUNES ===
+  
+  // Use $effect for side effects
+  $effect(() => {
+    if (selectedCountry) {
+      isLoading = true;
+      const timer = setTimeout(() => isLoading = false, 500);
+      return () => clearTimeout(timer);
+    }
+  });
 
   // Get current country data from nomadData
   function getCurrentCountryData() {
     return nomadData.find(item => item && item.country === selectedCountry);
   }
 
-  // Get current city data - UPDATED: Remove popularWorkspaces reference
+  // Get current city data
   function getCurrentCityData() {
     const countryData = getCurrentCountryData();
     const workspaceData = getCurrentWorkspaceData();
@@ -184,70 +197,69 @@ In less touristy areas, libraries are often the main free workspace option and t
     };
   }
 
- function getCurrentWorkspaceData(): Workspace[] {
-  console.log('🚨 getCurrentWorkspaceData() CALLED with country:', selectedCountry, 'city:', selectedCity, 'workPref:', workPreference);
-  if (!selectedCountry) return [];
-  
-  // Force fresh lookup every time
-  const countryData = nomadData.find(item => item.country === selectedCountry);
-  console.log('🔍 Fresh country data lookup:', countryData?.country, 'workspaces:', countryData?.workspaces?.length);
-  
-  let workspaces = countryData?.workspaces || [];
-  console.log('Workspaces for', selectedCountry, ':', workspaces);
-  
-  console.log('=== FILTERING DEBUG ===');
-  console.log('Before filtering - All workspaces:', workspaces.map(w => `${w.name} (${w.city}, ${w.type})`));
-  
-  // Filter by city if selected
-  if (selectedCity) {
-    console.log('Filtering by city:', selectedCity);
-    workspaces = workspaces.filter((space: Workspace) => {
-      const matches = space.city === selectedCity;
-      console.log(`  ${space.name} (${space.city}) matches ${selectedCity}: ${matches}`);
-      return matches;
-    });
+  function getCurrentWorkspaceData(): Workspace[] {
+    console.log('🚨 getCurrentWorkspaceData() CALLED with country:', selectedCountry, 'city:', selectedCity, 'workPref:', workPreference);
+    if (!selectedCountry) return [];
+    
+    // Force fresh lookup every time
+    const countryData = nomadData.find(item => item.country === selectedCountry);
+    console.log('🔍 Fresh country data lookup:', countryData?.country, 'workspaces:', countryData?.workspaces?.length);
+    
+    let workspaces = countryData?.workspaces || [];
+    console.log('Workspaces for', selectedCountry, ':', workspaces);
+    
+    console.log('=== FILTERING DEBUG ===');
+    console.log('Before filtering - All workspaces:', workspaces.map(w => `${w.name} (${w.city}, ${w.type})`));
+    
+    // Filter by city if selected
+    if (selectedCity) {
+      console.log('Filtering by city:', selectedCity);
+      workspaces = workspaces.filter((space: Workspace) => {
+        const matches = space.city === selectedCity;
+        console.log(`  ${space.name} (${space.city}) matches ${selectedCity}: ${matches}`);
+        return matches;
+      });
+    }
+    
+    console.log('After city filter:', workspaces.map(w => `${w.name} (${w.type})`));
+    
+    // Filter by work preference
+    if (workPreference === 'coworking') {
+      workspaces = workspaces.filter((space: Workspace) => space.type === 'coworking');
+    } else if (workPreference === 'cafe') {
+      workspaces = workspaces.filter((space: Workspace) => space.type === 'cafe');
+    } else if (workPreference === 'hostel') {
+      workspaces = workspaces.filter((space: Workspace) => space.type === 'hostel');
+    } else if (workPreference === 'hotel') {
+      workspaces = workspaces.filter((space: Workspace) => space.type === 'hotel');
+    }
+    
+    console.log('After work preference filter:', workspaces.map(w => `${w.name} (${w.type})`));
+    console.log('=====================');
+    
+    return workspaces;
   }
-  
-  console.log('After city filter:', workspaces.map(w => `${w.name} (${w.type})`));
-  
-  // Filter by work preference
-  if (workPreference === 'coworking') {
-    workspaces = workspaces.filter((space: Workspace) => space.type === 'coworking');
-  } else if (workPreference === 'cafe') {
-    workspaces = workspaces.filter((space: Workspace) => space.type === 'cafe');
-  } else if (workPreference === 'hostel') {
-    workspaces = workspaces.filter((space: Workspace) => space.type === 'hostel');
-  } else if (workPreference === 'hotel') {
-    workspaces = workspaces.filter((space: Workspace) => space.type === 'hotel');
-  }
-  
-  console.log('After work preference filter:', workspaces.map(w => `${w.name} (${w.type})`));
-  console.log('=====================');
 
-  // Filter by work preference
-  console.log('Filtering by work preference:', workPreference);
-  if (workPreference === 'coworking') {
-    workspaces = workspaces.filter((space: Workspace) => {
-      const matches = space.type === 'coworking';
-      console.log(`  ${space.name} (${space.type}) matches coworking: ${matches}`);
-      return matches;
-    });
-  } else if (workPreference === 'cafe') {
-    workspaces = workspaces.filter((space: Workspace) => {
-      const matches = space.type === 'cafe';
-      console.log(`  ${space.name} (${space.type}) matches cafe: ${matches}`);
-      return matches;
-    });
-  } else if (workPreference === 'hostel') {
-    workspaces = workspaces.filter((space: Workspace) => space.type === 'hostel');
-  } else if (workPreference === 'hotel') {
-    workspaces = workspaces.filter((space: Workspace) => space.type === 'hotel');
-  }
-  
-  return workspaces;
-}  // <-- This should be the ONLY closing brace for the function
+  // Use $derived for computed values
+  const countryData = $derived(getAllCountries());
+  const currentCountryData = $derived(getCurrentCountryData());
+  const currentVisaData = $derived(selectedCountry ? minimalData.countries[selectedCountry.toLowerCase()] : null);
+  const currentWorkspaceData = $derived(getCurrentWorkspaceData());
 
-  // Add this function to debug workspace types
+  // Use $effect for debugging and side effects
+  $effect(() => {
+    console.log('🔄 currentWorkspaceData UPDATED:', currentWorkspaceData.length, 'Country:', selectedCountry, 'City:', selectedCity, 'WorkPref:', workPreference);
+  });
+
+  $effect(() => {
+    console.log('📢 workPreference REACTIVE UPDATE:', workPreference);
+  });
+
+  $effect(() => {
+    console.log('🔄 PAGE DATA CHANGED - Country:', selectedCountry, 'City:', selectedCity, 'WorkPref:', workPreference, 'Workspaces:', currentWorkspaceData.length);
+  });
+
+  // Add this to debug workspace types
   function debugWorkspaceTypes() {
     const countryData = nomadData.find(item => item.country === selectedCountry);
     const workspaces = countryData?.workspaces || [];
@@ -270,62 +282,46 @@ In less touristy areas, libraries are often the main free workspace option and t
   }
 
   // Call it when relevant data changes
-  $: if (selectedCountry) {
-    debugWorkspaceTypes();
-  }
+  $effect(() => {
+    if (selectedCountry) {
+      debugWorkspaceTypes();
+    }
+  });
 
-    // I don't think this is necessary but the whole page stops working when I comment this entire function out
+  // VIETNAM DEBUG CODE using $effect
+  $effect(() => {
+    if (selectedCountry === 'Vietnam') {
+      console.log('🔍 === VIETNAM DEBUG ===');
+      
+      // Check what's in nomadData
+      const allCountries = nomadData.map(item => item.country);
+      console.log('All countries in nomadData:', allCountries);
+      
+      const vietnamData = nomadData.find(item => item.country === 'Vietnam');
+      console.log('Vietnam data found:', vietnamData);
+      console.log('Vietnam workspaces:', vietnamData?.workspaces?.map(w => `${w.name} (${w.city})`));
+      
+      // Check current workspace data
+      console.log('Current workspaceData:', currentWorkspaceData.map(w => `${w.name} (${w.city}, ${w.type})`));
+      
+      console.log('🔍 =====================');
+    }
+  });
+
+  // I don't think this is necessary but the whole page stops working when I comment this entire function out
   function getVisaData() {
     return selectedCountry ? minimalData.countries[selectedCountry.toLowerCase()] : null;
   } 
 
-  // INDIVIDUAL reactive declarations that include workPreference dependency:
-  $: countryData = getAllCountries();
-  $: currentCountryData = getCurrentCountryData();
-  $: currentVisaData = getVisaData();
-  // WITH this - force update on ALL dependency changes:
-  let currentWorkspaceData: Workspace[] = [];
-  $: {
-    // Force reactivity by using all dependencies
-    const trigger = `${selectedCountry}-${selectedCity}-${workPreference}`;
-    const newData = getCurrentWorkspaceData();
-    console.log('🔄 UPDATING currentWorkspaceData:', newData.length, 'items (triggered by:', trigger, ')');
-    currentWorkspaceData = newData;
-  }
+  // Add debug logging for currency changes
+  $effect(() => {
+    console.log('🌍 Main page currency changed:', currentCurrency);
+  });
 
-  // Individual reactive declarations that include ALL dependencies
-  $: currentWorkspaceData = getCurrentWorkspaceData();
-  $: console.log('🔄 currentWorkspaceData UPDATED:', currentWorkspaceData.length, 'Country:', selectedCountry, 'City:', selectedCity, 'WorkPref:', workPreference);
-
-  // ADD this to force update when workPreference changes:
-  $: {
-    // This empty block forces reactive update when workPreference changes
-    const trigger = workPreference;
-    currentWorkspaceData = getCurrentWorkspaceData();
-  }
-
-  // ADD THIS VIETNAM DEBUG CODE:
-  $: if (selectedCountry === 'Vietnam') {
-    console.log('🔍 === VIETNAM DEBUG ===');
-    
-    // Check what's in nomadData
-    const allCountries = nomadData.map(item => item.country);
-    console.log('All countries in nomadData:', allCountries);
-    
-    const vietnamData = nomadData.find(item => item.country === 'Vietnam');
-    console.log('Vietnam data found:', vietnamData);
-    console.log('Vietnam workspaces:', vietnamData?.workspaces?.map(w => `${w.name} (${w.city})`));
-    
-    // Check current workspace data
-    console.log('Current workspaceData:', currentWorkspaceData.map(w => `${w.name} (${w.city}, ${w.type})`));
-    
-    console.log('🔍 =====================');
-  }
-  $: console.log('📢 workPreference REACTIVE UPDATE:', workPreference);
-
-  // Add this to track when data actually changes
-  $: console.log('🔄 PAGE DATA CHANGED - Country:', selectedCountry, 'City:', selectedCity, 'WorkPref:', workPreference, 'Workspaces:', currentWorkspaceData.length);
-
+  // Add debug logging for workspace data
+  $effect(() => {
+    console.log('🌍 Workspace data updated:', currentWorkspaceData.length, 'items');
+  });
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 px-4 py-8 relative overflow-hidden">
@@ -336,7 +332,7 @@ In less touristy areas, libraries are often the main free workspace option and t
     
     <!-- Back Button -->
     <button
-      on:click={() => goto('/')}
+      onclick={() => goto('/')}
       class="group mb-8 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,17 +341,19 @@ In less touristy areas, libraries are often the main free workspace option and t
       <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
     </button>
 
-    
+    <!-- === ADD CURRENCY SELECTOR HERE === -->
+    <CurrencySelector />
+
     <!-- Navigation to new pages -->
     <div class="mb-8 flex gap-4 justify-center">
       <button
-        on:click={() => goto('/digital-nomad/support')}
+        onclick={() => goto('/digital-nomad/support')}
         class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium"
       >
         📋 Support
       </button>
       <button
-        on:click={() => goto('/digital-nomad/how-to-work-from-anywhere')}
+        onclick={() => goto('/digital-nomad/how-to-work-from-anywhere')}
         class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium"
       >
         💼 How to Work From Anywhere
@@ -363,7 +361,7 @@ In less touristy areas, libraries are often the main free workspace option and t
 
       <!-- ADD THIS BUTTON -->
       <button
-        on:click={() => goto('/transportation-costs')}
+        onclick={() => goto('/transportation-costs')}
         class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium flex items-center gap-2"
       >
         🚗 Transportation Costs
@@ -396,7 +394,7 @@ In less touristy areas, libraries are often the main free workspace option and t
         <div class="inline-block w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
         <p class="mt-4 text-gray-600">Loading digital nomad data...</p>
       </div>
-    {:else if selectedCountry && currentCountryData}  <!-- This should work now -->
+    {:else if selectedCountry && currentCountryData}
       
       <!-- Work Preference Section -->
       <div class="mb-12 max-w-4xl mx-auto">
@@ -427,6 +425,7 @@ In less touristy areas, libraries are often the main free workspace option and t
         countryData={currentCountryData}
         workspaceData={currentWorkspaceData}
         visaData={currentVisaData}
+        currency={currentCurrency}
       />
 
     {:else if selectedCountry}

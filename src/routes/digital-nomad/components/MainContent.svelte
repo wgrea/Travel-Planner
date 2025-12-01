@@ -8,15 +8,21 @@
   import type { Workspace } from '$lib/data/nomadData';
   import type { NomadData } from '$lib/data/nomadData';
 
-  export let selectedCountry: string;
-  export let selectedCity: string;
-  export let workPreference: string;
-  export let countryData: NomadData | undefined;
-  export let workspaceData: Workspace[] = [];
-  export let visaData: any;
+  // Use $props() instead of export let
+  let {
+    selectedCountry,
+    selectedCity,
+    workPreference,
+    countryData,
+    workspaceData = [],
+    visaData,
+    currency = 'USD'
+  } = $props();
 
   // Add reactive tracking
-  $: console.log('🎯 MainContent UPDATED - workPreference:', workPreference, 'workspaceData:', workspaceData.length);
+  $effect(() => {
+    console.log('🎯 MainContent UPDATED - workPreference:', workPreference, 'workspaceData:', workspaceData.length);
+  });
 </script>
 
 <div>
@@ -27,11 +33,12 @@
       {selectedCity} 
       {countryData}
     />
-    <CoworkingSpacesCard 
-      {selectedCountry} 
+    <CoworkingSpacesCard
+      {workspaceData}
+      {selectedCountry}
       {selectedCity}
       {workPreference}
-      {workspaceData}
+      {currency}
     />
     <VisaInfoCard 
       {selectedCountry}
@@ -46,11 +53,12 @@
 
   <!-- Popular Coworking Spaces -->
   <div class="mb-12">
-    <PopularCoworkingSpaces 
+    <PopularCoworkingSpaces
+      {workspaceData}
       {selectedCountry}
       {selectedCity}
       {workPreference}
-      {workspaceData}
+      {currency} 
     />
   </div>
 

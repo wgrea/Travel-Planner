@@ -1,47 +1,56 @@
 <!-- src/routes/digital-nomad/components/CoworkingSpacesCard.svelte -->
 <script lang="ts">
   import type { Workspace } from '$lib/data/nomadData';
-  
-  export let selectedCountry: string;
-  export let selectedCity: string;
-  export let workPreference: string;
-  export let workspaceData: Workspace[] = [];
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
 
-  // Add reactive tracking to see when props update
-  $: console.log('📊 CoworkingSpacesCard UPDATED - workPreference:', workPreference, 'workspaceData:', workspaceData.length);
+  // Use $props() instead of export let
+  let {
+    workspaceData = [],
+    currency = 'USD',
+    selectedCountry,
+    selectedCity,
+    workPreference
+  } = $props();
 
-  // Force reactivity by tracking all props
-  $: reactiveKey = `${selectedCountry}-${selectedCity}-${workPreference}-${workspaceData.length}`;
-  $: console.log('🔄 CoworkingSpacesCard FORCED UPDATE:', reactiveKey);
-
-  // Your existing filtering logic (keep this as-is)
-  $: filteredWorkspaces = workspaceData.filter(space => {
-    // Filter by work preference
-    if (workPreference === 'coworking' && space.type !== 'coworking') return false;
-    if (workPreference === 'cafe' && space.type !== 'cafe') return false;
-    if (workPreference === 'hostel' && space.type !== 'public_space') return false;
-    if (workPreference === 'hotel' && space.type !== 'hotel') return false;
-    return true;
+  // Add reactivity to currency changes
+  $effect(() => {
+    console.log('💰 CoworkingSpacesCard currency updated:', currency);
   });
 
+  function formatPrice(price: number): string {
+    console.log('💰 Formatting price:', price, 'in currency:', currency);
+    return formatCurrency(convertCurrency(price, 'USD', currency), currency);
+  }
+
+  // Define filteredWorkspaces as a derived value
+  const filteredWorkspaces = $derived(
+    workspaceData.filter((space: Workspace) => {
+      if (workPreference === 'coworking' && space.type !== 'coworking') return false;
+      if (workPreference === 'cafe' && space.type !== 'cafe') return false;
+      if (workPreference === 'hostel' && space.type !== 'public_space') return false;
+      if (workPreference === 'hotel' && space.type !== 'hotel') return false;
+      return true;
+    })
+  );
+
   // Get workspace statistics
-  $: workspaceStats = {
+  const workspaceStats = $derived({
     total: filteredWorkspaces.length,
-    coworkingSpaces: filteredWorkspaces.filter(space => space.type === 'coworking').length,
-    cafes: filteredWorkspaces.filter(space => space.type === 'cafe').length,
-    libraries: filteredWorkspaces.filter(space => space.type === 'library').length,
-    hotels: filteredWorkspaces.filter(space => space.type === 'hotel').length,
+    coworkingSpaces: filteredWorkspaces.filter((space: Workspace) => space.type === 'coworking').length,
+    cafes: filteredWorkspaces.filter((space: Workspace) => space.type === 'cafe').length,
+    libraries: filteredWorkspaces.filter((space: Workspace) => space.type === 'library').length,
+    hotels: filteredWorkspaces.filter((space: Workspace) => space.type === 'hotel').length,
     averageRating: filteredWorkspaces.length > 0 
-      ? (filteredWorkspaces.reduce((sum, space) => sum + space.rating, 0) / filteredWorkspaces.length).toFixed(1)
+      ? (filteredWorkspaces.reduce((sum: number, space: Workspace) => sum + space.rating, 0) / filteredWorkspaces.length).toFixed(1)
       : '0.0',
     averageWifiSpeed: filteredWorkspaces.length > 0
-      ? Math.round(filteredWorkspaces.reduce((sum, space) => sum + space.wifiSpeed, 0) / filteredWorkspaces.length)
+      ? Math.round(filteredWorkspaces.reduce((sum: number, space: Workspace) => sum + space.wifiSpeed, 0) / filteredWorkspaces.length)
       : 0
-  };
+  });
 
-  // Get price range for current preference
-  $: priceRange = (() => {
-    const spacesWithPrices = filteredWorkspaces.filter(space => {
+  // Alternative: Use $derived.by() correctly
+  const priceRange = $derived.by(() => {
+    const spacesWithPrices = filteredWorkspaces.filter((space: Workspace) => {
       if (workPreference === 'coworking') return space.monthlyPrice;
       if (workPreference === 'cafe') return space.hourlyRate;
       if (workPreference === 'hotel') return space.hourlyRate;
@@ -50,7 +59,7 @@
 
     if (spacesWithPrices.length === 0) return null;
 
-    const prices = spacesWithPrices.map(space => {
+    const prices = spacesWithPrices.map((space: Workspace) => {
       if (workPreference === 'coworking') return space.monthlyPrice!;
       return space.hourlyRate!;
     });
@@ -58,13 +67,22 @@
     return {
       min: Math.min(...prices),
       max: Math.max(...prices),
-      average: Math.round(prices.reduce((sum, price) => sum + price, 0) / prices.length)
+      average: Math.round(prices.reduce((sum: number, price: number) => sum + price, 0) / prices.length)
     };
-  })();
+  });
 
-  console.log('📊 Component - workspaceData:', workspaceData.length);
-  console.log('📊 Component - filtered data:', filteredWorkspaces?.length || workspaceData.length);
+  // Alternative simpler approach if the above doesn't work:
+  /*
+  const priceRange = $derived.by(() => {
+    // same logic as above
+  });
+  */
 
+  // Add debug logging for filtered workspaces
+  $effect(() => {
+    console.log('📊 Filtered workspaces:', filteredWorkspaces.length);
+    console.log('💰 Price range:', priceRange);
+  });
 </script>
 
 <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
@@ -101,7 +119,7 @@
       <div class="text-center">
         <div class="text-2xl font-bold text-blue-700">
           {#if priceRange}
-            ${priceRange.average}
+            {formatPrice(priceRange.average)}
           {:else}
             -
           {/if}
@@ -121,15 +139,11 @@
       <div class="mb-6 p-4 bg-gray-50 rounded-lg">
         <h4 class="font-medium text-gray-900 mb-2">Price Range</h4>
         <div class="flex justify-between items-center">
-          <span class="text-sm text-gray-600">Low</span>
-          <span class="text-sm text-gray-600">High</span>
-        </div>
-        <div class="flex justify-between items-center mt-1">
-          <span class="font-semibold text-green-600">${priceRange.min}</span>
-          <span class="font-semibold text-red-600">${priceRange.max}</span>
+          <span class="font-semibold text-green-600">{formatPrice(priceRange.min)}</span>
+          <span class="font-semibold text-red-600">{formatPrice(priceRange.max)}</span>
         </div>
         <div class="mt-2 text-center text-sm text-gray-600">
-          Average: <span class="font-semibold text-blue-600">${priceRange.average}</span>
+          Average: <span class="font-semibold text-blue-600">{formatPrice(priceRange.average)}</span>
           {#if workPreference === 'coworking'}
             /month
           {:else}
@@ -143,7 +157,7 @@
     <div>
       <h4 class="font-medium text-gray-900 mb-3">Top Rated Spaces</h4>
       <div class="space-y-3">
-        {#each filteredWorkspaces.slice(0, 3) as space}
+        {#each filteredWorkspaces.slice(0, 3) as space (space.name)}
           <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
@@ -175,10 +189,14 @@
             </div>
             <div class="text-right">
               {#if workPreference === 'coworking' && space.monthlyPrice}
-                <div class="font-semibold text-blue-600">${space.monthlyPrice}</div>
+                <div class="font-semibold text-blue-600">
+                  {formatPrice(space.monthlyPrice)}
+                </div>
                 <div class="text-xs text-gray-500">monthly</div>
               {:else if space.hourlyRate}
-                <div class="font-semibold text-blue-600">${space.hourlyRate}</div>
+                <div class="font-semibold text-blue-600">
+                  {formatPrice(space.hourlyRate)}
+                </div>
                 <div class="text-xs text-gray-500">hourly</div>
               {:else}
                 <div class="text-sm text-gray-500">Free</div>

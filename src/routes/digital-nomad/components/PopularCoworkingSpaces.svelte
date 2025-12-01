@@ -1,15 +1,27 @@
 <!-- src/routes/digital-nomad/components/PopularCoworkingSpaces.svelte -->
 <script lang="ts">
   import type { Workspace } from '$lib/data/nomadData';
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
 
-  export let selectedCountry: string;
-  export let selectedCity: string;
-  export let workPreference: string;
-  export let workspaceData: Workspace[] = [];
+  // Use $props() instead of export let
+  let {
+    workspaceData = [],
+    selectedCountry,
+    selectedCity,
+    workPreference,
+    currency = 'USD'
+  } = $props();
 
-  $: reactiveKey = `${selectedCountry}-${selectedCity}-${workPreference}-${workspaceData.length}`;
-  $: console.log('🔄 PopularCoworkingSpaces FORCED UPDATE:', reactiveKey);
-  $: console.log('📊 PopularCoworkingSpaces UPDATED - workPreference:', workPreference, 'workspaceData:', workspaceData.length);
+  // React to currency changes
+  $effect(() => {
+    console.log('💰 PopularCoworkingSpaces currency updated:', currency);
+  });
+
+  function formatPrice(price: number): string {
+    return formatCurrency(convertCurrency(price, 'USD', currency), currency);
+  }
+
+  // Add any other reactive code using $derived instead of $:
 </script>
 
 <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
@@ -57,15 +69,15 @@
                 🔊 Loud
               {/if}
             </div>
-            <div class="flex items-center gap-1">
-              {#if space.type === 'coworking' && space.monthlyPrice}
-                💰 ${space.monthlyPrice}/mo
-              {:else if space.hourlyRate}
-                💰 ${space.hourlyRate}/hr
-              {:else}
-                💰 Free
-              {/if}
-            </div>
+              <div class="flex items-center gap-1">
+                {#if space.type === 'coworking' && space.monthlyPrice}
+                  💰 {formatPrice(space.monthlyPrice)}/mo
+                {:else if space.hourlyRate}
+                  💰 {formatPrice(space.hourlyRate)}/hr
+                {:else}
+                  💰 Free
+                {/if}
+              </div>
           </div>
           
           {#if space.amenities && space.amenities.length > 0}

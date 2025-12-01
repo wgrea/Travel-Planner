@@ -1,17 +1,64 @@
 <!-- src/routes/digital-nomad/components/LocationSelector.svelte -->
 <script lang="ts">
-  import { getCitiesByCountry, getCityDetails } from '$lib/data/cityData';
+  import { nomadData } from '$lib/data/nomadData';
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+
+  // Use $props() instead of export let
+  let {
+    currency = 'USD',
+    selectedCountry,
+    selectedCity
+  } = $props();
+
+  function formatPrice(price: number): string {
+    return formatCurrency(convertCurrency(price, 'USD', currency), currency);
+  }
   
-  export let selectedCountry: string;
-  export let selectedCity: string;
+  // Get cities from nomadData
+  const availableCities = $derived(
+    selectedCountry 
+      ? (nomadData.find(country => country.country === selectedCountry)?.cities || [])
+      : []
+  );
   
-  $: availableCities = selectedCountry ? getCitiesByCountry(selectedCountry) : [];
-  $: cityDetails = selectedCountry && selectedCity ? getCityDetails(selectedCity, selectedCountry) : null;
+  // Get city details from nomadData
+  function getCityDetails(city: string, country: string) {
+    const countryData = nomadData.find(c => c.country === country);
+    if (!countryData) {
+      return {
+        digitalNomadScore: 7,
+        costOfLiving: {
+          accommodation: { midrange: 800 },
+          dailyLiving: { midrange: 30 }
+        },
+        hasCoworkingSpaces: true,
+        isPopular: true,
+        vibe: ['Friendly', 'Affordable']
+      };
+    }
+    
+    return {
+      digitalNomadScore: countryData.community?.expatSize || 7,
+      costOfLiving: {
+        accommodation: { midrange: countryData.costs?.coworkingMonthly || 800 },
+        dailyLiving: { midrange: countryData.costs?.coffeeShopWork || 30 }
+      },
+      hasCoworkingSpaces: (countryData.workspaces?.length || 0) > 0,
+      isPopular: true,
+      vibe: ['Friendly', 'Affordable']
+    };
+  }
+  
+  const cityDetails = $derived(
+    selectedCountry && selectedCity ? getCityDetails(selectedCity, selectedCountry) : null
+  );
   
   // Auto-select first city when country changes
-  $: if (selectedCountry && availableCities.length > 0 && !availableCities.includes(selectedCity)) {
-    selectedCity = availableCities[0];
-  }
+  $effect(() => {
+    if (selectedCountry && availableCities.length > 0 && !availableCities.includes(selectedCity)) {
+      selectedCity = availableCities[0];
+    }
+  });
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -38,7 +85,7 @@
         <div class="text-blue-800 font-medium">Exploring {selectedCity}</div>
         <div class="text-blue-600 text-sm">
           Digital Nomad Score: {cityDetails.digitalNomadScore}/10 • 
-          Monthly Cost: ~${cityDetails.costOfLiving.accommodation.midrange + (cityDetails.costOfLiving.dailyLiving.midrange * 30)}
+          Monthly Cost: ~{formatPrice(cityDetails.costOfLiving.accommodation.midrange + (cityDetails.costOfLiving.dailyLiving.midrange * 30))}
         </div>
         <div class="flex gap-2 mt-1">
           {#if cityDetails.hasCoworkingSpaces}
