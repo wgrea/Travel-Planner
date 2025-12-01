@@ -1,13 +1,54 @@
 <!-- src/routes/visa/components/VisaResults.svelte -->
+<!-- src/routes/visa/components/VisaResults.svelte -->
 <script lang="ts">
   import type { VisaInfo } from '$lib/types/visa';
-  import type { Country } from '$lib/types/minimalData'; // Changed from MinimalCountry
+  import type { Country } from '$lib/types/minimalData';
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+  import { selectedCurrency } from '$lib/stores/currency';
 
-  export let homeCountry: string;
-  export let destinationCountry: string;
-  export let visaInfo: VisaInfo;
-  export let countryData: Country | undefined; // Changed from MinimalCountry
-  export let error: string;
+  // Use $props() like flight costs
+  let { homeCountry, destinationCountry, visaInfo, countryData, error } = $props<{
+    homeCountry: string;
+    destinationCountry: string;
+    visaInfo: VisaInfo;
+    countryData: Country | undefined;
+    error: string;
+  }>();
+
+  // FIX: Use $derived instead of legacy $:
+  const currentCurrency = $derived($selectedCurrency);
+
+  // Simple format function like flight costs
+  function formatIncome(incomeReq: string | undefined): string {
+    if (!incomeReq) return 'Not specified';
+    
+    const amountMatch = incomeReq.match(/(\d+(?:,\d+)?)/);
+    if (amountMatch) {
+      const amount = parseInt(amountMatch[1].replace(/,/g, ''));
+      const convertedAmount = convertCurrency(amount, 'USD', currentCurrency);
+      return `${formatCurrency(convertedAmount, currentCurrency)}/month`;
+    }
+    
+    return incomeReq;
+  }
+
+  // Add the missing function
+  function isDigitalNomadSection(): boolean {
+    return !!(
+      visaInfo.category?.toLowerCase().includes('digital') || 
+      visaInfo.ease?.toLowerCase().includes('nomad') ||
+      (visaInfo.incomeReq && visaInfo.incomeReq.includes('$'))
+    );
+  }
+
+  // FIX: Use $effect for side effects instead of legacy $:
+  $effect(() => {
+    console.log('🔄 VisaResults update:', {
+      currency: currentCurrency,
+      incomeReq: visaInfo?.incomeReq,
+      reactive: true
+    });
+  });
 </script>
 
 {#if error}
@@ -50,7 +91,9 @@
   <!-- Income Requirement -->
   <div class="p-4 rounded-lg bg-stone-50 border border-stone-200 flex justify-between items-center">
     <span class="text-sm font-medium text-stone-700">Income Requirement</span>
-    <span class="text-sm font-semibold text-stone-900">{visaInfo.incomeReq}</span>
+    <span class="text-sm font-semibold text-stone-900">
+      {formatIncome(visaInfo.incomeReq)}
+    </span>
   </div>
 
   <!-- Work Policy -->
@@ -58,4 +101,14 @@
     <span class="text-sm font-medium text-stone-700">Work Policy</span>
     <span class="text-sm font-semibold text-stone-900">{visaInfo.workPolicy}</span>
   </div>
+
+  <!-- Digital Nomad Visa Section -->
+  {#if isDigitalNomadSection()}
+    <div class="p-4 rounded-lg bg-blue-50 border border-blue-200 flex justify-between items-center">
+      <span class="text-sm font-medium text-blue-700">Digital Nomad Visa</span>
+      <span class="text-sm font-semibold text-blue-900">
+        Available - {formatIncome(visaInfo.incomeReq)}
+      </span>
+    </div>
+  {/if}
 </div>

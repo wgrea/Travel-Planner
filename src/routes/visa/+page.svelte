@@ -4,10 +4,14 @@
 // Specific document checklists  
 // Processing times and costs
 // Country-by-country comparisons
--->
 
+
+
+I also want to add the price it is to apply
+-->
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
   import { getVisaInfo, checkVisaRequirements, getPassportCountries } from '$lib/utils/visa';
   import { minimalData } from '$lib/data/minimalData';
   import CountrySelector from '$lib/components/CountrySelector.svelte';
@@ -20,15 +24,23 @@
   import DocumentChecklist from './components/DocumentChecklist.svelte';
   import PassportBanner from './components/PassportBanner.svelte';
   import { getVisaCountries } from './utils/visaData';
-
-  let homeCountry: string = 'United States';
-  let destinationCountry: CountryCode = 'Thailand';
-  let selectedRegion: string = '';
-  let isLoading = false;
-  let error = '';
   
-  $: currentVisaInfo = getVisaInfo(homeCountry, destinationCountry);
-  $: destinationCountryData = minimalData.countries[destinationCountry.toLowerCase()];
+  // Add currency imports
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+  import CurrencySelector from '$lib/components/CurrencySelector.svelte';
+  import { selectedCurrency } from '$lib/stores/currency';
+
+  // Use $state for reactive variables
+  let homeCountry = $state('United States');
+  let destinationCountry = $state<CountryCode>('Thailand');
+  let selectedRegion = $state('');
+  let isLoading = $state(false);
+  let error = $state('');
+  
+  // Use $derived for reactive values
+  const currentCurrency = $derived($selectedCurrency);
+  const currentVisaInfo = $derived(getVisaInfo(homeCountry, destinationCountry));
+  const destinationCountryData = $derived(minimalData.countries[destinationCountry.toLowerCase()]);
 
   // Get available passport countries and country data
   const passportCountries = getPassportCountries();
@@ -58,16 +70,19 @@
     }
   }
   
-  $: if (homeCountry && destinationCountry) {
-    handleCheckVisaRequirements();
-  }
+  // Use $effect for side effects
+  $effect(() => {
+    if (homeCountry && destinationCountry) {
+      handleCheckVisaRequirements();
+    }
+  });
 </script>
 
 <div class="min-h-screen bg-gradient-to-b from-stone-50 via-neutral-50 to-stone-100 px-4 py-8 md:py-12">
   <div class="max-w-4xl mx-auto">
-    <!-- Back Button -->
+    <!-- Back Button - Fixed onclick -->
     <button
-      on:click={() => goto('/')}
+      onclick={() => goto('/')}
       class="group mb-8 inline-flex items-center gap-2 text-stone-600 hover:text-stone-900 transition-colors duration-200"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,6 +91,9 @@
       <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
     </button>
     
+    <!-- Currency Selector -->
+    <CurrencySelector />
+
     <!-- Title Section -->
     <div class="mb-10 text-center">
       <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-stone-100 mb-6">
@@ -96,17 +114,17 @@
     <!-- Passport Banner Component -->
     <PassportBanner />
 
-    <!-- Before You Start Section -->
+    <!-- Before You Start Section - Fixed onclick -->
     <div class="mb-10 text-center">
       <p class="text-stone-500 text-sm font-light mb-4 tracking-wide">
         Explore destinations before checking requirements
       </p>
       <div class="flex gap-3 justify-center flex-wrap">
-        <button on:click={() => goto('/resonance')} 
+        <button onclick={() => goto('/resonance')} 
                 class="px-5 py-2.5 rounded-full bg-white border border-stone-200 text-stone-700 hover:border-stone-300 hover:shadow-sm transition-all duration-200 text-sm font-medium">
           Destination Finder
         </button>
-        <button on:click={() => goto('/resonance')} 
+        <button onclick={() => goto('/resonance')} 
                 class="px-5 py-2.5 rounded-full bg-white border border-stone-200 text-stone-700 hover:border-stone-300 hover:shadow-sm transition-all duration-200 text-sm font-medium">
           Resonance
         </button>
@@ -156,10 +174,12 @@
           <h2 class="text-2xl font-light mb-8 text-stone-900 pb-4 border-b border-stone-200">
             Visa Fit Matrix
           </h2>
-          <VisaMatrix 
-            visaInfo={currentVisaInfo}
-            countryData={destinationCountryData}
-          />
+          <!-- src/routes/visa/+page.svelte -->
+            <!-- Remove selectedCurrency from VisaMatrix too -->
+            <VisaMatrix 
+              visaInfo={currentVisaInfo}
+              countryData={destinationCountryData}
+            />
         </div>
 
         <div class="bg-white rounded-2xl p-8 md:p-10 shadow-sm border border-stone-200 mb-6">
@@ -181,17 +201,17 @@
       {/if}
     {/if}
 
-    <!-- Next Steps -->
+    <!-- Next Steps - Fixed onclick -->
     <div class="mt-12 text-center">
       <p class="text-stone-500 text-sm font-light mb-5 tracking-wide">
         Continue planning your journey
       </p>
       <div class="flex gap-3 justify-center flex-wrap">
-        <button on:click={() => goto('/flight-costs')} 
+        <button onclick={() => goto('/flight-costs')} 
                 class="px-6 py-3 rounded-full bg-stone-900 text-white hover:bg-stone-800 transition-all duration-200 font-medium text-sm shadow-sm">
           Flight Costs
         </button>
-        <button on:click={() => goto('/living-costs')} 
+        <button onclick={() => goto('/living-costs')} 
                 class="px-6 py-3 rounded-full bg-white border border-stone-300 text-stone-700 hover:border-stone-400 hover:shadow-sm transition-all duration-200 font-medium text-sm">
           Living Costs
         </button>

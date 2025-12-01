@@ -2,36 +2,51 @@
 <script lang="ts">
   import type { VisaInfo } from '$lib/types/visa';
   import type { Country } from '$lib/types/minimalData';
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+  import { selectedCurrency } from '$lib/stores/currency';
 
-  // Define both props
-  export let visaInfo: VisaInfo;
-  export let countryData: Country | undefined;
+  // Use $props() like flight costs
+  let { visaInfo, countryData } = $props<{
+    visaInfo: VisaInfo;
+    countryData: Country | undefined;
+  }>();
 
-  // Use the matrixHelpers if you have them, or define locally:
-  const matrixItems = [
-    { label: 'Visa Type', value: visaInfo.category },
-    { label: 'Income Required', value: visaInfo.incomeReq },
-    { label: 'Documents', value: 'Passport + Proof of income' },
-    { label: 'Cost of Living', value: countryData?.costs?.tier ? `${countryData.costs.tier} cost` : 'Unknown' },
-    { label: 'Digital Nomad Visa', value: visaInfo.nomadVisa ? 'Available' : 'Not available' },
-    { label: 'Best Time to Visit', value: getBestTimeToVisit() },
-    { label: 'Visa Difficulty', value: countryData?.visa?.difficulty ? `${countryData.visa.difficulty}` : 'Unknown' },
-    { label: 'Work Policy', value: visaInfo.workPolicy }
-  ];
+  // Copy EXACTLY what flight costs does
+  const currentCurrency = $derived($selectedCurrency);
 
-  function getBestTimeToVisit(): string {
-    if (!countryData?.seasonality?.bestMonths) return 'Year-round';
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const bestMonths = countryData.seasonality.bestMonths.map((month: number) => months[month - 1]);
-    return bestMonths.join(', ');
+  function formatMatrixIncome(incomeReq: string | undefined): string {
+    if (!incomeReq) return 'Not required';
+    
+    const amountMatch = incomeReq.match(/(\d+(?:,\d+)?)/);
+    if (amountMatch) {
+      const amount = parseInt(amountMatch[1].replace(/,/g, ''));
+      const convertedAmount = convertCurrency(amount, 'USD', currentCurrency);
+      return `${formatCurrency(convertedAmount, currentCurrency)}/month`;
+    }
+    
+    return incomeReq;
   }
 </script>
 
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-  {#each matrixItems as item}
-    <div class="text-center p-4 rounded-lg bg-stone-50 border border-stone-200">
-      <div class="font-medium text-xs mb-2 text-stone-500 uppercase tracking-wider">{item.label}</div>
-      <div class="text-stone-900 text-sm font-light">{item.value}</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+  <div class="text-center p-3 bg-stone-50 rounded-lg">
+    <div class="font-medium text-stone-700 mb-1">Visa Type</div>
+    <div class="text-stone-900 font-semibold">{visaInfo.category}</div>
+  </div>
+  
+  <div class="text-center p-3 bg-stone-50 rounded-lg">
+    <div class="font-medium text-stone-700 mb-1">Income Required</div>
+    <div class="text-stone-900 font-semibold">
+      {formatMatrixIncome(visaInfo.incomeReq)}
     </div>
-  {/each}
+  </div>
+  
+  <div class="text-center p-3 bg-stone-50 rounded-lg">
+    <div class="font-medium text-stone-700 mb-1">Digital Nomad Visa</div>
+    <div class="text-stone-900 font-semibold">
+      {visaInfo.nomadVisa ? 'Available' : 'Not available'}
+    </div>
+  </div>
+  
+  <!-- Add more matrix items as needed -->
 </div>

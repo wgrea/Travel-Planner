@@ -2,12 +2,18 @@
 <script lang="ts">
   import { routeCosts } from '$lib/data/routeCosts';
   import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
   import { flyDataByRegion, getAllRegions, getAllCountries as getAllFlightCountries } from '$lib/data/flightPatternData';
   import type { FlightPattern } from '$lib/data/flightPatternData';
   import CountrySelector, { type CountryData } from '$lib/components/CountrySelector.svelte';
   import CheapestCountries from './components/CheapestCountries.svelte';
   import TipsSection from './components/TipsSection.svelte';
   import IntelligenceItem from './components/IntelligenceItem.svelte';
+  
+  // Add currency imports
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+  import CurrencySelector from '$lib/components/CurrencySelector.svelte';
+  import { selectedCurrency } from '$lib/stores/currency';
 
   // Use $state for reactive variables
   let selectedCountry = $state('Thailand');
@@ -15,11 +21,13 @@
   let isLoading = $state(false);
   let origin = '';
   let destination = '';
-  let originCountry = $state('United States'); // Default to United States
+  let originCountry = $state('United States');
   
+  // Use $derived for the store value
+  const currentCurrency = $derived($selectedCurrency);
 
   // Use $derived for reactive values
-  const currentRouteCosts  = $derived(getAllFlightCountries().find(country => country.country === selectedCountry));
+  const currentRouteCosts = $derived(getAllFlightCountries().find(country => country.country === selectedCountry));
   
   // For side effects, use $effect
   $effect(() => {
@@ -95,6 +103,9 @@
       <span class="font-medium text-sm">Back to Main Menu</span>
     </button>
 
+    <!-- Currency Selector -->
+    <CurrencySelector />
+
     <!-- Quick Links -->
     <div class="mb-12 text-center">
       <p class="text-gray-700 text-sm mb-4">Check these first if you haven't already</p>
@@ -143,7 +154,12 @@
             {#if currentRouteCosts.averagePrice}
               <div class="info-card bg-amber-50 text-amber-800 border border-amber-200">
                 <span class="font-medium">Average Price:</span>
-                <span class="font-bold">${currentRouteCosts.averagePrice}</span>
+                <span class="font-bold">
+                  {formatCurrency(
+                    convertCurrency(currentRouteCosts.averagePrice, 'USD', currentCurrency),
+                    currentCurrency
+                  )}
+                </span>
               </div>
             {/if}
           </div>
@@ -164,7 +180,6 @@
             <p class="text-gray-500 text-sm mb-6">No city data available</p>
           {/if}
           
-          <!-- FIX: Changed plantingTips to planningTips -->
           {#if currentRouteCosts.planningTips && currentRouteCosts.planningTips.length > 0}
             <h4 class="text-lg font-semibold mb-3 text-gray-800 flex items-center gap-2">
               <span class="text-green-500">📝</span> Planning Tips
@@ -181,12 +196,12 @@
     
     <!-- Two Column Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-      <!-- Update the CheapestCountries usage line 158 -->
       <div class="card">
         <CheapestCountries 
           filteredData={currentRouteCosts ? [currentRouteCosts] : []} 
-          selectedCountry={selectedCountry}
-          originCountry={originCountry}
+          {selectedCountry}
+          {originCountry}
+          selectedCurrency={currentCurrency}
         />
       </div>
       
@@ -217,7 +232,6 @@
   </div>
 </div>
 
-<!-- In your main page - add these styles -->
 <style>
   .btn-secondary {
     @apply px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow-md transition-all duration-300 font-medium text-sm;

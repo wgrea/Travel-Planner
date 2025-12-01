@@ -1,6 +1,7 @@
 // src/routes/visa/utils/matrixHelpers.ts
 import type { VisaInfo } from '$lib/types/visa';
-import type { Country } from '$lib/types/minimalData'; // Changed from MinimalCountry
+import type { Country } from '$lib/types/minimalData';
+import { convertCurrency, formatCurrency } from '$lib/utils/currency'; // Add currency imports
 
 export interface MatrixItem {
   label: string;
@@ -9,7 +10,29 @@ export interface MatrixItem {
   importance: 'high' | 'medium' | 'low';
 }
 
-export function getVisaMatrixItems(visaInfo: VisaInfo, countryData?: Country): MatrixItem[] { 
+// Add selectedCurrency parameter
+export function getVisaMatrixItems(visaInfo: VisaInfo, countryData?: Country, selectedCurrency: string = 'USD'): MatrixItem[] { 
+  
+  // Helper function to format income with currency conversion
+  function formatIncome(incomeReq: string | undefined): string {
+    if (!incomeReq) return 'Not specified';
+    
+    // Check if it contains USD symbol and needs conversion
+    if (typeof incomeReq === 'string' && incomeReq.includes('$')) {
+      const amountMatch = incomeReq.match(/\$([\d,]+)/);
+      if (amountMatch) {
+        const amount = parseInt(amountMatch[1].replace(/,/g, ''));
+        return `${formatCurrency(
+          convertCurrency(amount, 'USD', selectedCurrency),
+          selectedCurrency
+        )}/month`;
+      }
+    }
+    
+    // If no conversion needed or possible, return original
+    return incomeReq;
+  }
+
   const items: MatrixItem[] = [
     {
       label: 'Visa Type',
@@ -19,7 +42,7 @@ export function getVisaMatrixItems(visaInfo: VisaInfo, countryData?: Country): M
     },
     {
       label: 'Income Required',
-      value: visaInfo.incomeReq,
+      value: formatIncome(visaInfo.incomeReq), // Use the formatted income
       category: 'visa', 
       importance: 'high'
     },
@@ -98,6 +121,7 @@ export function getVisaMatrixItems(visaInfo: VisaInfo, countryData?: Country): M
   return items;
 }
 
+// ... rest of the file remains the same
 function getBestTimeToVisit(countryData: Country): string {
   if (!countryData.seasonality?.bestMonths) return 'Year-round';
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

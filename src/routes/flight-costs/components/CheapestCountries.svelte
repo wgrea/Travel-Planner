@@ -2,14 +2,16 @@
 <script lang="ts">
   import type { FlightPattern } from '$lib/data/flightPatternData';
   import { routeCosts } from '$lib/data/routeCosts';
-  
-  let { filteredData, selectedCountry, originCountry } = $props<{ 
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+
+  // Use $props() for runes mode
+  let { filteredData, selectedCountry, originCountry, selectedCurrency = 'USD' } = $props<{ 
     filteredData: FlightPattern[], 
     selectedCountry: string,
-    originCountry: string 
+    originCountry: string,
+    selectedCurrency?: string
   }>();
   
-  // FIX: Use let instead of const for originPricing
   let originPricing: any = $state(null);
   
   // Update pricing when origin or destination changes
@@ -28,7 +30,7 @@
   const hasPatternData = $derived(filteredData.length > 0 && filteredData[0]);
 </script>
 
-<!-- The rest of the template remains the same -->
+<!-- Template remains the same as before -->
 <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
   <h2 class="text-2xl font-bold mb-6 text-gray-900 border-b border-gray-200 pb-4 flex items-center gap-3">
     <span class="text-amber-500 text-2xl">💰</span> 
@@ -55,9 +57,19 @@
               {/if}
             </div>
             <div class="text-right min-w-[120px]">
-              <div class="font-bold text-green-700 text-sm">${originPricing.economy} economy</div>
+              <div class="font-bold text-green-700 text-sm">
+                {formatCurrency(
+                  convertCurrency(originPricing.economy, 'USD', selectedCurrency),
+                  selectedCurrency
+                )} economy
+              </div>
               {#if originPricing.business}
-                <div class="text-xs text-gray-500 mt-1">${originPricing.business} business</div>
+                <div class="text-xs text-gray-500 mt-1">
+                  {formatCurrency(
+                    convertCurrency(originPricing.business, 'USD', selectedCurrency),
+                    selectedCurrency
+                  )} business
+                </div>
               {/if}
             </div>
           </div>

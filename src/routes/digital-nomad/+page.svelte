@@ -360,6 +360,14 @@ In less touristy areas, libraries are often the main free workspace option and t
       >
         💼 How to Work From Anywhere
       </button>
+
+      <!-- ADD THIS BUTTON -->
+      <button
+        on:click={() => goto('/transportation-costs')}
+        class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium flex items-center gap-2"
+      >
+        🚗 Transportation Costs
+      </button>
     </div>
 
     <!-- Before You Start Section -->

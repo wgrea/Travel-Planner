@@ -1,7 +1,7 @@
 <!-- src/routes/living-costs/components/MainContent.svelte -->
 <script lang="ts">
   import { livingCostsByRegion } from '$lib/data/livingCostData';
-  import { convertCurrency, formatCurrency, currencySymbols } from '$lib/utils/currency';
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency'; // Remove currencySymbols import
   import { getDailyCostForCity } from '$lib/utils/living-costs';
   import type { TravelStyle, LivingCostData } from '$lib/types/living-costs';
   
@@ -14,19 +14,18 @@
   export let travelStyle: TravelStyle = 'midrange';
   export let tripLength: number = 30;
   export let travelerCount: number = 1;
-  export let selectedCurrency: string = 'USD';
+  export let selectedCurrency: string = 'USD'; // Keep this prop
   
-  // Events
+  // Events - REMOVE currencyChange event
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher<{
     travelStyleChange: TravelStyle;
     tripLengthChange: number;
     travelerCountChange: number;
-    currencyChange: string;
+    // Remove currencyChange from here
   }>();
 
-  // Data
-  const availableCurrencies = Object.keys(currencySymbols);
+  // Data - REMOVE availableCurrencies
 
   // Get current country data with proper type handling
   $: currentCountryData = (() => {
@@ -60,12 +59,7 @@
     return cost;
   })();
 
-  // Event handlers
-  function handleCurrencyChange(event: Event) {
-    const currency = (event.target as HTMLSelectElement).value;
-    dispatch('currencyChange', currency);
-    localStorage.setItem('preferred-currency', currency);
-  }
+  // Event handlers - REMOVE handleCurrencyChange function
 
   function handleTravelStyleChange(e: CustomEvent<TravelStyle>) {
     dispatch('travelStyleChange', e.detail);
@@ -81,23 +75,8 @@
 </script>
 
 <div class="max-w-6xl mx-auto">
-  <!-- Currency Selector -->
-  <div class="mb-6 flex justify-center">
-    <div class="bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 p-4 shadow-lg">
-      <label for="currency-select" class="mr-3 font-medium text-gray-700">Display prices in:</label>
-      <select 
-        id="currency-select" 
-        bind:value={selectedCurrency}
-        on:change={handleCurrencyChange}
-        class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-      >
-        {#each availableCurrencies as currency}
-          <option value={currency}>{currency} ({currencySymbols[currency]})</option>
-        {/each}
-      </select>
-    </div>
-  </div>
-
+  <!-- REMOVE the entire Currency Selector section that was here -->
+  
   <!-- Content based on selection -->
   {#if !selectedCountry}
     <!-- Welcome state -->
