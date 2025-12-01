@@ -1,5 +1,5 @@
 // src/lib/data/livingCostData.ts
-import type { LivingCostData } from '$lib/types/living-costs';
+// src/lib/data/livingCostData.ts
 import { thailandLivingCosts } from './countries/southeast-asia/thailand';
 import { vietnamLivingCosts } from './countries/southeast-asia/vietnam';
 import { indiaLivingCosts } from './countries/south-asia/india';
@@ -9,21 +9,22 @@ import { turkeyLivingCosts } from './countries/europe/southern-europe/turkey';
 import { georgiaLivingCosts } from './countries/europe/caucasus/georgia';
 import { azerbaijanLivingCosts } from './countries/europe/caucasus/azerbaijan';
 import { spainLivingCosts } from './countries/europe/western-europe/spain';
+import { portugalLivingCosts } from './countries/europe/western-europe/portugal';
 import { argentinaLivingCosts } from './countries/south-america/argentina';
+import { brazilLivingCosts } from './countries/south-america/brazil';
 import { panamaLivingCosts } from './countries/central-america/panama';
 import { unitedStatesLivingCosts } from './countries/north-america/united-states';
-// Import other countries as you add them...
+import { mexicoLivingCosts } from './countries/north-america/mexico';
+// import { colombiaLivingCosts } from './countries/south-america/colombia';
+import { indonesiaLivingCosts } from './countries/southeast-asia/indonesia';
+// import { laosLivingCosts } from './countries/southeast-asia/laos';
+// import { southKoreaLivingCosts } from './countries/east-asia/south-korea';
+// import { taiwanLivingCosts } from './countries/east-asia/taiwan';
+// import { canadaLivingCosts } from './countries/north-america/canada';
+// import { belizeLivingCosts } from './countries/central-america/belize';
+// import { costaRicaLivingCosts } from './countries/central-america/costaRica';
+// import { guatemalaLivingCosts } from './countries/central-america/guatemala';
 
-export interface SubRegionLivingCosts {
-  subregion: string;
-  countries: LivingCostData[];
-}
-
-export interface RegionData {
-  region: string;
-  subregions?: SubRegionLivingCosts[]; // Make subregions optional for non-European regions
-  countries?: LivingCostData[]; // Make countries optional for European regions
-}
 
 export const livingCostsByRegion: RegionData[] = [
   {
@@ -31,7 +32,8 @@ export const livingCostsByRegion: RegionData[] = [
     countries: [
       thailandLivingCosts,
       vietnamLivingCosts,
-      // Add other SEA countries...
+      indonesiaLivingCosts,
+      // laosLivingCosts,
     ]
   },
   {
@@ -39,14 +41,14 @@ export const livingCostsByRegion: RegionData[] = [
     countries: [
       indiaLivingCosts,
       nepalLivingCosts,
-      // Add other South Asia countries...
     ]
   },
   {
     region: "East Asia", 
     countries: [
       japanLivingCosts,
-      // Add other East Asia countries...
+      // southKoreaLivingCosts,
+      // taiwanLivingCosts,
     ]
   },
   {
@@ -69,6 +71,7 @@ export const livingCostsByRegion: RegionData[] = [
         subregion: "Western Europe",
         countries: [
           spainLivingCosts,
+          portugalLivingCosts,
         ]
       }
     ]
@@ -77,25 +80,39 @@ export const livingCostsByRegion: RegionData[] = [
     region: "South America",
     countries: [
       argentinaLivingCosts,
-      // Add other South American countries...
+      brazilLivingCosts,
+      // colombiaLivingCosts,
     ]
   },
   {
     region: "Central America",
     countries: [
       panamaLivingCosts,
-      // Add other Central American countries...
+      // belizeLivingCosts,
+      // costaRicaLivingCosts,
+      // guatemalaLivingCosts,
     ]
   },
   {
     region: "North America",
     countries: [
       unitedStatesLivingCosts,
-      // Add other North American countries...
+      mexicoLivingCosts,
+      // canadaLivingCosts,
     ]
   }
-  // Add other regions...
 ];
+
+export interface SubRegionLivingCosts {
+  subregion: string;
+  countries: LivingCostData[];
+}
+
+export interface RegionData {
+  region: string;
+  subregions?: SubRegionLivingCosts[]; // Make subregions optional for non-European regions
+  countries?: LivingCostData[]; // Make countries optional for European regions
+}
 
 // Helper function for currency conversion
 export const convertCostToCurrency = (

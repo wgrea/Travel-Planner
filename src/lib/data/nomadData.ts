@@ -11,6 +11,20 @@ import { mexicoNomadData } from './countries/north-america/mexico';
 import { colombiaNomadData } from './countries/south-america/colombia';
 import { argentinaNomadData } from './countries/south-america/argentina';
 import { azerbaijanNomadData } from './countries/europe/caucasus/azerbaijan';
+import { brazilNomadData } from './countries/south-america/brazil';
+// import { turkeyNomadData } from './countries/europe/southern-europe/turkey';
+// import { japanNomadData } from './countries/east-asia/japan';
+// import { southKoreaNomadData } from './countries/east-asia/south-korea';
+// import { taiwanNomadData } from './countries/east-asia/taiwan';
+// import { indiaNomadData } from './countries/south-asia/india';
+// import { nepalNomadData } from './countries/south-asia/nepal';
+// import { laosNomadData } from './countries/southeast-asia/laos';
+// import { canadaNomadData } from './countries/north-america/canada';
+// import { unitedStatesNomadData } from './countries/north-america/united-states';
+// import { belizeNomadData } from './countries/central-america/belize';
+// import { costaRicaNomadData } from './countries/central-america/costaRica';
+// import { guatemalaNomadData } from './countries/central-america/guatemala';
+// import { panamaNomadData } from './countries/central-america/panama';
 
 export const nomadDataByRegion: RegionNomadData[] = [
   {
@@ -19,7 +33,6 @@ export const nomadDataByRegion: RegionNomadData[] = [
       thailandNomadData,
       vietnamNomadData,
       indonesiaNomadData,
-      // Add other SEA countries as you create them...
     ]
   },
   {
@@ -36,16 +49,21 @@ export const nomadDataByRegion: RegionNomadData[] = [
         subregion: "Caucasus", 
         countries: [
           georgiaNomadData,
-          azerbaijanNomadData, // ADD THIS LINE
+          azerbaijanNomadData,
         ]
       }
+    ]
+  },
+    {
+    region: "Central America", 
+    countries: [
+      // panamaNomadData
     ]
   },
   {
     region: "North America",
     countries: [
       mexicoNomadData,
-      // Add other North American countries...
     ]
   },
   {
@@ -53,10 +71,9 @@ export const nomadDataByRegion: RegionNomadData[] = [
     countries: [
       colombiaNomadData,
       argentinaNomadData,
-      // Add other South American countries...
+      brazilNomadData,
     ]
   }
-  // Add more regions as needed...
 ];
 
 // src/lib/data/nomadData.ts - Update the interface

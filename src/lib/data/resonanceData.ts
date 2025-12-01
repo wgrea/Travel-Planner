@@ -1,10 +1,33 @@
 // src/lib/data/resonanceData.ts
+
+/* I think notes that should be taken should be in the data.ts
+There is only one country that is listed when I select #party, what else could party go to or how can I be specific for what types of parties?
+
+*/
 import type { CityResonanceProfile } from '$lib/types/resonance';
 
 // Import country resonance data
+// In your resonance data file
 import { argentinaResonance } from './countries/south-america/argentina/resonance';
 import { thailandResonance } from './countries/southeast-asia/thailand/resonance';
 import { brazilResonance } from './countries/south-america/brazil/resonance';
+import { vietnamResonance } from './countries/southeast-asia/vietnam/resonance';
+import { indonesiaResonance } from './countries/southeast-asia/indonesia/resonance';
+import { portugalResonance } from './countries/europe/western-europe/portugal/resonance';
+import { spainResonance } from './countries/europe/western-europe/spain/resonance';
+import { georgiaResonance } from './countries/europe/caucasus/georgia/resonance';
+import { mexicoResonance } from './countries/north-america/mexico/resonance';
+// import { colombiaResonance } from './countries/south-america/colombia/resonance';
+import { azerbaijanResonance } from './countries/europe/caucasus/azerbaijan/resonance';
+// import { turkeyResonance } from './countries/europe/southern-europe/turkey/resonance';
+// import { japanResonance } from './countries/east-asia/japan/resonance';
+// import { southKoreaResonance } from './countries/east-asia/south-korea/resonance';
+// import { taiwanResonance } from './countries/east-asia/taiwan/resonance';
+// import { indiaResonance } from './countries/south-asia/india/resonance';
+// import { nepalResonance } from './countries/south-asia/nepal/resonance';
+// import { laosResonance } from './countries/southeast-asia/laos/resonance';
+// import { canadaResonance } from './countries/north-america/canada/resonance';
+// import { unitedStatesResonance } from './countries/north-america/united-states/resonance';
 
 // Define proper TypeScript interfaces for the data structure
 interface ResonanceSubregion {
@@ -33,7 +56,7 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
   {
     region: "North America",
     countries: [
-      // mexicoResonance,
+      mexicoResonance,
       // canadaResonance,
       // unitedStatesResonance,
     ]
@@ -44,8 +67,8 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
       {
         subregion: "Western Europe",
         countries: [
-          // portugalResonance,
-          // spainResonance,
+          portugalResonance,
+          spainResonance,
           // franceResonance,
           // germanyResonance,
         ]
@@ -69,8 +92,8 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
       {
         subregion: "Caucasus",
         countries: [
-          // georgiaResonance,
-          // azerbaijanResonance,
+          georgiaResonance,
+          azerbaijanResonance,
           // armeniaResonance,
         ]
       }
@@ -80,8 +103,8 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
     region: "Southeast Asia",
     countries: [
       thailandResonance,
-      // vietnamResonance,
-      // indonesiaResonance,
+      vietnamResonance,
+      indonesiaResonance,
       // malaysiaResonance,
       // philippinesResonance,
     ]
@@ -127,16 +150,18 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
   }
 ];
 
+// Not the whole file. Above just lists the countries and regions.
+// Feel free to add a new filter that is more relavent
 // ORGANIZED TAG CATEGORIES (replaces redundant systems)
 export const tagCategories = {
   // Experience Types - What kind of trip is this?
   experience: [
-    'adventure', 'cultural', 'relaxation', 'party', 'digital-nomad', 'backpacker', 'local-experience'
+    'adventure', 'cultural', 'relaxation', 'party', 'digital-nomad', 'backpacker', 'local-experience', 'historical'
   ],
   
   // Vibe & Atmosphere - How does it feel?
   vibe: [
-    'chaotic', 'chill', 'balanced', 'lively', 'laid-back', 'festive',
+    'magical', 'chaotic', 'chill', 'balanced', 'lively', 'laid-back', 'festive',
     'spiritual', 'hippie', 'cosmopolitan', 'traditional', 'passionate'
   ],
   
