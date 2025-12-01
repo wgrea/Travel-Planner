@@ -49,7 +49,7 @@ export type CountryCode =
   | 'Vietnam';
 
 export type TravelStyle = 'budget' | 'midrange' | 'luxury';
-export type AccommodationType = 'hostel' | 'guesthouse' | 'hotel' | 'apartment' | 'luxury';
+export type AccommodationType = 'hostel' | 'guesthouse' | 'hotel' | 'apartment' | 'luxury' | 'boutiqueHotel';
 
 // Make all nested interfaces partial to allow overrides
 export interface TransportationCosts {
