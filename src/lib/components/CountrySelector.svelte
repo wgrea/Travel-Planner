@@ -190,42 +190,4 @@
       </button>
     </div>
   </div>
-
-  <!-- Visa Information -->
-  {#if visaInfo && variant === 'default'}
-    <div class="mt-8 pt-6 border-t border-stone-200">
-      <h3 class="text-lg font-light mb-4 text-stone-900">
-        Visa Information for {selectedPassport} → {selectedDestination}
-      </h3>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
-          <span class="text-sm font-medium text-stone-700 block mb-2">Visa Ease</span>
-          <span class="text-sm font-light text-stone-900">{visaInfo.ease}</span>
-        </div>
-        
-        <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
-          <span class="text-sm font-medium text-stone-700 block mb-2">Stay Length</span>
-          <span class="text-sm font-light text-stone-900">{visaInfo.freeLength}</span>
-        </div>
-        
-        <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
-          <span class="text-sm font-medium text-stone-700 block mb-2">Work Policy</span>
-          <span class="text-sm font-light text-stone-900">{visaInfo.workPolicy}</span>
-        </div>
-        
-        {#if visaInfo.nomadVisa}
-          <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
-            <span class="text-sm font-medium text-stone-700 block mb-2">Digital Nomad Visa</span>
-            <span class="text-sm font-light text-stone-900">Available - {visaInfo.incomeReq}</span>
-          </div>
-        {/if}
-      </div>
-      
-      <div class="mt-4 p-4 rounded-lg bg-stone-50 border border-stone-200">
-        <span class="text-sm font-medium text-stone-700 block mb-2">Category</span>
-        <span class="text-sm font-light text-stone-900 capitalize">{visaInfo.category}</span>
-      </div>
-    </div>
-  {/if}
 </div>
