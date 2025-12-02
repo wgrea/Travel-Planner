@@ -7,14 +7,14 @@ export interface CityTransportation {
     monthlyPass: number;
     singleTicket: number;
     dailyCap?: number;
-    reliability: number;
-    coverage: number;
+    reliability: number;  // Accepting 0-10 scale temporarily
+    coverage: number;     // Accepting 0-10 scale temporarily
     notes?: string;
   };
   rideSharing: {
     baseFare: number;
     costPerKm: number;
-    availability: number;
+    availability: number; // Accepting 0-10 scale temporarily
     exampleTrip: number;
   };
   taxis: {
