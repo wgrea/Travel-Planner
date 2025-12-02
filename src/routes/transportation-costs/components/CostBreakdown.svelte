@@ -4,11 +4,13 @@
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
   import type { TransportationCosts, CityTransportation } from '$lib/types/transportation';
   
-  // Import the new components - use old export syntax for compatibility
-  export let country: string;
-  export let city = '';
-  export let usagePattern = 'digitalNomad';
-  export let currency = 'USD';
+    // ✅ Use props declaration
+  let {
+    country = '',
+    city = '',
+    usagePattern = 'tourist',
+    currency = 'USD'  // ✅ This will automatically update when parent passes new value
+  } = $props();
 
   // Find country data
   const countryData = transportationData.find(c => 

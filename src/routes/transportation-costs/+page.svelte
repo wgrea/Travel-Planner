@@ -3,11 +3,9 @@
   import { goto } from '$app/navigation';
   import { transportationData } from '$lib/data/transportationData';
   
-  // Simple component import - Svelte 5 style
+  // Import components - ensure they exist
   import TransportationCitySelector from './components/TransportationCitySelector.svelte';
   import TransportationTypeSelector from './components/TransportationTypeSelector.svelte';
-  
-  // Try inline components for now
   import CostBreakdown from './components/CostBreakdown.svelte';
   import QuickStats from './components/QuickStats.svelte';
   
@@ -18,8 +16,8 @@
   import { selectedCurrency } from '$lib/stores/currency';
   
   // State using $state runes
-  let selectedCountry = $state('');
-  let selectedCity = $state('');
+  let selectedCountry: string = $state('');
+  let selectedCity: string = $state('');
   let usagePattern = $state<'tourist' | 'budgetTraveler' | 'digitalNomad' | 'resident'>('digitalNomad');
   
   // Use store-derived value for currency
@@ -44,6 +42,16 @@
     if (!selectedCountry && countries.length > 0) {
       selectedCountry = countries[0].country;
     }
+  });
+  
+  // Debug logging
+  $effect(() => {
+    console.log('🚗 Transportation page state:', { 
+      selectedCountry, 
+      selectedCity, 
+      usagePattern, 
+      currentCurrency 
+    });
   });
 </script>
 
@@ -97,8 +105,8 @@
         <!-- Country & City Selector -->
         <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-500 p-8">
           <TransportationCitySelector 
-            {selectedCountry}
-            {selectedCity}
+            selectedCountry={selectedCountry}
+            selectedCity={selectedCity}
             {countries}
             on:countryChange={handleCountryChange}
             on:cityChange={handleCityChange}

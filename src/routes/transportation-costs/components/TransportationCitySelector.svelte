@@ -1,103 +1,111 @@
 <!-- src/routes/transportation-costs/components/TransportationCitySelector.svelte -->
-<!-- src/routes/transportation-costs/components/TransportationCitySelector.svelte -->
 <script lang="ts">
   import type { TransportationCosts } from '$lib/types/transportation';
   
-  export let selectedCountry: string = '';
-  export let selectedCity: string = '';
-  export let countries: TransportationCosts[];
+  // Props using old syntax for compatibility
+  export let selectedCountry = '';
+  export let selectedCity = '';
+  export let countries: TransportationCosts[] = [];
   
+  // Get available cities
+  const availableCities = () => {
+    if (!selectedCountry) return [];
+    const country = countries.find(c => c.country === selectedCountry);
+    return country ? Object.keys(country.cities) : [];
+  };
+  
+  // Find country for national average check
+  const currentCountry = () => {
+    return countries.find(c => c.country === selectedCountry);
+  };
+  
+  // Event dispatching
   import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{
+    countryChange: string;
+    cityChange: string;
+  }>();
   
-  $: countryList = countries.map(c => c.country).filter((value, index, self) => self.indexOf(value) === index);
-  
-  $: currentCountry = countries.find(c => c.country === selectedCountry);
-  $: cityList = currentCountry ? Object.keys(currentCountry.cities) : [];
-  
-  // Generate unique IDs for accessibility
-  let countrySelectId = `country-select-${Math.random().toString(36).substr(2, 9)}`;
-  let citySelectId = `city-select-${Math.random().toString(36).substr(2, 9)}`;
-  
-  function handleCountryChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const newCountry = target.value;
-    selectedCountry = newCountry;
-    selectedCity = '';
-    dispatch('countryChange', newCountry);
-    dispatch('cityChange', '');
-  }
-  
-  function handleCityChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const newCity = target.value;
-    selectedCity = newCity;
-    dispatch('cityChange', newCity);
-  }
+  // Auto-select first city when country changes
+  import { onMount } from 'svelte';
+  onMount(() => {
+    if (selectedCountry && availableCities().length > 0 && !selectedCity) {
+      selectedCity = availableCities()[0];
+      dispatch('cityChange', selectedCity);
+    }
+  });
 </script>
 
-<div>
-  <h2 class="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
-    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-    Select Destination
-  </h2>
-  
-  <div class="space-y-4">
-    <!-- Country Selector with proper label association -->
-    <div>
-      <label for={countrySelectId} class="block text-sm font-medium text-gray-700 mb-2">
-        Country
-      </label>
+<div class="space-y-6">
+  <!-- Country Selector -->
+  <div>
+    <label for="country-select" class="block text-sm font-medium text-gray-700 mb-2">
+      Select Destination
+    </label>
+    <div class="relative">
       <select 
-        id={countrySelectId}
-        value={selectedCountry}
-        on:change={handleCountryChange}
-        class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white/80 backdrop-blur-sm transition-all duration-200 hover:bg-white"
+        id="country-select"
+        bind:value={selectedCountry}
+        onchange={() => dispatch('countryChange', selectedCountry)}
+        class="w-full px-4 py-3 bg-white/80 backdrop-blur-sm border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 appearance-none"
       >
         <option value="">Choose a country...</option>
-        {#each countryList as country}
-          <option value={country}>{country}</option>
+        {#each countries as country}
+          <option value={country.country}>
+            {country.country} • {country.region}
+          </option>
         {/each}
       </select>
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
     </div>
+  </div>
 
-    <!-- City Selector with proper label association -->
-    {#if selectedCountry && cityList.length > 0}
-      <div>
-        <label for={citySelectId} class="block text-sm font-medium text-gray-700 mb-2">
-          City (Optional)
-        </label>
+  <!-- City Selector -->
+  {#if selectedCountry && availableCities().length > 0}
+    <div>
+      <label for="city-select" class="block text-sm font-medium text-gray-700 mb-2">
+        Select City
+      </label>
+      <div class="relative">
         <select 
-          id={citySelectId}
-          value={selectedCity}
-          on:change={handleCityChange}
-          class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white/80 backdrop-blur-sm transition-all duration-200 hover:bg-white"
+          id="city-select"
+          bind:value={selectedCity}
+          onchange={() => dispatch('cityChange', selectedCity)}
+          class="w-full px-4 py-3 bg-white/80 backdrop-blur-sm border border-gray-300/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 appearance-none"
         >
-          <option value="">All cities (country average)</option>
-          {#each cityList as city}
+          <option value="">Select a city...</option>
+          {#each availableCities() as city}
             <option value={city}>{city}</option>
           {/each}
+          {#if currentCountry()?.nationalAverage}
+            <option value="">{selectedCountry} (Country Average)</option>
+          {/if}
         </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
       </div>
-    {/if}
-  </div>
-  
+    </div>
+  {/if}
+
+  <!-- Selected Display -->
   {#if selectedCountry}
-    <div class="mt-4 p-4 bg-green-50/80 rounded-xl border border-green-200">
-      <p class="text-sm text-green-700 flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-        Selected: <strong>{selectedCountry}</strong>
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200/50">
+      <div class="text-sm text-gray-600 mb-1">Selected:</div>
+      <div class="font-semibold text-gray-900">
+        {selectedCountry}
         {#if selectedCity}
-          <span class="text-green-600">→ {selectedCity}</span>
+          <span class="text-blue-600"> • {selectedCity}</span>
         {:else}
-          <span class="text-green-600">(Country Average)</span>
+          <span class="text-gray-500"> • (Country Average)</span>
         {/if}
-      </p>
+      </div>
     </div>
   {/if}
 </div>

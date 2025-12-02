@@ -4,60 +4,77 @@
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
   import type { TransportationCosts, CityTransportation } from '$lib/types/transportation';
   
-  // Use $props() instead of export let
-  let {
-    currency = 'USD'
-  } = $props();
-
-  // Reactive state variables
+  // ✅ FIX: Use prop declaration with $props()
+  let { currency = 'USD' } = $props();
+  
+  // Reactive state
   let avgMonthlyTransport = $state(0);
   let avgTaxi5km = $state(0);
   let totalCities = $state(0);
-
-  // Calculate global averages in an effect
+  
+  // ✅ FIX: Remove the store subscription - use prop only
+  // This effect will run whenever the 'currency' prop changes
   $effect(() => {
-    if (transportationData.length === 0) return;
+    console.log('🔄 QuickStats recalculating for currency:', currency);
     
-    let totalMonthly = 0;
-    let totalTaxi = 0;
+    if (transportationData.length === 0) {
+      avgMonthlyTransport = 0;
+      avgTaxi5km = 0;
+      totalCities = 0;
+      return;
+    }
+    
+    let totalMonthlyUSD = 0;
+    let totalTaxiUSD = 0;
     let count = 0;
     
     // Loop through all countries and cities
     transportationData.forEach((country: TransportationCosts) => {
+      const countryCurrency = country.currency;
+      
       Object.values(country.cities).forEach((city: CityTransportation) => {
-        // Get monthly cost (use tourist pattern as reference)
-        if (city.usagePatterns?.tourist) {
-          totalMonthly += city.usagePatterns.tourist;
-        }
+        // Convert monthly cost to USD for averaging
+        const monthlyCost = city.usagePatterns?.tourist || 0;
+        const monthlyUSD = convertCurrency(monthlyCost, countryCurrency, 'USD');
+        totalMonthlyUSD += monthlyUSD;
         
-        // Get taxi cost (5km example)
+        // Convert taxi cost to USD
         if (city.taxis?.startFare && city.taxis?.costPerKm) {
-          // Estimate 5km taxi ride: startFare + (costPerKm * 5)
           const taxi5km = city.taxis.startFare + (city.taxis.costPerKm * 5);
-          totalTaxi += taxi5km;
+          const taxiUSD = convertCurrency(taxi5km, countryCurrency, 'USD');
+          totalTaxiUSD += taxiUSD;
         }
         
         count++;
       });
     });
     
-    if (count === 0) return;
+    if (count === 0) {
+      avgMonthlyTransport = 0;
+      avgTaxi5km = 0;
+      totalCities = 0;
+      return;
+    }
     
-    // Update reactive state
-    avgMonthlyTransport = Math.round(totalMonthly / count);
-    avgTaxi5km = Math.round(totalTaxi / count);
+    // Store USD averages (we'll convert in formatCost)
+    avgMonthlyTransport = Math.round(totalMonthlyUSD / count);
+    avgTaxi5km = Math.round(totalTaxiUSD / count);
     totalCities = count;
+    
+    console.log('📊 QuickStats calculated:', { 
+      avgMonthlyTransport, 
+      avgTaxi5km, 
+      totalCities,
+      currency 
+    });
   });
 
-  function formatCost(amount: number): string {
-    if (!amount) return 'N/A';
-    return formatCurrency(convertCurrency(amount, 'USD', currency), currency);
+  // This function will automatically re-run when 'currency' prop changes
+  function formatCost(amountUSD: number): string {
+    if (!amountUSD) return 'N/A';
+    // Convert from USD to target currency
+    return formatCurrency(convertCurrency(amountUSD, 'USD', currency), currency);
   }
-
-  // Debug: check if we have data
-  $effect(() => {
-    console.log('QuickStats calculated:', { avgMonthlyTransport, avgTaxi5km, totalCities });
-  });
 </script>
 
 <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-500 p-8">
