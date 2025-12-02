@@ -3,50 +3,32 @@
   import { goto } from '$app/navigation';
   import { transportationData } from '$lib/data/transportationData';
   
-  // Import components - ensure they exist
-  import TransportationCitySelector from './components/TransportationCitySelector.svelte';
+  // Import components
+  import TransportationCountrySelector from './components/TransportationCountrySelector.svelte';
   import TransportationTypeSelector from './components/TransportationTypeSelector.svelte';
   import CostBreakdown from './components/CostBreakdown.svelte';
   import QuickStats from './components/QuickStats.svelte';
-  
-  import type { TransportationCosts } from '$lib/types/transportation';
-  
-  // === ADD CURRENCY IMPORTS ===
   import CurrencySelector from '$lib/components/CurrencySelector.svelte';
   import { selectedCurrency } from '$lib/stores/currency';
   
+  import type { TransportationCosts } from '$lib/types/transportation';
+  
   // State using $state runes
-  let selectedCountry: string = $state('');
-  let selectedCity: string = $state('');
+  let selectedRegion = $state('');
+  let selectedCountry = $state('');
+  let selectedCity = $state('');
   let usagePattern = $state<'tourist' | 'budgetTraveler' | 'digitalNomad' | 'resident'>('digitalNomad');
   
   // Use store-derived value for currency
   const currentCurrency = $derived($selectedCurrency);
   
-  // Constants
-  const countries: TransportationCosts[] = transportationData;
-  const featuredCountries = ['Thailand', 'Portugal', 'Mexico', 'Colombia', 'Vietnam', 'Spain'];
-  
-  // Event handlers
-  function handleCountryChange(event: CustomEvent<string>) {
-    selectedCountry = event.detail;
-    selectedCity = ''; // Reset city when country changes
-  }
-  
-  function handleCityChange(event: CustomEvent<string>) {
-    selectedCity = event.detail;
-  }
-  
-  // Auto-select first country using $effect
-  $effect(() => {
-    if (!selectedCountry && countries.length > 0) {
-      selectedCountry = countries[0].country;
-    }
-  });
+  // ✅ FIX: Remove event handlers - bind handles it automatically
+  // No need for handleRegionChange, handleCountryChange, etc.
   
   // Debug logging
   $effect(() => {
     console.log('🚗 Transportation page state:', { 
+      selectedRegion,
       selectedCountry, 
       selectedCity, 
       usagePattern, 
@@ -76,7 +58,7 @@
       <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
     </button>
 
-    <!-- === CURRENCY SELECTOR === -->
+    <!-- Currency Selector -->
     <CurrencySelector />
 
     <!-- Header -->
@@ -102,14 +84,13 @@
     <div class="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-16">
       <!-- Control Panel -->
       <div class="xl:col-span-1 space-y-6">
-        <!-- Country & City Selector -->
+        <!-- Region, Country & City Selector -->
         <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-500 p-8">
-          <TransportationCitySelector 
-            selectedCountry={selectedCountry}
-            selectedCity={selectedCity}
-            {countries}
-            on:countryChange={handleCountryChange}
-            on:cityChange={handleCityChange}
+          <!-- ✅ FIX: Just use bind, no event handlers needed -->
+          <TransportationCountrySelector 
+            bind:selectedRegion
+            bind:selectedCountry
+            bind:selectedCity
           />
         </div>
 
@@ -151,7 +132,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-              <span class="font-medium">Choose a country to begin</span>
+              <span class="font-medium">Choose a region to begin</span>
             </div>
           </div>
         {/if}
