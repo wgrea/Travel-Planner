@@ -2,23 +2,32 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { transportationData } from '$lib/data/transportationData';
-  import { currencySymbols } from '$lib/utils/currency';
+  
+  // Simple component import - Svelte 5 style
   import TransportationCitySelector from './components/TransportationCitySelector.svelte';
   import TransportationTypeSelector from './components/TransportationTypeSelector.svelte';
+  
+  // Try inline components for now
   import CostBreakdown from './components/CostBreakdown.svelte';
   import QuickStats from './components/QuickStats.svelte';
+  
   import type { TransportationCosts } from '$lib/types/transportation';
   
-  // State - use the names that match the components
-  let selectedCountry: string = '';
-  let selectedCity: string = '';
-  let usagePattern: 'tourist' | 'budgetTraveler' | 'digitalNomad' | 'resident' = 'digitalNomad';
-  let selectedCurrency: string = 'USD';
+  // === ADD CURRENCY IMPORTS ===
+  import CurrencySelector from '$lib/components/CurrencySelector.svelte';
+  import { selectedCurrency } from '$lib/stores/currency';
+  
+  // State using $state runes
+  let selectedCountry = $state('');
+  let selectedCity = $state('');
+  let usagePattern = $state<'tourist' | 'budgetTraveler' | 'digitalNomad' | 'resident'>('digitalNomad');
+  
+  // Use store-derived value for currency
+  const currentCurrency = $derived($selectedCurrency);
   
   // Constants
   const countries: TransportationCosts[] = transportationData;
   const featuredCountries = ['Thailand', 'Portugal', 'Mexico', 'Colombia', 'Vietnam', 'Spain'];
-  const availableCurrencies = Object.keys(currencySymbols);
   
   // Event handlers
   function handleCountryChange(event: CustomEvent<string>) {
@@ -30,15 +39,12 @@
     selectedCity = event.detail;
   }
   
-  function handleCurrencyChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    selectedCurrency = target.value;
-  }
-
-  // Auto-select first country
-  $: if (!selectedCountry && countries.length > 0) {
-    selectedCountry = countries[0].country;
-  }
+  // Auto-select first country using $effect
+  $effect(() => {
+    if (!selectedCountry && countries.length > 0) {
+      selectedCountry = countries[0].country;
+    }
+  });
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 px-4 py-8 relative overflow-hidden">
@@ -53,7 +59,7 @@
   <div class="max-w-7xl mx-auto relative z-20">
     <!-- Back Button -->
     <button 
-      on:click={() => goto('/')} 
+      onclick={() => goto('/')}
       class="group mb-8 inline-flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-gray-900 transition-all duration-300 hover:bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 hover:border-gray-300 hover:shadow-lg"
     >
       <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,6 +67,9 @@
       </svg>
       <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
     </button>
+
+    <!-- === CURRENCY SELECTOR === -->
+    <CurrencySelector />
 
     <!-- Header -->
     <div class="mb-8 text-center">
@@ -81,46 +90,6 @@
       </p>
     </div>
 
-    <!-- Currency Selector -->
-    <div class="mb-8 flex justify-center">
-      <div class="bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 p-4 shadow-lg">
-        <label for="currency-select" class="mr-3 font-medium text-gray-700">Display prices in:</label>
-        <select 
-          id="currency-select" 
-          bind:value={selectedCurrency}
-          on:change={handleCurrencyChange}
-          class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-        >
-          {#each availableCurrencies as curr}
-            <option value={curr}>{curr} ({currencySymbols[curr]})</option>
-          {/each}
-        </select>
-      </div>
-    </div>
-
-    <!-- Quick Country Selection -->
-    <div class="mb-12">
-      <h3 class="text-lg font-semibold text-gray-700 mb-6 text-center">Popular Destinations</h3>
-      <div class="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
-        {#each featuredCountries as featuredCountry}
-          <button
-            on:click={() => selectedCountry = featuredCountry}
-            class:bg-blue-50={selectedCountry === featuredCountry}
-            class:border-blue-200={selectedCountry === featuredCountry}
-            class:text-blue-700={selectedCountry === featuredCountry}
-            class="px-6 py-3 bg-white/80 backdrop-blur-md rounded-xl border border-gray-200/60 hover:border-blue-300 hover:bg-white hover:shadow-lg transition-all duration-300 font-medium text-gray-700 hover:text-blue-700 flex items-center gap-2 group"
-          >
-            <span>{featuredCountry}</span>
-            {#if selectedCountry === featuredCountry}
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
-            {/if}
-          </button>
-        {/each}
-      </div>
-    </div>
-
     <!-- Main Content Grid -->
     <div class="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-16">
       <!-- Control Panel -->
@@ -128,8 +97,8 @@
         <!-- Country & City Selector -->
         <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-500 p-8">
           <TransportationCitySelector 
-            selectedCountry={selectedCountry}
-            selectedCity={selectedCity}
+            {selectedCountry}
+            {selectedCity}
             {countries}
             on:countryChange={handleCountryChange}
             on:cityChange={handleCityChange}
@@ -145,7 +114,7 @@
 
         <!-- Quick Stats -->
         {#if selectedCountry}
-          <QuickStats currency={selectedCurrency} />
+          <QuickStats currency={currentCurrency} />
         {/if}
       </div>
 
@@ -155,8 +124,8 @@
           <CostBreakdown 
             country={selectedCountry}
             city={selectedCity}
-            usagePattern={usagePattern}
-            currency={selectedCurrency} 
+            {usagePattern}
+            currency={currentCurrency} 
           />
         {:else}
           <!-- Empty State -->

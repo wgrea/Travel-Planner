@@ -1,54 +1,94 @@
 <!-- src/routes/transportation-costs/components/QuickStats.svelte -->
 <script lang="ts">
-  export let currency: string;
+  import { transportationData } from '$lib/data/transportationData';
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+  import type { TransportationCosts, CityTransportation } from '$lib/types/transportation';
+  
+  // Use $props() instead of export let
+  let {
+    currency = 'USD'
+  } = $props();
+
+  // Reactive state variables
+  let avgMonthlyTransport = $state(0);
+  let avgTaxi5km = $state(0);
+  let totalCities = $state(0);
+
+  // Calculate global averages in an effect
+  $effect(() => {
+    if (transportationData.length === 0) return;
+    
+    let totalMonthly = 0;
+    let totalTaxi = 0;
+    let count = 0;
+    
+    // Loop through all countries and cities
+    transportationData.forEach((country: TransportationCosts) => {
+      Object.values(country.cities).forEach((city: CityTransportation) => {
+        // Get monthly cost (use tourist pattern as reference)
+        if (city.usagePatterns?.tourist) {
+          totalMonthly += city.usagePatterns.tourist;
+        }
+        
+        // Get taxi cost (5km example)
+        if (city.taxis?.startFare && city.taxis?.costPerKm) {
+          // Estimate 5km taxi ride: startFare + (costPerKm * 5)
+          const taxi5km = city.taxis.startFare + (city.taxis.costPerKm * 5);
+          totalTaxi += taxi5km;
+        }
+        
+        count++;
+      });
+    });
+    
+    if (count === 0) return;
+    
+    // Update reactive state
+    avgMonthlyTransport = Math.round(totalMonthly / count);
+    avgTaxi5km = Math.round(totalTaxi / count);
+    totalCities = count;
+  });
+
+  function formatCost(amount: number): string {
+    if (!amount) return 'N/A';
+    return formatCurrency(convertCurrency(amount, 'USD', currency), currency);
+  }
+
+  // Debug: check if we have data
+  $effect(() => {
+    console.log('QuickStats calculated:', { avgMonthlyTransport, avgTaxi5km, totalCities });
+  });
 </script>
 
-<div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl shadow-xl p-8 text-white">
-  <h3 class="font-semibold mb-4 flex items-center gap-2">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-    </svg>
-    Quick Stats
-  </h3>
-  <div class="space-y-3 text-sm">
-    <div class="flex justify-between items-center">
-      <span class="opacity-90">Monthly Transport</span>
-      <span class="font-semibold">
-        {#if currency === 'USD'}$50-200
-        {:else if currency === 'EUR'}€46-184
-        {:else if currency === 'GBP'}£40-158
-        {:else if currency === 'THB'}฿1,775-7,100
-        {:else if currency === 'VND'}₫1.2M-4.9M
-        {:else if currency === 'JPY'}¥7,425-29,700
-        {:else if currency === 'INR'}₹4,150-16,600
-        {:else}$50-200{/if}
-      </span>
+<div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-500 p-8">
+  <h3 class="text-lg font-medium text-gray-900 mb-4">Global Averages</h3>
+  
+  {#if totalCities > 0}
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <span class="text-gray-600">Avg. Monthly Transport</span>
+        <span class="font-semibold text-gray-900">
+          {formatCost(avgMonthlyTransport)}
+        </span>
+      </div>
+      
+      <div class="flex items-center justify-between">
+        <span class="text-gray-600">Avg. 5km Taxi Ride</span>
+        <span class="font-semibold text-gray-900">
+          {formatCost(avgTaxi5km)}
+        </span>
+      </div>
+      
+      <div class="flex items-center justify-between">
+        <span class="text-gray-600">Cities in Database</span>
+        <span class="font-semibold text-gray-900">
+          {totalCities}
+        </span>
+      </div>
     </div>
-    <div class="flex justify-between items-center">
-      <span class="opacity-90">Ride Share 5km</span>
-      <span class="font-semibold">
-        {#if currency === 'USD'}$3-8
-        {:else if currency === 'EUR'}€2.8-7.4
-        {:else if currency === 'GBP'}£2.4-6.3
-        {:else if currency === 'THB'}฿107-284
-        {:else if currency === 'VND'}₫73,500-196,000
-        {:else if currency === 'JPY'}¥445-1,188
-        {:else if currency === 'INR'}₹250-665
-        {:else}$3-8{/if}
-      </span>
+  {:else}
+    <div class="text-center py-4 text-gray-500">
+      No data available
     </div>
-    <div class="flex justify-between items-center">
-      <span class="opacity-90">Public Transport</span>
-      <span class="font-semibold">
-        {#if currency === 'USD'}$1-3/day
-        {:else if currency === 'EUR'}€0.9-2.8/day
-        {:else if currency === 'GBP'}£0.8-2.4/day
-        {:else if currency === 'THB'}฿35-106/day
-        {:else if currency === 'VND'}₫24,500-73,500/day
-        {:else if currency === 'JPY'}¥148-445/day
-        {:else if currency === 'INR'}₹83-250/day
-        {:else}$1-3/day{/if}
-      </span>
-    </div>
-  </div>
+  {/if}
 </div>
