@@ -78,15 +78,41 @@ export const transportationDataByRegion: RegionTransportationData[] = [
 ];
 
 
-// FLAT ARRAY FOR EASY ACCESS - FIXED VERSION
-export const transportationData: TransportationCosts[] = transportationDataByRegion.flatMap(region => {
-  if (region.subregions) {
-    return region.subregions.flatMap((subregion: SubregionTransportationData) => subregion.countries);
-  } else if (region.countries) {
-    return region.countries;
-  }
-  return [];
-});
+// src/lib/data/transportationData.ts - Add this function
+function normalizeTransportationData(data: TransportationCosts[]): TransportationCosts[] {
+  return data.map(country => ({
+    ...country,
+    cities: Object.fromEntries(
+      Object.entries(country.cities).map(([cityName, city]) => [
+        cityName,
+        {
+          ...city,
+          publicTransport: {
+            ...city.publicTransport,
+            reliability: city.publicTransport.reliability * 10,
+            coverage: city.publicTransport.coverage * 10
+          },
+          rideSharing: {
+            ...city.rideSharing,
+            availability: city.rideSharing.availability * 10
+          }
+        }
+      ])
+    )
+  }));
+}
+
+// Use it like this:
+export const transportationData: TransportationCosts[] = normalizeTransportationData(
+  transportationDataByRegion.flatMap(region => {
+    if (region.subregions) {
+      return region.subregions.flatMap((subregion: SubregionTransportationData) => subregion.countries);
+    } else if (region.countries) {
+      return region.countries;
+    }
+    return [];
+  })
+);
 
 // HELPER FUNCTIONS
 export function getTransportationByCountry(countryName: string): TransportationCosts | undefined {
