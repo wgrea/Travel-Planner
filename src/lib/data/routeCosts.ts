@@ -16,45 +16,58 @@ import { unitedStatesRouteCost } from './countries/north-america/united-states';
 import { thailandRouteCost } from './countries/southeast-asia/thailand';
 import { vietnamRouteCost } from './countries/southeast-asia/vietnam';
 import { indonesiaRouteCost } from './countries/southeast-asia/indonesia';
-// import { laosRouteCost } from './countries/southeast-asia/laos';
 import { portugalRouteCost } from './countries/europe/western-europe/portugal';
 import { spainRouteCost } from './countries/europe/western-europe/spain';
 import { georgiaRouteCost } from './countries/europe/caucasus/georgia';
 import { azerbaijanRouteCost } from './countries/europe/caucasus/azerbaijan';
 import { mexicoRouteCost } from './countries/north-america/mexico';
-// import { colombiaRouteCost } from './countries/south-america/colombia';
-// import { turkeyRouteCost } from './countries/europe/southern-europe/turkey';
-// import { japanRouteCost } from './countries/east-asia/japan';
-// import { southKoreaRouteCost } from './countries/east-asia/south-korea';
-// import { taiwanRouteCost } from './countries/east-asia/taiwan';
-// import { indiaRouteCost } from './countries/south-asia/india';
-// import { nepalRouteCost } from './countries/south-asia/nepal';
+import { turkeyRouteCost } from './countries/europe/southern-europe/turkey';
+import { greeceRouteCost } from './countries/europe/southern-europe/greece';
+// Countries we've completed (add these to your imports):
+import { japanRouteCost } from './countries/east-asia/japan';
+import { italyRouteCost } from './countries/europe/southern-europe/italy';
+import { franceRouteCost } from './countries/europe/western-europe/france';
+import { laosRouteCost } from './countries/southeast-asia/laos';
+import { indiaRouteCost } from './countries/south-asia/india';
+import { bangladeshRouteCost} from './countries/south-asia/bangladesh';
+import { nepalRouteCost } from './countries/south-asia/nepal';
+import { moroccoRouteCost } from './countries/northern-africa/morocco';
+import { ukRouteCost } from './countries/europe/western-europe/united-kingdom';
 
 export const routeCosts: Record<string, RouteCostData> = {
+  // Origin: Canada | Contains destinations FROM Canada TO other countries
   "Canada": canadaRouteCost,
-  "United States": unitedStatesRouteCost,
+  // Origin: Mexico | Contains flights FROM Mexico TO other countries
+  "Mexico": mexicoRouteCost,  // Mexico → various destinations 
+  // Origin: United States | Contains flights FROM USA TO other countries
+  "United States": unitedStatesRouteCost,  // USA → various destinations
+  // Origin: Thailand | Contains destinations FROM Thailand TO other countries
+  "Thailand": thailandRouteCost,
+  // Origin: Vietnam | Contains destinations FROM Vietnam TO other countries
+  "Vietnam": vietnamRouteCost,
+  // Origin: Indonesia | Contains destinations FROM Indonesia TO other countries
+  "Indonesia": indonesiaRouteCost,
   "Belize": belizeRouteCost,
   "Costa Rica": costaRicaRouteCost,
   "Guatemala": guatemalaRouteCost,
   "Panama": panamaRouteCost,
   "Argentina": argentinaRouteCost,
   "Brazil": brazilRouteCost,
-  "Thailand": thailandRouteCost,
-  "Vietnam": vietnamRouteCost,
-  "Indonesia": indonesiaRouteCost,
   "Portugal": portugalRouteCost,
   "Spain": spainRouteCost,
   "Georgia": georgiaRouteCost,
   "Azerbaijan": azerbaijanRouteCost,
-  "Mexico": mexicoRouteCost,
-  // "Laos": laosRouteCost,
-  // "Colombia": colombiaRouteCost,
-  // "Turkey": turkeyRouteCost,
-  // "Japan": japanRouteCost,
-  // "South Korea": southKoreaRouteCost,
-  // "Taiwan": taiwanRouteCost,
-  // "India": indiaRouteCost,
-  // "Nepal": nepalRouteCost
+  "Turkey": turkeyRouteCost,
+  "Greece": greeceRouteCost,
+  "Japan": japanRouteCost,
+  "Italy": italyRouteCost,
+  "France": franceRouteCost,
+  "Laos": laosRouteCost,
+  "India": indiaRouteCost,
+  "Bangladesh": bangladeshRouteCost,
+  "Nepal": nepalRouteCost,
+  "Morocco": moroccoRouteCost,
+  "United Kingdom": ukRouteCost,
 };
 
 // Update helper functions to use new type

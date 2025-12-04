@@ -12,35 +12,60 @@ import { colombiaNomadData } from './countries/south-america/colombia';
 import { argentinaNomadData } from './countries/south-america/argentina';
 import { azerbaijanNomadData } from './countries/europe/caucasus/azerbaijan';
 import { brazilNomadData } from './countries/south-america/brazil';
-// import { turkeyNomadData } from './countries/europe/southern-europe/turkey';
-// import { japanNomadData } from './countries/east-asia/japan';
-// import { southKoreaNomadData } from './countries/east-asia/south-korea';
-// import { taiwanNomadData } from './countries/east-asia/taiwan';
-// import { indiaNomadData } from './countries/south-asia/india';
-// import { nepalNomadData } from './countries/south-asia/nepal';
-// import { laosNomadData } from './countries/southeast-asia/laos';
-// import { canadaNomadData } from './countries/north-america/canada';
-// import { unitedStatesNomadData } from './countries/north-america/united-states';
-// import { belizeNomadData } from './countries/central-america/belize';
-// import { costaRicaNomadData } from './countries/central-america/costaRica';
-// import { guatemalaNomadData } from './countries/central-america/guatemala';
-// import { panamaNomadData } from './countries/central-america/panama';
+import { turkeyNomadData } from './countries/europe/southern-europe/turkey';
+import { unitedStatesNomadData } from './countries/north-america/united-states';
+import { greeceNomadData } from './countries/europe/southern-europe/greece';
+import { panamaNomadData } from './countries/central-america/panama';
+import { japanNomadData } from './countries/east-asia/japan';
+import { italyNomadData } from './countries/europe/southern-europe/italy';
+import { franceNomadData } from './countries/europe/western-europe/france';
+import { laosNomadData } from './countries/southeast-asia/laos';
+import { indiaNomadData } from './countries/south-asia/india';
+import { bangladeshNomadData} from './countries/south-asia/bangladesh';
+import { nepalNomadData } from './countries/south-asia/nepal';
+import { moroccoNomadData } from './countries/northern-africa/morocco';
+import { ukNomadData } from './countries/europe/western-europe/united-kingdom';
 
 export const nomadDataByRegion: RegionNomadData[] = [
+    {
+    region: "East Asia",
+    countries: [
+      japanNomadData,
+    ]
+  },
+  {
+    region: "South Asia",
+    countries: [
+      indiaNomadData,
+      nepalNomadData,
+      bangladeshNomadData,
+    ]
+  },
   {
     region: "Southeast Asia",
     countries: [
       thailandNomadData,
       vietnamNomadData,
       indonesiaNomadData,
+      laosNomadData,
     ]
   },
   {
     region: "Europe",
     subregions: [
       {
+        subregion: "Southern Europe",
+        countries: [
+          turkeyNomadData,
+          greeceNomadData,
+          italyNomadData
+        ]
+      },
+      {
         subregion: "Western Europe",
         countries: [
+          franceNomadData,
+          ukNomadData,
           portugalNomadData,
           spainNomadData,
         ]
@@ -57,13 +82,20 @@ export const nomadDataByRegion: RegionNomadData[] = [
     {
     region: "Central America", 
     countries: [
-      // panamaNomadData
+      panamaNomadData
+    ]
+  },
+  {
+    region: "North Africa",
+    countries: [
+      moroccoNomadData,
     ]
   },
   {
     region: "North America",
     countries: [
       mexicoNomadData,
+      unitedStatesNomadData,
     ]
   },
   {
@@ -76,7 +108,7 @@ export const nomadDataByRegion: RegionNomadData[] = [
   }
 ];
 
-// src/lib/data/nomadData.ts - Update the interface
+// Above is just the countries 
 export interface Workspace {
   name: string;
   city: string;

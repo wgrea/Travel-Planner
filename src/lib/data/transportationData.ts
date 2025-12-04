@@ -15,62 +15,100 @@ import { spainTransportation } from './countries/europe/western-europe/spain';
 import { georgiaTransportation } from './countries/europe/caucasus/georgia';
 import { mexicoTransportation } from './countries/north-america/mexico';
 import { brazilTransportation } from './countries/south-america/brazil';
-// import { argentinaTransportation } from './countries/south-america/argentina';
-// import { colombiaTransportation } from './countries/south-america/colombia';
 import { azerbaijanTransportation } from './countries/europe/caucasus/azerbaijan';
-// import { turkeyTransportation } from './countries/europe/southern-europe/turkey';
-// import { japanTransportation } from './countries/east-asia/japan';
-// import { southKoreaTransportation } from './countries/east-asia/south-korea';
-// import { taiwanTransportation } from './countries/east-asia/taiwan';
-// import { indiaTransportation } from './countries/south-asia/india';
-// import { nepalTransportation } from './countries/south-asia/nepal';
-// import { laosTransportation } from './countries/southeast-asia/laos';
-// import { canadaTransportation } from './countries/north-america/canada';
-// import { unitedStatesTransportation } from './countries/north-america/united-states';
-// import { belizeTransportation } from './countries/central-america/belize';
-// import { costaRicaTransportation } from './countries/central-america/costaRica';
-// import { guatemalaTransportation } from './countries/central-america/guatemala';
-// import { panamaTransportation } from './countries/central-america/panama';
-// import { argentinaTransportation } from './countries/south-america/argentina';
-// // import { colombiaTransportation } from './countries/south-america/colombia';
+import { argentinaTransportation } from './countries/south-america/argentina';
+import { turkeyTransportation } from './countries/europe/southern-europe/turkey';
+import { unitedStatesTransportation } from './countries/north-america/united-states';
+import { greeceTransportation } from './countries/europe/southern-europe/greece';
+import { panamaTransportation } from './countries/central-america/panama';
+// Countries we've completed (add these to your imports):
+import { japanTransportation } from './countries/east-asia/japan';
+import { italyTransportation } from './countries/europe/southern-europe/italy';
+import { franceTransportation } from './countries/europe/western-europe/france';
+import { laosTransportation} from './countries/southeast-asia/laos';
+import { indiaTransportation } from './countries/south-asia/india';
+import { bangladeshTransportation} from './countries/south-asia/bangladesh';
+import { nepalTransportation } from './countries/south-asia/nepal';
+import { moroccoTransportation} from './countries/northern-africa/morocco';
+import { ukTransportation } from './countries/europe/western-europe/united-kingdom';
 
 export const transportationDataByRegion: RegionTransportationData[] = [
+  {
+    region: "South Asia",
+    countries: [
+      japanTransportation,
+    ]
+  },
+  {
+    region: "South Asia",
+    countries: [
+      indiaTransportation,
+      bangladeshTransportation,
+      nepalTransportation
+    ]
+  },
   {
     region: "Southeast Asia",
     countries: [
       thailandTransportation,
       vietnamTransportation,
       indonesiaTransportation,
+      laosTransportation
     ]
   },
   {
     region: "Europe",
     subregions: [
       {
+        subregion: "Southern Europe",
+        countries: [
+          turkeyTransportation,
+          greeceTransportation,
+          italyTransportation
+        ]
+      },
+      {
         subregion: "Western Europe",
         countries: [
           portugalTransportation,
           spainTransportation,
+          franceTransportation,
+          ukTransportation,
         ]
       },
       {
         subregion: "Caucasus",
         countries: [
           georgiaTransportation,
+          azerbaijanTransportation
         ]
       }
+    ]
+  },
+  {
+    region: "Central America",
+    countries: [
+      panamaTransportation,
+    ]
+  },
+  {
+    region: "North Afirca",
+    countries: [
+      moroccoTransportation,
+
     ]
   },
   {
     region: "North America",
     countries: [
       mexicoTransportation,
+      unitedStatesTransportation
     ]
   },
   {
     region: "South America",
     countries: [
-      // argentinaTransportation
+      argentinaTransportation,
       brazilTransportation,
       // colombiaTransportation,
     ]
@@ -78,7 +116,7 @@ export const transportationDataByRegion: RegionTransportationData[] = [
 ];
 
 
-// src/lib/data/transportationData.ts - Add this function
+// Above is just the countries
 function normalizeTransportationData(data: TransportationCosts[]): TransportationCosts[] {
   return data.map(country => ({
     ...country,

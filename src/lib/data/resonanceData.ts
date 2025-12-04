@@ -17,17 +17,21 @@ import { portugalResonance } from './countries/europe/western-europe/portugal/re
 import { spainResonance } from './countries/europe/western-europe/spain/resonance';
 import { georgiaResonance } from './countries/europe/caucasus/georgia/resonance';
 import { mexicoResonance } from './countries/north-america/mexico/resonance';
-// import { colombiaResonance } from './countries/south-america/colombia/resonance';
 import { azerbaijanResonance } from './countries/europe/caucasus/azerbaijan/resonance';
-// import { turkeyResonance } from './countries/europe/southern-europe/turkey/resonance';
-// import { japanResonance } from './countries/east-asia/japan/resonance';
-// import { southKoreaResonance } from './countries/east-asia/south-korea/resonance';
-// import { taiwanResonance } from './countries/east-asia/taiwan/resonance';
-// import { indiaResonance } from './countries/south-asia/india/resonance';
-// import { nepalResonance } from './countries/south-asia/nepal/resonance';
-// import { laosResonance } from './countries/southeast-asia/laos/resonance';
-// import { canadaResonance } from './countries/north-america/canada/resonance';
-// import { unitedStatesResonance } from './countries/north-america/united-states/resonance';
+import { turkeyResonance } from './countries/europe/southern-europe/turkey/resonance';
+import { unitedStatesResonance } from './countries/north-america/united-states/resonance';
+import { greeceResonance } from './countries/europe/southern-europe/greece/resonance';
+import { panamaResonance } from './countries/central-america/panama';
+// Countries we've completed (add these to your imports):
+import { japanResonance } from './countries/east-asia/japan';
+import { italyResonance } from './countries/europe/southern-europe/italy';
+import { franceResonance } from './countries/europe/western-europe/france';
+import { laosResonance } from './countries/southeast-asia/laos';
+import { indiaResonance } from './countries/south-asia/india';
+import { bangladeshResonance} from './countries/south-asia/bangladesh';
+import { nepalResonance } from './countries/south-asia/nepal';
+import { moroccoResonance } from './countries/northern-africa/morocco';
+import { ukResonance } from './countries/europe/western-europe/united-kingdom';
 
 // Define proper TypeScript interfaces for the data structure
 interface ResonanceSubregion {
@@ -54,11 +58,17 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
     ]
   },
   {
+    region: "North Africa",
+    countries: [
+      moroccoResonance,
+    ]
+  },
+  {
     region: "North America",
     countries: [
       mexicoResonance,
       // canadaResonance,
-      // unitedStatesResonance,
+      unitedStatesResonance,
     ]
   },
   {
@@ -69,7 +79,9 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
         countries: [
           portugalResonance,
           spainResonance,
-          // franceResonance,
+          franceResonance,
+          ukResonance,
+          // irelandResonance,
           // germanyResonance,
         ]
       },
@@ -84,8 +96,9 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
       {
         subregion: "Southern Europe",
         countries: [
-          // italyResonance,
-          // greeceResonance,
+          italyResonance,
+          greeceResonance,
+          turkeyResonance,
           // croatiaResonance,
         ]
       },
@@ -105,6 +118,7 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
       thailandResonance,
       vietnamResonance,
       indonesiaResonance,
+      laosResonance,
       // malaysiaResonance,
       // philippinesResonance,
     ]
@@ -112,7 +126,7 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
   {
     region: "East Asia",
     countries: [
-      // japanResonance,
+      japanResonance,
       // southKoreaResonance,
       // taiwanResonance,
       // chinaResonance,
@@ -121,8 +135,9 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
   {
     region: "South Asia",
     countries: [
-      // indiaResonance,
-      // nepalResonance,
+      indiaResonance,
+      nepalResonance,
+      bangladeshResonance,
       // sriLankaResonance,
     ]
   },
@@ -144,15 +159,43 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
     region: "Central America",
     countries: [
       // costaRicaResonance,
-      // panamaResonance,
+      panamaResonance,
       // guatemalaResonance,
     ]
   }
 ];
 
+// src/lib/data/resonanceData.ts
 // Not the whole file. Above just lists the countries and regions.
 // Feel free to add a new filter that is more relavent
+
+/* I don't know what file I should leave these in but I will list the ideas I want to add
+- Free Scuba Diving (I meant free swim, not $0 swim but that would be cool to include), Surfing
+- Skiing, snowboarding, mountain exploration
+- Drinking culture, breweries, wineries
+- Festivals, music festivals, art festivals, raves
+- Speed dating, singles mixers, social meetups
+- expat/nomad communities (maybe already in there but more for improvement)
+- Anime lovers, bollywood fans, k-pop enthusiasts
+- Tech hubs, startup scenes, innovation centers
+- Spiritual retreats, meditation centers, yoga hubs
+- Wildlife experiences, safaris, birdwatching
+- what about 18+ events like munches, play parties, etc.?
+- where are conventions more common?
+- How about events where physial touch is more prevalent?
+- definitely should add the events I am adding from another project. Another planning app, but not a traveling app. 
+- where physical touch (from the opposite gender) is more common at bars or parties
+
+- maybe types of drinks from other cultures might be a separate project
+
+
+- I guess to add more tags to a country, just show what i already have for a country. 
+*/
+
 // ORGANIZED TAG CATEGORIES (replaces redundant systems)
+// These show what you can select
+
+// What does this do since there are two export const that have tags. These don't get a red line when a new piece of data shows up
 export const tagCategories = {
   // Experience Types - What kind of trip is this?
   experience: [
@@ -162,7 +205,7 @@ export const tagCategories = {
   // Vibe & Atmosphere - How does it feel?
   vibe: [
     'magical', 'chaotic', 'chill', 'balanced', 'lively', 'laid-back', 'festive',
-    'spiritual', 'hippie', 'cosmopolitan', 'traditional', 'passionate'
+    'spiritual', 'hippie', 'cosmopolitan', 'traditional', 'passionate', 'progressive'
   ],
   
   // Geography & Setting - Where is it?
@@ -178,6 +221,8 @@ export const tagCategories = {
 };
 
 // ACTIVITY CATEGORIES - Things to actually DO
+// These show what you can select
+//Delete this part after
 export const activityCategories = {
   outdoor: [
     'hiking', 'beach relaxation', 'jungle trekking', 'surfing', 'water sports',
