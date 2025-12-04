@@ -12,14 +12,14 @@ export const thailandTransportation: TransportationCosts = {
         monthlyPass: 1400,  // BTS/MRT monthly pass
         singleTicket: 25,
         dailyCap: 140,
-        reliability: 8,
-        coverage: 8,
+        reliability: 80,    // CHANGED: 8 → 80 (0-100 scale)
+        coverage: 80,       // CHANGED: 8 → 80 (0-100 scale)
         notes: "BTS Skytrain and MRT subway cover most central areas"
       },
       rideSharing: {
         baseFare: 25,
         costPerKm: 8,
-        availability: 9,
+        availability: 90,   // CHANGED: 9 → 90 (0-100 scale)
         exampleTrip: 65
       },
       taxis: {
@@ -51,17 +51,17 @@ export const thailandTransportation: TransportationCosts = {
     "Chiang Mai": {
       city: "Chiang Mai",
       publicTransport: {
-        monthlyPass: 800,   // Songthaew monthly subscription
-        singleTicket: 20,   // Songthaew ride
+        monthlyPass: 800,
+        singleTicket: 20,
         dailyCap: 100,
-        reliability: 6,
-        coverage: 5,
+        reliability: 60,    // CHANGED: 6 → 60
+        coverage: 50,       // CHANGED: 5 → 50
         notes: "Songthaews (red trucks) are the main public transport"
       },
       rideSharing: {
         baseFare: 30,
         costPerKm: 10,
-        availability: 7,
+        availability: 70,   // CHANGED: 7 → 70
         exampleTrip: 80
       },
       taxis: {
@@ -90,16 +90,16 @@ export const thailandTransportation: TransportationCosts = {
     "Phuket": {
       city: "Phuket",
       publicTransport: {
-        monthlyPass: 0,     // No formal monthly pass system
-        singleTicket: 40,   // Tuk-tuk/songthaew short ride
-        reliability: 4,
-        coverage: 3,
+        monthlyPass: 0,
+        singleTicket: 40,
+        reliability: 40,    // CHANGED: 4 → 40
+        coverage: 30,       // CHANGED: 3 → 30
         notes: "Limited public transport, tuk-tuks and taxis are primary options"
       },
       rideSharing: {
         baseFare: 40,
         costPerKm: 12,
-        availability: 6,
+        availability: 60,   // CHANGED: 6 → 60
         exampleTrip: 100
       },
       taxis: {
@@ -127,15 +127,15 @@ export const thailandTransportation: TransportationCosts = {
       city: "Koh Phangan",
       publicTransport: {
         monthlyPass: 0,
-        singleTicket: 50,   // Motorbike taxi short ride
-        reliability: 3,
-        coverage: 2,
+        singleTicket: 50,
+        reliability: 30,    // CHANGED: 3 → 30
+        coverage: 20,       // CHANGED: 2 → 20
         notes: "Motorbike taxis are main transport, scooter rentals recommended"
       },
       rideSharing: {
-        baseFare: 0,        // No ride-sharing apps
+        baseFare: 0,
         costPerKm: 0,
-        availability: 1,
+        availability: 10,   // CHANGED: 1 → 10
         exampleTrip: 0
       },
       taxis: {
@@ -165,13 +165,13 @@ export const thailandTransportation: TransportationCosts = {
       monthlyPass: 1200,
       singleTicket: 25,
       dailyCap: 140,
-      reliability: 7,
-      coverage: 6
+      reliability: 70,      // CHANGED: 7 → 70
+      coverage: 60          // CHANGED: 6 → 60
     },
     rideSharing: {
       baseFare: 25,
       costPerKm: 8,
-      availability: 7,
+      availability: 70,     // CHANGED: 7 → 70
       exampleTrip: 65
     },
     taxis: {

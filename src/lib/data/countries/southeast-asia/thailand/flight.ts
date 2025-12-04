@@ -14,6 +14,7 @@ export const thailandFlightPattern: FlightPattern = {
 };
 
 export const thailandRouteCost: RouteCostData = {
+  // FROM: Thailand | TO: United States
   'United States': {
     economy: 900,
     business: 2500,

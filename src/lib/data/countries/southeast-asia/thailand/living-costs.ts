@@ -2,7 +2,6 @@ import type { LivingCostData } from '$lib/types/living-costs';
 
 export const thailandLivingCosts: LivingCostData = {
   country: "Thailand",
-  countryCode: "Thailand",
   currency: "THB", 
   lastUpdated: "2024-01-15",
   

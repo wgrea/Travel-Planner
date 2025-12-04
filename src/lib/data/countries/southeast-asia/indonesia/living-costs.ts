@@ -3,7 +3,6 @@ import type { LivingCostData } from '$lib/types/living-costs';
 
 export const indonesiaLivingCosts: LivingCostData = {
   country: "Indonesia",
-  countryCode: "Indonesia", // Changed to proper country code
   currency: "IDR", 
   lastUpdated: "2024-01-15",
   

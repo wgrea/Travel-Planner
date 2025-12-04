@@ -2,6 +2,7 @@
 import type { VisaInfo } from '$lib/types/visa';
 
 export const thailandVisaData: Record<string, VisaInfo> = {
+  // US citizens → Thailand
   "United States": {
     ease: "Visa on arrival / Online application",
     freeLength: "30 days (extendable)",
