@@ -19,6 +19,7 @@ export const spainFlightPattern: FlightPattern = {
 };
 
 export const spainRouteCost: RouteCostData = {
+  // FROM: Spain | TO: United States
   'United States': {
     economy: 550,
     business: 1600,
@@ -27,6 +28,7 @@ export const spainRouteCost: RouteCostData = {
     airports: ['MAD', 'BCN', 'AGP'],
     airlines: ['Iberia', 'American Airlines', 'United', 'Delta', 'Air Europa']
   },
+   // FROM: Spain | TO: Canada
   'Canada': {
     economy: 650,
     business: 1800,

@@ -1,27 +1,13 @@
-//src/lib/data/countries/europe/western-europe/germany.ts
-import type { FlightPattern } from '$lib/data/flightPatternData';  // ← Import from flyData.ts
+//src/lib/data/countries/europe/southern-europe/italy/visa.ts
 import type { VisaInfo } from '$lib/types/visa';
-import type { RouteCostData } from '$lib/types/flight';
 
-export const germanyFlightPattern: FlightPattern = {
-  country: "Germany",
-  cities: ["Berlin", "Munich", "Hamburg"],
-  cheapestMonths: ["January", "February", "November"],
-  expensiveMonths: ["June", "July", "August"],
-  sweetSpot: ["April", "May", "September", "October"],
-  averagePrice: 900,
-  planningTips: ["Multiple airport options", "Efficient train system"],
-  notes: "Modern cities with rich history and culture"
-};
-
-export const germanyVisaData: Record<string, VisaInfo> = {
-    
+export const italyVisaData: Record<string, VisaInfo> = {
     'United States': {
       ease: "Visa-free",
       freeLength: "90 days",
-      workPolicy: "Freelance Visa available",
+      workPolicy: "Self-employment Visa available",
       nomadVisa: true,
-      incomeReq: "~$3,000/month",
+      incomeReq: "~$3,500/month",
       category: "Moderate",
       duration: 90,
       cost: 0,
@@ -43,9 +29,9 @@ export const germanyVisaData: Record<string, VisaInfo> = {
     'United Kingdom': {
       ease: "Visa-free for 90 days",
       freeLength: "90 days in Schengen area",
-      workPolicy: "Freelance Visa available",
+      workPolicy: "Self-employment Visa available",
       nomadVisa: true,
-      incomeReq: "~$3,000/month",
+      incomeReq: "~$3,500/month",
       category: "Moderate",
       duration: 90,
       cost: 0,

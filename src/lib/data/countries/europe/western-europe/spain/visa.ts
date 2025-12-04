@@ -2,7 +2,8 @@
 import type { VisaInfo } from '$lib/types/visa';
 
 export const spainVisaData: Record<string, VisaInfo> = {
-    'United States': {
+  // US citizens → Spain  
+  'United States': {
       ease: "Moderate application",
       freeLength: "90 days",
       workPolicy: "Digital Nomad Visa available",
@@ -14,6 +15,7 @@ export const spainVisaData: Record<string, VisaInfo> = {
       applicationTime: "Not applicable",
       entryType: "multiple"
     },
+    // Germany → Spain
     'Germany': {
       ease: "Freedom of movement (EU)",
       freeLength: "Unlimited",
@@ -26,6 +28,7 @@ export const spainVisaData: Record<string, VisaInfo> = {
       applicationTime: "Not applicable",
       entryType: "multiple"
     },
+    // United Kingdom → Spain
     'United Kingdom': {
       ease: "Visa-free for 90 days",
       freeLength: "90 days in Schengen area",
