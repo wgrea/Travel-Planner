@@ -1,7 +1,24 @@
 <!-- src/routes/transportation-costs/+page.svelte -->
+
+<!--
+
+🚗 Transportation Costs
+
+Aesthetic: Urban Frutiger Aero
+Colors: Amber/orange (from-amber-50 to-orange-50)
+Special Elements:
+
+Road/map-inspired subtle background patterns
+Vehicle icons with soft shadows
+Route visualization
+
+
+Why: Ground transportation, needs to feel navigable
+
+-->
+
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { transportationData } from '$lib/data/transportationData';
   
   // Import components
   import TransportationCountrySelector from './components/TransportationCountrySelector.svelte';
@@ -11,8 +28,6 @@
   import CurrencySelector from '$lib/components/CurrencySelector.svelte';
   import { selectedCurrency } from '$lib/stores/currency';
   
-  import type { TransportationCosts } from '$lib/types/transportation';
-  
   // State using $state runes
   let selectedRegion = $state('');
   let selectedCountry = $state('');
@@ -21,36 +36,41 @@
   
   // Use store-derived value for currency
   const currentCurrency = $derived($selectedCurrency);
-  
-  // ✅ FIX: Remove event handlers - bind handles it automatically
-  // No need for handleRegionChange, handleCountryChange, etc.
-  
-  // Debug logging
-  $effect(() => {
-    console.log('🚗 Transportation page state:', { 
-      selectedRegion,
-      selectedCountry, 
-      selectedCity, 
-      usagePattern, 
-      currentCurrency 
-    });
-  });
 </script>
-
-<div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 px-4 py-8 relative overflow-hidden">
-  <!-- Background elements -->
-  <div class="absolute inset-0 overflow-hidden">
-    <div class="absolute -top-40 -right-32 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float-slow"></div>
-    <div class="absolute -bottom-40 -left-32 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float-medium"></div>
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float-slow"></div>
+<div class="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 px-4 py-8 relative overflow-hidden">
+  <!-- Road/map-inspired background patterns -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <!-- Road lines -->
+    <div class="absolute top-1/4 left-0 right-0 h-px bg-amber-300/20"></div>
+    <div class="absolute top-1/2 left-0 right-0 h-px bg-amber-300/15"></div>
+    <div class="absolute top-3/4 left-0 right-0 h-px bg-amber-300/10"></div>
+    
+    <!-- Intersection circles -->
+    <div class="absolute top-1/4 left-1/4 w-16 h-16 rounded-full border-2 border-amber-300/20"></div>
+    <div class="absolute top-1/2 right-1/3 w-12 h-12 rounded-full border-2 border-orange-300/15"></div>
+    <div class="absolute bottom-1/3 left-1/3 w-20 h-20 rounded-full border-2 border-orange-300/10"></div>
+    
+    <!-- Route dots -->
+    <div class="absolute top-40 left-[15%] w-3 h-3 bg-amber-400/20 rounded-full"></div>
+    <div class="absolute top-60 right-[25%] w-2 h-2 bg-orange-400/20 rounded-full"></div>
+    <div class="absolute bottom-40 left-[35%] w-3 h-3 bg-amber-400/15 rounded-full"></div>
+    <div class="absolute bottom-60 right-[15%] w-2 h-2 bg-orange-400/15 rounded-full"></div>
+    
+    <!-- Subtle vehicle shadows -->
+    <div class="absolute top-32 left-[20%] w-24 h-12 bg-gradient-to-r from-transparent via-amber-300/5 to-transparent 
+      rounded-lg animate-vehicle-drift [animation-delay:1s]"></div>
+    <div class="absolute bottom-32 right-[30%] w-20 h-10 bg-gradient-to-r from-transparent via-orange-300/5 to-transparent 
+      rounded-lg animate-vehicle-drift [animation-delay:2s]"></div>
   </div>
 
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto relative z-20">
-    <!-- Back Button -->
+    <!-- Back Button - Road sign style -->
     <button 
       onclick={() => goto('/')}
-      class="group mb-8 inline-flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-gray-900 transition-all duration-300 hover:bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 hover:border-gray-300 hover:shadow-lg"
+      class="group mb-8 inline-flex items-center gap-3 px-5 py-3 text-amber-900 hover:text-orange-900 
+      transition-all duration-300 bg-white/90 backdrop-blur-sm rounded-xl border border-amber-200 
+      hover:border-orange-300 hover:shadow-lg hover:scale-105"
     >
       <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -58,35 +78,43 @@
       <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
     </button>
 
-    <!-- Currency Selector -->
-    <CurrencySelector />
+    <!-- Currency Selector - Road style -->
+    <div class="mb-8 bg-white/90 backdrop-blur-sm rounded-xl border border-amber-200 p-4 inline-block">
+      <CurrencySelector />
+    </div>
 
-    <!-- Header -->
-    <div class="mb-8 text-center">
-      <div class="inline-flex items-center gap-3 px-6 py-3 bg-white/80 backdrop-blur-md rounded-2xl border border-gray-200/50 shadow-sm mb-6">
-        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+    <!-- Header with road sign aesthetic -->
+    <div class="mb-12 text-center">
+      <div class="inline-flex items-center gap-4 px-8 py-4 bg-white/90 backdrop-blur-md rounded-2xl 
+        border border-amber-300/50 shadow-lg mb-8">
+        <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-md">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <span class="text-sm font-medium text-gray-700">Transportation Calculator</span>
+        <span class="text-lg font-semibold text-amber-900">Transportation Calculator</span>
       </div>
       
-      <h1 class="text-6xl font-light mb-6 text-gray-900 tracking-tight bg-gradient-to-br from-gray-900 to-gray-700 bg-clip-text text-transparent">
+      <h1 class="text-6xl font-light mb-6 text-amber-950 tracking-tight">
         Transportation Costs
       </h1>
-      <p class="text-xl text-gray-600 font-light max-w-3xl mx-auto leading-relaxed">
-        Smart comparisons for public transport, ride-sharing, taxis, and rentals across global destinations
+      <p class="text-xl text-amber-800/80 font-light max-w-3xl mx-auto leading-relaxed">
+        Navigate urban mobility with smart cost comparisons and route planning
       </p>
     </div>
 
     <!-- Main Content Grid -->
     <div class="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-16">
-      <!-- Control Panel -->
+      <!-- Control Panel - Road map style -->
       <div class="xl:col-span-1 space-y-6">
-        <!-- Region, Country & City Selector -->
-        <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-500 p-8">
-          <!-- ✅ FIX: Just use bind, no event handlers needed -->
+        <!-- Region, Country & City Selector - Route planner style -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-amber-300/40 shadow-xl 
+          hover:shadow-2xl transition-all duration-500 p-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+            <h3 class="text-lg font-semibold text-amber-900">Route Planner</h3>
+          </div>
           <TransportationCountrySelector 
             bind:selectedRegion
             bind:selectedCountry
@@ -94,69 +122,116 @@
           />
         </div>
 
-        <!-- Usage Pattern -->
-        <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-500 p-8">
+        <!-- Usage Pattern - Traffic style -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-orange-300/40 shadow-xl 
+          hover:shadow-2xl transition-all duration-500 p-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-3 h-3 bg-amber-500 rounded-full"></div>
+            <h3 class="text-lg font-semibold text-amber-900">Travel Style</h3>
+          </div>
           <TransportationTypeSelector 
             bind:usagePattern={usagePattern}
           />
         </div>
 
-        <!-- Quick Stats -->
+        <!-- Quick Stats - Speedometer style -->
         {#if selectedCountry}
-          <QuickStats currency={currentCurrency} />
+          <div class="bg-gradient-to-br from-amber-100/90 to-orange-100/90 backdrop-blur-md rounded-2xl 
+            border border-orange-300/40 shadow-xl p-6">
+            <QuickStats currency={currentCurrency} />
+          </div>
         {/if}
       </div>
 
-      <!-- Results Area -->
+      <!-- Results Area - Dashboard style -->
       <div class="xl:col-span-3">
         {#if selectedCountry}
-          <CostBreakdown 
-            country={selectedCountry}
-            city={selectedCity}
-            {usagePattern}
-            currency={currentCurrency} 
-          />
+          <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-amber-300/40 shadow-xl 
+            hover:shadow-2xl transition-all duration-300 overflow-hidden">
+            <CostBreakdown 
+              country={selectedCountry}
+              city={selectedCity}
+              {usagePattern}
+              currency={currentCurrency} 
+            />
+          </div>
         {:else}
-          <!-- Empty State -->
-          <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-xl p-16 text-center">
-            <div class="w-32 h-32 mx-auto mb-8 text-gray-300">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="opacity-50">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          <!-- Empty State - Parking lot style -->
+          <div class="bg-gradient-to-br from-amber-100/90 to-orange-100/90 backdrop-blur-md rounded-2xl 
+            border border-amber-300/40 shadow-xl p-16 text-center">
+            <div class="w-40 h-40 mx-auto mb-8 text-amber-400/50">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="opacity-40">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" 
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 class="text-2xl font-light text-gray-900 mb-4">Explore Transportation Costs</h3>
-            <p class="text-gray-600 max-w-md mx-auto mb-8 text-lg leading-relaxed">
-              Select a destination to compare transportation options and plan your travel budget with detailed cost breakdowns.
+            <h3 class="text-2xl font-light text-amber-950 mb-4">Start Your Journey</h3>
+            <p class="text-amber-800/80 max-w-md mx-auto mb-8 text-lg leading-relaxed">
+              Select a destination to explore transportation routes and calculate mobility costs.
             </p>
-            <div class="inline-flex items-center gap-3 px-6 py-3 bg-gray-100/80 rounded-2xl text-gray-500">
+            <div class="inline-flex items-center gap-3 px-6 py-3 bg-amber-200/50 rounded-2xl text-amber-900 
+              border border-amber-300/50">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-              <span class="font-medium">Choose a region to begin</span>
+              <span class="font-medium">Choose your starting point</span>
             </div>
           </div>
         {/if}
       </div>
     </div>
 
-    <!-- Features Grid -->
+    <!-- Features Grid - Vehicle icons with soft shadows -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
       {#each [
-        { icon: '🚆', title: 'Public Transport', desc: 'Buses, trains, metro systems', color: 'from-green-500 to-emerald-600' },
-        { icon: '🚗', title: 'Ride Sharing', desc: 'Uber, Grab, local apps', color: 'from-blue-500 to-cyan-600' },
-        { icon: '🚕', title: 'Taxis', desc: 'Metered & fixed prices', color: 'from-yellow-500 to-orange-600' },
-        { icon: '🛵', title: 'Rentals', desc: 'Cars, scooters, bikes', color: 'from-purple-500 to-pink-600' }
+        { icon: '🚆', title: 'Public Transport', desc: 'Buses, trains, metro systems', color: 'from-amber-400 to-orange-500', shadow: 'shadow-amber-200/50' },
+        { icon: '🚗', title: 'Ride Sharing', desc: 'Uber, Grab, local apps', color: 'from-orange-400 to-red-500', shadow: 'shadow-orange-200/50' },
+        { icon: '🚕', title: 'Taxis', desc: 'Metered & fixed prices', color: 'from-yellow-400 to-amber-500', shadow: 'shadow-yellow-200/50' },
+        { icon: '🛵', title: 'Rentals', desc: 'Cars, scooters, bikes', color: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-300/50' }
       ] as item}
         <div class="group">
-          <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200/60 p-6 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 h-full">
-            <div class="w-16 h-16 bg-gradient-to-br {item.color} rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+          <div class="bg-white/90 backdrop-blur-sm rounded-xl border border-amber-200 p-6 text-center 
+            hover:shadow-xl transition-all duration-300 hover:scale-105 h-full relative">
+            <!-- Vehicle shadow behind icon -->
+            <div class="absolute inset-0 rounded-xl {item.shadow} opacity-0 group-hover:opacity-100 
+              transition-opacity duration-300 -z-10"></div>
+            
+            <div class="w-20 h-20 bg-gradient-to-br {item.color} rounded-2xl flex items-center justify-center 
+              text-3xl mb-6 mx-auto transform group-hover:scale-110 group-hover:rotate-3 
+              transition-all duration-300 shadow-lg">
               {item.icon}
             </div>
-            <h3 class="font-semibold text-gray-900 mb-2">{item.title}</h3>
-            <p class="text-sm text-gray-600">{item.desc}</p>
+            <h3 class="font-semibold text-amber-900 mb-3 text-lg">{item.title}</h3>
+            <p class="text-sm text-amber-700/80">{item.desc}</p>
           </div>
         </div>
       {/each}
+    </div>
+
+    <!-- Additional Navigation -->
+    <div class="bg-gradient-to-r from-amber-100/80 to-orange-100/80 backdrop-blur-sm rounded-2xl 
+      border border-amber-300/50 p-8 text-center mb-8">
+      <p class="text-amber-900 text-lg font-medium mb-6">Continue Your Travel Planning</p>
+      <div class="flex gap-4 justify-center flex-wrap">
+        <button onclick={() => goto('/flight-costs')}
+          class="px-5 py-3 rounded-xl bg-white/90 border border-amber-300 text-amber-800 
+          hover:border-orange-400 hover:bg-white hover:shadow-lg hover:scale-105 
+          transition-all duration-300 font-medium text-sm flex items-center gap-2">
+          ✈️ Flight Costs
+        </button>
+        <button onclick={() => goto('/living-costs')}
+          class="px-5 py-3 rounded-xl bg-white/90 border border-amber-300 text-amber-800 
+          hover:border-orange-400 hover:bg-white hover:shadow-lg hover:scale-105 
+          transition-all duration-300 font-medium text-sm flex items-center gap-2">
+          🏠 Living Costs
+        </button>
+        <button onclick={() => goto('/travel-essentials')}
+          class="px-5 py-3 rounded-xl bg-white/90 border border-amber-300 text-amber-800 
+          hover:border-orange-400 hover:bg-white hover:shadow-lg hover:scale-105 
+          transition-all duration-300 font-medium text-sm flex items-center gap-2">
+          🎒 Packing Essentials
+        </button>
+      </div>
     </div>
   </div>
 </div>

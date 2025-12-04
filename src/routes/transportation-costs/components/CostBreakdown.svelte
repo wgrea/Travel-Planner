@@ -19,15 +19,13 @@
   const countryData = $derived(getTransportationByCountry(country));
   const cityData = $derived(countryData?.cities?.[city]);
   
-  // ✅ FIX: Use $derived.by() for complex logic
+  // Get monthly cost based on usage pattern
   const monthlyCost = $derived.by(() => {
     if (!cityData?.usagePatterns) return 0;
     
-    // Type-safe access
     const patterns = cityData.usagePatterns;
     const patternKey = usagePattern as UsagePatternKey;
     
-    // Check if the pattern exists
     if (patternKey in patterns) {
       return patterns[patternKey];
     }
@@ -35,8 +33,6 @@
   });
   
   const countryCurrency = $derived(countryData?.currency || 'USD');
-  
-  // ✅ FIX: Use $derived.by() for calculations that need to react to multiple dependencies
   const monthlyCostUSD = $derived.by(() => convertCurrency(monthlyCost, countryCurrency, 'USD'));
   const monthlyCostConverted = $derived.by(() => convertCurrency(monthlyCostUSD, 'USD', currency));
   
@@ -48,19 +44,6 @@
   
   // Get formatted cost in local currency
   const formattedMonthlyCost = $derived(formatCurrency(monthlyCostConverted, currency));
-  
-  // Debug logging
-  $effect(() => {
-    console.log('🏙️ CostBreakdown updated:', {
-      country,
-      city,
-      usagePattern,
-      currency,
-      monthlyCost,
-      monthlyCostUSD,
-      monthlyCostConverted
-    });
-  });
 </script>
 
 <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-gray-200/60 shadow-lg hover:shadow-xl transition-all duration-500 p-8">

@@ -1,14 +1,14 @@
 <!-- src/routes/flight-costs/components/IntelligenceItem.svelte -->
 <script lang="ts">
-  export let emoji: string;
-  export let title: string;
-  export let text: string;
+  export let emoji = '';
+  export let title = '';
+  export let text = '';
 </script>
 
-<div class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors duration-200 group">
-  <span class="text-lg mt-0.5 flex-shrink-0">{emoji}</span>
+<div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-white transition-colors">
+  <span class="text-xl">{emoji}</span>
   <div>
-    <p class="font-medium text-gray-900 group-hover:text-gray-700 transition-colors">{title}</p>
-    <p class="text-sm text-gray-700 mt-1 leading-relaxed">{text}</p>
+    <p class="font-medium text-gray-800">{title}</p>
+    <p class="text-sm text-gray-600">{text}</p>
   </div>
 </div>

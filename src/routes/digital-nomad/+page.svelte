@@ -31,6 +31,8 @@ Libraries, whether urban or rural, are generally free and open to everyone for r
 
 In less touristy areas, libraries are often the main free workspace option and tend to be more relaxed about remote work, while in tourist cities, libraries may be busier or have stricter rules due to higher demand.​
 
+
+Don't forget to include what memberships one can have and what countries they a good for (can be put in the resonance page)
 -->
 
 <script lang="ts">
@@ -323,155 +325,264 @@ In less touristy areas, libraries are often the main free workspace option and t
     console.log('🌍 Workspace data updated:', currentWorkspaceData.length, 'items');
   });
 </script>
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 px-4 py-8 relative overflow-hidden">
+  <!-- Subtle grid pattern overlay (tech vibe) -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <!-- Grid pattern -->
+    <div class="absolute inset-0" style="
+      background-image: 
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    "></div>
+    
+    <!-- Tech nodes/connection points -->
+    <div class="absolute top-32 left-[20%] w-4 h-4 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 
+      rounded-full animate-pulse-tech [animation-delay:0s]"></div>
+    <div class="absolute top-48 right-[25%] w-3 h-3 bg-gradient-to-br from-indigo-300/20 to-purple-300/20 
+      rounded-full animate-pulse-tech [animation-delay:1s]"></div>
+    <div class="absolute bottom-40 left-[35%] w-4 h-4 bg-gradient-to-br from-purple-400/20 to-indigo-400/20 
+      rounded-full animate-pulse-tech [animation-delay:2s]"></div>
+    
+    <!-- Wifi signal arcs -->
+    <div class="absolute top-1/4 right-[15%]">
+      <div class="w-24 h-12 border-t-2 border-r-2 border-indigo-300/20 rounded-tr-full"></div>
+    </div>
+    <div class="absolute bottom-1/3 left-[10%]">
+      <div class="w-20 h-10 border-t-2 border-l-2 border-purple-300/20 rounded-tl-full"></div>
+    </div>
+  </div>
 
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 px-4 py-8 relative overflow-hidden">
-  <!-- Background Elements -->
-  <BackgroundElements />
-  
   <div class="max-w-7xl mx-auto relative z-10">
     
-    <!-- Back Button -->
-    <button
-      onclick={() => goto('/')}
-      class="group mb-8 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200"
-    >
+    <!-- Back Button - Tech glass effect -->
+    <button onclick={() => goto('/')} 
+      class="group mb-8 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm 
+      px-4 py-2.5 rounded-xl border border-indigo-200/50 text-indigo-800 hover:text-indigo-900 
+      hover:bg-white/30 hover:border-indigo-300 hover:shadow-lg transition-all duration-300">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
       </svg>
-      <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
+      <span class="font-medium text-sm">Back to Main Menu</span>
     </button>
 
-    <!-- === ADD CURRENCY SELECTOR HERE === -->
-    <CurrencySelector />
+    <!-- Currency Selector - Tech style -->
+    <div class="mb-8 bg-white/30 backdrop-blur-sm rounded-xl border border-indigo-200/50 p-4 inline-block">
+      <CurrencySelector />
+    </div>
 
-    <!-- Navigation to new pages -->
-    <div class="mb-8 flex gap-4 justify-center">
-      <button
-        onclick={() => goto('/digital-nomad/support')}
-        class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium"
-      >
+    <!-- Navigation - Tech badge style -->
+    <div class="mb-8 flex gap-3 justify-center flex-wrap">
+      <button onclick={() => goto('/digital-nomad/support')}
+        class="px-5 py-2.5 bg-white/30 backdrop-blur-sm rounded-lg border border-indigo-200/50 
+        text-indigo-700 hover:border-indigo-300 hover:bg-white/50 hover:shadow-md hover:scale-105 
+        transition-all duration-300 font-medium text-sm">
         📋 Support
       </button>
-      <button
-        onclick={() => goto('/digital-nomad/how-to-work-from-anywhere')}
-        class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium"
-      >
+      <button onclick={() => goto('/digital-nomad/how-to-work-from-anywhere')}
+        class="px-5 py-2.5 bg-white/30 backdrop-blur-sm rounded-lg border border-indigo-200/50 
+        text-indigo-700 hover:border-indigo-300 hover:bg-white/50 hover:shadow-md hover:scale-105 
+        transition-all duration-300 font-medium text-sm">
         💼 How to Work From Anywhere
       </button>
-
-      <!-- ADD THIS BUTTON -->
-      <button
-        onclick={() => goto('/transportation-costs')}
-        class="px-6 py-3 bg-white/90 backdrop-blur-md rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white text-gray-700 font-medium flex items-center gap-2"
-      >
+      <button onclick={() => goto('/transportation-costs')}
+        class="px-5 py-2.5 bg-white/30 backdrop-blur-sm rounded-lg border border-indigo-200/50 
+        text-indigo-700 hover:border-indigo-300 hover:bg-white/50 hover:shadow-md hover:scale-105 
+        transition-all duration-300 font-medium text-sm flex items-center gap-2">
         🚗 Transportation Costs
       </button>
     </div>
 
-    <!-- Before You Start Section -->
-    <BeforeYouStart />
+    <!-- Before You Start - Tech card -->
+    <div class="mb-8 bg-gradient-to-r from-indigo-100/50 to-purple-100/50 backdrop-blur-sm 
+      rounded-xl border border-indigo-200/50 p-5 max-w-2xl mx-auto">
+      <BeforeYouStart />
+    </div>
 
-    <!-- Header -->
+    <!-- Header - Tech-forward typography -->
     <div class="mb-12 text-center">
-      <h1 class="text-5xl font-light mb-4 text-gray-900 tracking-tight">Digital Nomad</h1>
-      <p class="text-gray-700 text-lg font-light max-w-2xl mx-auto">
-        Workspaces, internet quality, and remote work essentials for productive travel
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br 
+        from-indigo-400/20 to-purple-400/20 backdrop-blur-sm border border-indigo-300/30 mb-6">
+        <div class="text-4xl">💻</div>
+      </div>
+      
+      <h1 class="text-5xl font-light mb-4 text-indigo-950 tracking-tight">
+        Digital Nomad Toolkit
+      </h1>
+      <p class="text-indigo-700/80 text-lg font-light max-w-2xl mx-auto">
+        Workspaces, connectivity, and remote work essentials for the modern tech professional
       </p>
     </div>
 
-    <!-- Country & Location Selector -->
-    <div class="mb-12 p-8 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300 max-w-4xl mx-auto">
-      <DigitalNomadCountrySelector 
-        {countryData}
-        on:countryChange={handleCountryChange}
-        on:cityChange={handleCityChange}
-        on:selectCity={handleSelectCity}
-      />
+    <!-- Country & Location Selector - Tech dashboard -->
+    <div class="mb-12 bg-white/30 backdrop-blur-md rounded-2xl border border-indigo-200/50 
+      shadow-xl hover:shadow-2xl transition-shadow duration-500 max-w-4xl mx-auto overflow-hidden">
+      <div class="p-8">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-2 h-8 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full"></div>
+          <h2 class="text-xl font-semibold text-indigo-900">Location Dashboard</h2>
+        </div>
+        
+        <DigitalNomadCountrySelector 
+          {countryData}
+          on:countryChange={handleCountryChange}
+          on:cityChange={handleCityChange}
+          on:selectCity={handleSelectCity}
+        />
+      </div>
     </div>
 
     {#if isLoading}
       <div class="text-center py-12">
-        <div class="inline-block w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-        <p class="mt-4 text-gray-600">Loading digital nomad data...</p>
+        <div class="inline-block w-8 h-8 border-2 border-indigo-300 border-t-indigo-600 rounded-full animate-spin"></div>
+        <p class="mt-4 text-indigo-600 font-light">Loading digital nomad insights...</p>
       </div>
     {:else if selectedCountry && currentCountryData}
       
-      <!-- Work Preference Section -->
+      <!-- Work Preference Section - Tech toggle -->
       <div class="mb-12 max-w-4xl mx-auto">
-        <WorkPreferenceSelector 
+        <div class="bg-white/30 backdrop-blur-md rounded-2xl border border-indigo-200/50 p-6">
+          <WorkPreferenceSelector 
+            {workPreference}
+            on:workPreferenceChange={handleWorkPreferenceChange}
+          />
+        </div>
+      </div>
+
+      <!-- Debug panel (keep but style tech) -->
+      <div class="fixed top-4 right-4 bg-gradient-to-br from-yellow-100 to-amber-100 backdrop-blur-sm 
+        p-4 rounded-xl border-2 border-yellow-400/50 z-50 max-w-xs shadow-xl">
+        <h3 class="font-bold text-amber-800 text-sm flex items-center gap-2">
+          <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+          LIVE DEBUG
+        </h3>
+        <div class="space-y-1 mt-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-amber-700">Work Preference:</span>
+            <span class="font-bold text-amber-900">{workPreference}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-amber-700">Workspaces:</span>
+            <span class="font-bold text-amber-900">{currentWorkspaceData.length}</span>
+          </div>
+          <div class="mt-2 max-h-20 overflow-y-auto">
+            {#each currentWorkspaceData as space}
+              <div class="bg-amber-200/30 p-1.5 mb-1 rounded text-amber-800 text-xs">
+                • {space.name} ({space.type})
+              </div>
+            {:else}
+              <div class="text-amber-600 italic text-xs">No matches</div>
+            {/each}
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content - Tech cards -->
+      <div class="bg-white/30 backdrop-blur-md rounded-2xl border border-indigo-200/50 
+        shadow-xl overflow-hidden mb-8">
+        <MainContent
+          {selectedCountry}
+          {selectedCity}
           {workPreference}
-          on:workPreferenceChange={handleWorkPreferenceChange}
+          countryData={currentCountryData}
+          workspaceData={currentWorkspaceData}
+          visaData={currentVisaData}
+          currency={currentCurrency}
         />
       </div>
 
-      <!-- Add this fixed debug panel -->
-      <div class="fixed top-4 right-4 bg-yellow-100 p-4 rounded-lg border-2 border-yellow-400 z-50 max-w-xs">
-        <h3 class="font-bold text-yellow-800 text-sm">🛠️ LIVE DEBUG</h3>
-        <p class="text-xs">Work Preference: <strong>{workPreference}</strong></p>
-        <p class="text-xs">Workspaces: <strong>{currentWorkspaceData.length}</strong></p>
-        <div class="text-xs mt-1 max-h-20 overflow-y-auto">
-          {#each currentWorkspaceData as space}
-            <div class="bg-yellow-200 p-1 mb-1 rounded">• {space.name} ({space.type})</div>
-          {:else}
-            <div class="text-yellow-600 italic">No matches</div>
-          {/each}
-        </div>
-      </div>
-
-      <MainContent
-        {selectedCountry}
-        {selectedCity}
-        {workPreference}
-        countryData={currentCountryData}
-        workspaceData={currentWorkspaceData}
-        visaData={currentVisaData}
-        currency={currentCurrency}
-      />
-
     {:else if selectedCountry}
-      <!-- Show message when country is selected but no data available -->
-      <div class="text-center py-12 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 max-w-2xl mx-auto">
-        <div class="w-16 h-16 mx-auto mb-4 text-gray-400">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      <!-- No data state - Tech info card -->
+      <div class="text-center py-12 bg-gradient-to-br from-indigo-100/50 to-purple-100/50 
+        backdrop-blur-md rounded-2xl border border-indigo-200/50 max-w-2xl mx-auto">
+        <div class="w-20 h-20 mx-auto mb-6 text-indigo-400/50">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="opacity-60">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <h3 class="text-xl font-light text-gray-900 mb-2">Limited Data Available</h3>
-        <p class="text-gray-600 max-w-md mx-auto">
-          We have limited digital nomad information for {selectedCountry}. Some features may not be available.
+        <h3 class="text-xl font-light text-indigo-900 mb-3">Data Loading</h3>
+        <p class="text-indigo-700/80 max-w-md mx-auto font-light">
+          Gathering digital nomad insights for {selectedCountry}. Data may be limited for this location.
         </p>
       </div>
     {:else}
-      <div class="text-center py-12 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200 max-w-2xl mx-auto">
-        <div class="w-16 h-16 mx-auto mb-4 text-gray-400">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      <!-- Select country state - Tech welcome card -->
+      <div class="text-center py-16 bg-gradient-to-br from-white/40 to-indigo-50/40 backdrop-blur-md 
+        rounded-2xl border border-indigo-200/50 max-w-2xl mx-auto">
+        <div class="w-24 h-24 mx-auto mb-8 text-indigo-300">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="opacity-40">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" 
+              d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <h3 class="text-xl font-light text-gray-900 mb-2">Select a Country</h3>
-        <p class="text-gray-600 max-w-md mx-auto">
-          Choose a country from the dropdown above to see digital nomad information including internet quality, coworking spaces, visa requirements, and community insights.
+        <h3 class="text-2xl font-light text-indigo-900 mb-4">Select Your Base</h3>
+        <p class="text-indigo-700/80 max-w-md mx-auto mb-8 text-lg leading-relaxed">
+          Choose a country to explore digital nomad essentials: internet quality, coworking spaces, visa requirements, and local communities.
         </p>
+        <div class="inline-flex items-center gap-3 px-6 py-3 bg-indigo-200/30 rounded-2xl 
+          text-indigo-700 border border-indigo-300/50 backdrop-blur-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+          <span class="font-medium">Choose a destination to begin</span>
+        </div>
       </div>
     {/if}
 
-    <!-- Next Steps Section -->
-    <NextSteps />
+    <!-- Next Steps Section - Tech call-to-action -->
+    <div class="mt-8 bg-gradient-to-r from-indigo-100/60 to-purple-100/60 backdrop-blur-sm 
+      rounded-2xl border border-indigo-200/50 p-8">
+      <div class="text-center">
+        <div class="flex items-center justify-center gap-4 mb-6">
+          <div class="w-8 h-1 bg-indigo-400 rounded-full"></div>
+          <h3 class="text-lg font-semibold text-indigo-900">Continue Your Journey</h3>
+          <div class="w-8 h-1 bg-purple-400 rounded-full"></div>
+        </div>
+        <NextSteps />
+      </div>
+    </div>
 
-    <!-- Remote Work Tips -->
-    <div class="mt-8 p-6 bg-white/90 backdrop-blur-md rounded-2xl border border-blue-200 max-w-2xl mx-auto">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+    <!-- Remote Work Tips - Tech insight card -->
+    <div class="mt-8 p-6 bg-gradient-to-br from-white/40 to-indigo-50/40 backdrop-blur-md 
+      rounded-2xl border border-indigo-200/50 max-w-2xl mx-auto">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-xl 
+          flex items-center justify-center text-indigo-600 flex-shrink-0">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         </div>
         <div class="text-left">
-          <p class="font-medium text-gray-900">Productivity Tip</p>
-          <p class="text-sm text-gray-600 mt-1">
-            Join local digital nomad communities for networking and coworking opportunities. Use apps like Meetup, Nomad List, or local Facebook groups to connect with other remote workers.
+          <p class="font-semibold text-indigo-900">Productivity Protocol</p>
+          <p class="text-sm text-indigo-700/80 mt-2 leading-relaxed">
+            Connect with local tech communities through platforms like Meetup, Nomad List, or dedicated Slack channels. 
+            Regular coworking sessions and networking events can significantly boost productivity and professional growth.
           </p>
         </div>
+      </div>
+    </div>
+
+    <!-- Tech Tools Grid -->
+    <div class="mt-12 pt-8 border-t border-indigo-200/50">
+      <p class="text-indigo-700 text-sm font-medium text-center mb-6 uppercase tracking-wider">
+        Essential Tech Tools
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+        {#each [
+          { icon: '📡', name: 'Hotspot', desc: 'Portable WiFi' },
+          { icon: '🔋', name: 'Power Bank', desc: 'Portable charging' },
+          { icon: '🔌', name: 'Adapters', desc: 'Universal plugs' },
+          { icon: '🎧', name: 'Headphones', desc: 'Noise canceling' }
+        ] as tool}
+          <div class="p-4 bg-white/30 backdrop-blur-sm rounded-xl border border-indigo-200/50 
+            hover:border-indigo-300/70 hover:bg-white/50 hover:shadow-sm transition-all duration-200 text-center">
+            <div class="text-2xl mb-2">{tool.icon}</div>
+            <div class="text-sm font-medium text-indigo-800">{tool.name}</div>
+            <div class="text-xs text-indigo-600/80 mt-1">{tool.desc}</div>
+          </div>
+        {/each}
       </div>
     </div>
   </div>

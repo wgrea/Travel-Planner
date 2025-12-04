@@ -22,6 +22,9 @@ I wish I did not need to write this: it was tough to only show one origin countr
 
 
 It was a nightmare just to move the working function of changing the currencies to the other pages
+
+I had to clean up my flight costs and visa pages since they were the first files I worked on and were pretty rough. Seeing a rough version does really show how much you have improved.
+
 -->
 
 <!-- This is for documentation of how the project was built, not for filling forms -->
