@@ -1,53 +1,4 @@
-// src/lib/types/living-costs.ts
-
-// Updated with ALL your countries
-export type CountryCode = 
-  | 'Argentina'
-  | 'Armenia'
-  | 'Australia'
-  | 'Azerbaijan'
-  | 'Belize'
-  | 'Bolivia'
-  | 'Brazil'
-  | 'Canada'
-  | 'Chile'
-  | 'China'
-  | 'Colombia'
-  | 'Costa Rica'
-  | 'Croatia'
-  | 'Czech Republic'
-  | 'Estonia'
-  | 'France'
-  | 'Georgia'
-  | 'Germany'
-  | 'Greece'
-  | 'Guatemala'
-  | 'India'
-  | 'Indonesia'
-  | 'Italy'
-  | 'Japan'
-  | 'Malaysia'
-  | 'Mexico'
-  | 'Nepal'
-  | 'New Zealand'
-  | 'Norway'
-  | 'Panama'
-  | 'Peru'
-  | 'Philippines'
-  | 'Poland'
-  | 'Portugal'
-  | 'Romania'
-  | 'Slovenia'
-  | 'South Korea'
-  | 'Spain'
-  | 'Sri Lanka'
-  | 'Sweden'
-  | 'Thailand'
-  | 'Turkey'
-  | 'United Arab Emirates'
-  | 'United States'
-  | 'Vietnam';
-
+// src/lib/types/living-costs.ts - KEEP THIS FILE AS IS
 export type TravelStyle = 'budget' | 'midrange' | 'luxury';
 export type AccommodationType = 'hostel' | 'guesthouse' | 'hotel' | 'apartment' | 'luxury' | 'boutiqueHotel';
 
@@ -118,18 +69,16 @@ export interface BaseCosts {
 }
 
 export interface CityData {
-  baseCosts: BaseCosts;  // All properties are optional now
+  baseCosts: BaseCosts;
   tips?: string[];
 }
 
 export interface LivingCostData {
   country: string;
-  countryCode: CountryCode;
   currency: string;
   lastUpdated: string;
   
-  // Country-level data
-  baseCosts: BaseCosts;  // All properties are optional now
+  baseCosts: BaseCosts;
   tips?: string[];
   bestAreas?: {
     budget: string[];
@@ -137,11 +86,22 @@ export interface LivingCostData {
     luxury: string[];
   };
   
-  // City-specific data
   cities: {
     [cityName: string]: CityData;
   };
 }
+
+export interface SubRegionLivingCosts {
+  subregion: string;
+  countries: LivingCostData[];
+}
+
+export interface RegionData {
+  region: string;
+  subregions?: SubRegionLivingCosts[];
+  countries?: LivingCostData[];
+}
+
 // For component usage (simplified version)
 export interface CountryData {
   country: string;

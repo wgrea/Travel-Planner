@@ -1,6 +1,6 @@
 <!-- src/lib/components/CountrySelector.svelte -->
 <script lang="ts">
-  import { visaData } from '$lib/data/visaData';
+  import { visaData } from '$lib/data/visa';
   
   export interface CountryData {
     country: string;
@@ -91,7 +91,15 @@
 
   function handleDestinationChange(event: Event) {
     const target = event.target as HTMLSelectElement;
-    onDestinationChange(target.value);
+    const selectedValue = target.value;
+    console.log('Destination selected:', selectedValue);
+    
+    // Make sure to call the correct handler based on mode
+    if (mode === 'flight') {
+      onCountryChange(selectedValue);  // This should update selectedCountry
+    } else {
+      onDestinationChange(selectedValue);
+    }
   }
 
   function handlePassportChange(event: Event) {

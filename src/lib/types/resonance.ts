@@ -1,20 +1,21 @@
 // src/lib/types/resonance.ts
 
 // Feel free to add a new filter that is more relavent
+// Why are there two of these?
 export interface ResonancePreferences {
   // Personality & Travel Style
-  travelStyle: 'slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural';
+  travelStyle: 'slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural' |'wellness' | 'beach' | 'food' | 'fun' |'winter' | 'art' | 'authentic' | 'academic' | 'coastal' | 'wine' |  'countryside' | 'music' | 'creative' | 'alternative' | 'photography' | 'off-the-beaten-path' | 'intense' | 'wildlife' | 'spiritual' | 'party' | 'tech' | 'trekking' | 'peaceful' | 'extreme' | 'mystery' | 'culinary';
   socialPreference: 'solo' | 'social' | 'balanced';
   energyLevel: 'high' | 'medium' | 'low';
   
   // Environment & Atmosphere
-  climate: 'warm' | 'cool' | 'temperate' | 'any';
-  vibe: 'chaotic' | 'chill' | 'balanced' | 'luxury';
-  density: 'urban' | 'nature' | 'mixed' | 'rural';
+  climate: 'warm' | 'cool' | 'temperate' | 'any' | 'tropical' | 'subarctic' |  'varies' | 'mountain' | 'coastal' | 'desert' | 'moderate' | 'extreme' | 'alpine' | 'cooler';
+  vibe: 'chaotic' | 'chill' | 'balanced' | 'luxury' | 'urban' | 'energetic' | 'historic' | 'artistic' |  'sophisticated' |  'intellectual' | 'cross-cultural' |  'gastronomic' | 'gritty' | 'elegant' | 'idyllic' |  'bohemian' | 'exotic' | 'artsy' | 'majestic' | 'rustic' ;
+  density: 'urban' | 'nature' | 'mixed' | 'rural' | 'sparse';
   
   // Activities & Interests
   activities: string[];
-  foodScene: 'local' | 'international' | 'mixed';
+  foodScene: 'local' | 'international' | 'mixed' | 'diverse' | 'world-class' | 'specialized' |'traditional' |  'cosmopolitan' |  'regional' | 'cross-cultural' | 'mediterranean' | 'ethnic' | 'artisanal' | 'rustic' |  'excellent' | 'authentic' | 'seafood' | 'basic' | 'mountain' | 'tribal' | 'incredible' | 'fusion' | 'moghul' | 'royal' | 'vegetarian' | 'tourist';
   nightlife: 'quiet' | 'moderate' | 'vibrant';
   
   // Practical
@@ -42,6 +43,7 @@ export interface ResonanceScore {
   matchReasons: string[];
 }
 
+// I think it is right here that gets rid of the error messages when I add the tags
 export interface CityResonanceProfile {
   name: string;
   city: string;
@@ -50,22 +52,23 @@ export interface CityResonanceProfile {
   region: string;
   
   // Personality & Vibe
-  travelStyle: ('slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural' | 'historical' | 'nature')[];
-  socialVibe: 'solo-friendly' | 'social' | 'balanced';
+  travelStyle: ('slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural' | 'historical' | 'nature' | 'romantic' | 'urban' | 'luxury' | 'wellness' | 'beach' | 'food' | 'fun' | 'winter'| 'art' |  'authentic' | 'academic' | 'coastal' | 'wine' |  'countryside' | 'music' | 'creative' | 'alternative' | 'photography' | 'off-the-beaten-path' | 'intense' | 'wildlife' | 'spiritual' | 'party' | 'tech' | 'trekking' | 'peaceful' | 'extreme' | 'mystery' | 'culinary' )[];
+  socialVibe: 'solo-friendly' | 'social' | 'balanced' | 'vibrant' | 'sophisticated' | 'cosmopolitan' | 'chill' | 'peaceful' | 'adventurous'; 
   energyLevel: 'high' | 'medium' | 'low';
   
   // Environment
-  climate: 'warm' | 'cool' | 'temperate' | 'arid' | 'subtropical';
-  vibe: 'chaotic' | 'chill' | 'balanced' | 'luxury' | 'magical';
-  density: 'urban' | 'nature' | 'mixed' | 'rural';
+  climate: 'warm' | 'cool' | 'temperate' | 'arid' | 'subtropical' | 'tropical' | 'spring-like' | 'subarctic' | 'mediterranean' | 'continental' | 'mediterranean' | 'continental' |  'varies' | 'mountain' | 'coastal' | 'desert' | 'moderate' | 'extreme' | 'alpine' | 'cooler';
+  // Some might need to be removed since I kept pressing TAB when there would be predicted words
+  vibe: 'chaotic' | 'chill' | 'balanced' | 'luxury' | 'magical' | 'diverse' | 'fast-paced' | 'relaxed' | 'traditional' | 'progressive' | 'laid-back' | 'lively' | 'festive' | 'spiritual' | 'hippie' | 'cosmopolitan' | 'creative' | 'vibrant' |'historical' | 'urban' | 'energetic' | 'historic' | 'artistic' | 'sophisticated' |  'intellectual' | 'cross-cultural' |  'gastronomic' | 'gritty' | 'elegant' | 'idyllic' |  'global' | 'industrial' | 'alternative' | 'scholarly' |  'bohemian' | 'exotic' | 'artsy' | 'majestic' | 'rustic' | 'coastal' | 'wild' | 'intense' | 'scenic' | 'tribal' | 'regal' | 'serene' | 'sacred' | 'extreme' | 'adventurous' | 'island' | 'rural' | 'mysterious' ;
+  density: 'urban' | 'nature' | 'mixed' | 'rural' | 'dense' | 'sparse';
   
   // Activities
   popularActivities: string[];
-  foodScene: 'local' | 'international' | 'mixed';
-  nightlife: 'quiet' | 'moderate' | 'vibrant';
+  foodScene: 'local' | 'international' | 'mixed' | 'diverse'| 'world-class' | 'traditional' | 'street-food' | 'hearty' | 'healthy' | 'specialized' |  'cosmopolitan' | 'regional' | 'cross-cultural' | 'mediterranean' | 'ethnic' | 'artisanal' | 'rustic' |  'excellent' | 'authentic' | 'seafood' | 'basic' | 'mountain' | 'tribal' | 'incredible' | 'fusion' | 'moghul' | 'royal' | 'vegetarian' | 'tourist';
+  nightlife: 'quiet' | 'moderate' | 'vibrant' | 'student';  
   
   // Practical
-  costLevel: 'budget' | 'midrange' | 'luxury';
+  costLevel: 'budget' | 'midrange' | 'expensive' | 'luxury';
   internetQuality: number; // 1-10
   safetyScore: number; // 1-10
   

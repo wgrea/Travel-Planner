@@ -1,4 +1,4 @@
-// src/lib/utils/flightUtils.ts
+// src/lib/utils/flightUtils.ts - UPDATE THIS
 import { 
   flyDataByRegion, 
   getAllCountries as getAllFlightPatterns,
@@ -8,30 +8,34 @@ import {
   type SubRegionData
 } from '$lib/data/flightPatternData';
 
-// Define CountryData locally since it's specific to this utility
+// Update to match CountrySelector.svelte interface
 export interface CountryData {
   country: string;
   region: string;
-  cities: string[];
-  averagePrice: number;
-  sweetSpot: string;
-  cheapestMonths: string[];
+  cities?: string[];
+  averagePrice?: number;
+  sweetSpot?: string[];  // Changed from string to string[]
+  cheapestMonths?: string[];
 }
 
 export function getAllCountries(): CountryData[] {
   const allCountries: CountryData[] = [];
   
+  console.log('Getting all countries from flyDataByRegion...');
+  
   flyDataByRegion.forEach((regionData: RegionData) => {
     // Handle Europe with subregions
     if (regionData.subregions) {
       regionData.subregions.forEach((subregion: SubRegionData) => {
+        console.log(`Processing subregion: ${subregion.subregion}`);
         subregion.countries.forEach((flightPattern: FlightPattern) => {
+          console.log(`  Adding country: ${flightPattern.country}`);
           allCountries.push({
             country: flightPattern.country,
             region: subregion.subregion,
             cities: flightPattern.cities,
             averagePrice: flightPattern.averagePrice,
-            sweetSpot: flightPattern.sweetSpot.join(', '),
+            sweetSpot: flightPattern.sweetSpot,
             cheapestMonths: flightPattern.cheapestMonths
           });
         });
@@ -39,18 +43,23 @@ export function getAllCountries(): CountryData[] {
     } 
     // Handle all other regions normally
     else if (regionData.countries) {
+      console.log(`Processing region: ${regionData.region}`);
       regionData.countries.forEach((flightPattern: FlightPattern) => {
+        console.log(`  Adding country: ${flightPattern.country}`);
         allCountries.push({
           country: flightPattern.country,
           region: regionData.region,
           cities: flightPattern.cities,
           averagePrice: flightPattern.averagePrice,
-          sweetSpot: flightPattern.sweetSpot.join(', '),
+          sweetSpot: flightPattern.sweetSpot,
           cheapestMonths: flightPattern.cheapestMonths
         });
       });
     }
   });
+  
+  console.log('Total countries found:', allCountries.length);
+  console.log('Countries list:', allCountries.map(c => c.country));
   
   return allCountries;
 }

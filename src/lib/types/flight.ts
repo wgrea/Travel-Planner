@@ -1,53 +1,5 @@
 // src/lib/types/flight.ts
 
-// Add the CountryCode type to match your other files
-export type CountryCode = 
-  | 'Argentina'
-  | 'Armenia'
-  | 'Australia'
-  | 'Azerbaijan'
-  | 'Belize'
-  | 'Bolivia'
-  | 'Brazil'
-  | 'Canada'
-  | 'Chile'
-  | 'China'
-  | 'Colombia'
-  | 'Costa Rica'
-  | 'Croatia'
-  | 'Czech Republic'
-  | 'Estonia'
-  | 'France'
-  | 'Georgia'
-  | 'Germany'
-  | 'Greece'
-  | 'Guatemala'
-  | 'India'
-  | 'Indonesia'
-  | 'Italy'
-  | 'Japan'
-  | 'Malaysia'
-  | 'Mexico'
-  | 'Nepal'
-  | 'New Zealand'
-  | 'Norway'
-  | 'Panama'
-  | 'Peru'
-  | 'Philippines'
-  | 'Poland'
-  | 'Portugal'
-  | 'Romania'
-  | 'Slovenia'
-  | 'South Korea'
-  | 'Spain'
-  | 'Sri Lanka'
-  | 'Sweden'
-  | 'Thailand'
-  | 'Turkey'
-  | 'United Arab Emirates'
-  | 'United States'
-  | 'Vietnam';
-
 export interface CountryInfo {
   bestMonth: string;
   cheapestMonth: string;
