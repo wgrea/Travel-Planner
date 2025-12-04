@@ -3,7 +3,6 @@ import type { LivingCostData  } from '$lib/types/living-costs';
 
 export const argentinaLivingCosts: LivingCostData = {
   country: "Argentina",
-  countryCode: "Argentina", 
   currency: "ARS",
   lastUpdated: "2024-01-15",
   

@@ -1,4 +1,5 @@
 // src/lib/data/countries/east-asia/taiwan.ts
+
 import type { FlightPattern } from '$lib/data/flyData';  // ← Import from flyData.ts
 import type { VisaInfo } from '$lib/types/visa';
 import type { FlightCostData  } from '$lib/types/flight';

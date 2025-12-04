@@ -5,4 +5,4 @@ export { argentinaNomadData, argentinaWorkspaces } from './nomad';
 export { argentinaResonance } from './resonance';
 export { argentinaVisaData as argentinaVisaData } from './visa';
 export { argentinaRouteCost } from './flight';
-// export { argentinaTransportation } from './transportation';
+export { argentinaTransportation } from './transportation';

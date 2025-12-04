@@ -19,6 +19,7 @@ export const mexicoFlightPattern: FlightPattern = {
 };
 
 export const mexicoRouteCost: RouteCostData = {
+   // FROM: Mexico | TO: United States
   'United States': {
     economy: 250,
     business: 700,
