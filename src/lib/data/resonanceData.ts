@@ -4,7 +4,12 @@
 There is only one country that is listed when I select #party, what else could party go to or how can I be specific for what types of parties?
 
 */
-import type { CityResonanceProfile } from '$lib/types/resonance';
+
+// ==================== DATA STRUCTURE ====================
+// This is where you add actual country/city data
+
+
+import type { CityResonanceProfile, RegionData } from '$lib/types/resonance';
 
 // Import country resonance data
 // In your resonance data file
@@ -166,121 +171,131 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
 ];
 
 // src/lib/data/resonanceData.ts
-// Not the whole file. Above just lists the countries and regions.
-// Feel free to add a new filter that is more relavent
 
-/* I don't know what file I should leave these in but I will list the ideas I want to add
-- Free Scuba Diving (I meant free swim, not $0 swim but that would be cool to include), Surfing
-- Skiing, snowboarding, mountain exploration
-- Drinking culture, breweries, wineries
-- Festivals, music festivals, art festivals, raves
-- Speed dating, singles mixers, social meetups
-- expat/nomad communities (maybe already in there but more for improvement)
-- Anime lovers, bollywood fans, k-pop enthusiasts
-- Tech hubs, startup scenes, innovation centers
-- Spiritual retreats, meditation centers, yoga hubs
-- Wildlife experiences, safaris, birdwatching
-- what about 18+ events like munches, play parties, etc.?
-- where are conventions more common?
-- How about events where physial touch is more prevalent?
-- definitely should add the events I am adding from another project. Another planning app, but not a traveling app. 
-- where physical touch (from the opposite gender) is more common at bars or parties
+// ==================== TAG SYSTEM ====================
+// SINGLE SOURCE OF TRUTH for all tags
 
-- maybe types of drinks from other cultures might be a separate project
-
-
-- I guess to add more tags to a country, just show what i already have for a country. 
-*/
-
-// ORGANIZED TAG CATEGORIES (replaces redundant systems)
-// These show what you can select
-
-// What does this do since there are two export const that have tags. These don't get a red line when a new piece of data shows up
 export const tagCategories = {
   // Experience Types - What kind of trip is this?
   experience: [
-    'adventure', 'cultural', 'relaxation', 'party', 'digital-nomad', 'backpacker', 'local-experience', 'historical'
-  ],
+    'adventure', 'cultural', 'relaxation', 'party', 'digital-nomad', 
+    'backpacker', 'local-experience', 'historical',
+    'scuba-diving', 'surfing', 'skiing', 'snowboarding', 'mountain-exploration',
+    'drinking-culture', 'breweries', 'wineries', 'festivals', 'music-festivals',
+    'art-festivals', 'raves', 'speed-dating', 'singles-mixers', 'social-meetups',
+    'expat-community', 'tech-hub', 'startup-scene', 'innovation-center',
+    'spiritual-retreat', 'meditation', 'yoga', 'wildlife-experience', 'safari',
+    'bird-watching', 'conventions', 'social-touch', 'dance-culture'
+  ] as const,
   
   // Vibe & Atmosphere - How does it feel?
   vibe: [
     'magical', 'chaotic', 'chill', 'balanced', 'lively', 'laid-back', 'festive',
-    'spiritual', 'hippie', 'cosmopolitan', 'traditional', 'passionate', 'progressive'
-  ],
+    'spiritual', 'hippie', 'cosmopolitan', 'traditional', 'passionate', 'progressive',
+    'romantic', 'mysterious', 'energetic', 'peaceful', 'vibrant', 'exciting'
+  ] as const,
   
   // Geography & Setting - Where is it?
   geography: [
     'beaches', 'mountains', 'islands', 'jungle', 'urban', 'rural',
-    'coastal', 'river', 'nature', 'remote', 'scenic', 'biodiversity'
-  ],
+    'coastal', 'river', 'nature', 'remote', 'scenic', 'biodiversity',
+    'lakes', 'desert', 'volcano', 'forest', 'rainforest', 'archipelago'
+  ] as const,
   
   // Culture & Activities - What's happening?
-  culture: ['arts', 'music', 'dance', 'food', 'nightlife', 'historical', 'student-city', 'university', 'cafe-culture', 'sports', 'culinary'],
+  culture: [
+    'arts', 'music', 'dance', 'food', 'nightlife', 'historical', 
+    'student-city', 'university', 'cafe-culture', 'sports', 'culinary',
+    'anime', 'bollywood', 'k-pop', 'theater', 'opera', 'museums', 'galleries',
+    'architecture', 'fashion', 'design', 'literature', 'film', 'gaming'
+  ] as const,
+  
   // Specific Features - Unique characteristics
-  specific: ['tango', 'samba', 'carnival', 'wine', 'malbec', 'steak', 'street-food', 'capoeira', 'buddhist', 'temples', 'afro-brazilian', 'gaucho', 'patagonia']
+  specific: [
+    'tango', 'samba', 'carnival', 'wine', 'malbec', 'steak', 
+    'street-food', 'capoeira', 'buddhist', 'temples', 
+    'afro-brazilian', 'gaucho', 'patagonia',
+    'sushi', 'pizza', 'tapas', 'curry', 'bbq', 'chocolate', 'cheese',
+    'whisky', 'tequila', 'vodka', 'rum', 'coffee', 'tea'
+  ] as const
 };
 
-// ACTIVITY CATEGORIES - Things to actually DO
-// These show what you can select
-//Delete this part after
+// ==================== ACTIVITY SYSTEM ====================
+
 export const activityCategories = {
   outdoor: [
     'hiking', 'beach relaxation', 'jungle trekking', 'surfing', 'water sports',
-    'mountain biking', 'wildlife spotting', 'waterfall visits', 'sandboarding'
-  ],
+    'mountain biking', 'wildlife spotting', 'waterfall visits', 'sandboarding',
+    // NEW: Additional outdoor
+    'scuba diving', 'snorkeling', 'kayaking', 'rock climbing', 'camping',
+    'horseback riding', 'skiing', 'snowboarding', 'ice skating', 'zip-lining'
+  ] as const,
   
   cultural: [
     'temple visits', 'museums', 'art galleries', 'historical sites', 
-    'cooking classes', 'cultural events', 'religious festivals', 'opera house'
-  ],
+    'cooking classes', 'cultural events', 'religious festivals', 'opera house',
+    // NEW: Additional cultural
+    'language classes', 'traditional crafts', 'local ceremonies', 'heritage tours',
+    'archaeological sites', 'castle visits', 'palace tours', 'monument viewing'
+  ] as const,
   
   food: [
     'street food tours', 'wine tasting', 'fine dining', 'local markets',
-    'food tours', 'steak houses', 'cafe culture', 'seafood dining'
-  ],
+    'food tours', 'steak houses', 'cafe culture', 'seafood dining',
+    // NEW: Additional food
+    'brewery tours', 'distillery visits', 'cooking workshops', 'farm-to-table',
+    'chocolate making', 'cheese tasting', 'coffee plantation tours', 'food festivals'
+  ] as const,
   
   urban: [
     'city exploration', 'shopping', 'nightlife', 'rooftop bars',
-    'street art tours', 'theater', 'football matches', 'shopping malls'
-  ],
+    'street art tours', 'theater', 'football matches', 'shopping malls',
+    // NEW: Additional urban
+    'museum hopping', 'gallery crawls', 'convention attendance', 'tech meetups',
+    'startup events', 'networking mixers', 'speed dating', 'social dancing'
+  ] as const,
   
-  adventure: [ // I don't think I should see Thailand when I select 'amazon river tours'
+  adventure: [
     'amazon river tours', 'elephant sanctuaries', 'canyon exploration',
-    'motorbike touring', 'boat expeditions', 'jungle hiking', 'full moon party'
-  ],
+    'motorbike touring', 'boat expeditions', 'jungle hiking', 'full moon party',
+    // NEW: Additional adventure
+    'safari tours', 'wildlife photography', 'bird watching expeditions',
+    'volcano hiking', 'cave exploration', 'glacier walking', 'desert camping'
+  ] as const,
   
   relaxation: [
     'spa treatments', 'hot springs', 'yoga classes', 'meditation retreats',
-    'beach yoga', 'detox retreats', 'sunset watching', 'lagoon activities'
-  ],
+    'beach yoga', 'detox retreats', 'sunset watching', 'lagoon activities',
+    // NEW: Additional relaxation
+    'wellness retreats', 'massage therapy', 'thermal baths', 'sound healing',
+    'forest bathing', 'mindfulness workshops', 'stress relief programs'
+  ] as const,
   
   social: [
     'samba clubs', 'tango dancing', 'beach parties', 'local music',
-    'night markets', 'street parties', 'capoeira shows', 'music performances'
-  ]
+    'night markets', 'street parties', 'capoeira shows', 'music performances',
+    // NEW: Additional social
+    'expat meetups', 'language exchange', 'board game nights', 'dance classes',
+    'singles events', 'community festivals', 'cultural mixers', 'hobby groups'
+  ] as const
 };
 
-// Helper function to flatten all locations for filtering - FIXED
+// ==================== HELPER FUNCTIONS ====================
+
 export const getAllLocations = (): CityResonanceProfile[] => {
   const allLocations: CityResonanceProfile[] = [];
   
   resonanceDataByRegion.forEach(region => {
-    // Handle direct countries
     if (region.countries) {
       region.countries.forEach(countryArray => {
-        countryArray.forEach(location => {
-          allLocations.push(location);
-        });
+        allLocations.push(...countryArray);
       });
     }
     
-    // Handle subregions
     if (region.subregions) {
       region.subregions.forEach(subregion => {
         subregion.countries.forEach(countryArray => {
-          countryArray.forEach(location => {
-            allLocations.push(location);
-          });
+          allLocations.push(...countryArray);
         });
       });
     }
@@ -289,42 +304,66 @@ export const getAllLocations = (): CityResonanceProfile[] => {
   return allLocations;
 };
 
-// Get all tags from the organized categories
 export const getAllTags = (): string[] => {
-  return Object.values(tagCategories).flat().sort();
+  const allTags: string[] = [];
+  Object.values(tagCategories).forEach(category => {
+    allTags.push(...(category as readonly string[]));
+  });
+  return [...new Set(allTags)].sort();
 };
 
-// Get all activities from the organized categories  
 export const getAllActivities = (): string[] => {
-  return Object.values(activityCategories).flat().sort();
+  const allActivities: string[] = [];
+  Object.values(activityCategories).forEach(category => {
+    allActivities.push(...(category as readonly string[]));
+  });
+  return [...new Set(allActivities)].sort();
 };
 
-// Helper to get locations by region - FIXED
 export const getLocationsByRegion = (regionName: string): CityResonanceProfile[] => {
   const region = resonanceDataByRegion.find(r => r.region === regionName);
   if (!region) return [];
   
   const locations: CityResonanceProfile[] = [];
   
-  // Handle direct countries
   if (region.countries) {
     region.countries.forEach(countryArray => {
-      countryArray.forEach(location => {
-        locations.push(location);
-      });
+      locations.push(...countryArray);
     });
   }
   
-  // Handle subregions
   if (region.subregions) {
     region.subregions.forEach(subregion => {
       subregion.countries.forEach(countryArray => {
-        countryArray.forEach(location => {
-          locations.push(location);
-        });
+        locations.push(...countryArray);
       });
     });
   }
   
   return locations;
+};
+
+// ==================== VALIDATION HELPERS ====================
+// Use these to check your data
+
+export const validateLocation = (location: CityResonanceProfile): string[] => {
+  const errors: string[] = [];
+  
+  // Check tags exist in tagCategories
+  location.tags.forEach(tag => {
+    const allTags = getAllTags();
+    if (!allTags.includes(tag)) {
+      errors.push(`Invalid tag: "${tag}" - not found in tagCategories`);
+    }
+  });
+  
+  // Check activities exist in activityCategories
+  location.popularActivities.forEach(activity => {
+    const allActivities = getAllActivities();
+    if (!allActivities.includes(activity)) {
+      errors.push(`Invalid activity: "${activity}" - not found in activityCategories`);
+    }
+  });
+  
+  return errors;
 };
