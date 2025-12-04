@@ -1,31 +1,91 @@
 // src/lib/types/resonance.ts
 
-// Feel free to add a new filter that is more relavent
-// Why are there two of these?
+// ==================== DOCUMENTATION ====================
+/*
+HOW TO ADD NEW DATA:
+1. For new travel styles/vibes/climate/etc: Add to the string union types below
+2. For new countries/cities: Add to resonanceData.ts following the CityResonanceProfile structure
+3. For new tags/activities: Add to the arrays in resonanceData.ts
+
+TIPS:
+- Keep descriptions in sync between interfaces
+- Use consistent naming (kebab-case for multi-word values)
+- Test with a small dataset first before adding many entries
+*/
+
+// ==================== CORE TYPES ====================
+
+// Centralized string union types - SINGLE SOURCE OF TRUTH
+export type TravelStyle = 
+  | 'slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural' | 'wellness' 
+  | 'beach' | 'food' | 'fun' | 'winter' | 'art' | 'authentic' | 'academic' 
+  | 'coastal' | 'wine' | 'countryside' | 'music' | 'creative' | 'alternative' 
+  | 'photography' | 'off-the-beaten-path' | 'intense' | 'wildlife' | 'spiritual' 
+  | 'party' | 'tech' | 'trekking' | 'peaceful' | 'extreme' | 'mystery' | 'culinary'
+  // NEW: Add your requested interests here
+  | 'scuba-diving' | 'surfing' | 'skiing' | 'snowboarding' | 'mountain-exploration'
+  | 'drinking-culture' | 'breweries' | 'wineries' | 'festivals' | 'music-festivals'
+  | 'art-festivals' | 'raves' | 'speed-dating' | 'singles-mixers' | 'social-meetups'
+  | 'expat-community' | 'digital-nomad' | 'anime' | 'bollywood' | 'k-pop'
+  | 'tech-hub' | 'startup-scene' | 'innovation-center' | 'spiritual-retreat'
+  | 'meditation' | 'yoga' | 'wildlife-experience' | 'safari' | 'bird-watching'
+  | 'conventions' | 'social-touch' | 'dance-culture';
+
+export type SocialVibe = 
+  | 'solo-friendly' | 'social' | 'balanced' | 'vibrant' | 'sophisticated' 
+  | 'cosmopolitan' | 'chill' | 'peaceful' | 'adventurous';
+
+export type Climate = 
+  | 'warm' | 'cool' | 'temperate' | 'any' | 'tropical' | 'subarctic' | 'varies' 
+  | 'mountain' | 'coastal' | 'desert' | 'moderate' | 'extreme' | 'alpine' | 'cooler';
+
+export type Vibe = 
+  | 'chaotic' | 'chill' | 'balanced' | 'luxury' | 'magical' | 'diverse' 
+  | 'fast-paced' | 'relaxed' | 'traditional' | 'progressive' | 'laid-back' 
+  | 'lively' | 'festive' | 'spiritual' | 'hippie' | 'cosmopolitan' | 'creative' 
+  | 'vibrant' | 'historical' | 'urban' | 'energetic' | 'artistic' | 'sophisticated' 
+  | 'intellectual' | 'cross-cultural' | 'gastronomic' | 'gritty' | 'elegant' 
+  | 'idyllic' | 'global' | 'industrial' | 'alternative' | 'scholarly' | 'bohemian' 
+  | 'exotic' | 'artsy' | 'majestic' | 'rustic' | 'coastal' | 'wild' | 'intense' 
+  | 'scenic' | 'tribal' | 'regal' | 'serene' | 'sacred' | 'extreme' | 'adventurous' 
+  | 'island' | 'rural' | 'mysterious';
+
+export type FoodScene = 
+  | 'local' | 'international' | 'mixed' | 'diverse' | 'world-class' | 'specialized' 
+  | 'traditional' | 'cosmopolitan' | 'regional' | 'cross-cultural' | 'mediterranean' 
+  | 'ethnic' | 'artisanal' | 'rustic' | 'excellent' | 'authentic' | 'seafood' 
+  | 'basic' | 'mountain' | 'tribal' | 'incredible' | 'fusion' | 'moghul' | 'royal' 
+  | 'vegetarian' | 'tourist';
+
+export type BudgetLevel = 
+  | 'budget' | 'midrange' | 'luxury' | 'any' | 'budget-midrange' | 'midrange-luxury' | 'all-levels';
+
+// ==================== INTERFACES ====================
+
 export interface ResonancePreferences {
   // Personality & Travel Style
-  travelStyle: 'slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural' |'wellness' | 'beach' | 'food' | 'fun' |'winter' | 'art' | 'authentic' | 'academic' | 'coastal' | 'wine' |  'countryside' | 'music' | 'creative' | 'alternative' | 'photography' | 'off-the-beaten-path' | 'intense' | 'wildlife' | 'spiritual' | 'party' | 'tech' | 'trekking' | 'peaceful' | 'extreme' | 'mystery' | 'culinary';
+  travelStyle: TravelStyle;
   socialPreference: 'solo' | 'social' | 'balanced';
   energyLevel: 'high' | 'medium' | 'low';
   
   // Environment & Atmosphere
-  climate: 'warm' | 'cool' | 'temperate' | 'any' | 'tropical' | 'subarctic' |  'varies' | 'mountain' | 'coastal' | 'desert' | 'moderate' | 'extreme' | 'alpine' | 'cooler';
-  vibe: 'chaotic' | 'chill' | 'balanced' | 'luxury' | 'urban' | 'energetic' | 'historic' | 'artistic' |  'sophisticated' |  'intellectual' | 'cross-cultural' |  'gastronomic' | 'gritty' | 'elegant' | 'idyllic' |  'bohemian' | 'exotic' | 'artsy' | 'majestic' | 'rustic' ;
+  climate: Climate;
+  vibe: Vibe;
   density: 'urban' | 'nature' | 'mixed' | 'rural' | 'sparse';
   
   // Activities & Interests
   activities: string[];
-  foodScene: 'local' | 'international' | 'mixed' | 'diverse' | 'world-class' | 'specialized' |'traditional' |  'cosmopolitan' |  'regional' | 'cross-cultural' | 'mediterranean' | 'ethnic' | 'artisanal' | 'rustic' |  'excellent' | 'authentic' | 'seafood' | 'basic' | 'mountain' | 'tribal' | 'incredible' | 'fusion' | 'moghul' | 'royal' | 'vegetarian' | 'tourist';
+  foodScene: FoodScene;
   nightlife: 'quiet' | 'moderate' | 'vibrant';
   
   // Practical
-  budget: 'budget' | 'midrange' | 'luxury' | 'any' | 'budget-midrange' | 'midrange-luxury' | 'all-levels';
+  budget: BudgetLevel;
   internetImportance: number;
   safetyImportance: number;
   
-  // NEW: Location filtering
+  // Location filtering
   country: string;
-  region: string; // NEW: Replaces city
+  region: string;
 }
 
 export interface ResonanceScore {
@@ -43,8 +103,8 @@ export interface ResonanceScore {
   matchReasons: string[];
 }
 
-// I think it is right here that gets rid of the error messages when I add the tags
 export interface CityResonanceProfile {
+  // Basic Info
   name: string;
   city: string;
   country: string;
@@ -52,31 +112,42 @@ export interface CityResonanceProfile {
   region: string;
   
   // Personality & Vibe
-  travelStyle: ('slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural' | 'historical' | 'nature' | 'romantic' | 'urban' | 'luxury' | 'wellness' | 'beach' | 'food' | 'fun' | 'winter'| 'art' |  'authentic' | 'academic' | 'coastal' | 'wine' |  'countryside' | 'music' | 'creative' | 'alternative' | 'photography' | 'off-the-beaten-path' | 'intense' | 'wildlife' | 'spiritual' | 'party' | 'tech' | 'trekking' | 'peaceful' | 'extreme' | 'mystery' | 'culinary' )[];
-  socialVibe: 'solo-friendly' | 'social' | 'balanced' | 'vibrant' | 'sophisticated' | 'cosmopolitan' | 'chill' | 'peaceful' | 'adventurous'; 
+  travelStyle: TravelStyle[];
+  socialVibe: SocialVibe;
   energyLevel: 'high' | 'medium' | 'low';
   
   // Environment
-  climate: 'warm' | 'cool' | 'temperate' | 'arid' | 'subtropical' | 'tropical' | 'spring-like' | 'subarctic' | 'mediterranean' | 'continental' | 'mediterranean' | 'continental' |  'varies' | 'mountain' | 'coastal' | 'desert' | 'moderate' | 'extreme' | 'alpine' | 'cooler';
-  // Some might need to be removed since I kept pressing TAB when there would be predicted words
-  vibe: 'chaotic' | 'chill' | 'balanced' | 'luxury' | 'magical' | 'diverse' | 'fast-paced' | 'relaxed' | 'traditional' | 'progressive' | 'laid-back' | 'lively' | 'festive' | 'spiritual' | 'hippie' | 'cosmopolitan' | 'creative' | 'vibrant' |'historical' | 'urban' | 'energetic' | 'historic' | 'artistic' | 'sophisticated' |  'intellectual' | 'cross-cultural' |  'gastronomic' | 'gritty' | 'elegant' | 'idyllic' |  'global' | 'industrial' | 'alternative' | 'scholarly' |  'bohemian' | 'exotic' | 'artsy' | 'majestic' | 'rustic' | 'coastal' | 'wild' | 'intense' | 'scenic' | 'tribal' | 'regal' | 'serene' | 'sacred' | 'extreme' | 'adventurous' | 'island' | 'rural' | 'mysterious' ;
+  climate: Climate;
+  vibe: Vibe;
   density: 'urban' | 'nature' | 'mixed' | 'rural' | 'dense' | 'sparse';
   
   // Activities
   popularActivities: string[];
-  foodScene: 'local' | 'international' | 'mixed' | 'diverse'| 'world-class' | 'traditional' | 'street-food' | 'hearty' | 'healthy' | 'specialized' |  'cosmopolitan' | 'regional' | 'cross-cultural' | 'mediterranean' | 'ethnic' | 'artisanal' | 'rustic' |  'excellent' | 'authentic' | 'seafood' | 'basic' | 'mountain' | 'tribal' | 'incredible' | 'fusion' | 'moghul' | 'royal' | 'vegetarian' | 'tourist';
-  nightlife: 'quiet' | 'moderate' | 'vibrant' | 'student';  
+  foodScene: FoodScene;
+  nightlife: 'quiet' | 'moderate' | 'vibrant' | 'student';
   
   // Practical
   costLevel: 'budget' | 'midrange' | 'expensive' | 'luxury';
   internetQuality: number; // 1-10
   safetyScore: number; // 1-10
   
-  // Tags for matching (replaces bestFor)
+  // Tags for matching
   tags: string[];
   
   // Additional metadata
   rating?: number;
   highlights: string[];
   description?: string;
+}
+
+// ==================== HELPER TYPES ====================
+
+// Type for location data structure
+export interface RegionData {
+  region: string;
+  countries?: CityResonanceProfile[][];
+  subregions?: {
+    subregion: string;
+    countries: CityResonanceProfile[][];
+  }[];
 }
