@@ -3,6 +3,7 @@
   import { visaData } from '$lib/data/visa';
   import { routeCosts } from '$lib/data/routeCosts';
   
+  // In CountrySelector.svelte, make sure the CountryData interface is exported:
   export interface CountryData {
     country: string;
     region: string;
@@ -12,24 +13,7 @@
     cheapestMonths?: string[];
   }
 
-  interface Props {
-    selectedPassport?: string;
-    selectedDestination?: string;
-    selectedCountry?: string;
-    selectedRegion: string;
-    countryData: CountryData[];
-    onPassportChange?: (country: string) => void;
-    onDestinationChange?: (country: string) => void;
-    onCountryChange?: (country: string) => void;
-    onRegionChange: (region: string) => void;
-    showInsights?: boolean;
-    variant?: 'default' | 'minimal' | 'flight';
-    mode?: 'visa' | 'flight';
-    originCountry?: string;
-    showOriginSelector?: boolean;
-    onOriginChange?: (country: string) => void; // NEW: Add this prop
-  }
-  
+  // Use $props() with the interface
   let { 
     selectedPassport = '', 
     selectedDestination = '',
@@ -39,14 +23,30 @@
     onPassportChange = () => {},
     onDestinationChange = () => {},
     onCountryChange = () => {},
-    onOriginChange = () => {}, // NEW: Add with default
+    onOriginChange = () => {},
     onRegionChange,
     showInsights = true,
     variant = 'default',
     mode = 'visa',
     originCountry = 'United States',
     showOriginSelector = false
-  }: Props = $props();
+  } = $props<{
+    selectedPassport?: string;
+    selectedDestination?: string;
+    selectedCountry?: string;
+    selectedRegion: string;
+    countryData: CountryData[];
+    onPassportChange?: (country: string) => void;
+    onDestinationChange?: (country: string) => void;
+    onCountryChange?: (country: string) => void;
+    onOriginChange?: (country: string) => void;
+    onRegionChange: (region: string) => void;
+    showInsights?: boolean;
+    variant?: 'default' | 'minimal' | 'flight';
+    mode?: 'visa' | 'flight';
+    originCountry?: string;
+    showOriginSelector?: boolean;
+  }>();
 
   // Determine which country to use based on mode
   const effectiveCountry = mode === 'flight' ? selectedCountry : selectedDestination;
@@ -56,24 +56,27 @@
   const passportCountries = Object.keys(visaData);
   
   // Get available origin countries from routeCosts (for flight mode)
-  const originCountries = $derived(Object.keys(routeCosts).sort());
+  const originCountries = Object.keys(routeCosts).sort();
   
-  // Helper functions
+  // Helper functions with proper typing
   function getAllRegions(): string[] {
-    const regions = new Set(countryData.map(item => item.region));
+    const regions = new Set<string>();
+    countryData.forEach((item: CountryData) => {
+      if (item.region) {
+        regions.add(item.region);
+      }
+    });
     return Array.from(regions).sort();
   }
 
   function getCountriesByRegion(region: string): CountryData[] {
-    return countryData.filter(item => item.region === region);
+    return countryData.filter((item: CountryData) => item.region === region);
   }
 
-  let regions = $derived(getAllRegions());
-  let filteredDestinations = $derived(
-    selectedRegion 
-      ? getCountriesByRegion(selectedRegion)
-      : countryData
-  );
+  const regions = getAllRegions();
+  const filteredDestinations = selectedRegion 
+    ? getCountriesByRegion(selectedRegion)
+    : countryData;
 
   // Handler functions
   function handlePassportChange(event: Event) {
@@ -105,6 +108,7 @@
   }
 </script>
 
+<!-- Template remains exactly the same as before -->
 <div class="text-stone-900 {variant === 'minimal' ? '' : 'bg-white rounded-2xl p-8 border border-stone-200 shadow-sm'}">
   {#if variant === 'default'}
     <h2 class="text-2xl font-light mb-8 text-stone-900 pb-4 border-b border-stone-200">
