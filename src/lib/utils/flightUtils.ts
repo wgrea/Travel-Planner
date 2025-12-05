@@ -1,38 +1,124 @@
-// src/lib/utils/flightUtils.ts - UPDATE THIS
+// src/lib/utils/flightUtils.ts
 import { 
   flyDataByRegion, 
-  getAllCountries as getAllFlightPatterns,
-  getCountriesByRegion as getFlightPatternsByRegion,
-  type FlightPattern,
+  type FlightPattern as FlightPatternType,
   type RegionData,
   type SubRegionData
 } from '$lib/data/flightPatternData';
 
-// Update to match CountrySelector.svelte interface
+// Update CountryData interface to include subregion
 export interface CountryData {
   country: string;
   region: string;
+  subregion?: string;
   cities?: string[];
   averagePrice?: number;
-  sweetSpot?: string[];  // Changed from string to string[]
+  sweetSpot?: string[];
   cheapestMonths?: string[];
 }
 
+// Month filtering utility with proper typing
+interface FlightPatternWithMonthStatus extends FlightPatternType {
+  monthStatus?: 'cheapest' | 'expensive' | 'sweet-spot' | 'normal';
+}
+
+// Helper function to get all flight pattern countries (moved from flightPatternData)
+function getAllFlightPatterns(): FlightPatternType[] {
+  const allCountries: FlightPatternType[] = [];
+  
+  flyDataByRegion.forEach((regionData: RegionData) => {
+    if (regionData.subregions) {
+      regionData.subregions.forEach((subregion: SubRegionData) => {
+        allCountries.push(...subregion.countries);
+      });
+    } else if (regionData.countries) {
+      allCountries.push(...regionData.countries);
+    }
+  });
+  
+  return allCountries;
+}
+
+// Helper function to get countries by region
+function getFlightPatternsByRegion(regionName: string): FlightPatternType[] {
+  const allCountries: FlightPatternType[] = [];
+  
+  flyDataByRegion.forEach((regionData: RegionData) => {
+    if (regionData.region === regionName) {
+      if (regionData.subregions) {
+        regionData.subregions.forEach((subregion: SubRegionData) => {
+          allCountries.push(...subregion.countries);
+        });
+      } else if (regionData.countries) {
+        allCountries.push(...regionData.countries);
+      }
+    }
+  });
+  
+  return allCountries;
+}
+
+export function filterFlightsByMonth(countryName: string, month: string): FlightPatternWithMonthStatus | null {
+  const countryData = getCurrentFlightData(countryName);
+  if (!countryData) return null;
+  
+  const isCheapest = countryData.cheapestMonths?.includes(month);
+  const isExpensive = countryData.expensiveMonths?.includes(month);
+  const isSweetSpot = countryData.sweetSpot?.includes(month);
+  
+  return {
+    ...countryData,
+    monthStatus: isCheapest ? 'cheapest' : isExpensive ? 'expensive' : isSweetSpot ? 'sweet-spot' : 'normal'
+  };
+}
+
+// Baggage pricing utility
+export function calculateBaggagePrice(basePrice: number, baggageOption: 'hand' | 'one' | 'multiple'): number {
+  const adjustments = {
+    hand: -80,    // Only hand luggage
+    one: -40,     // One checked bag
+    multiple: 0   // Multiple checked bags (default)
+  };
+  
+  return Math.max(0, basePrice + adjustments[baggageOption]);
+}
+
+// Booking timeline utility
+export function getBookingTimelinePrices(averagePrice: number) {
+  const discounts = {
+    1: 1.2,   // 20% more expensive
+    3: 1.1,   // 10% more expensive
+    4: 0.95,  // 5% discount
+    5: 0.85,  // 15% discount
+    6: 0.9,   // 10% discount
+  };
+  
+  return Object.entries(discounts).map(([months, multiplier]) => ({
+    months: parseInt(months),
+    price: averagePrice * multiplier,
+    label: `${months} month${months === '1' ? '' : 's'} in advance`,
+    recommendation: parseInt(months) === 4 || parseInt(months) === 5 ? '⭐ Best Value' : ''
+  }));
+}
+
+// Subregion utility
+export function getCountriesBySubregion(subregionName: string) {
+  return getAllCountries().filter(country => country.subregion === subregionName);
+}
+
+// Main function to get all countries as CountryData[]
 export function getAllCountries(): CountryData[] {
   const allCountries: CountryData[] = [];
-  
-  console.log('Getting all countries from flyDataByRegion...');
   
   flyDataByRegion.forEach((regionData: RegionData) => {
     // Handle Europe with subregions
     if (regionData.subregions) {
       regionData.subregions.forEach((subregion: SubRegionData) => {
-        console.log(`Processing subregion: ${subregion.subregion}`);
-        subregion.countries.forEach((flightPattern: FlightPattern) => {
-          console.log(`  Adding country: ${flightPattern.country}`);
+        subregion.countries.forEach((flightPattern: FlightPatternType) => {
           allCountries.push({
             country: flightPattern.country,
-            region: subregion.subregion,
+            region: regionData.region,
+            subregion: subregion.subregion,
             cities: flightPattern.cities,
             averagePrice: flightPattern.averagePrice,
             sweetSpot: flightPattern.sweetSpot,
@@ -43,9 +129,7 @@ export function getAllCountries(): CountryData[] {
     } 
     // Handle all other regions normally
     else if (regionData.countries) {
-      console.log(`Processing region: ${regionData.region}`);
-      regionData.countries.forEach((flightPattern: FlightPattern) => {
-        console.log(`  Adding country: ${flightPattern.country}`);
+      regionData.countries.forEach((flightPattern: FlightPatternType) => {
         allCountries.push({
           country: flightPattern.country,
           region: regionData.region,
@@ -58,51 +142,32 @@ export function getAllCountries(): CountryData[] {
     }
   });
   
-  console.log('Total countries found:', allCountries.length);
-  console.log('Countries list:', allCountries.map(c => c.country));
-  
   return allCountries;
 }
 
-export function getCountriesByRegion(regionName: string): FlightPattern[] {
-  return getFlightPatternsByRegion(regionName);
-}
-
-export function getCurrentFlightData(selectedCountry: string): FlightPattern | undefined {
+export function getCurrentFlightData(selectedCountry: string): FlightPatternType | undefined {
   return getAllFlightPatterns().find(country => country.country === selectedCountry);
 }
 
-export function handleCountryChange(country: string): string {
-  const countryData = getAllCountries().find(c => c.country === country);
-  return countryData?.region || '';
+// NEW: Get countries by region
+export function getCountriesByRegion(regionName: string): CountryData[] {
+  return getAllCountries().filter(country => country.region === regionName);
 }
 
-export function handleRegionChange(region: string): string {
-  if (region) {
-    const countriesInRegion = getCountriesByRegion(region);
-    return countriesInRegion.length > 0 ? countriesInRegion[0].country : '';
-  }
-  const allCountries = getAllCountries();
-  return allCountries.length > 0 ? allCountries[0].country : '';
+// NEW: Get all unique regions
+export function getAllRegions(): string[] {
+  const regions = new Set<string>();
+  getAllCountries().forEach(country => regions.add(country.region));
+  return Array.from(regions).sort();
 }
 
-// New utility functions for your planned features
-export function getCheapestCountriesByMonth(month: string): FlightPattern[] {
-  const allCountries = getAllFlightPatterns();
-  return allCountries
-    .filter(country => country.cheapestMonths.includes(month))
-    .sort((a, b) => a.averagePrice - b.averagePrice);
-}
-
-export function getMostExpensiveMonthForCountry(countryName: string): string | null {
-  const country = getCurrentFlightData(countryName);
-  if (!country || !country.expensiveMonths || country.expensiveMonths.length === 0) {
-    return null;
-  }
-  return country.expensiveMonths[0];
-}
-
-// Utility for loading state
-export function simulateLoading(delay: number = 500): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, delay));
+// NEW: Get all unique subregions for a region
+export function getSubregionsForRegion(regionName: string): string[] {
+  const subregions = new Set<string>();
+  getAllCountries()
+    .filter(country => country.region === regionName && country.subregion)
+    .forEach(country => {
+      if (country.subregion) subregions.add(country.subregion);
+    });
+  return Array.from(subregions).sort();
 }

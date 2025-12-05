@@ -1,103 +1,84 @@
 // src/lib/utils/regions.ts
+// Consolidated region utilities
 
-// Create the region map FIRST (outside the function)
-const regionMap: Record<string, string> = {
-  // Southeast Asia
-  'Thailand': 'Southeast Asia',
-  'Malaysia': 'Southeast Asia', 
-  'Indonesia': 'Southeast Asia',
-  'Vietnam': 'Southeast Asia',
-  'Philippines': 'Southeast Asia',
-  
-  // East Asia
-  'China': 'East Asia',
-  'Japan': 'East Asia',
-  'South Korea': 'East Asia',
-  
-  // South Asia
-  'India': 'South Asia',
-  'Nepal': 'South Asia',
-  'Sri Lanka': 'South Asia',
-  
-  // Europe - Western
-  'Portugal': 'Western Europe',
-  'Spain': 'Western Europe',
-  'France': 'Western Europe',
-  'Germany': 'Western Europe',
-  'United Kingdom': 'Western Europe',
-  
-  // Europe - Eastern
-  'Czech Republic': 'Eastern Europe',
-  'Poland': 'Eastern Europe',
-  'Romania': 'Eastern Europe',
-  'Slovenia': 'Eastern Europe',
-  
-  // Europe - Northern
-  'Estonia': 'Northern Europe',
-  'Norway': 'Northern Europe',
-  'Sweden': 'Northern Europe',
-  
-  // Europe - Southern
-  'Croatia': 'Southern Europe',
-  'Greece': 'Southern Europe',
-  'Italy': 'Southern Europe',
-  
-  // Caucasus
-  'Georgia': 'Caucasus',
-  'Armenia': 'Caucasus',
-  'Azerbaijan': 'Caucasus',
-  
+// Mapping of countries to regions (for origin countries)
+export const countryToRegionMap: Record<string, string> = {
   // North America
   'United States': 'North America',
   'Canada': 'North America',
   'Mexico': 'North America',
+  
+  // South America
+  'Brazil': 'South America',
+  'Argentina': 'South America',
+  
+  // Europe
+  'United Kingdom': 'Europe',
+  'France': 'Europe',
+  'Spain': 'Europe',
+  'Portugal': 'Europe',
+  'Italy': 'Europe',
+  'Turkey': 'Europe',
+  'Greece': 'Europe',
+  'Georgia': 'Europe',
+  'Azerbaijan': 'Europe',
+  
+  // Asia
+  'Japan': 'East Asia',
+  'Thailand': 'Southeast Asia',
+  'Vietnam': 'Southeast Asia',
+  'Indonesia': 'Southeast Asia',
+  'Laos': 'Southeast Asia',
+  'India': 'South Asia',
+  'Bangladesh': 'South Asia',
+  'Nepal': 'South Asia',
+  
+  // Africa
+  'Morocco': 'Africa',
   
   // Central America
   'Belize': 'Central America',
   'Costa Rica': 'Central America',
   'Guatemala': 'Central America',
   'Panama': 'Central America',
-  
-  // South America
-  'Argentina': 'South America',
-  'Bolivia': 'South America',
-  'Brazil': 'South America',
-  'Chile': 'South America',
-  'Colombia': 'South America',
-  'Peru': 'South America',
-  
-  // Oceania
-  'Australia': 'Oceania',
-  'New Zealand': 'Oceania',
-  
-  // Middle East
-  'Turkey': 'Middle East',
-  'United Arab Emirates': 'Middle East'
 };
 
+// Subregion mapping for Europe
+export const europeSubregions: Record<string, string[]> = {
+  'Western Europe': ['United Kingdom', 'France', 'Spain', 'Portugal'],
+  'Southern Europe': ['Italy', 'Turkey', 'Greece'],
+  'Eastern Europe/Caucasus': ['Georgia', 'Azerbaijan'],
+};
+
+// Main utility functions
 export function getRegionForCountry(country: string): string {
-  return regionMap[country] || 'Other';
+  return countryToRegionMap[country] || 'Global';
 }
 
-/**
- * Get all regions available in the system
- */
-export function getAllRegions(): string[] {
-  const regions = new Set<string>();
-  
-  // Add all regions from the map
-  Object.values(regionMap).forEach(region => {
-    regions.add(region);
-  });
-  
-  return Array.from(regions);
+export function getCountriesInRegion(region: string): string[] {
+  return Object.entries(countryToRegionMap)
+    .filter(([_, reg]) => reg === region)
+    .map(([country]) => country)
+    .sort();
 }
 
-/**
- * Get countries by region
- */
-export function getCountriesByRegion(region: string): string[] {
-  return Object.entries(regionMap)
-    .filter(([_, countryRegion]) => countryRegion === region)
-    .map(([country, _]) => country);
+export function getSubregionForCountry(country: string, region?: string): string {
+  const actualRegion = region || getRegionForCountry(country);
+  
+  if (actualRegion === 'Europe') {
+    for (const [subregion, countries] of Object.entries(europeSubregions)) {
+      if (countries.includes(country)) {
+        return subregion;
+      }
+    }
+  }
+  
+  return 'General';
+}
+
+export function getCountriesInSubregion(region: string, subregion: string): string[] {
+  if (region === 'Europe') {
+    return europeSubregions[subregion] || [];
+  }
+  return getCountriesInRegion(region);
 }
