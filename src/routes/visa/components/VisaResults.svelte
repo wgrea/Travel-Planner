@@ -1,12 +1,11 @@
 <!-- src/routes/visa/components/VisaResults.svelte -->
-<!-- src/routes/visa/components/VisaResults.svelte -->
 <script lang="ts">
   import type { VisaInfo } from '$lib/types/visa';
   import type { Country } from '$lib/types/minimalData';
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
   import { selectedCurrency } from '$lib/stores/currency';
 
-  // Use $props() like flight costs
+  // Use $props() - no imports of other components needed here
   let { homeCountry, destinationCountry, visaInfo, countryData, error } = $props<{
     homeCountry: string;
     destinationCountry: string;
@@ -15,13 +14,13 @@
     error: string;
   }>();
 
-  // FIX: Use $derived instead of legacy $:
   const currentCurrency = $derived($selectedCurrency);
 
-  // Simple format function like flight costs
+  // Format income with currency conversion - same as VisaMatrix
   function formatIncome(incomeReq: string | undefined): string {
     if (!incomeReq) return 'Not specified';
     
+    // Try to extract number from "2000/month" or "$2000/month"
     const amountMatch = incomeReq.match(/(\d+(?:,\d+)?)/);
     if (amountMatch) {
       const amount = parseInt(amountMatch[1].replace(/,/g, ''));
@@ -32,23 +31,22 @@
     return incomeReq;
   }
 
-  // Add the missing function
+  // Format cost
+  function formatCost(): string {
+    if (visaInfo.cost && visaInfo.cost > 0) {
+      const convertedAmount = convertCurrency(visaInfo.cost, 'USD', currentCurrency);
+      return formatCurrency(convertedAmount, currentCurrency);
+    }
+    return 'Varies';
+  }
+
   function isDigitalNomadSection(): boolean {
     return !!(
       visaInfo.category?.toLowerCase().includes('digital') || 
       visaInfo.ease?.toLowerCase().includes('nomad') ||
-      (visaInfo.incomeReq && visaInfo.incomeReq.includes('$'))
+      visaInfo.nomadVisa
     );
   }
-
-  // FIX: Use $effect for side effects instead of legacy $:
-  $effect(() => {
-    console.log('🔄 VisaResults update:', {
-      currency: currentCurrency,
-      incomeReq: visaInfo?.incomeReq,
-      reactive: true
-    });
-  });
 </script>
 
 {#if error}
@@ -86,6 +84,14 @@
   <div class="p-4 rounded-lg bg-stone-50 border border-stone-200 flex justify-between items-center">
     <span class="text-sm font-medium text-stone-700">Visa-Free Stay Length</span>
     <span class="text-sm font-semibold text-stone-900">{visaInfo.freeLength}</span>
+  </div>
+
+  <!-- Cost -->
+  <div class="p-4 rounded-lg bg-stone-50 border border-stone-200 flex justify-between items-center">
+    <span class="text-sm font-medium text-stone-700">Estimated Cost</span>
+    <span class="text-sm font-semibold text-stone-900">
+      {formatCost()}
+    </span>
   </div>
 
   <!-- Income Requirement -->
