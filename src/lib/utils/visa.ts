@@ -400,3 +400,351 @@ export function getVisaCountries(): CountryData[] {
 export function getFilteredVisaCountries(): CountryData[] {
   return getVisaCountries().filter(country => country.region !== 'Other');
 }
+
+// ============== VISA TYPE DETAILS & FILTERING ==============
+
+// And make sure this is your only VisaCategory definition:
+export type VisaCategory = 
+  | 'Visa-Free'
+  | 'Visa on Arrival'
+  | 'e-Visa'
+  | 'Visa Required'
+  | 'Digital Nomad Visa'
+  | 'Freelance Visa'
+  | 'Tourist Visa'
+  | 'Business Visa'
+  | 'Work Visa'
+  | 'Transit Visa'
+  | 'Other';
+
+export interface VisaTypeDetails {
+  type: VisaCategory;
+  processingTime: string;
+  cost: string;
+  duration: string;
+  requirements: string[];
+  workAllowed: boolean;
+  nomadFriendly: boolean;
+}
+
+// In your visa.ts, update the VisaFilter interface:
+export interface VisaFilter {
+  categories: VisaCategory[];
+  workAllowed?: boolean;
+  nomadFriendly?: boolean;
+  processingTime?: string;
+}
+
+// Also add this helper function:
+export function createDefaultVisaFilter(): VisaFilter {
+  return {
+    categories: [] as VisaCategory[],
+    workAllowed: false,
+    nomadFriendly: false
+  };
+}
+
+// Determine visa category from existing data
+export function getVisaCategory(visaInfo: VisaInfo): VisaCategory {
+  const ease = visaInfo.ease.toLowerCase();
+  const category = visaInfo.category.toLowerCase();
+  
+  if (visaInfo.nomadVisa) return 'Digital Nomad Visa';
+  if (category.includes('nomad') || category.includes('digital')) return 'Digital Nomad Visa';
+  if (category.includes('freelance') || category.includes('remote')) return 'Freelance Visa';
+  if (category.includes('tourist')) return 'Tourist Visa';
+  if (category.includes('business')) return 'Business Visa';
+  if (category.includes('work')) return 'Work Visa';
+  
+  if (ease.includes('visa-free') || visaInfo.freeLength !== '0 days') return 'Visa-Free';
+  if (ease.includes('arrival')) return 'Visa on Arrival';
+  if (ease.includes('e-visa') || category.includes('e-visa')) return 'e-Visa';
+  if (ease.includes('required') || category.includes('required')) return 'Visa Required';
+  
+  return 'Other';
+}
+
+// Get processing time estimate
+export function getProcessingTime(visaInfo: VisaInfo): string {
+  if (visaInfo.applicationTime) return visaInfo.applicationTime;
+  
+  const category = getVisaCategory(visaInfo);
+  switch (category) {
+    case 'Visa-Free':
+    case 'Visa on Arrival':
+      return 'On arrival';
+    case 'e-Visa':
+      return '1-3 days';
+    case 'Digital Nomad Visa':
+    case 'Freelance Visa':
+      return '2-4 weeks';
+    default:
+      return '1-4 weeks';
+  }
+}
+
+// Get cost estimate
+export function getCostEstimate(visaInfo: VisaInfo): string {
+  if (visaInfo.cost) return `$${visaInfo.cost}`;
+  
+  const category = getVisaCategory(visaInfo);
+  switch (category) {
+    case 'Visa-Free':
+      return 'Free';
+    case 'Visa on Arrival':
+      return '$25-$100';
+    case 'e-Visa':
+      return '$30-$80';
+    case 'Digital Nomad Visa':
+      return '$200-$500 + income proof';
+    default:
+      return '$50-$300';
+  }
+}
+
+// In your visa.ts, update the formatVisaCost function:
+export function formatVisaCost(cost: string, targetCurrency: string = 'USD'): string {
+  console.log('💰 Formatting visa cost:', cost, 'to', targetCurrency); // Debug
+  
+  if (!cost || cost.toLowerCase() === 'free' || cost.toLowerCase() === 'varies') {
+    return cost;
+  }
+  
+  // Extract numeric values from cost string
+  const matches = cost.match(/\$?([\d,.]+)/g); // Added \$? to match with or without $
+  if (!matches) return cost;
+  
+  // Convert each amount found
+  let convertedCost = cost;
+  matches.forEach(match => {
+    const amountStr = match.replace(/[$,]/g, '');
+    const amount = parseFloat(amountStr);
+    if (!isNaN(amount)) {
+      const convertedAmount = convertCurrency(amount, 'USD', targetCurrency);
+      const formattedAmount = formatCurrency(convertedAmount, targetCurrency);
+      convertedCost = convertedCost.replace(match, formattedAmount);
+    }
+  });
+  
+  return convertedCost;
+}
+
+// Helper function to extract numeric value from cost string
+export function extractVisaCostValue(cost: string): number | null {
+  if (!cost || cost.toLowerCase() === 'free') return 0;
+  
+  const match = cost.match(/\$([\d,.]+)/);
+  if (!match) return null;
+  
+  const amountStr = match[1].replace(/,/g, '');
+  return parseFloat(amountStr);
+}
+
+// In your visa.ts
+export function getVisaCostInCurrency(
+  visaInfo: VisaInfo, 
+  targetCurrency: string = 'USD'
+): string {
+  console.log('💸 Getting visa cost in currency:', targetCurrency, visaInfo.cost);
+  
+  // First try to use the cost field
+  if (visaInfo.cost && visaInfo.cost > 0) {
+    const convertedAmount = convertCurrency(visaInfo.cost, 'USD', targetCurrency);
+    return formatCurrency(convertedAmount, targetCurrency);
+  }
+  
+  // Fall back to estimated cost
+  const costEstimate = getCostEstimate(visaInfo);
+  console.log('📊 Cost estimate:', costEstimate);
+  return formatVisaCost(costEstimate, targetCurrency);
+}
+
+// Update the getVisaRequirementsList function in visa.ts
+function getVisaRequirementsList(visaInfo: VisaInfo): string[] {
+  const requirements: string[] = ['Valid passport (6+ months)'];
+  
+  // Income requirement
+  if (visaInfo.incomeReq && visaInfo.incomeReq !== 'Not specified') {
+    requirements.push(`Proof of income: ${visaInfo.incomeReq}`);
+  }
+  
+  // Always include these
+  requirements.push('Health/travel insurance');
+  requirements.push('Passport-sized photos');
+  
+  // Digital nomad specific
+  if (visaInfo.nomadVisa) {
+    requirements.push('Proof of remote work/employment');
+    requirements.push('Background check (if applicable)');
+  }
+  
+  // Visa type specific
+  const category = getVisaCategory(visaInfo);
+  
+  // Use string checks instead of direct comparison
+  const categoryStr = category.toString();
+  
+  if (categoryStr === 'Visa Required' || categoryStr.includes('Tourist')) {
+    requirements.push('Return flight ticket');
+    requirements.push('Accommodation proof');
+    requirements.push('Bank statements (3-6 months)');
+  }
+  
+  if (categoryStr.includes('Business')) {
+    requirements.push('Business invitation letter');
+    requirements.push('Company registration documents');
+  }
+  
+  if (categoryStr.includes('Student')) {
+    requirements.push('University acceptance letter');
+    requirements.push('Proof of tuition payment');
+  }
+  
+  return requirements;
+}
+
+// Update the getVisaTypeDetails function to include currency
+export function getVisaTypeDetails(
+  passportCountry: string, 
+  destinationCountry: string,
+  targetCurrency: string = 'USD'
+): VisaTypeDetails[] {
+  const visaInfo = getVisaInfo(passportCountry, destinationCountry);
+  if (!visaInfo || visaInfo === defaultVisaInfo) return [];
+  
+  const category = getVisaCategory(visaInfo);
+  const processingTime = getProcessingTime(visaInfo);
+  const cost = getVisaCostInCurrency(visaInfo, targetCurrency);
+  const workAllowed = !visaInfo.workPolicy.toLowerCase().includes('not allowed');
+  const nomadFriendly = visaInfo.nomadVisa || category.includes('Digital Nomad') || category.includes('Freelance');
+  
+  const baseDetails: VisaTypeDetails = {
+    type: category,
+    processingTime,
+    cost,
+    duration: visaInfo.freeLength,
+    requirements: getVisaRequirementsList(visaInfo),
+    workAllowed,
+    nomadFriendly
+  };
+  
+  const details = [baseDetails];
+  
+  // Add additional visa types that might be available
+  if (visaInfo.nomadVisa && category !== 'Digital Nomad Visa') {
+    const nomadCost = formatVisaCost('$200-$500 + income proof', targetCurrency);
+    details.push({
+      type: 'Digital Nomad Visa',
+      processingTime: '2-4 weeks',
+      cost: nomadCost,
+      duration: '6-12 months',
+      requirements: ['Passport', 'Proof of income', 'Health insurance', 'Remote work proof'],
+      workAllowed: true,
+      nomadFriendly: true
+    });
+  }
+  
+  if (category === 'Visa Required' && visaInfo.freeLength !== '0 days') {
+    const touristCost = formatVisaCost('$50-$150', targetCurrency);
+    details.push({
+      type: 'Tourist Visa',
+      processingTime: '1-3 weeks',
+      cost: touristCost,
+      duration: visaInfo.freeLength,
+      requirements: ['Passport', 'Hotel booking', 'Return ticket', 'Bank statements'],
+      workAllowed: false,
+      nomadFriendly: false
+    });
+  }
+  
+  return details;
+}
+
+// Also make sure the filterDestinationsByVisa function handles undefined properly
+export function filterDestinationsByVisa(
+  passportCountry: string,
+  filter: VisaFilter,
+  targetCurrency: string = 'USD'
+): Array<{
+  country: string;
+  visaInfo: VisaInfo;
+  category: VisaCategory;
+  processingTime: string;
+  cost: string;
+  workAllowed: boolean;
+  nomadFriendly: boolean;
+}> {
+  const results = [];
+  
+  for (const [destination, originMap] of Object.entries(visaData)) {
+    const visaInfo = originMap[passportCountry];
+    if (!visaInfo) continue;
+    
+    const category = getVisaCategory(visaInfo);
+    const processingTime = getProcessingTime(visaInfo);
+    const cost = getVisaCostInCurrency(visaInfo, targetCurrency);
+    const workAllowed = !visaInfo.workPolicy.toLowerCase().includes('not allowed');
+    const nomadFriendly = visaInfo.nomadVisa || category.includes('Digital Nomad') || category.includes('Freelance');
+    
+    // Apply filters - handle undefined boolean checks
+    let matches = true;
+    
+    if (filter.categories.length > 0 && !filter.categories.includes(category)) {
+      matches = false;
+    }
+    
+    if (filter.workAllowed !== undefined && filter.workAllowed && !workAllowed) {
+      matches = false;
+    }
+    
+    if (filter.nomadFriendly !== undefined && filter.nomadFriendly && !nomadFriendly) {
+      matches = false;
+    }
+    
+    if (matches) {
+      results.push({
+        country: destination,
+        visaInfo,
+        category,
+        processingTime,
+        cost,
+        workAllowed,
+        nomadFriendly
+      });
+    }
+  }
+  
+  return results;
+}
+
+// Get available visa categories for a passport
+export function getAvailableVisaCategories(passportCountry: string): VisaCategory[] {
+  const categories = new Set<VisaCategory>();
+  
+  for (const originMap of Object.values(visaData)) {
+    const visaInfo = originMap[passportCountry];
+    if (visaInfo) {
+      categories.add(getVisaCategory(visaInfo));
+    }
+  }
+  
+  return Array.from(categories);
+}
+
+// Get digital nomad destinations
+export function getNomadDestinations(passportCountry: string) {
+  return filterDestinationsByVisa(passportCountry, {
+    categories: [],
+    workAllowed: true,
+    nomadFriendly: true
+  });
+}
+
+// Get visa-free destinations
+export function getVisaFreeDestinations(passportCountry: string) {
+  return filterDestinationsByVisa(passportCountry, {
+    categories: ['Visa-Free', 'Visa on Arrival'],
+    workAllowed: false
+  });
+}
+
