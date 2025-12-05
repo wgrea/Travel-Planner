@@ -35,6 +35,44 @@ In less touristy areas, libraries are often the main free workspace option and t
 Don't forget to include what memberships one can have and what countries they a good for (can be put in the resonance page)
 -->
 
+<!-- src/routes/digital-nomad/+page.svelte -->
+
+<!--  I wonder what can be added as to be shown in the first version vs what is for the second version?
+I want users to know where they can work for free or a lower cost
+
+Should add libraries next 
+Also should help people find the cheapest ways to work
+How about showing which countries/cities have certain coworking spot memberships
+
+Should maybe change the name of this page to something more specific
+
+I should add:
+Ways to Avoid the “Money Loop”
+Use free public spaces like libraries, community centers, or hotel lobbies when possible.​
+
+Look for coworking spaces that offer free trial days or discounted memberships for new users.​
+
+Join remote worker communities or nomad groups that share leads on free or low-cost workspaces.​
+
+If you do pay, choose a flexible plan so you can switch to free options when your budget is tight.​
+
+
+Also less touristy areas are less likely to be paid libraries and coffee shops. 
+
+Coffee Shops
+In less touristy or rural areas, coffee shops often don’t have the same pressure to limit laptop use, so remote workers are usually welcome and Wi-Fi is often free.​
+
+In tourist hotspots, many coffee shops restrict laptop use, charge for Wi-Fi, or ban laptops altogether to prioritize short-stay customers and maintain atmosphere.​
+
+Libraries
+Libraries, whether urban or rural, are generally free and open to everyone for remote work, but rural libraries may have fewer resources or amenities compared to large city libraries.​
+
+In less touristy areas, libraries are often the main free workspace option and tend to be more relaxed about remote work, while in tourist cities, libraries may be busier or have stricter rules due to higher demand.​
+
+
+Don't forget to include what memberships one can have and what countries they a good for (can be put in the resonance page)
+-->
+
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { nomadData, nomadDataByRegion, getAllRegions, getSubregionsByRegion, type Workspace } from '$lib/data/nomadData';
@@ -587,3 +625,4 @@ Don't forget to include what memberships one can have and what countries they a 
     </div>
   </div>
 </div>
+
