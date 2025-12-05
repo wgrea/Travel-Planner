@@ -11,37 +11,26 @@ I also should select by region/subregion when selecting a passport country.
 
 -->
 
-<!--
-✈️ Flight Costs
-
-Aesthetic: Sky-Inspired Aero
-Colors: Blue/cyan (from-sky-50 to-blue-50)
-Special Elements:
-
-Cloud shapes in background
-Airplane trail animations (subtle)
-Elevation shadows (like floating in sky)
-
-
-Why: Literal connection to flying, should feel light and airy
-
-
--->
-
-
+<!-- src/routes/flight-costs/+page.svelte -->
 <script lang="ts">
   import { goto } from '$app/navigation';
   import CountrySelector from '$lib/components/CountrySelector.svelte';
   import CurrencySelector from '$lib/components/CurrencySelector.svelte';
   import { selectedCurrency } from '$lib/stores/currency';
   
-  // Components
+  // Components - make sure these exist and have proper exports
   import FlightCostSection from './components/FlightCostSection.svelte';
   import PriceAnalysisSection from './components/PriceAnalysisSection.svelte';
   import CitiesTipsSection from './components/CitiesTipsSection.svelte';
   import CheapestCountries from './components/CheapestCountries.svelte';
   import TipsSection from './components/TipsSection.svelte';
   import IntelligenceItem from './components/IntelligenceItem.svelte';
+  
+  // New components
+  import SweetSpotSection from './components/SweetSpotSection.svelte';
+  import MonthFilter from './components/MonthFilter.svelte';
+  import BookingTimeline from './components/BookingTimeline.svelte';
+  import BaggageOptions from './components/BaggageOptions.svelte';
   
   // Utils
   import { getAllCountries, getCurrentFlightData } from '$lib/utils/flightUtils';
@@ -55,6 +44,8 @@ Why: Literal connection to flying, should feel light and airy
   // State
   let selectedCountry = $state('Thailand');
   let selectedRegion = $state('Southeast Asia');
+  let selectedSubregion = $state('');
+  let selectedMonth = $state('All Months');
   let originCountry = $state('United States');
   const currentCurrency = $derived($selectedCurrency);
   
@@ -66,6 +57,52 @@ Why: Literal connection to flying, should feel light and airy
   const flightCostData = $derived(
     routeCosts[originCountry]?.[selectedCountry]
   );
+  
+  // Event handlers
+  function handleCountryChange(country: string) {
+    selectedCountry = country;
+    const countryData = getAllCountries().find(c => c.country === country);
+    if (countryData?.region) selectedRegion = countryData.region;
+  }
+
+  function handleRegionChange(region: string) {
+    selectedRegion = region;
+    const countriesInRegion = getAllCountries().filter(c => c.region === region);
+    if (countriesInRegion.length > 0) {
+      selectedCountry = countriesInRegion[0].country;
+    }
+  }
+
+  // Add this to handle origin change
+  function handleOriginChange(country: string) {
+    originCountry = country;
+    // You might want to reset destination when origin changes
+    // or keep the current destination if it's available from new origin
+  }
+  
+  function handleSubregionChange(subregion: string) {
+    selectedSubregion = subregion;
+    const countryData = getAllCountries();
+    const countriesInSubregion = countryData.filter(
+      c => c.region === selectedRegion && c.subregion === subregion
+    );
+    if (countriesInSubregion.length > 0) selectedCountry = countriesInSubregion[0].country;
+  }
+
+  // Fix: Remove $derived from these and make them functions or computed values
+  const filteredCountryData = $derived.by(() => {
+    let data = getAllCountries();
+    
+    if (selectedRegion) {
+      data = data.filter(c => c.region === selectedRegion);
+    }
+    
+    if (selectedSubregion) {
+      data = data.filter(c => c.subregion === selectedSubregion);
+    }
+    
+    return data;
+  });
   
   const flightPatternForDisplay = $derived.by(() => {
     if (flightPatternData) {
@@ -93,20 +130,19 @@ Why: Literal connection to flying, should feel light and airy
       notes: ''
     };
   });
-  
-  // Event handlers
-  function handleCountryChange(country: string) {
-    selectedCountry = country;
-    const countryData = getAllCountries().find(c => c.country === country);
-    if (countryData?.region) selectedRegion = countryData.region;
-  }
-  
-  function handleRegionChange(region: string) {
-    selectedRegion = region;
-    const countriesInRegion = getAllCountries().filter(c => c.region === region);
-    if (countriesInRegion.length > 0) selectedCountry = countriesInRegion[0].country;
+
+  // Update formatPrice to use current currency
+  function formatPrice(price?: number): string {
+    if (!price) return '';
+    
+    const currency = $selectedCurrency;
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency
+    }).format(price);
   }
 </script>
+
 <div class="min-h-screen bg-gradient-to-br from-sky-50 to-blue-50 px-4 py-8 relative overflow-hidden">
   <!-- Cloud Background -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -175,18 +211,71 @@ Why: Literal connection to flying, should feel light and airy
       </p>
     </div>
     
-    <!-- Country Selector with elevated card -->
-    <div class="mb-12 p-8 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl 
-      hover:shadow-2xl transition-shadow duration-500">
-      <CountrySelector 
-        selectedCountry={selectedCountry}
-        selectedRegion={selectedRegion}
-        countryData={getAllCountries()}
-        onCountryChange={handleCountryChange}
-        onRegionChange={handleRegionChange}
-        mode="flight"
-        originCountry={originCountry}
-      />
+    <!-- Dual Selector Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <!-- Origin Selector Card -->
+      <div class="p-6 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl 
+        hover:shadow-2xl transition-shadow duration-500">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-full bg-blue-100/80 flex items-center justify-center">
+            <span class="text-2xl">🛫</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-medium text-gray-900">Flying From</h3>
+            <p class="text-sm text-gray-600">Select your departure country</p>
+          </div>
+        </div>
+        
+        <!-- Simple origin selector using existing data -->
+        <div class="origin-selector">
+          <label for="origin-select" class="block text-sm font-medium mb-3 text-gray-700">
+            Departure Country
+          </label>
+          <select 
+            id="origin-select"
+            bind:value={originCountry}
+            class="w-full p-3.5 rounded-lg bg-white/80 backdrop-blur-sm border border-white/70 
+              text-gray-800 focus:outline-none focus:border-blue-400 focus:ring-2 
+              focus:ring-blue-100 transition-all duration-200"
+          >
+            {#each Object.keys(routeCosts).sort() as country}
+              <option value={country}>
+                {country} 
+                {routeCosts[country] ? ` (${Object.keys(routeCosts[country]).length} destinations)` : ''}
+              </option>
+            {/each}
+          </select>
+          <p class="text-xs text-gray-500 mt-2">
+            Your departure country affects flight pricing and availability
+          </p>
+        </div>
+      </div>
+      
+      <!-- Destination Selector Card -->
+      <div class="p-6 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl 
+        hover:shadow-2xl transition-shadow duration-500">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-full bg-green-100/80 flex items-center justify-center">
+            <span class="text-2xl">🏁</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-medium text-gray-900">Destination</h3>
+            <p class="text-sm text-gray-600">Select your destination country</p>
+          </div>
+        </div>
+        
+        <!-- Use your existing CountrySelector for destination -->
+        <CountrySelector 
+          selectedCountry={selectedCountry}
+          selectedRegion={selectedRegion}
+          countryData={getAllCountries()}
+          onCountryChange={handleCountryChange}
+          onRegionChange={handleRegionChange}
+          mode="flight"
+          originCountry={originCountry}
+          variant="minimal"
+        />
+      </div>
     </div>
 
     <!-- Flight Selection Debug - as a cloud card -->
@@ -234,31 +323,37 @@ Why: Literal connection to flying, should feel light and airy
       {currentCurrency}
     />
 
-    <!-- Price Analysis & Cities - as cloud cards -->
+    <!-- After the Price Analysis Section -->
     {#if flightPatternData}
-      <div class="mb-12 grid md:grid-cols-2 gap-8">
-        <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-lg 
-          hover:shadow-xl transition-shadow duration-300">
-          <PriceAnalysisSection 
-            data={{
-              cheapestMonths: flightPatternData.cheapestMonths,
-              averagePrice: flightPatternData.averagePrice
-            }}
-            {currentCurrency}
-          />
-        </div>
-        
-        <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-lg 
-          hover:shadow-xl transition-shadow duration-300">
-          <CitiesTipsSection 
-            data={{
-              cities: flightPatternData.cities,
-              planningTips: flightPatternData.planningTips
-            }}
-          />
-        </div>
+      <!-- In +page.svelte -->
+      <div class="mb-8">
+        <SweetSpotSection 
+          sweetSpot={flightPatternData.sweetSpot}
+          expensiveMonths={flightPatternData.expensiveMonths}
+        />
       </div>
-    {/if}
+      
+      <!-- In your flight-costs/+page.svelte -->
+      <div class="mb-8">
+        <MonthFilter selectedMonth={selectedMonth} />
+      </div>
+      
+      <!-- Booking Timeline -->
+      <div class="mb-8">
+        <BookingTimeline 
+          averagePrice={flightPatternData.averagePrice}
+          {currentCurrency}
+        />
+      </div>
+      
+      <!-- Baggage Options -->
+        <div class="mb-8">
+          <BaggageOptions 
+            basePrice={flightPatternData.averagePrice}
+            currentCurrency={currentCurrency}
+          />
+        </div>
+      {/if}
     
     <!-- Two Column Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
