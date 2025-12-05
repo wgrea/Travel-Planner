@@ -40,6 +40,7 @@ I also should select by region/subregion when selecting a passport country.
   import { routeCosts } from '$lib/data/routeCosts';
   import type { FlightInfo } from '$lib/types/flight';
   import type { FlightPattern } from '$lib/data/flightPatternData';
+  import OriginSelector from '$lib/components/OriginSelector.svelte';
   
   // State
   let selectedCountry = $state('Thailand');
@@ -213,7 +214,7 @@ I also should select by region/subregion when selecting a passport country.
     
     <!-- Dual Selector Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-      <!-- Origin Selector Card -->
+      <!-- In your +page.svelte, replace the origin selector card with: -->
       <div class="p-6 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl 
         hover:shadow-2xl transition-shadow duration-500">
         <div class="flex items-center gap-3 mb-6">
@@ -222,9 +223,16 @@ I also should select by region/subregion when selecting a passport country.
           </div>
           <div>
             <h3 class="text-lg font-medium text-gray-900">Flying From</h3>
-            <p class="text-sm text-gray-600">Select your departure country</p>
+            <p class="text-sm text-gray-600">Select your departure region & country</p>
           </div>
         </div>
+        
+        <div>
+        <OriginSelector 
+          selectedOrigin={originCountry}
+          onOriginChange={(country) => originCountry = country}
+        />
+      </div>
         
         <!-- Simple origin selector using existing data -->
         <div class="origin-selector">
@@ -333,10 +341,18 @@ I also should select by region/subregion when selecting a passport country.
         />
       </div>
       
-      <!-- In your flight-costs/+page.svelte -->
-      <div class="mb-8">
-        <MonthFilter selectedMonth={selectedMonth} />
-      </div>
+      <!-- In your +page.svelte, update the MonthFilter usage: -->
+      {#if flightPatternData}
+        <div class="mb-8">
+          <MonthFilter 
+            selectedMonth={selectedMonth}
+            onMonthChange={(month) => selectedMonth = month}
+            cheapestMonths={flightPatternData.cheapestMonths || []}
+            sweetSpotMonths={flightPatternData.sweetSpot || []}
+            expensiveMonths={flightPatternData.expensiveMonths || []}
+          />
+        </div>
+      {/if}
       
       <!-- Booking Timeline -->
       <div class="mb-8">

@@ -149,6 +149,56 @@
           {/if}
         </div>
       {/if}
+
+      <!-- Cheapest Months Info -->
+      {#if filteredData[0]?.cheapestMonths && filteredData[0].cheapestMonths.length > 0}
+        <div class="p-5 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-100 border border-indigo-200 shadow-sm">
+          <h4 class="font-semibold text-indigo-900 mb-4 text-lg flex items-center gap-2">
+            <span class="text-indigo-600">📅</span>
+            Best Time to Visit {selectedCountry}
+          </h4>
+          
+          <div class="space-y-4">
+            <!-- Cheapest Months -->
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                <p class="text-sm font-medium text-indigo-800">Cheapest Months</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                {#each filteredData[0].cheapestMonths as month}
+                  <span class="px-3 py-1 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm rounded-full">
+                    {month}
+                  </span>
+                {/each}
+              </div>
+              <p class="text-xs text-gray-600 mt-2">
+                Save 20-40% on flights during these months
+              </p>
+            </div>
+            
+            <!-- Sweet Spot (if available) -->
+            {#if filteredData[0]?.sweetSpot && filteredData[0].sweetSpot.length > 0}
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                  <p class="text-sm font-medium text-emerald-800">Sweet Spot Months</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  {#each filteredData[0].sweetSpot as month}
+                    <span class="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm rounded-full">
+                      {month}
+                    </span>
+                  {/each}
+                </div>
+                <p class="text-xs text-gray-600 mt-2">
+                  Best balance of price, weather, and crowds
+                </p>
+              </div>
+            {/if}
+          </div>
+        </div>
+      {/if}
       
       <!-- Seasonal Tips -->
       {#if hasPatternData && filteredData[0].planningTips && filteredData[0].planningTips.length > 0}
