@@ -1,12 +1,10 @@
 <!-- src/routes/digital-nomad/components/MainContent.svelte -->
 <script lang="ts">
   import InternetQualityCard from './InternetQualityCard.svelte';
-  import CoworkingSpacesCard from './CoworkingSpacesCard.svelte';
-  import VisaInfoCard from './VisaInfoCard.svelte';
   import CommunitySafetyCard from './CommunitySafetyCard.svelte';
-  import PopularCoworkingSpaces from './PopularCoworkingSpaces.svelte';
   import type { Workspace } from '$lib/data/nomadData';
   import type { NomadData } from '$lib/data/nomadData';
+  import CoworkingSpacesCard from './CoworkingSpacesCard.svelte';
 
   // Use $props() instead of export let
   let {
@@ -25,6 +23,16 @@
   });
 </script>
 
+<!-- At the top of MainContent.svelte -->
+<div class="mb-4 p-4 bg-yellow-100 rounded-lg">
+  <p>Debug: Country data has:</p>
+  <ul>
+    <li>Free workspaces: {countryData?.freeWorkspaces?.length || 0}</li>
+    <li>Money saving tips: {countryData?.moneySavingTips ? 'Yes' : 'No'}</li>
+    <li>Coworking memberships: {countryData?.coworkingMemberships?.length || 0}</li>
+  </ul>
+</div>
+
 <div>
   <!-- Two Column Layout -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
@@ -40,25 +48,10 @@
       {workPreference}
       {currency}
     />
-    <VisaInfoCard 
-      {selectedCountry}
-      {visaData}
-    />
     <CommunitySafetyCard 
       {selectedCountry} 
       {selectedCity}
       {countryData}
-    />
-  </div>
-
-  <!-- Popular Coworking Spaces -->
-  <div class="mb-12">
-    <PopularCoworkingSpaces
-      {workspaceData}
-      {selectedCountry}
-      {selectedCity}
-      {workPreference}
-      {currency} 
     />
   </div>
 
