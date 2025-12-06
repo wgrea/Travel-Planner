@@ -42,8 +42,9 @@
       {countryData}
     />
     <CoworkingSpacesCard
-      {workspaceData}
-      {selectedCountry}
+      workspaceData={workspaceData}
+      freeWorkspaceData={countryData?.freeWorkspaces || []}
+      selectedCountry={selectedCountry}  
       {selectedCity}
       {workPreference}
       {currency}
