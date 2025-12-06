@@ -2,6 +2,9 @@
 <script lang="ts">
   import type { Workspace } from '$lib/data/nomadData';
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+  
+  // Import your new combined badge component
+  import DigitalNomadBadge from './DigitalNomadBadge.svelte';
 
   // Use $props() instead of export let
   let {
@@ -48,7 +51,7 @@
       : 0
   });
 
-  // Alternative: Use $derived.by() correctly
+  // Price range calculation
   const priceRange = $derived.by(() => {
     const spacesWithPrices = filteredWorkspaces.filter((space: Workspace) => {
       if (workPreference === 'coworking') return space.monthlyPrice;
@@ -71,14 +74,7 @@
     };
   });
 
-  // Alternative simpler approach if the above doesn't work:
-  /*
-  const priceRange = $derived.by(() => {
-    // same logic as above
-  });
-  */
-
-  // Add debug logging for filtered workspaces
+  // Add debug logging
   $effect(() => {
     console.log('📊 Filtered workspaces:', filteredWorkspaces.length);
     console.log('💰 Price range:', priceRange);
@@ -153,54 +149,114 @@
       </div>
     {/if}
 
-    <!-- Top Rated Spaces -->
+    <!-- Workspaces List -->
     <div>
-      <h4 class="font-medium text-gray-900 mb-3">Top Rated Spaces</h4>
+      <h4 class="font-medium text-gray-900 mb-3">
+        {#if workPreference === 'coworking'}
+          💼 Coworking Spaces
+        {:else if workPreference === 'cafe'}
+          ☕ Coffee Shops
+        {:else if workPreference === 'library'}
+          📚 Libraries
+        {:else if workPreference === 'hotel'}
+          🏨 Hotel Workspaces
+        {:else}
+          🏢 Workspaces
+        {/if}
+      </h4>
+      
       <div class="space-y-3">
-        {#each filteredWorkspaces.slice(0, 3) as space (space.name)}
-          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <div class="flex-1">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="font-medium text-gray-900">{space.name}</span>
-                <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                  {space.type}
-                </span>
-              </div>
-              <div class="flex items-center gap-4 text-sm text-gray-600">
-                <span class="flex items-center gap-1">
-                  ⭐ {space.rating}
-                </span>
-                <span class="flex items-center gap-1">
-                  📶 {space.wifiSpeed} Mbps
-                </span>
-                <span class="flex items-center gap-1">
-                  🔌 {space.powerOutlets}/5
-                </span>
-                <span class="flex items-center gap-1">
-                  {#if space.noiseLevel <= 2}
-                    🔇 Quiet
-                  {:else if space.noiseLevel <= 3}
-                    🔉 Moderate
-                  {:else}
-                    🔊 Loud
-                  {/if}
-                </span>
+        {#each filteredWorkspaces as space (space.name)}
+          <!-- In your template, use the combined badge: -->
+          <div class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+            <!-- Row 1: Name and Badges -->
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="font-medium text-gray-900">{space.name}</span>
+              
+              <!-- Use the combined badge component -->
+              <DigitalNomadBadge 
+                touristArea={space.touristArea}
+                days={space.freeTrialDays}
+                discount={space.membershipDiscount}
+                type={space.type}
+              />
+            </div>
+                      
+            <!-- Row 2: Rating and Specs -->
+            <div class="flex items-center gap-4 text-sm text-gray-600 mb-2">
+              <span class="flex items-center gap-1">
+                ⭐ <span class="font-medium">{space.rating}</span>/5
+              </span>
+              <span class="flex items-center gap-1">
+                📶 <span class="font-medium">{space.wifiSpeed}</span> Mbps
+              </span>
+              <span class="flex items-center gap-1">
+                🔌 <span class="font-medium">{space.powerOutlets}</span>/5 outlets
+              </span>
+              <span class="flex items-center gap-1">
+                {#if space.noiseLevel <= 2}
+                  🔇 <span class="font-medium">Quiet</span>
+                {:else if space.noiseLevel <= 3}
+                  🔉 <span class="font-medium">Moderate</span>
+                {:else}
+                  🔊 <span class="font-medium">Loud</span>
+                {/if}
+              </span>
+            </div>
+            
+            <!-- Row 3: Best For -->
+            <div class="mb-2">
+              <div class="text-sm text-gray-500 mb-1">Best for:</div>
+              <div class="flex flex-wrap gap-1">
+                {#each space.bestFor as item}
+                  <span class="text-xs px-2 py-1 bg-gray-200 text-gray-700 rounded-full">
+                    {item}
+                  </span>
+                {/each}
               </div>
             </div>
-            <div class="text-right">
-              {#if workPreference === 'coworking' && space.monthlyPrice}
-                <div class="font-semibold text-blue-600">
-                  {formatPrice(space.monthlyPrice)}
-                </div>
-                <div class="text-xs text-gray-500">monthly</div>
-              {:else if space.hourlyRate}
-                <div class="font-semibold text-blue-600">
-                  {formatPrice(space.hourlyRate)}
-                </div>
-                <div class="text-xs text-gray-500">hourly</div>
-              {:else}
-                <div class="text-sm text-gray-500">Free</div>
-              {/if}
+            
+            <!-- Row 4: Address, Hours, and Pricing -->
+            <div class="flex justify-between items-center pt-2 border-t border-gray-200">
+              <div>
+                {#if space.address}
+                  <div class="text-xs text-gray-500 flex items-center gap-1">
+                    📍 {space.address}
+                  </div>
+                {/if}
+                {#if space.hours}
+                  <div class="text-xs text-gray-500 flex items-center gap-1">
+                    🕐 {space.hours}
+                  </div>
+                {/if}
+              </div>
+              
+              <div class="text-right">
+                {#if workPreference === 'coworking'}
+                  {#if space.monthlyPrice}
+                    <div class="font-semibold text-blue-600">
+                      {formatPrice(space.monthlyPrice)}/month
+                    </div>
+                    {#if space.dayPassPrice}
+                      <div class="text-xs text-gray-500">
+                        or {formatPrice(space.dayPassPrice)}/day
+                      </div>
+                    {/if}
+                  {/if}
+                {:else if space.hourlyRate}
+                  <div class="font-semibold text-blue-600">
+                    {formatPrice(space.hourlyRate)}/hour
+                  </div>
+                {:else if space.dayPassPrice}
+                  <div class="font-semibold text-blue-600">
+                    {formatPrice(space.dayPassPrice)}/day
+                  </div>
+                {:else}
+                  <div class="font-semibold text-green-600">
+                    Free
+                  </div>
+                {/if}
+              </div>
             </div>
           </div>
         {/each}
