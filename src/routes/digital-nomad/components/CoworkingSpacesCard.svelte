@@ -1,84 +1,56 @@
 <!-- src/routes/digital-nomad/components/CoworkingSpacesCard.svelte -->
 <script lang="ts">
-  import type { Workspace } from '$lib/data/nomadData';
+  import type { Workspace, FreeWorkspace } from '$lib/data/nomadData';
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
-  
-  // Import your new combined badge component
-  import DigitalNomadBadge from './DigitalNomadBadge.svelte';
 
   // Use $props() instead of export let
   let {
     workspaceData = [],
+    freeWorkspaceData = [],
     currency = 'USD',
     selectedCountry,
     selectedCity,
     workPreference
   } = $props();
 
-  // Add reactivity to currency changes
-  $effect(() => {
-    console.log('💰 CoworkingSpacesCard currency updated:', currency);
-  });
+  // Simple state for showing all
+  let showAll = $state(false);
 
+  // Helper function
   function formatPrice(price: number): string {
-    console.log('💰 Formatting price:', price, 'in currency:', currency);
+    if (!price) return 'Free';
     return formatCurrency(convertCurrency(price, 'USD', currency), currency);
   }
 
-  // Define filteredWorkspaces as a derived value
-  const filteredWorkspaces = $derived(
-    workspaceData.filter((space: Workspace) => {
-      if (workPreference === 'coworking' && space.type !== 'coworking') return false;
-      if (workPreference === 'cafe' && space.type !== 'cafe') return false;
-      if (workPreference === 'hostel' && space.type !== 'public_space') return false;
-      if (workPreference === 'hotel' && space.type !== 'hotel') return false;
+  // SIMPLE FILTERING - no circular dependencies
+  function getFilteredWorkspaces() {
+    // For libraries and free spots, use freeWorkspaceData
+    if (workPreference === 'library' || workPreference === 'free') {
+      return freeWorkspaceData.filter((space: FreeWorkspace) => {
+        if (workPreference === 'library') return space.type === 'library';
+        if (workPreference === 'free') return space.cost === 'free';
+        return true;
+      });
+    }
+    
+    // For paid options, use workspaceData
+    return workspaceData.filter((space: Workspace) => {
+      if (workPreference === 'coworking') return space.type === 'coworking';
+      if (workPreference === 'cafe') return space.type === 'cafe';
+      if (workPreference === 'hostel') return space.type === 'public_space';
+      if (workPreference === 'hotel') return space.type === 'hotel';
       return true;
-    })
-  );
-
-  // Get workspace statistics
-  const workspaceStats = $derived({
-    total: filteredWorkspaces.length,
-    coworkingSpaces: filteredWorkspaces.filter((space: Workspace) => space.type === 'coworking').length,
-    cafes: filteredWorkspaces.filter((space: Workspace) => space.type === 'cafe').length,
-    libraries: filteredWorkspaces.filter((space: Workspace) => space.type === 'library').length,
-    hotels: filteredWorkspaces.filter((space: Workspace) => space.type === 'hotel').length,
-    averageRating: filteredWorkspaces.length > 0 
-      ? (filteredWorkspaces.reduce((sum: number, space: Workspace) => sum + space.rating, 0) / filteredWorkspaces.length).toFixed(1)
-      : '0.0',
-    averageWifiSpeed: filteredWorkspaces.length > 0
-      ? Math.round(filteredWorkspaces.reduce((sum: number, space: Workspace) => sum + space.wifiSpeed, 0) / filteredWorkspaces.length)
-      : 0
-  });
-
-  // Price range calculation
-  const priceRange = $derived.by(() => {
-    const spacesWithPrices = filteredWorkspaces.filter((space: Workspace) => {
-      if (workPreference === 'coworking') return space.monthlyPrice;
-      if (workPreference === 'cafe') return space.hourlyRate;
-      if (workPreference === 'hotel') return space.hourlyRate;
-      return false;
     });
+  }
 
-    if (spacesWithPrices.length === 0) return null;
+  // Use derived values for display
+  const filteredWorkspaces = $derived(getFilteredWorkspaces());
+  const displayedWorkspaces = $derived(showAll ? filteredWorkspaces : filteredWorkspaces.slice(0, 3));
 
-    const prices = spacesWithPrices.map((space: Workspace) => {
-      if (workPreference === 'coworking') return space.monthlyPrice!;
-      return space.hourlyRate!;
-    });
-
-    return {
-      min: Math.min(...prices),
-      max: Math.max(...prices),
-      average: Math.round(prices.reduce((sum: number, price: number) => sum + price, 0) / prices.length)
-    };
-  });
-
-  // Add debug logging
-  $effect(() => {
-    console.log('📊 Filtered workspaces:', filteredWorkspaces.length);
-    console.log('💰 Price range:', priceRange);
-  });
+  // Toggle function
+  function toggleShowAll() {
+    showAll = !showAll;
+  }
 </script>
 
 <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
@@ -87,6 +59,10 @@
       💼 Coworking Spaces
     {:else if workPreference === 'cafe'}
       ☕ Coffee Shops
+    {:else if workPreference === 'library'}
+      📚 Public Libraries
+    {:else if workPreference === 'free'}
+      🎯 Free Public Spots
     {:else if workPreference === 'hostel'}
       🏠 Hostel Workspaces
     {:else if workPreference === 'hotel'}
@@ -98,175 +74,50 @@
   </h3>
   
   {#if filteredWorkspaces.length > 0}
-    <!-- Statistics Overview -->
-    <div class="grid grid-cols-2 gap-4 mb-6 p-4 bg-blue-50 rounded-lg">
-      <div class="text-center">
-        <div class="text-2xl font-bold text-blue-700">{workspaceStats.total}</div>
-        <div class="text-sm text-blue-600">Total Spaces</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl font-bold text-blue-700">{workspaceStats.averageRating}</div>
-        <div class="text-sm text-blue-600">Avg Rating</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl font-bold text-blue-700">{workspaceStats.averageWifiSpeed} Mbps</div>
-        <div class="text-sm text-blue-600">Avg WiFi Speed</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl font-bold text-blue-700">
-          {#if priceRange}
-            {formatPrice(priceRange.average)}
-          {:else}
-            -
-          {/if}
+    <!-- Statistics (only for paid workspaces) -->
+    {#if workPreference !== 'library' && workPreference !== 'free'}
+      <div class="grid grid-cols-2 gap-4 mb-6 p-4 bg-blue-50 rounded-lg">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue-700">{filteredWorkspaces.length}</div>
+          <div class="text-sm text-blue-600">Total Spaces</div>
         </div>
-        <div class="text-sm text-blue-600">
-          {#if workPreference === 'coworking'}
-            Avg Monthly
-          {:else}
-            Avg Hourly
-          {/if}
-        </div>
-      </div>
-    </div>
-
-    <!-- Price Range -->
-    {#if priceRange}
-      <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-        <h4 class="font-medium text-gray-900 mb-2">Price Range</h4>
-        <div class="flex justify-between items-center">
-          <span class="font-semibold text-green-600">{formatPrice(priceRange.min)}</span>
-          <span class="font-semibold text-red-600">{formatPrice(priceRange.max)}</span>
-        </div>
-        <div class="mt-2 text-center text-sm text-gray-600">
-          Average: <span class="font-semibold text-blue-600">{formatPrice(priceRange.average)}</span>
-          {#if workPreference === 'coworking'}
-            /month
-          {:else}
-            /hour
-          {/if}
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue-700">
+            {#if filteredWorkspaces[0]?.rating}
+              {(filteredWorkspaces.reduce((sum, space) => sum + (space.rating || 0), 0) / filteredWorkspaces.length).toFixed(1)}
+            {:else}
+              N/A
+            {/if}
+          </div>
+          <div class="text-sm text-blue-600">Avg Rating</div>
         </div>
       </div>
     {/if}
 
     <!-- Workspaces List -->
-    <div>
-      <h4 class="font-medium text-gray-900 mb-3">
-        {#if workPreference === 'coworking'}
-          💼 Coworking Spaces
-        {:else if workPreference === 'cafe'}
-          ☕ Coffee Shops
-        {:else if workPreference === 'library'}
-          📚 Libraries
-        {:else if workPreference === 'hotel'}
-          🏨 Hotel Workspaces
-        {:else}
-          🏢 Workspaces
-        {/if}
-      </h4>
-      
-      <div class="space-y-3">
-        {#each filteredWorkspaces as space (space.name)}
-          <!-- In your template, use the combined badge: -->
-          <div class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <!-- Row 1: Name and Badges -->
-            <div class="flex flex-wrap items-center gap-2 mb-2">
-              <span class="font-medium text-gray-900">{space.name}</span>
-              
-              <!-- Use the combined badge component -->
-              <DigitalNomadBadge 
-                touristArea={space.touristArea}
-                days={space.freeTrialDays}
-                discount={space.membershipDiscount}
-                type={space.type}
-              />
-            </div>
-                      
-            <!-- Row 2: Rating and Specs -->
-            <div class="flex items-center gap-4 text-sm text-gray-600 mb-2">
-              <span class="flex items-center gap-1">
-                ⭐ <span class="font-medium">{space.rating}</span>/5
-              </span>
-              <span class="flex items-center gap-1">
-                📶 <span class="font-medium">{space.wifiSpeed}</span> Mbps
-              </span>
-              <span class="flex items-center gap-1">
-                🔌 <span class="font-medium">{space.powerOutlets}</span>/5 outlets
-              </span>
-              <span class="flex items-center gap-1">
-                {#if space.noiseLevel <= 2}
-                  🔇 <span class="font-medium">Quiet</span>
-                {:else if space.noiseLevel <= 3}
-                  🔉 <span class="font-medium">Moderate</span>
-                {:else}
-                  🔊 <span class="font-medium">Loud</span>
-                {/if}
-              </span>
-            </div>
-            
-            <!-- Row 3: Best For -->
-            <div class="mb-2">
-              <div class="text-sm text-gray-500 mb-1">Best for:</div>
-              <div class="flex flex-wrap gap-1">
-                {#each space.bestFor as item}
-                  <span class="text-xs px-2 py-1 bg-gray-200 text-gray-700 rounded-full">
-                    {item}
-                  </span>
-                {/each}
-              </div>
-            </div>
-            
-            <!-- Row 4: Address, Hours, and Pricing -->
-            <div class="flex justify-between items-center pt-2 border-t border-gray-200">
-              <div>
-                {#if space.address}
-                  <div class="text-xs text-gray-500 flex items-center gap-1">
-                    📍 {space.address}
-                  </div>
-                {/if}
-                {#if space.hours}
-                  <div class="text-xs text-gray-500 flex items-center gap-1">
-                    🕐 {space.hours}
-                  </div>
-                {/if}
-              </div>
-              
-              <div class="text-right">
-                {#if workPreference === 'coworking'}
-                  {#if space.monthlyPrice}
-                    <div class="font-semibold text-blue-600">
-                      {formatPrice(space.monthlyPrice)}/month
-                    </div>
-                    {#if space.dayPassPrice}
-                      <div class="text-xs text-gray-500">
-                        or {formatPrice(space.dayPassPrice)}/day
-                      </div>
-                    {/if}
-                  {/if}
-                {:else if space.hourlyRate}
-                  <div class="font-semibold text-blue-600">
-                    {formatPrice(space.hourlyRate)}/hour
-                  </div>
-                {:else if space.dayPassPrice}
-                  <div class="font-semibold text-blue-600">
-                    {formatPrice(space.dayPassPrice)}/day
-                  </div>
-                {:else}
-                  <div class="font-semibold text-green-600">
-                    Free
-                  </div>
-                {/if}
-              </div>
-            </div>
-          </div>
-        {/each}
-      </div>
+    <div class="space-y-3">
+      {#each displayedWorkspaces as space (space.name || space.name)}
+        <div class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+          <!-- Your workspace display code here -->
+          <div class="font-medium text-gray-900">{space.name}</div>
+          <div class="text-sm text-gray-600">{space.city}</div>
+          <!-- Add your badge display here -->
+        </div>
+      {/each}
     </div>
 
+    <!-- View More / View Less button -->
     {#if filteredWorkspaces.length > 3}
       <div class="mt-4 text-center">
-        <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-          + {filteredWorkspaces.length - 3} more spaces available
+        <button 
+          onclick={toggleShowAll}
+          class="text-blue-600 hover:text-blue-700 text-sm font-medium px-4 py-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+        >
+          {#if showAll}
+            ↑ Show less
+          {:else}
+            + {filteredWorkspaces.length - 3} more spaces available
+          {/if}
         </button>
       </div>
     {/if}
@@ -278,6 +129,10 @@
           💼
         {:else if workPreference === 'cafe'}
           ☕
+        {:else if workPreference === 'library'}
+          📚
+        {:else if workPreference === 'free'}
+          🎯
         {:else if workPreference === 'hostel'}
           🏠
         {:else if workPreference === 'hotel'}
