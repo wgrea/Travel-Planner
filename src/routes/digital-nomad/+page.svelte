@@ -2,75 +2,8 @@
 
 <!-- 
 
-Should add libraries next 
-Also should help people find the cheapest ways to work
-How about showing which countries/cities have certain coworking spot memberships
+I need to make sure I do not undo the currency and make sure the live debug and what shows matches
 
-Should maybe change the name of this page to something more specific
-
-I should add:
-Ways to Avoid the “Money Loop”
-Use free public spaces like libraries, community centers, or hotel lobbies when possible.​
-
-Look for coworking spaces that offer free trial days or discounted memberships for new users.​
-
-Join remote worker communities or nomad groups that share leads on free or low-cost workspaces.​
-
-If you do pay, choose a flexible plan so you can switch to free options when your budget is tight.​
-
-
-Also less touristy areas are less likely to be paid libraries and coffee shops. 
-
-Coffee Shops
-In less touristy or rural areas, coffee shops often don’t have the same pressure to limit laptop use, so remote workers are usually welcome and Wi-Fi is often free.​
-
-In tourist hotspots, many coffee shops restrict laptop use, charge for Wi-Fi, or ban laptops altogether to prioritize short-stay customers and maintain atmosphere.​
-
-Libraries
-Libraries, whether urban or rural, are generally free and open to everyone for remote work, but rural libraries may have fewer resources or amenities compared to large city libraries.​
-
-In less touristy areas, libraries are often the main free workspace option and tend to be more relaxed about remote work, while in tourist cities, libraries may be busier or have stricter rules due to higher demand.​
-
-
-Don't forget to include what memberships one can have and what countries they a good for (can be put in the resonance page)
--->
-
-<!-- src/routes/digital-nomad/+page.svelte -->
-
-<!--  I wonder what can be added as to be shown in the first version vs what is for the second version?
-I want users to know where they can work for free or a lower cost
-
-Should add libraries next 
-Also should help people find the cheapest ways to work
-How about showing which countries/cities have certain coworking spot memberships
-
-Should maybe change the name of this page to something more specific
-
-I should add:
-Ways to Avoid the “Money Loop”
-Use free public spaces like libraries, community centers, or hotel lobbies when possible.​
-
-Look for coworking spaces that offer free trial days or discounted memberships for new users.​
-
-Join remote worker communities or nomad groups that share leads on free or low-cost workspaces.​
-
-If you do pay, choose a flexible plan so you can switch to free options when your budget is tight.​
-
-
-Also less touristy areas are less likely to be paid libraries and coffee shops. 
-
-Coffee Shops
-In less touristy or rural areas, coffee shops often don’t have the same pressure to limit laptop use, so remote workers are usually welcome and Wi-Fi is often free.​
-
-In tourist hotspots, many coffee shops restrict laptop use, charge for Wi-Fi, or ban laptops altogether to prioritize short-stay customers and maintain atmosphere.​
-
-Libraries
-Libraries, whether urban or rural, are generally free and open to everyone for remote work, but rural libraries may have fewer resources or amenities compared to large city libraries.​
-
-In less touristy areas, libraries are often the main free workspace option and tend to be more relaxed about remote work, while in tourist cities, libraries may be busier or have stricter rules due to higher demand.​
-
-
-Don't forget to include what memberships one can have and what countries they a good for (can be put in the resonance page)
 -->
 
 <script lang="ts">
@@ -92,6 +25,10 @@ Don't forget to include what memberships one can have and what countries they a 
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
   import CurrencySelector from '$lib/components/CurrencySelector.svelte';
   import { selectedCurrency } from '$lib/stores/currency';
+
+  import CostSavingTips from './components/CostSavingTips.svelte';
+  import FreeWorkOptions from './components/FreeWorkOptions.svelte';
+  import CoworkingMemberships from './components/CoworkingMemberships.svelte';
 
   // State using $state runes
   let selectedCountry = $state('Thailand');
@@ -362,7 +299,37 @@ Don't forget to include what memberships one can have and what countries they a 
   $effect(() => {
     console.log('🌍 Workspace data updated:', currentWorkspaceData.length, 'items');
   });
+
+  // In your main page script
+  $effect(() => {
+    console.log('🔍 DEBUG - Thailand data check:', {
+      country: currentCountryData?.country,
+      hasFreeWorkspaces: currentCountryData?.freeWorkspaces?.length || 0,
+      hasMoneySavingTips: !!currentCountryData?.moneySavingTips,
+      hasMemberships: currentCountryData?.coworkingMemberships?.length || 0,
+      touristyCities: currentCountryData?.touristyCities || []
+    });
+    
+    // Also check first workspace
+    if (currentWorkspaceData.length > 0) {
+      console.log('🔍 First workspace:', {
+        name: currentWorkspaceData[0].name,
+        touristArea: currentWorkspaceData[0].touristArea,
+        freeTrialDays: currentWorkspaceData[0].freeTrialDays
+      });
+    }
+  });
 </script>
+
+<!-- Temporary debug section in +page.svelte -->
+<div class="fixed bottom-4 right-4 bg-red-100 p-4 rounded-lg z-50">
+  <h4 class="font-bold">DEBUG DATA CHECK</h4>
+  <p>Country: {selectedCountry}</p>
+  <p>Has free workspaces: {currentCountryData?.freeWorkspaces?.length || 0}</p>
+  <p>Has money tips: {currentCountryData?.moneySavingTips ? 'YES' : 'NO'}</p>
+  <p>First workspace touristArea: {currentWorkspaceData[0]?.touristArea}</p>
+</div>
+
 <div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 px-4 py-8 relative overflow-hidden">
   <!-- Subtle grid pattern overlay (tech vibe) -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -529,6 +496,41 @@ Don't forget to include what memberships one can have and what countries they a 
         />
       </div>
 
+      <!-- Inside the {#if selectedCountry && currentCountryData} block, after MainContent -->
+      <!-- Cost Saving Tips -->
+      <div class="bg-white/30 backdrop-blur-md rounded-2xl border border-indigo-200/50 p-6">
+        <CostSavingTips
+          {selectedCountry}
+          {selectedCity}
+          {workPreference}
+          isTouristArea={currentCountryData.touristyCities?.includes(selectedCity)}
+          currency={currentCurrency}
+        />
+      </div>
+      
+      <!-- Free Work Options -->
+      {#if currentCountryData.freeWorkspaces && currentCountryData.freeWorkspaces.length > 0}
+        <div class="bg-white/30 backdrop-blur-md rounded-2xl border border-emerald-200/50 p-6">
+          <FreeWorkOptions
+            {selectedCountry}
+            {selectedCity}
+            currency={currentCurrency}
+          />
+        </div>
+      {/if}
+    
+    <!-- Coworking Memberships -->
+    {#if currentCountryData.coworkingMemberships && currentCountryData.coworkingMemberships.length > 0}
+      <div class="mt-8 bg-white/30 backdrop-blur-md rounded-2xl border border-purple-200/50 p-6">
+        <CoworkingMemberships
+          {selectedCountry}
+          {selectedCity}
+          currency={currentCurrency}
+          memberships={currentCountryData.coworkingMemberships} 
+          />
+        </div>
+      {/if}
+
     {:else if selectedCountry}
       <!-- No data state - Tech info card -->
       <div class="text-center py-12 bg-gradient-to-br from-indigo-100/50 to-purple-100/50 
@@ -625,4 +627,3 @@ Don't forget to include what memberships one can have and what countries they a 
     </div>
   </div>
 </div>
-
