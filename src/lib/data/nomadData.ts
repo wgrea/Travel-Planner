@@ -108,7 +108,10 @@ export const nomadDataByRegion: RegionNomadData[] = [
   }
 ];
 
-// Above is just the countries 
+// src/lib/data/nomadData.ts
+// Make sure to keep libraries in free. Do not put then in coworking spots. Do not put paid coworking spots in free UNLESS if the spot is free which so far, it is unlikey that the coworking spot is.
+// Make sure to show a good country example
+// Countries are imported at top
 
 // INTERFACE DEFINITIONS
 export interface Workspace {
