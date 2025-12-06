@@ -1,8 +1,8 @@
 // src/lib/data/nomadData.ts
 
 // Import nomad data from all countries
-import { thailandNomadData } from './countries/southeast-asia/thailand';
-import { vietnamNomadData } from './countries/southeast-asia/vietnam';
+import { thailandNomadData } from './countries/southeast-asia/thailand'; // Added New Data
+import { vietnamNomadData } from './countries/southeast-asia/vietnam'; // Added New Data
 import { indonesiaNomadData } from './countries/southeast-asia/indonesia';
 import { portugalNomadData } from './countries/europe/western-europe/portugal';
 import { spainNomadData } from './countries/europe/western-europe/spain';
@@ -109,44 +109,99 @@ export const nomadDataByRegion: RegionNomadData[] = [
 ];
 
 // Above is just the countries 
+
+// INTERFACE DEFINITIONS
 export interface Workspace {
   name: string;
   city: string;
   country: string;
-  type: 'coworking' | 'cafe' | 'hostel' | 'hotel' | 'library' | 'public_space'  // Add 'cafe_coworking'
+  type: 'coworking' | 'cafe' | 'hostel' | 'hotel' | 'library' | 'public_space' | 'cafe_coworking';
   dayPassPrice?: number;
   monthlyPrice?: number;
   hourlyRate?: number;
   rating: number;
   amenities: string[];
   bestFor: string[];
-  wifiSpeed: number; // Mbps
-  powerOutlets: number; // 1-5 scale
-  noiseLevel: number; // 1-5 scale (1=quiet, 5=loud)
+  wifiSpeed: number;
+  powerOutlets: number;
+  noiseLevel: number;
   hours?: string;
   address?: string;
   website?: string;
+  freeTrialDays?: number;
+  membershipDiscount?: number;
+  touristArea?: boolean;
+  notes?: string;
+}
+
+export interface FreeWorkspace {
+  name: string;
+  city: string;
+  type: 'library' | 'community_center' | 'public_space' | 'university' | 'mall' | 'park';
+  description: string;
+  cost: 'free' | 'donation' | 'purchase_required';
+  wifi: boolean;
+  wifiSpeed?: number;
+  powerOutlets: boolean;
+  hours: string;
+  amenities: string[];
+  bestFor: string[];
+  noiseLevel: number;
+  address?: string;
+  notes?: string;
+}
+
+export interface CoworkingMembership {
+  name: string;
+  monthlyPrice: number;
+  coverage: string[];
+  dayPassAvailable: boolean;
+  dayPassPrice?: number;
+  trialDays: number;
+  benefits: string[];
+  bestFor: string;
+  website?: string;
+}
+
+export interface MoneySavingTips {
+  general: string[];
+  touristAreas: string[];
+  nonTouristAreas: string[];
+  byPreference: {
+    coworking: string[];
+    cafe: string[];
+    library: string[];
+    hostel: string[];
+    hotel: string[];
+  };
 }
 
 export interface NomadData {
   country: string;
-  cities?: string[]; // Add this line
+  cities?: string[];
   internet: {
     speed: number;
     reliability: number;
     coworkingSpaces: number;
+    freePublicWifiSpots?: number;
   };
   costs: {
     coworkingMonthly: number;
     simCardMonthly: number;
     coffeeShopWork: number;
+    libraryAccess?: number;
   };
   community: {
     expatSize: number;
     englishLevel: number;
     safety: number;
+    nomadGroups?: string[];
   };
-  workspaces?: Workspace[]; // Add this line
+  workspaces?: Workspace[];
+  freeWorkspaces?: FreeWorkspace[];
+  moneySavingTips?: MoneySavingTips;
+  coworkingMemberships?: CoworkingMembership[];
+  touristyCities?: string[];
 }
 
 export interface SubregionNomadData {
@@ -160,13 +215,11 @@ export interface RegionNomadData {
   countries?: NomadData[];
 }
 
-// FLAT ARRAY FOR EASY ACCESS - FIXED VERSION
+// FLAT ARRAY
 export const nomadData: NomadData[] = nomadDataByRegion.flatMap(region => {
   if (region.subregions) {
-    // Regions with subregions (like Europe)
-    return region.subregions.flatMap((subregion: SubregionNomadData) => subregion.countries);
+    return region.subregions.flatMap(subregion => subregion.countries);
   } else if (region.countries) {
-    // Regions without subregions (like Southeast Asia) - THIS WAS MISSING!
     return region.countries;
   }
   return [];
@@ -177,12 +230,18 @@ export function getNomadDataByCountry(countryName: string): NomadData | undefine
   return nomadData.find(country => country.country.toLowerCase() === countryName.toLowerCase());
 }
 
+export function getAllRegions(): string[] {
+  return nomadDataByRegion.map(region => region.region);
+}
+
+// Add these helper functions to nomadData.ts
+
 export function getNomadDataByRegion(regionName: string): NomadData[] {
   const region = nomadDataByRegion.find(r => r.region === regionName);
   if (!region) return [];
   
   if (region.subregions) {
-    return region.subregions.flatMap((subregion: SubregionNomadData) => subregion.countries);
+    return region.subregions.flatMap(subregion => subregion.countries);
   }
   return region.countries || [];
 }
@@ -191,16 +250,12 @@ export function getNomadDataBySubregion(regionName: string, subregionName: strin
   const region = nomadDataByRegion.find(r => r.region === regionName);
   if (!region || !region.subregions) return [];
   
-  const subregion = region.subregions.find((s: SubregionNomadData) => s.subregion === subregionName);
+  const subregion = region.subregions.find(s => s.subregion === subregionName);
   return subregion ? subregion.countries : [];
-}
-
-export function getAllRegions(): string[] {
-  return nomadDataByRegion.map(region => region.region);
 }
 
 export function getSubregionsByRegion(regionName: string): string[] {
   const region = nomadDataByRegion.find(r => r.region === regionName);
   if (!region || !region.subregions) return [];
-  return region.subregions.map((subregion: SubregionNomadData) => subregion.subregion);
+  return region.subregions.map(subregion => subregion.subregion);
 }
