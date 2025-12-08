@@ -1,13 +1,16 @@
 <!-- src/routes/flight-costs/+page.svelte -->
 
 <!--
-I should show the sweet spots and the peak travel season
+Flight Costs Page Improvements
+Monthly price filtering: Show cheapest/sweet spot/expensive countries for selected month
 
-I also have been wanting to filter by month. Wonder if that is for the resonance filters file or should be in this file? Maybe have it in both? 
-I might want to include the price if I book 4-5 months in adance. 
-I wonder the price if I am just bringing one bag. 
+Enhance existing: Make month filter actually filter the results
 
-I also should select by region/subregion when selecting a passport country. 
+Visual improvements: Better data visualization for seasonal patterns
+-->
+
+<!--
+I can only select countries from southeast asia for some reason and their are two Departure country selections
 
 -->
 
@@ -41,6 +44,7 @@ I also should select by region/subregion when selecting a passport country.
   import type { FlightInfo } from '$lib/types/flight';
   import type { FlightPattern } from '$lib/data/flightPatternData';
   import OriginSelector from '$lib/components/OriginSelector.svelte';
+  import { getAllOriginCountries } from '$lib/utils/regionUtils';
   
   // State
   let selectedCountry = $state('Thailand');
@@ -212,9 +216,10 @@ I also should select by region/subregion when selecting a passport country.
       </p>
     </div>
     
+    <!-- In +page.svelte, replace the entire Dual Selector Layout section with: -->
     <!-- Dual Selector Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-      <!-- In your +page.svelte, replace the origin selector card with: -->
+      <!-- Departure Card -->
       <div class="p-6 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl 
         hover:shadow-2xl transition-shadow duration-500">
         <div class="flex items-center gap-3 mb-6">
@@ -223,19 +228,11 @@ I also should select by region/subregion when selecting a passport country.
           </div>
           <div>
             <h3 class="text-lg font-medium text-gray-900">Flying From</h3>
-            <p class="text-sm text-gray-600">Select your departure region & country</p>
+            <p class="text-sm text-gray-600">Select your departure country</p>
           </div>
         </div>
         
         <div>
-        <OriginSelector 
-          selectedOrigin={originCountry}
-          onOriginChange={(country) => originCountry = country}
-        />
-      </div>
-        
-        <!-- Simple origin selector using existing data -->
-        <div class="origin-selector">
           <label for="origin-select" class="block text-sm font-medium mb-3 text-gray-700">
             Departure Country
           </label>
@@ -259,7 +256,7 @@ I also should select by region/subregion when selecting a passport country.
         </div>
       </div>
       
-      <!-- Destination Selector Card -->
+      <!-- Destination Card -->
       <div class="p-6 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl 
         hover:shadow-2xl transition-shadow duration-500">
         <div class="flex items-center gap-3 mb-6">
@@ -272,7 +269,7 @@ I also should select by region/subregion when selecting a passport country.
           </div>
         </div>
         
-        <!-- Use your existing CountrySelector for destination -->
+        <!-- Enhanced CountrySelector -->
         <CountrySelector 
           selectedCountry={selectedCountry}
           selectedRegion={selectedRegion}
@@ -280,7 +277,7 @@ I also should select by region/subregion when selecting a passport country.
           onCountryChange={handleCountryChange}
           onRegionChange={handleRegionChange}
           mode="flight"
-          originCountry={originCountry}
+          {originCountry}
           variant="minimal"
         />
       </div>
