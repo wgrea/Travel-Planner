@@ -61,7 +61,7 @@ Visual improvements: Better data visualization for seasonal patterns
   );
   
   // Event handlers
-  function handleCountryChange(country: string) {
+  function handleDestinationChange(country: string) {
     selectedCountry = country;
     const countryData = getAllCountries().find(c => c.country === country);
     if (countryData?.region) selectedRegion = countryData.region;
@@ -143,6 +143,25 @@ Visual improvements: Better data visualization for seasonal patterns
       currency: currency
     }).format(price);
   }
+
+  // Update the getFlightCounts function
+  function getFlightCounts() {
+    const directFlights = routeCosts[originCountry] ? Object.keys(routeCosts[originCountry]).length : 0;
+    
+    let reverseFlights = 0;
+    Object.entries(routeCosts).forEach(([country, routes]) => {
+      if (routes[originCountry] && country !== originCountry) {
+        reverseFlights++;
+      }
+    });
+    
+    const totalFlights = directFlights + reverseFlights;
+    
+    return { totalFlights, directFlights, reverseFlights };
+  }
+  
+  // Add this derived value
+  const flightCounts = $derived.by(() => getFlightCounts());
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-sky-50 to-blue-50 px-4 py-8 relative overflow-hidden">
@@ -213,14 +232,15 @@ Visual improvements: Better data visualization for seasonal patterns
       </p>
     </div>
     
-    <!-- In +page.svelte, update this section: -->
+    <!-- Flight Control Panel -->
     <div class="mb-12">
       <FlightControlPanel 
         originCountry={originCountry}
-        selectedCountry={selectedCountry}
+        selectedDestination={selectedCountry}
         selectedRegion={selectedRegion}
+        flightCounts={flightCounts}
         onOriginChange={handleOriginChange}
-        onDestinationChange={handleCountryChange}
+        onDestinationChange={handleDestinationChange}
         onRegionChange={handleRegionChange}
       />
     </div>
