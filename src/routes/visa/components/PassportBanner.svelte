@@ -1,4 +1,11 @@
 <!-- src/routes/visa/components/PassportBanner.svelte -->
+<script lang="ts">
+  // Add props
+  let { passportCountry = 'Unknown' } = $props<{
+    passportCountry?: string;
+  }>();
+</script>
+
 <div class="mb-8 bg-amber-50 border border-amber-200 rounded-2xl p-6 md:p-8">
   <div class="flex items-start gap-4">
     <div class="flex-shrink-0 w-6 h-6 mt-0.5">
@@ -7,7 +14,9 @@
       </svg>
     </div>
     <div>
-      <h3 class="text-lg font-medium text-amber-900 mb-2">Passport Check Required</h3>
+      <h3 class="text-lg font-medium text-amber-900 mb-2">
+        Passport Check: {passportCountry}
+      </h3>
       <div class="text-amber-800 text-sm space-y-2">
         <p class="font-medium">Before you proceed, ensure you have:</p>
         <ul class="list-disc list-inside space-y-1 ml-2">
