@@ -1,198 +1,268 @@
 <!-- src/lib/components/CountrySelector.svelte -->
 <script lang="ts">
+  import { 
+    getAllRegionsUnified,
+    getAllOriginCountries,
+    getAllOriginRegions,
+    getOriginCountriesByRegion,
+    getRegionForCountry,
+    getDestinationCount
+  } from '$lib/utils/regionUtils';
   import { visaData } from '$lib/data/visa';
-  import { routeCosts } from '$lib/data/routeCosts';
-  
-  // In CountrySelector.svelte, make sure the CountryData interface is exported:
+
   export interface CountryData {
     country: string;
     region: string;
+    subregion?: string;
     cities?: string[];
     averagePrice?: number;
     sweetSpot?: string[];
     cheapestMonths?: string[];
   }
 
-  // Use $props() with the interface
+  export type SelectorType = 'destination' | 'origin' | 'passport';
+  export type SelectorVariant = 'default' | 'minimal' | 'flight';
+
   let { 
-    selectedPassport = '', 
-    selectedDestination = '',
     selectedCountry = '',
-    selectedRegion, 
-    countryData, 
-    onPassportChange = () => {},
-    onDestinationChange = () => {},
+    selectedRegion = 'All Regions',
+    countryData = [], // For destination mode
+    selectorType = 'destination',
     onCountryChange = () => {},
-    onOriginChange = () => {},
     onRegionChange,
-    showInsights = true,
     variant = 'default',
-    mode = 'visa',
-    originCountry = 'United States',
-    showOriginSelector = false
+    mode = 'flight', // For visa mode only
+    originCountry = 'United States', // For flight mode only
+    // For visa mode only
+    selectedPassport = '',
+    onPassportChange = () => {}
   } = $props<{
-    selectedPassport?: string;
-    selectedDestination?: string;
     selectedCountry?: string;
     selectedRegion: string;
-    countryData: CountryData[];
-    onPassportChange?: (country: string) => void;
-    onDestinationChange?: (country: string) => void;
+    countryData?: CountryData[]; // Only for destination mode
+    selectorType?: SelectorType; // 'destination' | 'origin' | 'passport'
     onCountryChange?: (country: string) => void;
-    onOriginChange?: (country: string) => void;
     onRegionChange: (region: string) => void;
-    showInsights?: boolean;
-    variant?: 'default' | 'minimal' | 'flight';
-    mode?: 'visa' | 'flight';
-    originCountry?: string;
-    showOriginSelector?: boolean;
+    variant?: SelectorVariant;
+    mode?: 'visa' | 'flight'; // Only for destination type
+    originCountry?: string; // Only for flight mode
+    // For visa mode
+    selectedPassport?: string;
+    onPassportChange?: (country: string) => void;
   }>();
 
-  // Determine which country to use based on mode
-  const effectiveCountry = mode === 'flight' ? selectedCountry : selectedDestination;
-  const onEffectiveCountryChange = mode === 'flight' ? onCountryChange : onDestinationChange;
-
-  // Get available passport countries from visaData
-  const passportCountries = Object.keys(visaData);
+  // Get all regions based on selector type
+  const allRegions = ['All Regions', ...getAllRegionsUnified()];
   
-  // Get available origin countries from routeCosts (for flight mode)
-  const originCountries = Object.keys(routeCosts).sort();
-  
-  // Helper functions with proper typing
-  function getAllRegions(): string[] {
-    const regions = new Set<string>();
-    countryData.forEach((item: CountryData) => {
-      if (item.region) {
-        regions.add(item.region);
-      }
-    });
-    return Array.from(regions).sort();
+  // Get countries based on selector type
+  function getCountries(): Array<string | CountryData> {
+    switch (selectorType) {
+      case 'origin':
+        // For origin selector, return string array of countries
+        const allOrigins = getAllOriginCountries();
+        if (selectedRegion === 'All Regions') return allOrigins;
+        return getOriginCountriesByRegion(selectedRegion);
+      
+      case 'passport':
+        // For passport selector, return string array of passport countries
+        const passportCountries = Object.keys(visaData).sort();
+        if (selectedRegion === 'All Regions') return passportCountries;
+        return passportCountries.filter((country: string) => 
+          getRegionForCountry(country) === selectedRegion
+        );
+      
+      case 'destination':
+      default:
+        // For destination selector, use provided countryData
+        if (!countryData) return [];
+        if (selectedRegion === 'All Regions') return countryData;
+        return countryData.filter((country: CountryData) => country.region === selectedRegion);
+    }
   }
 
-  function getCountriesByRegion(region: string): CountryData[] {
-    return countryData.filter((item: CountryData) => item.region === region);
+  // Get label based on selector type
+  function getLabel(): string {
+    switch (selectorType) {
+      case 'origin': return 'Select Departure Country';
+      case 'passport': return 'Select Passport Country';
+      case 'destination': 
+      default: 
+        return mode === 'flight' ? 'Select Destination Country' : 'Select Country';
+    }
   }
 
-  const regions = getAllRegions();
-  const filteredDestinations = selectedRegion 
-    ? getCountriesByRegion(selectedRegion)
-    : countryData;
-
-  // Handler functions
-  function handlePassportChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    onPassportChange(target.value);
+  // Get title based on selector type
+  function getTitle(): string {
+    switch (selectorType) {
+      case 'origin': return 'Departure Country';
+      case 'passport': return 'Your Passport';
+      case 'destination': 
+      default: return 'Destination';
+    }
   }
 
-  function handleOriginChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    onOriginChange(target.value);
-  }
-
+  // Handle region change
   function handleRegionChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     const newRegion = target.value;
-    onRegionChange(newRegion);
     
-    if (newRegion) {
-      const countriesInRegion = getCountriesByRegion(newRegion);
-      if (countriesInRegion.length > 0) {
-        onEffectiveCountryChange(countriesInRegion[0].country);
+    if (onRegionChange) {
+      onRegionChange(newRegion);
+    }
+    
+    // Auto-select first country in new region
+    if (newRegion !== 'All Regions' && selectorType !== 'destination') {
+      const countries = getCountries();
+      if (countries.length > 0 && onCountryChange) {
+        const firstCountry = typeof countries[0] === 'string' 
+          ? countries[0] 
+          : (countries[0] as CountryData).country;
+        onCountryChange(firstCountry);
       }
     }
   }
 
-  function handleDestinationChange(event: Event) {
+  // Handle country change
+  function handleCountryChange(event: Event) {
     const target = event.target as HTMLSelectElement;
-    onEffectiveCountryChange(target.value);
+    if (onCountryChange) {
+      onCountryChange(target.value);
+    }
+  }
+
+  // Handle passport change (visa mode only)
+  function handlePassportChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    if (onPassportChange) {
+      onPassportChange(target.value);
+    }
+  }
+
+  // Get destination count for origin selector
+  function getDestCount(country: string): number {
+    return getDestinationCount(country);
+  }
+
+  // Format option text based on selector type
+  function formatOption(item: string | CountryData): string {
+    if (typeof item === 'string') {
+      // For origin or passport selector
+      if (selectorType === 'origin') {
+        return `${item} (${getDestCount(item)} destinations)`;
+      }
+      return item;
+    } else {
+      // For destination selector
+      const country = item as CountryData;
+      return country.averagePrice 
+        ? `${country.country} ($${country.averagePrice?.toLocaleString()})`
+        : country.country;
+    }
+  }
+
+  // Get option value based on selector type
+  function getOptionValue(item: string | CountryData): string {
+    return typeof item === 'string' ? item : item.country;
   }
 </script>
 
-<!-- Template remains exactly the same as before -->
-<div class="text-stone-900 {variant === 'minimal' ? '' : 'bg-white rounded-2xl p-8 border border-stone-200 shadow-sm'}">
+<div class="{variant === 'minimal' ? 'space-y-4' : 'bg-white/40 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-xl space-y-6'}">
   {#if variant === 'default'}
-    <h2 class="text-2xl font-light mb-8 text-stone-900 pb-4 border-b border-stone-200">
-      {mode === 'flight' ? 'Find Your Flight' : 'Select Your Journey'}
+    <h2 class="text-xl font-light pb-3 border-b border-white/60">
+      {getTitle()}
     </h2>
   {/if}
   
-  <!-- If in flight mode AND showOriginSelector is true, show origin selector -->
-  {#if mode === 'flight' && showOriginSelector}
-    <div class="mb-6">
-      <label for="origin-select" class="block text-sm font-medium mb-3 text-stone-700 tracking-wide">
-        Flying From
-      </label>
-      <select 
-        id="origin-select"
-        value={originCountry}
-        onchange={handleOriginChange}
-        class="w-full max-w-md p-3.5 rounded-lg bg-stone-50 border border-stone-200 text-stone-800 focus:outline-none focus:border-stone-400 focus:bg-white transition-all duration-200 text-sm"
-      >
-        {#each originCountries as country}
-          <option value={country} class="text-stone-800">
-            {country} 
-            {routeCosts[country] ? ` (${Object.keys(routeCosts[country]).length} destinations)` : ''}
-          </option>
-        {/each}
-      </select>
-      <p class="text-xs text-stone-500 mt-2">
-        Select your departure country. Prices will update based on this selection.
-      </p>
-    </div>
-  {:else if mode === 'visa'}
-    <!-- Original passport selector for visa mode -->
-    <div class="mb-6">
-      <label for="passport-select" class="block text-sm font-medium mb-3 text-stone-700 tracking-wide">
+  <!-- For visa mode: Passport country selector -->
+  {#if mode === 'visa' && variant !== 'minimal' && selectorType === 'destination'}
+    <div>
+      <label for="passport-select" class="block text-sm font-medium mb-2 text-gray-700">
         Your Passport Country
       </label>
       <select 
         id="passport-select"
-        value={selectedPassport}
+        bind:value={selectedPassport}
         onchange={handlePassportChange}
-        class="w-full max-w-md p-3.5 rounded-lg bg-stone-50 border border-stone-200 text-stone-800 focus:outline-none focus:border-stone-400 focus:bg-white transition-all duration-200 text-sm"
+        class="w-full p-3 rounded-lg border border-gray-300 bg-white/80 backdrop-blur-sm text-gray-800 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
       >
-        {#each passportCountries as country}
-          <option value={country} class="text-stone-800">{country}</option>
+        {#each Object.keys(visaData).sort() as country}
+          <option value={country}>{country}</option>
         {/each}
       </select>
     </div>
   {/if}
-
+  
   <!-- Region Selection -->
-  <div class="mb-6">
-    <label for="region-select" class="block text-sm font-medium mb-3 text-stone-700 tracking-wide">
-      Filter Destination by Region
+  <div>
+    <label for="region-select" class="block text-sm font-medium mb-2 text-gray-700">
+      Filter by Region
     </label>
     <select 
       id="region-select"
-      value={selectedRegion}
+      bind:value={selectedRegion}
       onchange={handleRegionChange}
-      class="w-full max-w-md p-3.5 rounded-lg bg-stone-50 border border-stone-200 text-stone-800 focus:outline-none focus:border-stone-400 focus:bg-white transition-all duration-200 text-sm"
+      class="w-full p-3 rounded-lg border border-gray-300 bg-white/80 backdrop-blur-sm text-gray-800 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
     >
-      <option value="" class="text-stone-500">All Regions</option>
-      {#each regions as region}
-        <option value={region} class="text-stone-800">{region}</option>
+      {#each allRegions as region}
+        <option value={region}>{region}</option>
       {/each}
     </select>
   </div>
 
-  <!-- Destination Country Selection -->
-  <div class="mb-6">
-    <label for="destination-select" class="block text-sm font-medium mb-3 text-stone-700 tracking-wide">
-      Select Destination Country
+  <!-- Country Selection -->
+  <div>
+    <label for="country-select" class="block text-sm font-medium mb-2 text-gray-700">
+      {getLabel()}
     </label>
     <select 
-      id="destination-select"
-      value={effectiveCountry}
-      onchange={handleDestinationChange}
-      class="w-full max-w-md p-3.5 rounded-lg bg-stone-50 border border-stone-200 text-stone-800 focus:outline-none focus:border-stone-400 focus:bg-white transition-all duration-200 text-sm"
+      id="country-select"
+      bind:value={selectedCountry}
+      onchange={handleCountryChange}
+      class="w-full p-3 rounded-lg border border-gray-300 bg-white/80 backdrop-blur-sm text-gray-800 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
     >
-      {#each filteredDestinations as country}
-        <option value={country.country} class="text-stone-800">
-          {country.country}
-          {country.averagePrice ? ` ($${country.averagePrice?.toLocaleString() || 'N/A'})` : ''}
+      {#each getCountries() as item}
+        <option value={getOptionValue(item)}>
+          {formatOption(item)}
         </option>
       {/each}
     </select>
   </div>
+
+  <!-- Statistics -->
+  {#if selectedCountry && variant !== 'minimal'}
+    <div class="bg-gradient-to-r from-blue-50/60 to-indigo-100/60 rounded-lg p-4 border border-blue-200/50">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="text-xs text-gray-600">Selected {selectorType === 'origin' ? 'Origin' : 'Country'}</div>
+          <div class="font-medium text-blue-800">{selectedCountry}</div>
+        </div>
+        <div>
+          <div class="text-xs text-gray-600">Region</div>
+          <div class="font-medium text-indigo-700">{selectedRegion}</div>
+        </div>
+      </div>
+      {#if selectorType === 'origin'}
+        <div class="mt-3 pt-3 border-t border-blue-200/50">
+          <div class="text-xs text-gray-600">Available Destinations</div>
+          <div class="font-medium text-gray-800">
+            ✈️ {getDestCount(selectedCountry)} destinations available
+          </div>
+        </div>
+      {:else if mode === 'flight'}
+        <div class="mt-3 pt-3 border-t border-blue-200/50">
+          <div class="text-xs text-gray-600">Flight Route</div>
+          <div class="font-medium text-gray-800">
+            ✈️ {originCountry} → {selectedCountry}
+          </div>
+        </div>
+      {:else if mode === 'visa' && selectorType === 'destination'}
+        <div class="mt-3 pt-3 border-t border-blue-200/50">
+          <div class="text-xs text-gray-600">Visa Check</div>
+          <div class="font-medium text-gray-800">
+            📘 {selectedPassport || 'Select passport'} → {selectedCountry}
+          </div>
+        </div>
+      {/if}
+    </div>
+  {/if}
 </div>
