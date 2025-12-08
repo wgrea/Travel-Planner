@@ -1,21 +1,26 @@
 <!-- src/routes/visa/components/VisaMatrix.svelte -->
 <script lang="ts">
-  let { destinations, onDestinationSelect } = $props<{
+  let { destinations, onDestinationSelect, passportCountry } = $props<{
     destinations: any[];
     onDestinationSelect: (country: string) => void;
+    passportCountry: string;
   }>();
 </script>
 
-<div class="space-y-4">
-  <!-- Results Summary -->
-  <div class="text-center p-6 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 rounded-xl border border-blue-100">
-    <div class="text-4xl mb-3">🌍</div>
-    <h3 class="text-lg font-semibold text-gray-700 mb-2">
-      {destinations.length} Destinations Found
+<div class="space-y-6">
+  <!-- Results Header with Clear Context -->
+  <div class="text-center p-8 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 rounded-2xl border border-blue-100">
+    <div class="text-5xl mb-4">🌍</div>
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">
+      {destinations.length} Destinations for {passportCountry} Passport Holders
     </h3>
-    <p class="text-gray-600">
-      Filter results based on your preferences
+    <p class="text-gray-600 mb-4">
+      All destinations shown based on <span class="font-semibold text-blue-700">{passportCountry}</span> passport requirements
     </p>
+    <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/70 rounded-full border border-blue-200">
+      <span class="text-blue-600">📘</span>
+      <span class="text-sm font-medium text-gray-700">Passport: {passportCountry}</span>
+    </div>
   </div>
   
   <!-- Destinations Grid -->
@@ -29,24 +34,26 @@
             onDestinationSelect(dest.country);
           }
         }}
-        class="w-full border rounded-lg p-4 hover:border-blue-300 hover:shadow-md transition cursor-pointer text-left bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        aria-label={`View visa details for ${dest.country}`}
+        class="group w-full border rounded-xl p-4 hover:border-blue-300 hover:shadow-lg transition-all duration-200 cursor-pointer text-left bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        aria-label={`View visa details for ${dest.country} from ${passportCountry}`}
       >
         <div class="flex items-start justify-between mb-3">
           <div>
-            <h4 class="font-semibold text-gray-900 text-sm">{dest.country}</h4>
+            <h4 class="font-semibold text-gray-900 text-sm group-hover:text-blue-700 transition-colors">
+              {dest.country}
+            </h4>
             <div class="flex items-center gap-1 mt-1">
               <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded-full">
                 {dest.category}
               </span>
               {#if dest.nomadFriendly}
                 <span class="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
-                  💻
+                  💻 Remote Work
                 </span>
               {/if}
             </div>
           </div>
-          <span class="text-2xl">{dest.flag || '🌐'}</span>
+          <span class="text-2xl opacity-80 group-hover:opacity-100 transition-opacity">{dest.flag || '🌐'}</span>
         </div>
         
         <div class="space-y-2 text-xs">
@@ -63,14 +70,22 @@
             <span class="font-medium">{dest.visaInfo?.freeLength || 'N/A'}</span>
           </div>
         </div>
+        
+        <!-- Passport context reminder -->
+        <div class="mt-3 pt-3 border-t border-gray-100 group-hover:border-blue-100 transition-colors">
+          <div class="flex items-center gap-1 text-xs text-gray-500">
+            <span>📘</span>
+            <span>From {passportCountry}</span>
+          </div>
+        </div>
       </button>
     {:else}
       <div class="col-span-full text-center py-12">
         <div class="text-4xl mb-4">🔍</div>
         <h3 class="text-lg font-semibold text-gray-700 mb-2">
-          No destinations found
+          No destinations found for {passportCountry} passport
         </h3>
-        <p class="text-gray-600">Try adjusting your filters</p>
+        <p class="text-gray-600">Try adjusting your filters or select a different passport country</p>
       </div>
     {/each}
   </div>

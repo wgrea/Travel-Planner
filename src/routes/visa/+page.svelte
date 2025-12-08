@@ -14,12 +14,9 @@
   import { getRegionForCountry, getSubregionForCountry } from '$lib/utils/regionUtils';
   import { selectedCurrency } from '$lib/stores/currency';
   
-  // Import our new components
+  // Import components
   import VisaHeader from './components/VisaHeader.svelte';
-  import RegionFilters from './components/RegionFilters.svelte';
-  import VisaStatsBanner from './components/VisaStatsBanner.svelte';
-  import PassportCard from './components/PassportCard.svelte';
-  import DestinationCard from './components/DestinationCard.svelte';
+  import VisaControlPanel from './components/VisaControlPanel.svelte';
   import MainContentCard from './components/MainContentCard.svelte';
 
   // State
@@ -102,64 +99,44 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-b from-stone-50 to-slate-50 px-4 py-8 md:py-12">
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto space-y-8"> <!-- Added space-y-8 here -->
+    
     <!-- Header -->
     <VisaHeader 
       title="Visa Requirements for Digital Nomads"
       description="Check visa options, processing times, costs, and find remote-work friendly destinations"
     />
     
-    <!-- Region Filters -->
-    <RegionFilters 
+    <!-- Unified Control Panel -->
+    <VisaControlPanel 
+      {homeCountry}
+      {selectedDestination}
       {selectedRegion}
       {selectedSubregion}
+      {visaCounts}
+      onPassportChange={handlePassportChange}
+      onDestinationChange={handleDestinationChange}
       onRegionChange={handleRegionChange}
       onSubregionChange={handleSubregionChange}
     />
     
-    <!-- Visa Stats Banner -->
-    <VisaStatsBanner 
-      {selectedRegion}
-      {selectedSubregion}
-      {visaCounts}
-    />
-    
-    <!-- Dual Selector Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      <!-- Passport Card -->
-      <PassportCard 
+    <!-- Add spacing between VisaControlPanel and MainContentCard -->
+    <div class="mt-10"> <!-- Increased margin-top for better separation -->
+      <MainContentCard 
+        {showMatrix}
         {homeCountry}
-        {selectedRegion}
-        {selectedSubregion}
-        {visaCounts}
-        onPassportChange={handlePassportChange}
-      />
-      
-      <!-- Destination Card -->
-      <DestinationCard 
         {selectedDestination}
         {selectedRegion}
-        {selectedSubregion}
-        {selectedPassport}
+        {currentVisaInfo}
+        {destinationCountryData}
+        {visaDetails}
+        {filteredDestinations}
+        {visaFilter}
+        {error}
+        onToggleMatrix={toggleMatrixView}
         onDestinationChange={handleDestinationChange}
-        onPassportChange={handlePassportChange}
       />
     </div>
     
-    <!-- Main Content Card -->
-    <MainContentCard 
-      {showMatrix}
-      {homeCountry}
-      {selectedDestination}
-      {selectedRegion}
-      {currentVisaInfo}
-      {destinationCountryData}
-      {visaDetails}
-      {filteredDestinations}
-      {visaFilter}
-      {error}
-      onToggleMatrix={toggleMatrixView}
-      onDestinationChange={handleDestinationChange}
-    />
   </div>
 </div>

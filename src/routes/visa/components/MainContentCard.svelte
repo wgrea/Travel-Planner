@@ -71,6 +71,7 @@
       <VisaMatrix 
         destinations={filteredDestinations}
         onDestinationSelect={onDestinationChange}
+        passportCountry={homeCountry} 
       />
     </div>
   {:else}
