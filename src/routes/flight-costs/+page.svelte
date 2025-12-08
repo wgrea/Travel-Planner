@@ -9,11 +9,6 @@ Enhance existing: Make month filter actually filter the results
 Visual improvements: Better data visualization for seasonal patterns
 -->
 
-<!--
-I can only select countries from southeast asia for some reason and their are two Departure country selections
-
--->
-
 <!-- src/routes/flight-costs/+page.svelte -->
 <script lang="ts">
   import { goto } from '$app/navigation';
@@ -43,8 +38,8 @@ I can only select countries from southeast asia for some reason and their are tw
   import { routeCosts } from '$lib/data/routeCosts';
   import type { FlightInfo } from '$lib/types/flight';
   import type { FlightPattern } from '$lib/data/flightPatternData';
-  import OriginSelector from '$lib/components/OriginSelector.svelte';
   import { getAllOriginCountries } from '$lib/utils/regionUtils';
+  import FlightControlPanel from './components/FlightControlPanel.svelte';
   
   // State
   let selectedCountry = $state('Thailand');
@@ -60,7 +55,9 @@ I can only select countries from southeast asia for some reason and their are tw
   );
   
   const flightCostData = $derived(
-    routeCosts[originCountry]?.[selectedCountry]
+    // Use the new bidirectional check
+    routeCosts[originCountry]?.[selectedCountry] || 
+    routeCosts[selectedCountry]?.[originCountry]
   );
   
   // Event handlers
@@ -216,71 +213,16 @@ I can only select countries from southeast asia for some reason and their are tw
       </p>
     </div>
     
-    <!-- In +page.svelte, replace the entire Dual Selector Layout section with: -->
-    <!-- Dual Selector Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-      <!-- Departure Card -->
-      <div class="p-6 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl 
-        hover:shadow-2xl transition-shadow duration-500">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-full bg-blue-100/80 flex items-center justify-center">
-            <span class="text-2xl">🛫</span>
-          </div>
-          <div>
-            <h3 class="text-lg font-medium text-gray-900">Flying From</h3>
-            <p class="text-sm text-gray-600">Select your departure country</p>
-          </div>
-        </div>
-        
-        <div>
-          <label for="origin-select" class="block text-sm font-medium mb-3 text-gray-700">
-            Departure Country
-          </label>
-          <select 
-            id="origin-select"
-            bind:value={originCountry}
-            class="w-full p-3.5 rounded-lg bg-white/80 backdrop-blur-sm border border-white/70 
-              text-gray-800 focus:outline-none focus:border-blue-400 focus:ring-2 
-              focus:ring-blue-100 transition-all duration-200"
-          >
-            {#each Object.keys(routeCosts).sort() as country}
-              <option value={country}>
-                {country} 
-                {routeCosts[country] ? ` (${Object.keys(routeCosts[country]).length} destinations)` : ''}
-              </option>
-            {/each}
-          </select>
-          <p class="text-xs text-gray-500 mt-2">
-            Your departure country affects flight pricing and availability
-          </p>
-        </div>
-      </div>
-      
-      <!-- Destination Card -->
-      <div class="p-6 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl 
-        hover:shadow-2xl transition-shadow duration-500">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-full bg-green-100/80 flex items-center justify-center">
-            <span class="text-2xl">🏁</span>
-          </div>
-          <div>
-            <h3 class="text-lg font-medium text-gray-900">Destination</h3>
-            <p class="text-sm text-gray-600">Select your destination country</p>
-          </div>
-        </div>
-        
-        <!-- Enhanced CountrySelector -->
-        <CountrySelector 
-          selectedCountry={selectedCountry}
-          selectedRegion={selectedRegion}
-          countryData={getAllCountries()}
-          onCountryChange={handleCountryChange}
-          onRegionChange={handleRegionChange}
-          mode="flight"
-          {originCountry}
-          variant="minimal"
-        />
-      </div>
+    <!-- In +page.svelte, update this section: -->
+    <div class="mb-12">
+      <FlightControlPanel 
+        originCountry={originCountry}
+        selectedCountry={selectedCountry}
+        selectedRegion={selectedRegion}
+        onOriginChange={handleOriginChange}
+        onDestinationChange={handleCountryChange}
+        onRegionChange={handleRegionChange}
+      />
     </div>
 
     <!-- Flight Selection Debug - as a cloud card -->
