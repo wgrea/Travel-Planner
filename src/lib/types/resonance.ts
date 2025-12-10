@@ -15,29 +15,23 @@ TIPS:
 
 // ==================== CORE TYPES ====================
 
-// Centralized string union types - SINGLE SOURCE OF TRUTH
-export type TravelStyle = 
-  | 'slow' | 'fast' | 'adventure' | 'relaxation' | 'cultural' | 'wellness' 
-  | 'beach' | 'food' | 'fun' | 'winter' | 'art' | 'authentic' | 'academic' 
-  | 'coastal' | 'wine' | 'countryside' | 'music' | 'creative' | 'alternative' 
-  | 'photography' | 'off-the-beaten-path' | 'intense' | 'wildlife' | 'spiritual' 
-  | 'party' | 'tech' | 'trekking' | 'peaceful' | 'extreme' | 'mystery' | 'culinary'
-  // NEW: Add your requested interests here
-  | 'scuba-diving' | 'surfing' | 'skiing' | 'snowboarding' | 'mountain-exploration'
-  | 'drinking-culture' | 'breweries' | 'wineries' | 'festivals' | 'music-festivals'
-  | 'art-festivals' | 'raves' | 'speed-dating' | 'singles-mixers' | 'social-meetups'
-  | 'expat-community' | 'digital-nomad' | 'anime' | 'bollywood' | 'k-pop'
-  | 'tech-hub' | 'startup-scene' | 'innovation-center' | 'spiritual-retreat'
-  | 'meditation' | 'yoga' | 'wildlife-experience' | 'safari' | 'bird-watching'
-  | 'conventions' | 'social-touch' | 'dance-culture';
-
 export type SocialVibe = 
   | 'solo-friendly' | 'social' | 'balanced' | 'vibrant' | 'sophisticated' 
   | 'cosmopolitan' | 'chill' | 'peaceful' | 'adventurous';
 
 export type Climate = 
-  | 'warm' | 'cool' | 'temperate' | 'any' | 'tropical' | 'subarctic' | 'varies' 
-  | 'mountain' | 'coastal' | 'desert' | 'moderate' | 'extreme' | 'alpine' | 'cooler';
+  // Temperature-based
+  | 'tropical' | 'subtropical' | 'temperate' | 'continental' | 'polar' | 'arctic'
+  // Moisture-based  
+  | 'arid' | 'semi-arid' | 'humid' | 'dry' | 'mediterranean'
+  // Specific types
+  | 'desert' | 'mountain' | 'alpine' | 'coastal' | 'rainforest' 
+  | 'oceanic' | 'tundra' | 'savanna' | 'steppe'
+  // General/custom
+  | 'warm' | 'cool' | 'any' | 'varies' | 'moderate' | 'extreme' 
+  | 'cooler' | 'spring-like'
+  // Special
+  | 'subarctic';
 
 export type Vibe = 
   | 'chaotic' | 'chill' | 'balanced' | 'luxury' | 'magical' | 'diverse' 
@@ -55,7 +49,7 @@ export type FoodScene =
   | 'traditional' | 'cosmopolitan' | 'regional' | 'cross-cultural' | 'mediterranean' 
   | 'ethnic' | 'artisanal' | 'rustic' | 'excellent' | 'authentic' | 'seafood' 
   | 'basic' | 'mountain' | 'tribal' | 'incredible' | 'fusion' | 'moghul' | 'royal' 
-  | 'vegetarian' | 'tourist';
+  | 'vegetarian' | 'tourist' | 'street-food' | 'hearty' | 'healthy';
 
 export type BudgetLevel = 
   | 'budget' | 'midrange' | 'luxury' | 'any' | 'budget-midrange' | 'midrange-luxury' | 'all-levels';
@@ -63,8 +57,8 @@ export type BudgetLevel =
 // ==================== INTERFACES ====================
 
 export interface ResonancePreferences {
-  // Personality & Travel Style
-  travelStyle: TravelStyle;
+  // REMOVE travelStyle, ADD pace and interests
+  pace: 'slow' | 'medium' | 'fast';
   socialPreference: 'solo' | 'social' | 'balanced';
   energyLevel: 'high' | 'medium' | 'low';
   
@@ -73,28 +67,29 @@ export interface ResonancePreferences {
   vibe: Vibe;
   density: 'urban' | 'nature' | 'mixed' | 'rural' | 'sparse';
   
-  // Activities & Interests
-  activities: string[];
+  // Activities & Interests - NOW USING TAGS
+  interests: string[]; // These come from tagCategories
+  activities: string[]; // These come from activityCategories
+  
+  // Keep these
   foodScene: FoodScene;
   nightlife: 'quiet' | 'moderate' | 'vibrant';
-  
-  // Practical
   budget: BudgetLevel;
   internetImportance: number;
   safetyImportance: number;
-  
-  // Location filtering
   country: string;
   region: string;
 }
 
+// In src/lib/types/resonance.ts, update the ResonanceScore interface:
 export interface ResonanceScore {
   name: string;
   city: string;
   country: string;
   score: number;
   breakdown: {
-    travelStyle: number;
+    pace: number;
+    interests: number; // ← ADD THIS LINE (was missing)
     social: number;
     environment: number;
     activities: number;
@@ -111,8 +106,8 @@ export interface CityResonanceProfile {
   type: 'city' | 'country-overview';
   region: string;
   
-  // Personality & Vibe
-  travelStyle: TravelStyle[];
+  // Personality & Vibe - ADD pace, REMOVE travelStyle
+  pace: 'slow' | 'medium' | 'fast'; // NEW
   socialVibe: SocialVibe;
   energyLevel: 'high' | 'medium' | 'low';
   
@@ -128,10 +123,10 @@ export interface CityResonanceProfile {
   
   // Practical
   costLevel: 'budget' | 'midrange' | 'expensive' | 'luxury';
-  internetQuality: number; // 1-10
-  safetyScore: number; // 1-10
+  internetQuality: number;
+  safetyScore: number;
   
-  // Tags for matching
+  // Tags for matching - KEEP THIS
   tags: string[];
   
   // Additional metadata
@@ -151,3 +146,4 @@ export interface RegionData {
     countries: CityResonanceProfile[][];
   }[];
 }
+
