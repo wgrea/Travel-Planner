@@ -65,29 +65,37 @@
             {/each}
           </div>
 
-          <!-- Score Breakdown -->
-          <div class="grid grid-cols-2 gap-4 text-sm mb-4">
-            <div class="space-y-2">
-              <div class="flex justify-between">
-                <span class="text-gray-500">Travel Style</span>
-                <span class="font-semibold text-purple-600">{match.breakdown.travelStyle}%</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-500">Social Fit</span>
-                <span class="font-semibold text-blue-600">{match.breakdown.social}%</span>
-              </div>
-            </div>
-            <div class="space-y-2">
-              <div class="flex justify-between">
-                <span class="text-gray-500">Environment</span>
-                <span class="font-semibold text-green-600">{match.breakdown.environment}%</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-500">Activities</span>
-                <span class="font-semibold text-orange-600">{match.breakdown.activities}%</span>
-              </div>
-            </div>
-          </div>
+<!-- Cards layout - Premium feel -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+  <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-green-200 shadow-sm">
+    <div class="flex items-center justify-between">
+      <span class="text-gray-700 font-medium text-sm">Social</span>
+      <span class="text-green-600 text-lg font-bold">{match.breakdown.social || 0}%</span>
+    </div>
+    <div class="text-xs text-gray-500 mt-1">Social vibe match</div>
+  </div>
+  <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-amber-200 shadow-sm">
+    <div class="flex items-center justify-between">
+      <span class="text-gray-700 font-medium text-sm">Environment</span>
+      <span class="text-amber-600 text-lg font-bold">{match.breakdown.environment || 0}%</span>
+    </div>
+    <div class="text-xs text-gray-500 mt-1">Climate & atmosphere</div>
+  </div>
+  <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-orange-200 shadow-sm">
+    <div class="flex items-center justify-between">
+      <span class="text-gray-700 font-medium text-sm">Activities</span>
+      <span class="text-orange-600 text-lg font-bold">{match.breakdown.activities || 0}%</span>
+    </div>
+    <div class="text-xs text-gray-500 mt-1">Things to do match</div>
+  </div>
+  <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-teal-200 shadow-sm">
+    <div class="flex items-center justify-between">
+      <span class="text-gray-700 font-medium text-sm">Practical</span>
+      <span class="text-teal-600 text-lg font-bold">{match.breakdown.practical || 0}%</span>
+    </div>
+    <div class="text-xs text-gray-500 mt-1">Costs, internet, safety</div>
+  </div>
+</div>
 
           <!-- Action Buttons -->
           <div class="flex gap-2 pt-4 border-t border-gray-100">

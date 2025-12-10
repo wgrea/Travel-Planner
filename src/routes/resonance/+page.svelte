@@ -1,36 +1,5 @@
 <!-- src/routes/resonance/+page.svelte -->
 
-<!--
-// Quick visa availability filter
-visaFilter: 'any' | 'visa-free' | 'digital-nomad' | 'easy-process'
-// Shows users which destinations are accessible
--->
-
-<!--
-🔍 Resonance / Destination Finder
-
-Aesthetic: Exploratory Frutiger Aero (the most "aero" page)
-Colors: Aqua/cyan/teal gradient (from-cyan-50 via-blue-50 to-teal-50)
-Special Elements:
-
-Animated water ripples or waves in background
-Glass morphism filter cards
-Bubble effects when hovering destinations
-Smooth transitions between filter states
-
-
-Why: This is your flagship feature - make it feel magical and exploratory
-
-svelte Example design direction: 
-<div class="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-teal-50">
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    Animated water ripples
-    <div class="absolute top-20 left-20 w-96 zh-96 bg-blue-400/5 rounded-full 
-      animate-ping [animation-duration:4s]"></div>
-  </div>
-</div>
-
--->
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
@@ -43,9 +12,8 @@ svelte Example design direction:
   import ResonanceResults from './components/ResonanceResults.svelte';
   import CountrySelector from './components/CountrySelector.svelte'; // FIXED: Use CountrySelector
 
-  // Add country and city to preferences
   let preferences: ResonancePreferences = {
-    travelStyle: 'slow',
+    pace: 'medium', // Changed from travelStyle: 'slow'
     socialPreference: 'balanced',
     energyLevel: 'medium',
     climate: 'any',
@@ -57,8 +25,9 @@ svelte Example design direction:
     budget: 'any',
     internetImportance: 8,
     safetyImportance: 8,
-    country: 'any', // NEW
-    region: 'any' // NEW: Replace city with region
+    country: 'any',
+    region: 'any',
+    interests: [] // Add this since it's required by the interface
   };
 
   let matches: ResonanceScore[] = [];
@@ -281,8 +250,7 @@ svelte Example design direction:
 
     <!-- Main Content -->
     <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
-      
-      <!-- Filters Sidebar with glass effect -->
+                <!-- Filters Sidebar with glass effect -->
       <div class="xl:col-span-1 space-y-6">
         <div class="bg-white/40 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg">
           <CountrySelector
@@ -292,23 +260,15 @@ svelte Example design direction:
             on:regionChange={handleRegionChange}
             on:countryChange={handleCountryChange}
           />
+
+          
         </div>
 
-        <ResonanceFilters
-          {preferences}
-          {selectedTags}
-          {isLoading}
-          on:updatePreferences={updatePreferences}
-          on:toggleTag={(e) => toggleTag(e.detail)}
-          on:removeTag={removeTag}
-          on:removeActivity={removeActivity}
-          on:clearAll={clearAllFilters}
-          on:findMatches={findMatches}
-        />
-      </div>
 
+      </div>
       <!-- Main Content Area -->
       <div class="xl:col-span-3">
+        
         <!-- Tabs with glass effect -->
         <div class="bg-white/40 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg mb-6">
           <ResonanceTabs
@@ -326,7 +286,23 @@ svelte Example design direction:
             on:selectCategory={(e) => selectCategory(e.detail)}
             on:changeTab={(e) => activeTab = e.detail}
           />
+                  <ResonanceFilters
+          {preferences}
+          {selectedTags}
+          {isLoading}
+          on:updatePreferences={updatePreferences}
+          on:toggleTag={(e) => toggleTag(e.detail)}
+          on:removeTag={removeTag}
+          on:removeActivity={removeActivity}
+          on:clearAll={clearAllFilters}
+          on:findMatches={findMatches}
+        />
+        
+          
         </div>
+
+        
+        
 
         <!-- Results with glass effect -->
         <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-lg">
@@ -336,7 +312,11 @@ svelte Example design direction:
             {totalFilters}
           />
         </div>
+        
       </div>
+
+      
+
     </div>
 
     <!-- Next Steps Section with enhanced glass effect -->

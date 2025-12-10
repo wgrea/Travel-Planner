@@ -88,7 +88,7 @@
             {#each tags as tag}
               <button
                 class="px-4 py-2 rounded-full border-2 transition-all duration-200 hover:scale-105 {selectedTags.includes(tag) 
-                  ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-md' 
+                  ? 'border-blue-500 bg-gradient-to-r from-blue-100 to-blue-50 text-blue-800 font-semibold shadow-lg ring-2 ring-blue-300 ring-opacity-50' 
                   : 'border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50/50'}"
                 on:click={() => dispatch('toggleTag', tag)}
               >
@@ -136,7 +136,7 @@
       {#each filteredActivities as activity}
         <button
           class="px-5 py-3 rounded-full border-2 transition-all duration-200 hover:scale-105 {preferences.activities.includes(activity) 
-            ? 'border-purple-500 bg-purple-50 text-purple-700 shadow-md' 
+            ? 'border-purple-500 bg-gradient-to-r from-purple-100 to-pink-50 text-purple-800 font-semibold shadow-lg ring-2 ring-purple-300 ring-opacity-50' 
             : 'border-gray-200 text-gray-600 hover:border-purple-300 hover:bg-purple-50/50'}"
           on:click={() => dispatch('toggleActivity', activity)}
         >
