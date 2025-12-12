@@ -1,4 +1,5 @@
 <!-- src/routes/living-costs/components/LivingCostCountrySelector.svelte -->
+<!-- Replace the entire file with this version -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   
@@ -16,7 +17,27 @@
 
   let regions: string[] = [];
   
-  $: regions = [...new Set(countryData.map(c => c.region))].sort();
+  $: {
+    // EXTENSIVE DEBUGGING
+    console.log('=== LIVING COST SELECTOR DEBUG ===');
+    console.log('1. Input countryData:', {
+      total: countryData.length,
+      sample: countryData.slice(0, 5), // Show first 5
+      allCountries: countryData.map(c => `${c.country} (${c.region})`),
+      uniqueRegions: [...new Set(countryData.map(c => c.region))]
+    });
+    
+    // Calculate regions
+    regions = [...new Set(countryData.map(c => c.region))].sort();
+    console.log('2. Calculated regions:', regions);
+    
+    // Show filtered countries
+    console.log('3. Filtered countries for selectedRegion:', selectedRegion || '(All Regions)');
+    console.log('   - filteredCountries count:', filteredCountries.length);
+    console.log('   - filteredCountries:', filteredCountries.map(c => `${c.country} (${c.region})`));
+    console.log('===============================');
+  }
+  
   $: filteredCountries = selectedRegion 
     ? countryData.filter(country => country.region === selectedRegion)
     : countryData;
@@ -26,6 +47,7 @@
   $: availableCities = currentCountryData?.cities || [];
 
   function handleCountrySelect(country: string) {
+    console.log('handleCountrySelect:', country);
     selectedCountry = country;
     onCountryChange(country);
     selectedCity = ''; // Reset city when country changes
@@ -33,12 +55,14 @@
   }
 
   function handleCitySelect(city: string) {
+    console.log('handleCitySelect:', city);
     selectedCity = city;
     dispatch('selectCity', { city, country: selectedCountry });
     dispatch('cityChange', city);
   }
 
   function handleRegionSelect(region: string) {
+    console.log('handleRegionSelect:', region || '(All Regions)');
     selectedRegion = region;
     onRegionChange(region);
     
@@ -47,6 +71,10 @@
       if (countriesInRegion.length > 0) {
         handleCountrySelect(countriesInRegion[0].country);
       }
+    } else {
+      // When switching back to "All Regions", clear country selection
+      selectedCountry = '';
+      selectedCity = '';
     }
   }
 
@@ -58,7 +86,6 @@
 </script>
 
 <div class="space-y-6 p-6">
-  <!-- COUNTRY SELECTION MODE -->
   <!-- Region Filter -->
   <div>
     <label for="region-select" class="block text-sm font-medium text-gray-700 mb-2">
@@ -70,17 +97,29 @@
       on:change={() => handleRegionSelect(selectedRegion)}
       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
     >
-      <option value="">All Regions</option>
+      <option value="">All Regions ({countryData.length} countries)</option>
       {#each regions as region}
-        <option value={region}>{region}</option>
+        <option value={region}>
+          {region} ({countryData.filter(c => c.region === region).length})
+        </option>
       {/each}
     </select>
+    
+    <!-- DEBUG: Show region info -->
+    <div class="text-xs text-gray-500 mt-1">
+      DEBUG: {regions.length} regions available
+    </div>
   </div>
 
   <!-- Country Selection -->
   <div>
     <label for="country-select" class="block text-sm font-medium text-gray-700 mb-2">
       Select Destination Country
+      {#if selectedRegion}
+        <span class="text-xs font-normal text-gray-500 ml-1">
+          (in {selectedRegion})
+        </span>
+      {/if}
     </label>
     <select 
       id="country-select"
@@ -88,14 +127,48 @@
       on:change={() => handleCountrySelect(selectedCountry)}
       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
     >
-      <option value="">Choose a country</option>
+      <option value="">
+        {#if selectedRegion}
+          Choose a country in {selectedRegion}
+        {:else}
+          Choose a country ({filteredCountries.length} available)
+        {/if}
+      </option>
       {#each filteredCountries as country}
         <option value={country.country}>
-          {country.country} 
-          {country.cities && country.cities.length > 0 ? `(${country.cities.length} cities)` : ''}
+          {#if !selectedRegion}
+            {country.country} ({country.region})
+          {:else}
+            {country.country}
+          {/if}
+          {country.cities && country.cities.length > 0 ? ` - ${country.cities.length} cities` : ''}
         </option>
       {/each}
     </select>
+    
+    <!-- Show count and DEBUG info -->
+    {#if filteredCountries.length > 0}
+      <div class="text-xs text-gray-500 mt-1 space-y-1">
+        <div>
+          {#if selectedRegion}
+            Showing {filteredCountries.length} countries in {selectedRegion}
+          {:else}
+            Showing all {filteredCountries.length} countries across all regions
+          {/if}
+        </div>
+        <!-- DEBUG: Show which regions are included -->
+        {#if !selectedRegion}
+          <div class="text-gray-400">
+            DEBUG: Includes {[...new Set(filteredCountries.map(c => c.region))].length} regions: 
+            {[...new Set(filteredCountries.map(c => c.region))].sort().join(', ')}
+          </div>
+        {/if}
+      </div>
+    {:else}
+      <div class="text-xs text-red-500 mt-1">
+        DEBUG: No countries found! Check data filtering.
+      </div>
+    {/if}
   </div>
 
   <!-- City Selection Dropdown -->
@@ -128,39 +201,6 @@
       <p class="text-yellow-700 text-sm">
         No city-specific data available for {selectedCountry}. Showing country averages.
       </p>
-    </div>
-  {/if}
-
-  <!-- Quick Region Filters -->
-  {#if regions.length > 0}
-    <div>
-      <span class="block text-sm font-medium text-gray-700 mb-2">
-        Quick region filters:
-      </span>
-      <div class="flex flex-wrap gap-2">
-        {#each regions as region}
-          <button
-            type="button"
-            class="px-3 py-1 text-sm border border-gray-300 rounded-full hover:bg-gray-50 transition-colors {selectedRegion === region ? 'bg-emerald-100 border-emerald-500 text-emerald-700' : 'bg-white text-gray-700'}"
-            on:click={() => {
-              handleRegionSelect(selectedRegion === region ? '' : region);
-            }}
-          >
-            {region}
-          </button>
-        {/each}
-        {#if selectedRegion}
-          <button
-            type="button"
-            class="px-3 py-1 text-sm border border-gray-300 rounded-full bg-white text-gray-700 hover:bg-gray-50 transition-colors"
-            on:click={() => {
-              handleRegionSelect('');
-            }}
-          >
-            Clear Filter
-          </button>
-        {/if}
-      </div>
     </div>
   {/if}
 

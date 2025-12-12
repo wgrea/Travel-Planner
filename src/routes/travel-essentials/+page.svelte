@@ -17,6 +17,7 @@ Why: Practical guide, should feel organized and cozy
 
 -->
 
+<!-- src/routes/travel-essentials/+page.svelte -->
 <script lang="ts">
   import { goto } from '$app/navigation';
   import CategoryNav from './components/CategoryNav.svelte';
@@ -139,13 +140,6 @@ Why: Practical guide, should feel organized and cozy
   <div class="max-w-6xl mx-auto relative z-10">
     <!-- Header with cozy aesthetic -->
     <div class="flex items-center justify-between mb-8">
-      <button
-        on:click={goBack}
-        class="flex items-center gap-2 text-rose-700 hover:text-rose-900 transition-colors group bg-white/70 backdrop-blur-sm px-4 py-2 rounded-xl border border-rose-200"
-      >
-        <span class="text-lg group-hover:-translate-x-1 transition-transform">←</span>
-        <span class="font-medium text-sm">Back to Home</span>
-      </button>
       
       <div class="text-center flex-1">
         <div class="text-5xl mb-3 animate-bounce-slow">🎒</div>
@@ -214,62 +208,6 @@ Why: Practical guide, should feel organized and cozy
       </div>
     </div>
 
-    <!-- Navigation Buttons Section - Warm and inviting -->
-    <div class="mt-12 pt-8 border-t border-rose-200/50">
-      <!-- Quick Links with warm colors -->
-      <div class="mb-8 text-center">
-        <p class="text-rose-800 text-sm mb-4 font-medium tracking-wide">Quick Travel Planning Links</p>
-        <div class="flex gap-3 justify-center flex-wrap">
-          <button
-            on:click={() => goto('/visa')}
-            class="px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-blue-200 text-blue-700 hover:border-blue-300 hover:bg-blue-50/80 hover:scale-105 transition-all duration-300 font-medium text-sm shadow-sm"
-          >
-            📝 Visa Requirements
-          </button>
-          <button
-            on:click={() => goto('/flight-costs')}
-            class="px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-sky-200 text-sky-700 hover:border-sky-300 hover:bg-sky-50/80 hover:scale-105 transition-all duration-300 font-medium text-sm shadow-sm"
-          >
-            ✈️ Flight Costs
-          </button>
-          <button
-            on:click={() => goto('/living-costs')}
-            class="px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-emerald-200 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50/80 hover:scale-105 transition-all duration-300 font-medium text-sm shadow-sm"
-          >
-            🏠 Living Costs
-          </button>
-          <button
-            on:click={() => goto('/digital-nomad')}
-            class="px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-indigo-200 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50/80 hover:scale-105 transition-all duration-300 font-medium text-sm shadow-sm"
-          >
-            💻 Digital Nomad
-          </button>
-        </div>
-      </div>
 
-      <!-- Destination Finder CTA - Warm inviting button -->
-      <div class="mb-8 text-center">
-        <p class="text-rose-800 text-sm mb-4 font-medium tracking-wide">Ready to plan your destination?</p>
-        <button
-          on:click={() => goto('/resonance')}
-          class="px-6 py-3 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 text-white hover:from-amber-500 hover:to-orange-500 hover:shadow-lg hover:scale-105 transition-all duration-300 font-medium text-sm shadow-md inline-flex items-center gap-2 group"
-        >
-          <span class="text-lg group-hover:scale-110 transition-transform">🔍</span>
-          Find Your Perfect Destination
-        </button>
-      </div>
-
-      <!-- Back to Main Menu - Cozy button -->
-      <div class="text-center">
-        <p class="text-rose-800 text-sm mb-4 font-medium tracking-wide">Or return to the main menu</p>
-        <button
-          on:click={goBack}
-          class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-rose-100 to-pink-100 border border-rose-300 text-rose-800 hover:border-rose-400 hover:bg-rose-200/80 hover:shadow-md hover:scale-105 transition-all duration-300 font-medium text-sm group"
-        >
-          <span class="text-lg group-hover:-translate-x-1 transition-transform">←</span>
-          Back to Home
-        </button>
-      </div>
-    </div>
   </div>
 </div>

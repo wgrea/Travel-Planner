@@ -1,25 +1,4 @@
 <!-- src/routes/living-costs/+page.svelte -->
-
-<!-- I should also show the different currencies on other pages like I do on this page -->
-<!-- Trip Duration & Budget is squeezed when the page is in full screen -->
-
-<!--
-🏠 Living Costs
-
-Aesthetic: Clean + Practical
-Colors: Emerald/teal (from-emerald-50 to-teal-50)
-Special Elements:
-
-Clean data visualization
-Calculator-style inputs with soft shadows
-Progress bars or charts with subtle gradients
-
-
-Why: This is about numbers - keep it clear and trustworthy
-
--->
-
-
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
@@ -28,10 +7,6 @@ Why: This is about numbers - keep it clear and trustworthy
   import BackgroundElements from './components/BackgroundElements.svelte';
   import { getAllCountries, getAllRegions } from '$lib/utils/living-costs';
   import type { TravelStyle } from '$lib/types/living-costs';
-  
-  // Import reusable components
-  import BeforeYouStart from './components/BeforeYouStart.svelte';
-  import NextSteps from './components/NextSteps.svelte';
   import BudgetReminder from './components/BudgetReminder.svelte';
 
   // Import the CurrencySelector
@@ -50,20 +25,6 @@ Why: This is about numbers - keep it clear and trustworthy
   
   // Use $derived for the store value in runes mode
   const currentCurrency = $derived($selectedCurrency);
-
-  // Use $effect for initialization
-  $effect(() => {
-    const regions = getAllRegions();
-    const countries = getAllCountries();
-    
-    if (regions.length > 0 && !selectedRegion) {
-      selectedRegion = regions[0];
-    }
-    
-    if (countries.length > 0 && !selectedCountry) {
-      selectedCountry = countries[0].country;
-    }
-  });
 
   // Event handlers
   function handleCountryChange(country: string) {
@@ -113,42 +74,10 @@ Why: This is about numbers - keep it clear and trustworthy
   </div>
 
   <div class="max-w-6xl mx-auto relative z-10">
-    <!-- Back Button - Clean and minimal -->
-    <button onclick={() => goto('/')} 
-      class="group mb-8 inline-flex items-center gap-2 text-emerald-700 hover:text-emerald-900 
-      transition-colors duration-200 bg-white/80 backdrop-blur-sm px-4 py-2.5 rounded-xl 
-      border border-emerald-200 hover:border-emerald-300">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
-      </svg>
-      <span class="font-medium text-sm">Back to Main Menu</span>
-    </button>
 
     <!-- Currency Selector - Calculator style -->
     <div class="mb-8 bg-white/90 backdrop-blur-sm rounded-xl border border-emerald-200 p-4 inline-block">
       <CurrencySelector />
-    </div>
-
-    <!-- Before You Start - Clean info box -->
-    <div class="mb-8 bg-gradient-to-r from-emerald-100/60 to-teal-100/60 backdrop-blur-sm 
-      rounded-xl border border-emerald-200/50 p-5 max-w-2xl mx-auto">
-      <BeforeYouStart />
-    </div>
-
-    <!-- Navigation - Clean buttons -->
-    <div class="mb-8 flex gap-3 justify-center flex-wrap">
-      <button onclick={() => goto('/transportation-costs')}
-        class="px-5 py-2.5 bg-white/90 backdrop-blur-sm rounded-lg border border-emerald-200 
-        text-emerald-700 hover:border-emerald-300 hover:bg-white hover:shadow-md 
-        transition-all duration-200 font-medium text-sm flex items-center gap-2">
-        🚗 Transportation Costs
-      </button>
-      <button onclick={() => goto('/flight-costs')}
-        class="px-5 py-2.5 bg-white/90 backdrop-blur-sm rounded-lg border border-emerald-200 
-        text-emerald-700 hover:border-emerald-300 hover:bg-white hover:shadow-md 
-        transition-all duration-200 font-medium text-sm flex items-center gap-2">
-        ✈️ Flight Costs
-      </button>
     </div>
 
     <!-- Header - Clean typography -->
@@ -217,47 +146,9 @@ Why: This is about numbers - keep it clear and trustworthy
       </div>
     </div>
 
-    <!-- Next Steps Section - Clean call-to-action -->
-    <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-200 
-      p-8 mb-8">
-      <div class="text-center">
-        <div class="flex items-center justify-center gap-3 mb-4">
-          <div class="w-6 h-1 bg-emerald-400 rounded-full"></div>
-          <h3 class="text-lg font-medium text-emerald-900">Continue Planning</h3>
-          <div class="w-6 h-1 bg-teal-400 rounded-full"></div>
-        </div>
-        <NextSteps />
-      </div>
-    </div>
-
     <!-- Budget Planning Reminder - Clean info card -->
     <div class="bg-white rounded-xl border border-emerald-200 p-6 max-w-lg mx-auto">
       <BudgetReminder />
-    </div>
-
-    <!-- Additional Tools - Clean grid -->
-    <div class="mt-12 pt-8 border-t border-emerald-200">
-      <p class="text-emerald-700 text-sm font-medium text-center mb-6">More Financial Tools</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-        <button onclick={() => goto('/digital-nomad')}
-          class="p-4 bg-white rounded-lg border border-emerald-200 hover:border-emerald-300 
-          hover:shadow-sm transition-all duration-200 text-center">
-          <div class="text-2xl mb-2">💻</div>
-          <div class="text-sm font-medium text-emerald-800">Digital Nomad</div>
-        </button>
-        <button onclick={() => goto('/travel-essentials')}
-          class="p-4 bg-white rounded-lg border border-emerald-200 hover:border-emerald-300 
-          hover:shadow-sm transition-all duration-200 text-center">
-          <div class="text-2xl mb-2">🎒</div>
-          <div class="text-sm font-medium text-emerald-800">Packing</div>
-        </button>
-        <button onclick={() => goto('/resonance')}
-          class="p-4 bg-white rounded-lg border border-emerald-200 hover:border-emerald-300 
-          hover:shadow-sm transition-all duration-200 text-center">
-          <div class="text-2xl mb-2">🔍</div>
-          <div class="text-sm font-medium text-emerald-800">Find Destinations</div>
-        </button>
-      </div>
     </div>
   </div>
 </div>

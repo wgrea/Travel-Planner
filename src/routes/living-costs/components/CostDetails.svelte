@@ -134,8 +134,7 @@
 </div>
 
 <!-- Travel Configuration -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-  <TripBudgetCalculator 
+<TripBudgetCalculator 
     {tripLength}
     {totalCost}
     {travelStyle}
@@ -143,7 +142,6 @@
     on:tripLengthChange={handleTripLengthChange}
     on:travelerCountChange={handleTravelerCountChange}
   />
-</div> 
 
 <!-- Cost Breakdown -->
 <div class="mb-12">

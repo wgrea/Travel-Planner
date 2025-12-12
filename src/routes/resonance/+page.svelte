@@ -204,18 +204,7 @@
   </div>
 
   <div class="max-w-7xl mx-auto relative z-10">
-    
-    <!-- Back Button with glass effect -->
-    <button on:click={() => goto('/')} 
-      class="group mb-8 ml-8 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm 
-      px-4 py-2 rounded-xl border border-white/30 text-gray-700 hover:text-gray-900 
-      hover:bg-white/30 hover:border-white/50 transition-all duration-300">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-      <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
-    </button>
-
+  
     <!-- Header with glass effect -->
     <div class="text-center mb-12 bg-white/30 backdrop-blur-sm rounded-2xl p-8 border border-white/40 shadow-lg">
       <h1 class="text-5xl font-light mb-4 text-gray-900">Destination Resonance Finder</h1>
@@ -224,29 +213,6 @@
       </p>
     </div>
 
-    <!-- Quick Stats with glass cards -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-      <div class="bg-white/40 backdrop-blur-sm rounded-xl p-4 text-center border border-white/50 shadow-sm hover:shadow-md transition-shadow duration-300">
-        <div class="text-2xl font-semibold text-cyan-700">{allLocations.length}</div>
-        <div class="text-sm text-gray-700">Locations</div>
-      </div>
-      <div class="bg-white/40 backdrop-blur-sm rounded-xl p-4 text-center border border-white/50 shadow-sm hover:shadow-md transition-shadow duration-300">
-        <div class="text-2xl font-semibold text-teal-700">{allTags.length}</div>
-        <div class="text-sm text-gray-700">Tags</div>
-      </div>
-      <div class="bg-white/40 backdrop-blur-sm rounded-xl p-4 text-center border border-white/50 shadow-sm hover:shadow-md transition-shadow duration-300">
-        <div class="text-2xl font-semibold text-blue-700">{allActivities.length}</div>
-        <div class="text-sm text-gray-700">Activities</div>
-      </div>
-      <div class="bg-white/40 backdrop-blur-sm rounded-xl p-4 text-center border border-white/50 shadow-sm hover:shadow-md transition-shadow duration-300">
-        <div class="text-2xl font-semibold text-purple-700">{totalFilters}</div>
-        <div class="text-sm text-gray-700">Filters Active</div>
-      </div>
-      <div class="bg-white/40 backdrop-blur-sm rounded-xl p-4 text-center border border-white/50 shadow-sm hover:shadow-md transition-shadow duration-300">
-        <div class="text-2xl font-semibold text-indigo-700">{matches.length}</div>
-        <div class="text-sm text-gray-700">Matches</div>
-      </div>
-    </div>
 
     <!-- Main Content -->
     <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
@@ -312,72 +278,7 @@
             {totalFilters}
           />
         </div>
-        
       </div>
-
-      
-
     </div>
-
-    <!-- Next Steps Section with enhanced glass effect -->
-    {#if matches.length > 0}
-      <div class="mt-16 bg-gradient-to-r from-cyan-50/60 to-blue-50/60 backdrop-blur-md rounded-2xl p-8 border border-white/50 shadow-lg">
-        <h3 class="text-2xl font-light text-gray-900 mb-6 text-center">Next Steps for Your Matches</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          <!-- Visa Requirements Card -->
-          <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/70 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 group">
-            <div class="text-purple-600 mb-4 group-hover:scale-110 transition-transform duration-300">
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
-              </svg>
-            </div>
-            <h4 class="text-lg font-semibold text-gray-900 mb-2">Visa Requirements</h4>
-            <p class="text-gray-700 text-sm mb-4">Check visa requirements, processing times, and documentation needed for entry.</p>
-            <a href="/visa" class="inline-flex items-center text-purple-600 hover:text-purple-800 font-medium text-sm group-hover:translate-x-1 transition-transform duration-300">
-              Check Visa Info
-              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
-          
-          <!-- Flight Costs Card -->
-          <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/70 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 group">
-            <div class="text-blue-600 mb-4 group-hover:scale-110 transition-transform duration-300">
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-              </svg>
-            </div>
-            <h4 class="text-lg font-semibold text-gray-900 mb-2">Flight Costs</h4>
-            <p class="text-gray-700 text-sm mb-4">Check current flight prices and find the best deals for your matched destinations.</p>
-            <a href="/flight-costs" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm group-hover:translate-x-1 transition-transform duration-300">
-              Explore Flight Prices
-              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
-
-          <!-- Living Costs Card -->
-          <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/70 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 group">
-            <div class="text-teal-600 mb-4 group-hover:scale-110 transition-transform duration-300">
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
-              </svg>
-            </div>
-            <h4 class="text-lg font-semibold text-gray-900 mb-2">Living Costs</h4>
-            <p class="text-gray-700 text-sm mb-4">Analyze accommodation, food, and daily expenses for your potential destinations.</p>
-            <a href="/living-costs" class="inline-flex items-center text-teal-600 hover:text-teal-800 font-medium text-sm group-hover:translate-x-1 transition-transform duration-300">
-              Calculate Living Expenses
-              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    {/if}
   </div>
 </div>

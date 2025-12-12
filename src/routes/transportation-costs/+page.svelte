@@ -1,5 +1,3 @@
-<!-- src/routes/transportation-costs/+page.svelte -->
-
 <!--
 
 🚗 Transportation Costs
@@ -17,6 +15,7 @@ Why: Ground transportation, needs to feel navigable
 
 -->
 
+<!-- src/routes/transportation-costs/+page.svelte -->
 <script lang="ts">
   import { goto } from '$app/navigation';
   
@@ -65,18 +64,6 @@ Why: Ground transportation, needs to feel navigable
 
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto relative z-20">
-    <!-- Back Button - Road sign style -->
-    <button 
-      onclick={() => goto('/')}
-      class="group mb-8 inline-flex items-center gap-3 px-5 py-3 text-amber-900 hover:text-orange-900 
-      transition-all duration-300 bg-white/90 backdrop-blur-sm rounded-xl border border-amber-200 
-      hover:border-orange-300 hover:shadow-lg hover:scale-105"
-    >
-      <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-      <span class="font-medium text-sm tracking-wide">Back to Main Menu</span>
-    </button>
 
     <!-- Currency Selector - Road style -->
     <div class="mb-8 bg-white/90 backdrop-blur-sm rounded-xl border border-amber-200 p-4 inline-block">
@@ -178,59 +165,6 @@ Why: Ground transportation, needs to feel navigable
             </div>
           </div>
         {/if}
-      </div>
-    </div>
-
-    <!-- Features Grid - Vehicle icons with soft shadows -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-      {#each [
-        { icon: '🚆', title: 'Public Transport', desc: 'Buses, trains, metro systems', color: 'from-amber-400 to-orange-500', shadow: 'shadow-amber-200/50' },
-        { icon: '🚗', title: 'Ride Sharing', desc: 'Uber, Grab, local apps', color: 'from-orange-400 to-red-500', shadow: 'shadow-orange-200/50' },
-        { icon: '🚕', title: 'Taxis', desc: 'Metered & fixed prices', color: 'from-yellow-400 to-amber-500', shadow: 'shadow-yellow-200/50' },
-        { icon: '🛵', title: 'Rentals', desc: 'Cars, scooters, bikes', color: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-300/50' }
-      ] as item}
-        <div class="group">
-          <div class="bg-white/90 backdrop-blur-sm rounded-xl border border-amber-200 p-6 text-center 
-            hover:shadow-xl transition-all duration-300 hover:scale-105 h-full relative">
-            <!-- Vehicle shadow behind icon -->
-            <div class="absolute inset-0 rounded-xl {item.shadow} opacity-0 group-hover:opacity-100 
-              transition-opacity duration-300 -z-10"></div>
-            
-            <div class="w-20 h-20 bg-gradient-to-br {item.color} rounded-2xl flex items-center justify-center 
-              text-3xl mb-6 mx-auto transform group-hover:scale-110 group-hover:rotate-3 
-              transition-all duration-300 shadow-lg">
-              {item.icon}
-            </div>
-            <h3 class="font-semibold text-amber-900 mb-3 text-lg">{item.title}</h3>
-            <p class="text-sm text-amber-700/80">{item.desc}</p>
-          </div>
-        </div>
-      {/each}
-    </div>
-
-    <!-- Additional Navigation -->
-    <div class="bg-gradient-to-r from-amber-100/80 to-orange-100/80 backdrop-blur-sm rounded-2xl 
-      border border-amber-300/50 p-8 text-center mb-8">
-      <p class="text-amber-900 text-lg font-medium mb-6">Continue Your Travel Planning</p>
-      <div class="flex gap-4 justify-center flex-wrap">
-        <button onclick={() => goto('/flight-costs')}
-          class="px-5 py-3 rounded-xl bg-white/90 border border-amber-300 text-amber-800 
-          hover:border-orange-400 hover:bg-white hover:shadow-lg hover:scale-105 
-          transition-all duration-300 font-medium text-sm flex items-center gap-2">
-          ✈️ Flight Costs
-        </button>
-        <button onclick={() => goto('/living-costs')}
-          class="px-5 py-3 rounded-xl bg-white/90 border border-amber-300 text-amber-800 
-          hover:border-orange-400 hover:bg-white hover:shadow-lg hover:scale-105 
-          transition-all duration-300 font-medium text-sm flex items-center gap-2">
-          🏠 Living Costs
-        </button>
-        <button onclick={() => goto('/travel-essentials')}
-          class="px-5 py-3 rounded-xl bg-white/90 border border-amber-300 text-amber-800 
-          hover:border-orange-400 hover:bg-white hover:shadow-lg hover:scale-105 
-          transition-all duration-300 font-medium text-sm flex items-center gap-2">
-          🎒 Packing Essentials
-        </button>
       </div>
     </div>
   </div>

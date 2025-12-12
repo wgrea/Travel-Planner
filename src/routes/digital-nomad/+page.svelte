@@ -1,43 +1,36 @@
 <!-- src/routes/digital-nomad/+page.svelte -->
-
-<!-- 
-
-I need to make sure I do not undo the currency and make sure the live debug and what shows matches
-
--->
-
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { nomadData, nomadDataByRegion, getAllRegions, getSubregionsByRegion, type Workspace } from '$lib/data/nomadData';
   import { minimalData } from '$lib/data/minimalData';
+  import { globalCoworkingMemberships } from '$lib/data/globalCoworkingMemberships';
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
   
   // Import components
   import DigitalNomadCountrySelector from './components/DigitalNomadCountrySelector.svelte';
   import MainContent from './components/MainContent.svelte';
-  import BackgroundElements from './components/BackgroundElements.svelte';
   
   // Import reusable components
-  import BeforeYouStart from './components/BeforeYouStart.svelte';
   import NextSteps from './components/NextSteps.svelte';
-  import WorkPreferenceSelector from './components/WorkPreferenceSelector.svelte';
 
-  // === ADD CURRENCY IMPORTS ===
-  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
+  // Currency imports
   import CurrencySelector from '$lib/components/CurrencySelector.svelte';
   import { selectedCurrency } from '$lib/stores/currency';
 
+  // Digital nomad components
   import CostSavingTips from './components/CostSavingTips.svelte';
   import FreeWorkOptions from './components/FreeWorkOptions.svelte';
   import CoworkingMemberships from './components/CoworkingMemberships.svelte';
+  import GlobalMemberships from './components/GlobalMemberships.svelte';
 
   // State using $state runes
   let selectedCountry = $state('Thailand');
+  let workPreference = $state('zero_spend'); // Default
   let selectedRegion = $state('');
   let selectedCity = $state('Bangkok');
-  let workPreference = $state('coworking');
   let isLoading = $state(false);
 
-  // === ADD REACTIVE CURRENCY ===
+  // Reactive currency
   const currentCurrency = $derived($selectedCurrency);
 
   // Get country data for selector
@@ -92,13 +85,7 @@ I need to make sure I do not undo the currency and make sure the live debug and 
   function getCitiesForCountry(country: string): string[] {
     const fromNomadData = nomadData.find(item => item.country === country);
     const cities = fromNomadData?.cities || [];
-    console.log('Found cities for', country, ':', cities); // Debug log
     return cities;
-  }
-
-  // Get regions for the selector
-  function getRegions(): string[] {
-    return getAllRegions();
   }
 
   // Event handlers
@@ -134,19 +121,11 @@ I need to make sure I do not undo the currency and make sure the live debug and 
     console.log('Selected city set to:', selectedCity);
   }
 
-  function handleWorkPreferenceChange(event: CustomEvent<string>) {
-    console.log('🔄 Work preference change event received:', event.detail);
-    workPreference = event.detail;
-    console.log('🔄 Work preference set to:', workPreference);
-  }
-
   function handleSelectCity(event: CustomEvent<{ city: string; country: string }>) {
     selectedCity = event.detail.city;
     selectedCountry = event.detail.country;
   }
 
-  // === CONVERT REACTIVE DECLARATIONS TO RUNES ===
-  
   // Use $effect for side effects
   $effect(() => {
     if (selectedCountry) {
@@ -161,33 +140,16 @@ I need to make sure I do not undo the currency and make sure the live debug and 
     return nomadData.find(item => item && item.country === selectedCountry);
   }
 
-  // Get current city data
-  function getCurrentCityData() {
-    const countryData = getCurrentCountryData();
-    const workspaceData = getCurrentWorkspaceData();
-    
-    return {
-      internet: countryData?.internet,
-      coworkingSpaces: workspaceData,
-      community: countryData?.community,
-      safety: countryData?.community?.safety
-    };
-  }
-
+  // Get current workspace data
   function getCurrentWorkspaceData(): Workspace[] {
     console.log('🚨 getCurrentWorkspaceData() CALLED with country:', selectedCountry, 'city:', selectedCity, 'workPref:', workPreference);
     if (!selectedCountry) return [];
     
     // Force fresh lookup every time
     const countryData = nomadData.find(item => item.country === selectedCountry);
-    console.log('🔍 Fresh country data lookup:', countryData?.country, 'workspaces:', countryData?.workspaces?.length);
-    
+
     let workspaces = countryData?.workspaces || [];
-    console.log('Workspaces for', selectedCountry, ':', workspaces);
-    
-    console.log('=== FILTERING DEBUG ===');
-    console.log('Before filtering - All workspaces:', workspaces.map(w => `${w.name} (${w.city}, ${w.type})`));
-    
+
     // Filter by city if selected
     if (selectedCity) {
       console.log('Filtering by city:', selectedCity);
@@ -200,18 +162,10 @@ I need to make sure I do not undo the currency and make sure the live debug and 
     
     console.log('After city filter:', workspaces.map(w => `${w.name} (${w.type})`));
     
-    // Filter by work preference
-    if (workPreference === 'coworking') {
-      workspaces = workspaces.filter((space: Workspace) => space.type === 'coworking');
-    } else if (workPreference === 'cafe') {
-      workspaces = workspaces.filter((space: Workspace) => space.type === 'cafe');
-    } else if (workPreference === 'hostel') {
-      workspaces = workspaces.filter((space: Workspace) => space.type === 'hostel');
-    } else if (workPreference === 'hotel') {
-      workspaces = workspaces.filter((space: Workspace) => space.type === 'hotel');
-    }
+    // REMOVE OLD WORK PREFERENCE FILTERING - MainContent will handle budget filtering
+    // We'll pass all workspaces and let MainContent filter by budget category
     
-    console.log('After work preference filter:', workspaces.map(w => `${w.name} (${w.type})`));
+    console.log('Returning workspaces:', workspaces.length);
     console.log('=====================');
     
     return workspaces;
@@ -221,114 +175,8 @@ I need to make sure I do not undo the currency and make sure the live debug and 
   const countryData = $derived(getAllCountries());
   const currentCountryData = $derived(getCurrentCountryData());
   const currentVisaData = $derived(selectedCountry ? minimalData.countries[selectedCountry.toLowerCase()] : null);
-  const currentWorkspaceData = $derived(getCurrentWorkspaceData());
 
-  // Use $effect for debugging and side effects
-  $effect(() => {
-    console.log('🔄 currentWorkspaceData UPDATED:', currentWorkspaceData.length, 'Country:', selectedCountry, 'City:', selectedCity, 'WorkPref:', workPreference);
-  });
-
-  $effect(() => {
-    console.log('📢 workPreference REACTIVE UPDATE:', workPreference);
-  });
-
-  $effect(() => {
-    console.log('🔄 PAGE DATA CHANGED - Country:', selectedCountry, 'City:', selectedCity, 'WorkPref:', workPreference, 'Workspaces:', currentWorkspaceData.length);
-  });
-
-  // Add this to debug workspace types
-  function debugWorkspaceTypes() {
-    const countryData = nomadData.find(item => item.country === selectedCountry);
-    const workspaces = countryData?.workspaces || [];
-    
-    console.log('=== WORKSPACE DEBUG ===');
-    console.log('Selected country:', selectedCountry);
-    console.log('Selected city:', selectedCity);
-    console.log('Work preference:', workPreference);
-    
-    // Group workspaces by type and city - FIXED: Properly type the object
-    const byType: Record<string, string[]> = {};
-    workspaces.forEach(space => {
-      if (!byType[space.type]) byType[space.type] = [];
-      byType[space.type].push(`${space.name} (${space.city})`);
-    });
-    
-    console.log('Workspaces by type:', byType);
-    console.log('All workspaces:', workspaces);
-    console.log('=====================');
-  }
-
-  // Call it when relevant data changes
-  $effect(() => {
-    if (selectedCountry) {
-      debugWorkspaceTypes();
-    }
-  });
-
-  // VIETNAM DEBUG CODE using $effect
-  $effect(() => {
-    if (selectedCountry === 'Vietnam') {
-      console.log('🔍 === VIETNAM DEBUG ===');
-      
-      // Check what's in nomadData
-      const allCountries = nomadData.map(item => item.country);
-      console.log('All countries in nomadData:', allCountries);
-      
-      const vietnamData = nomadData.find(item => item.country === 'Vietnam');
-      console.log('Vietnam data found:', vietnamData);
-      console.log('Vietnam workspaces:', vietnamData?.workspaces?.map(w => `${w.name} (${w.city})`));
-      
-      // Check current workspace data
-      console.log('Current workspaceData:', currentWorkspaceData.map(w => `${w.name} (${w.city}, ${w.type})`));
-      
-      console.log('🔍 =====================');
-    }
-  });
-
-  // I don't think this is necessary but the whole page stops working when I comment this entire function out
-  function getVisaData() {
-    return selectedCountry ? minimalData.countries[selectedCountry.toLowerCase()] : null;
-  } 
-
-  // Add debug logging for currency changes
-  $effect(() => {
-    console.log('🌍 Main page currency changed:', currentCurrency);
-  });
-
-  // Add debug logging for workspace data
-  $effect(() => {
-    console.log('🌍 Workspace data updated:', currentWorkspaceData.length, 'items');
-  });
-
-  // In your main page script
-  $effect(() => {
-    console.log('🔍 DEBUG - Thailand data check:', {
-      country: currentCountryData?.country,
-      hasFreeWorkspaces: currentCountryData?.freeWorkspaces?.length || 0,
-      hasMoneySavingTips: !!currentCountryData?.moneySavingTips,
-      hasMemberships: currentCountryData?.coworkingMemberships?.length || 0,
-      touristyCities: currentCountryData?.touristyCities || []
-    });
-    
-    // Also check first workspace
-    if (currentWorkspaceData.length > 0) {
-      console.log('🔍 First workspace:', {
-        name: currentWorkspaceData[0].name,
-        touristArea: currentWorkspaceData[0].touristArea,
-        freeTrialDays: currentWorkspaceData[0].freeTrialDays
-      });
-    }
-  });
 </script>
-
-<!-- Temporary debug section in +page.svelte -->
-<div class="fixed bottom-4 right-4 bg-red-100 p-4 rounded-lg z-50">
-  <h4 class="font-bold">DEBUG DATA CHECK</h4>
-  <p>Country: {selectedCountry}</p>
-  <p>Has free workspaces: {currentCountryData?.freeWorkspaces?.length || 0}</p>
-  <p>Has money tips: {currentCountryData?.moneySavingTips ? 'YES' : 'NO'}</p>
-  <p>First workspace touristArea: {currentWorkspaceData[0]?.touristArea}</p>
-</div>
 
 <div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 px-4 py-8 relative overflow-hidden">
   <!-- Subtle grid pattern overlay (tech vibe) -->
@@ -359,49 +207,10 @@ I need to make sure I do not undo the currency and make sure the live debug and 
   </div>
 
   <div class="max-w-7xl mx-auto relative z-10">
-    
-    <!-- Back Button - Tech glass effect -->
-    <button onclick={() => goto('/')} 
-      class="group mb-8 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm 
-      px-4 py-2.5 rounded-xl border border-indigo-200/50 text-indigo-800 hover:text-indigo-900 
-      hover:bg-white/30 hover:border-indigo-300 hover:shadow-lg transition-all duration-300">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
-      </svg>
-      <span class="font-medium text-sm">Back to Main Menu</span>
-    </button>
 
     <!-- Currency Selector - Tech style -->
     <div class="mb-8 bg-white/30 backdrop-blur-sm rounded-xl border border-indigo-200/50 p-4 inline-block">
       <CurrencySelector />
-    </div>
-
-    <!-- Navigation - Tech badge style -->
-    <div class="mb-8 flex gap-3 justify-center flex-wrap">
-      <button onclick={() => goto('/digital-nomad/support')}
-        class="px-5 py-2.5 bg-white/30 backdrop-blur-sm rounded-lg border border-indigo-200/50 
-        text-indigo-700 hover:border-indigo-300 hover:bg-white/50 hover:shadow-md hover:scale-105 
-        transition-all duration-300 font-medium text-sm">
-        📋 Support
-      </button>
-      <button onclick={() => goto('/digital-nomad/how-to-work-from-anywhere')}
-        class="px-5 py-2.5 bg-white/30 backdrop-blur-sm rounded-lg border border-indigo-200/50 
-        text-indigo-700 hover:border-indigo-300 hover:bg-white/50 hover:shadow-md hover:scale-105 
-        transition-all duration-300 font-medium text-sm">
-        💼 How to Work From Anywhere
-      </button>
-      <button onclick={() => goto('/transportation-costs')}
-        class="px-5 py-2.5 bg-white/30 backdrop-blur-sm rounded-lg border border-indigo-200/50 
-        text-indigo-700 hover:border-indigo-300 hover:bg-white/50 hover:shadow-md hover:scale-105 
-        transition-all duration-300 font-medium text-sm flex items-center gap-2">
-        🚗 Transportation Costs
-      </button>
-    </div>
-
-    <!-- Before You Start - Tech card -->
-    <div class="mb-8 bg-gradient-to-r from-indigo-100/50 to-purple-100/50 backdrop-blur-sm 
-      rounded-xl border border-indigo-200/50 p-5 max-w-2xl mx-auto">
-      <BeforeYouStart />
     </div>
 
     <!-- Header - Tech-forward typography -->
@@ -442,94 +251,82 @@ I need to make sure I do not undo the currency and make sure the live debug and 
         <div class="inline-block w-8 h-8 border-2 border-indigo-300 border-t-indigo-600 rounded-full animate-spin"></div>
         <p class="mt-4 text-indigo-600 font-light">Loading digital nomad insights...</p>
       </div>
-    {:else if selectedCountry && currentCountryData}
-      
-      <!-- Work Preference Section - Tech toggle -->
-      <div class="mb-12 max-w-4xl mx-auto">
-        <div class="bg-white/30 backdrop-blur-md rounded-2xl border border-indigo-200/50 p-6">
-          <WorkPreferenceSelector 
-            {workPreference}
-            on:workPreferenceChange={handleWorkPreferenceChange}
-          />
-        </div>
-      </div>
+    {:else if selectedCountry && currentCountryData}  
 
-      <!-- Debug panel (keep but style tech) -->
-      <div class="fixed top-4 right-4 bg-gradient-to-br from-yellow-100 to-amber-100 backdrop-blur-sm 
-        p-4 rounded-xl border-2 border-yellow-400/50 z-50 max-w-xs shadow-xl">
-        <h3 class="font-bold text-amber-800 text-sm flex items-center gap-2">
-          <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
-          LIVE DEBUG
-        </h3>
-        <div class="space-y-1 mt-2 text-xs">
-          <div class="flex justify-between">
-            <span class="text-amber-700">Work Preference:</span>
-            <span class="font-bold text-amber-900">{workPreference}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-amber-700">Workspaces:</span>
-            <span class="font-bold text-amber-900">{currentWorkspaceData.length}</span>
-          </div>
-          <div class="mt-2 max-h-20 overflow-y-auto">
-            {#each currentWorkspaceData as space}
-              <div class="bg-amber-200/30 p-1.5 mb-1 rounded text-amber-800 text-xs">
-                • {space.name} ({space.type})
-              </div>
-            {:else}
-              <div class="text-amber-600 italic text-xs">No matches</div>
-            {/each}
-          </div>
-        </div>
-      </div>
+  <!-- Main Content Card -->
+  <div class="tech-card mb-8">
+    <MainContent
+      {selectedCountry}
+      {selectedCity}
+      countryData={currentCountryData}
+      visaData={currentVisaData}
+      currency={currentCurrency}
+    />
+  </div>
 
-      <!-- Main Content - Tech cards -->
-      <div class="bg-white/30 backdrop-blur-md rounded-2xl border border-indigo-200/50 
-        shadow-xl overflow-hidden mb-8">
-        <MainContent
-          {selectedCountry}
-          {selectedCity}
-          {workPreference}
-          countryData={currentCountryData}
-          workspaceData={currentWorkspaceData}
-          visaData={currentVisaData}
-          currency={currentCurrency}
-        />
-      </div>
-
-      <!-- Inside the {#if selectedCountry && currentCountryData} block, after MainContent -->
-      <!-- Cost Saving Tips -->
-      <div class="bg-white/30 backdrop-blur-md rounded-2xl border border-indigo-200/50 p-6">
-        <CostSavingTips
-          {selectedCountry}
-          {selectedCity}
-          {workPreference}
-          isTouristArea={currentCountryData.touristyCities?.includes(selectedCity)}
-          currency={currentCurrency}
-        />
-      </div>
-      
-      <!-- Free Work Options -->
-      {#if currentCountryData.freeWorkspaces && currentCountryData.freeWorkspaces.length > 0}
-        <div class="bg-white/30 backdrop-blur-md rounded-2xl border border-emerald-200/50 p-6">
-          <FreeWorkOptions
-            {selectedCountry}
-            {selectedCity}
-            currency={currentCurrency}
-          />
-        </div>
-      {/if}
+  <!-- Space between sections - add this wrapper -->
+  <div class="space-y-8">
     
-    <!-- Coworking Memberships -->
-    {#if currentCountryData.coworkingMemberships && currentCountryData.coworkingMemberships.length > 0}
-      <div class="mt-8 bg-white/30 backdrop-blur-md rounded-2xl border border-purple-200/50 p-6">
-        <CoworkingMemberships
+    <!-- Country-specific Coworking Memberships -->
+    <div class="tech-card">
+      <CoworkingMemberships
+        {selectedCountry}
+        {selectedCity}
+        currency={currentCurrency}
+        memberships={currentCountryData?.coworkingMemberships || []} 
+      />
+    </div>
+
+    <!-- Global Coworking Memberships -->
+    <div class="tech-card">
+      <GlobalMemberships 
+        currency={currentCurrency}
+        memberships={globalCoworkingMemberships} 
+      />
+    </div>
+
+    <!-- Cost Saving Tips -->
+    <div class="tech-card">
+      <CostSavingTips
+        {selectedCountry}
+        {selectedCity}
+        {workPreference}
+        isTouristArea={currentCountryData.touristyCities?.includes(selectedCity)}
+        currency={currentCurrency}
+      />
+    </div>
+    
+    <!-- Free Work Options -->
+    {#if currentCountryData.freeWorkspaces && currentCountryData.freeWorkspaces.length > 0}
+      <div class="tech-card border-emerald-200/50">
+        <FreeWorkOptions
           {selectedCountry}
           {selectedCity}
           currency={currentCurrency}
-          memberships={currentCountryData.coworkingMemberships} 
-          />
+        />
+      </div>
+    {/if}
+
+    <!-- Remote Work Tips - Tech insight card -->
+    <div class="tech-card max-w-2xl mx-auto">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-xl 
+          flex items-center justify-center text-indigo-600 flex-shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
         </div>
-      {/if}
+        <div class="text-left">
+          <p class="font-semibold text-indigo-900">Productivity Protocol</p>
+          <p class="text-sm text-indigo-700/80 mt-2 leading-relaxed">
+            Connect with local tech communities through platforms like Meetup, Nomad List, or dedicated Slack channels. 
+            Regular coworking sessions and networking events can significantly boost productivity and professional growth.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
     {:else if selectedCountry}
       <!-- No data state - Tech info card -->
@@ -569,61 +366,5 @@ I need to make sure I do not undo the currency and make sure the live debug and 
         </div>
       </div>
     {/if}
-
-    <!-- Next Steps Section - Tech call-to-action -->
-    <div class="mt-8 bg-gradient-to-r from-indigo-100/60 to-purple-100/60 backdrop-blur-sm 
-      rounded-2xl border border-indigo-200/50 p-8">
-      <div class="text-center">
-        <div class="flex items-center justify-center gap-4 mb-6">
-          <div class="w-8 h-1 bg-indigo-400 rounded-full"></div>
-          <h3 class="text-lg font-semibold text-indigo-900">Continue Your Journey</h3>
-          <div class="w-8 h-1 bg-purple-400 rounded-full"></div>
-        </div>
-        <NextSteps />
-      </div>
-    </div>
-
-    <!-- Remote Work Tips - Tech insight card -->
-    <div class="mt-8 p-6 bg-gradient-to-br from-white/40 to-indigo-50/40 backdrop-blur-md 
-      rounded-2xl border border-indigo-200/50 max-w-2xl mx-auto">
-      <div class="flex items-start gap-4">
-        <div class="w-12 h-12 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-xl 
-          flex items-center justify-center text-indigo-600 flex-shrink-0">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-              d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        </div>
-        <div class="text-left">
-          <p class="font-semibold text-indigo-900">Productivity Protocol</p>
-          <p class="text-sm text-indigo-700/80 mt-2 leading-relaxed">
-            Connect with local tech communities through platforms like Meetup, Nomad List, or dedicated Slack channels. 
-            Regular coworking sessions and networking events can significantly boost productivity and professional growth.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tech Tools Grid -->
-    <div class="mt-12 pt-8 border-t border-indigo-200/50">
-      <p class="text-indigo-700 text-sm font-medium text-center mb-6 uppercase tracking-wider">
-        Essential Tech Tools
-      </p>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-        {#each [
-          { icon: '📡', name: 'Hotspot', desc: 'Portable WiFi' },
-          { icon: '🔋', name: 'Power Bank', desc: 'Portable charging' },
-          { icon: '🔌', name: 'Adapters', desc: 'Universal plugs' },
-          { icon: '🎧', name: 'Headphones', desc: 'Noise canceling' }
-        ] as tool}
-          <div class="p-4 bg-white/30 backdrop-blur-sm rounded-xl border border-indigo-200/50 
-            hover:border-indigo-300/70 hover:bg-white/50 hover:shadow-sm transition-all duration-200 text-center">
-            <div class="text-2xl mb-2">{tool.icon}</div>
-            <div class="text-sm font-medium text-indigo-800">{tool.name}</div>
-            <div class="text-xs text-indigo-600/80 mt-1">{tool.desc}</div>
-          </div>
-        {/each}
-      </div>
-    </div>
   </div>
 </div>

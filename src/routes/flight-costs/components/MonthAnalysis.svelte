@@ -3,6 +3,8 @@
   import { getCountriesForMonthAnalysis, getCountryRegion } from '$lib/utils/flightUtils';
   import { selectedCurrency } from '$lib/stores/currency';
   import type { FlightPattern } from '$lib/data/flightPatternData';
+  import { convertCurrency } from '$lib/utils/currency'; // ADD THIS
+
 
   // Use $props() for runes mode
   const { selectedMonth: initialMonth = '', originCountry = 'United States' } = $props<{
@@ -81,10 +83,13 @@
   }
 
   function formatPrice(price: number): string {
+    // Convert from USD to selected currency
+    const convertedPrice = convertCurrency(price, 'USD', $selectedCurrency);
+    
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: $selectedCurrency
-    }).format(price);
+    }).format(convertedPrice);
   }
 
   function getCategoryStats(category: CountryAnalysis['monthCategory']) {

@@ -1,31 +1,6 @@
 <!-- src/routes/docs/+page.svelte -->
 
-<!-- Add:
-
-Wait until everything is working and then worry about the structure
-page files do not need to be 500 pages long
-Start with/modify what is working instead of going into creating a new page
-
-For the digital nomad page, it was hard to test. Have live debug shown in front of me really helped. I ended up putting a lot of debug messages. I may keep the live debug in for now even if I share my site publicly.
-
-The resonance filters page was the quickest and easiest to make. I filtered by cities just for any yellow area filters
-
-
-When adding countries for resonance filters, it is important I show necessary files before I ask a chatbot to draft data for a country. Before asking a bot to add resonance data for another country, make sure you show these files:
-
-- Data structure (the resonance.ts files you shared)
-- Type definitions (ResonancePreferences, CityResonanceProfile)
-- Tag and activity categories (from resonanceData.ts)
-- Existing country examples (Thailand, Brazil, Argentina)
-
-I wish I did not need to write this: it was tough to only show one origin country on the flight page. That was a silly problem to have and I showed DeepSeek my component/CheapestCountry.svelte file and it took a few rounds of debugging to finally show just one country. Redicilious.
-
-
-It was a nightmare just to move the working function of changing the currencies to the other pages
-
-I had to clean up my flight costs and visa pages since they were the first files I worked on and were pretty rough. Seeing a rough version does really show how much you have improved.
-
--->
+<!-- I think this is really stupid, but it seems like I have to explicitly say "lets do what I did from the other files" for the ai bot to know that is what I am trying to do instead of just showing what I have done consistently -->
 
 <!-- This is for documentation of how the project was built, not for filling forms -->
 <div class="min-h-screen bg-gray-50 text-gray-900">
@@ -40,6 +15,7 @@ I had to clean up my flight costs and visa pages since they were the first files
         <a href="#data-structure" class="block text-gray-600 hover:text-gray-900 transition">Data Structure</a>
         <a href="#design" class="block text-gray-600 hover:text-gray-900 transition">Design Choices</a>
         <a href="#ux" class="block text-gray-600 hover:text-gray-900 transition">UX Goals</a>
+        <a href="#dev-notes" class="block text-gray-600 hover:text-gray-900 transition">Dev Notes</a>
         <a href="#lessons" class="block text-gray-600 hover:text-gray-900 transition">Lessons Learned</a>
         <a href="#expansion" class="block text-gray-600 hover:text-gray-900 transition">Project Expansion</a>
       </nav>
@@ -48,8 +24,8 @@ I had to clean up my flight costs and visa pages since they were the first files
     <!-- Main Documentation Content -->
     <main class="flex-1 p-8 space-y-10">
       <section id="overview">
-        <h1 class="text-4xl font-bold mb-4 text-gray-900">📚 Project Documentation</h1>
-        <p class="text-gray-800 text-lg">This page documents the reasoning, creative process, and technical journey for the travel planning app, built using SvelteKit and Tailwind CSS.</p>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">📚 Internal Project Documentation</h1>
+        <p class="text-gray-800 text-lg">Technical documentation of the travel planning app, including development notes, challenges, and rationale for technical decisions.</p>
       </section>
 
       <section id="setup">
@@ -124,7 +100,62 @@ I had to clean up my flight costs and visa pages since they were the first files
         </ul>
       </section>
 
-           <section id="lessons">
+      <!-- New Development Notes Section -->
+      <section id="dev-notes">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🔧 Development Notes & Process</h2>
+        <div class="space-y-6">
+          <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <h3 class="font-semibold text-blue-800">Development Philosophy</h3>
+            <ul class="list-disc ml-6 text-blue-700 space-y-2">
+              <li><strong>Wait until everything is working</strong> before worrying about perfect structure</li>
+              <li><strong>Page files do not need to be 500 pages long</strong> - keep them focused</li>
+              <li><strong>Start with what's working</strong> and modify rather than creating new pages from scratch</li>
+              <li>Cleanup of early files (flight costs, visa pages) showed improvement: "Seeing a rough version does really show how much you have improved"</li>
+            </ul>
+          </div>
+          
+          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+            <h3 class="font-semibold text-green-800">Debugging & Testing Strategies</h3>
+            <ul class="list-disc ml-6 text-green-700 space-y-2">
+              <li><strong>Digital nomad page</strong>: "It was hard to test. Have live debug shown in front of me really helped. I ended up putting a lot of debug messages. I may keep the live debug in for now even if I share my site publicly."</li>
+              <li><strong>Flight page origin filter</strong>: "It was tough to only show one origin country. That was a silly problem to have and I showed DeepSeek my component/CheapestCountry.svelte file and it took a few rounds of debugging to finally show just one country. Rediculous."</li>
+              <li><strong>Currency conversion</strong>: "It was a nightmare just to move the working function of changing the currencies to the other pages."</li>
+            </ul>
+          </div>
+          
+          <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <h3 class="font-semibold text-purple-800">Quick Wins vs. Challenges</h3>
+            <ul class="list-disc ml-6 text-purple-700 space-y-2">
+              <li><strong>Resonance filters page</strong>: "The resonance filters page was the quickest and easiest to make. I filtered by cities just for any yellow area filters."</li>
+              <li><strong>AI collaboration</strong>: "I need to show the chatbot two files of the resonance filters to make sure I don't need to look back over it and not need to fix that much."</li>
+              <li><strong>Show more functionality</strong>: "Make sure 'show more' works"</li>
+            </ul>
+          </div>
+          
+          <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+            <h3 class="font-semibold text-yellow-800">AI Collaboration Protocol</h3>
+            <p class="text-yellow-700 mb-2">When asking a chatbot to add resonance data for new countries:</p>
+            <ul class="list-disc ml-6 text-yellow-700 space-y-1">
+              <li>Show <strong>data structure</strong> (the resonance.ts files)</li>
+              <li>Include <strong>type definitions</strong> (ResonancePreferences, CityResonanceProfile)</li>
+              <li>Share <strong>tag and activity categories</strong> from resonanceData.ts</li>
+              <li>Provide <strong>existing country examples</strong> (Thailand, Brazil, Argentina)</li>
+              <li>"Before asking a bot to add resonance data for another country, make sure you show these files"</li>
+            </ul>
+          </div>
+          
+          <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+            <h3 class="font-semibold text-red-800">Deployment & Maintenance Notes</h3>
+            <ul class="list-disc ml-6 text-red-700 space-y-2">
+              <li>"I ended up having to update a few files at a time but had to remind myself to make sure I save the country files when I deploy the app"</li>
+              <li>Incremental updates are safer than bulk changes</li>
+              <li>Keep backup of country data files before deployment</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="lessons">
         <h2 class="text-2xl font-semibold mb-4 text-gray-800">💡 Lessons Learned & Challenges</h2>
         <div class="space-y-4">
           <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -157,37 +188,7 @@ I had to clean up my flight costs and visa pages since they were the first files
         </div>
       </section>
 
-      
-
-      <section id="expansion">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🚀 Project Expansion Strategy</h2>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Immediate Next Steps</h3>
-            <ul class="list-disc ml-6 text-gray-700 space-y-1">
-              <li>Add living costs data to existing countries</li>
-              <li>Build digital nomad page using same data structure</li>
-              <li>Implement criteria-first filtering page</li>
-              <li>Enhance country data with safety notes and local tips</li>
-            </ul>
-          </div>
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Future Vision</h3>
-            <ul class="list-disc ml-6 text-gray-700 space-y-1">
-              <li>User preference saving and comparison features</li>
-              <li>Integration with local event APIs</li>
-              <li>Community-driven content and reviews</li>
-              <li>Personalized travel itinerary generation</li>
-            </ul>
-          </div>
-        </div>
-        <div class="mt-4 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-          <h3 class="font-semibold text-yellow-800">Core Philosophy</h3>
-          <p class="text-yellow-700">"Build a flexible foundation that can grow with user needs, not a rigid structure that limits possibilities."</p>
-        </div>
-      </section>
-
-            <section id="european-subregions">
+      <section id="european-subregions">
         <h2 class="text-2xl font-semibold mb-4 text-gray-800">🇪🇺 European Subregions Challenge</h2>
         <div class="space-y-4">
           <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
@@ -256,11 +257,33 @@ I had to clean up my flight costs and visa pages since they were the first files
         </div>
       </section>
 
-      <div>
-        <a href="/" class="inline-block mt-8 px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-900 transition">
-          ⬅ Back to Home
-        </a>
-      </div>
+      <section id="expansion">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🚀 Project Expansion Strategy</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-white p-4 rounded-lg border border-gray-200">
+            <h3 class="font-semibold text-gray-800">Immediate Next Steps</h3>
+            <ul class="list-disc ml-6 text-gray-700 space-y-1">
+              <li>Add living costs data to existing countries</li>
+              <li>Build digital nomad page using same data structure</li>
+              <li>Implement criteria-first filtering page</li>
+              <li>Enhance country data with safety notes and local tips</li>
+            </ul>
+          </div>
+          <div class="bg-white p-4 rounded-lg border border-gray-200">
+            <h3 class="font-semibold text-gray-800">Future Vision</h3>
+            <ul class="list-disc ml-6 text-gray-700 space-y-1">
+              <li>User preference saving and comparison features</li>
+              <li>Integration with local event APIs</li>
+              <li>Community-driven content and reviews</li>
+              <li>Personalized travel itinerary generation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-4 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+          <h3 class="font-semibold text-yellow-800">Core Philosophy</h3>
+          <p class="text-yellow-700">"Build a flexible foundation that can grow with user needs, not a rigid structure that limits possibilities."</p>
+        </div>
+      </section>
     </main>
   </div>
 </div>

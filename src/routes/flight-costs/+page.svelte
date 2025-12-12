@@ -13,9 +13,9 @@
   import MonthFilter from './components/MonthFilter.svelte';
   import BookingTimeline from './components/BookingTimeline.svelte';
   import BaggageOptions from './components/BaggageOptions.svelte';
-  import CheapestCountries from './components/CheapestCountries.svelte';
   import TipsSection from './components/TipsSection.svelte';
-  
+  import { convertCurrency } from '$lib/utils/currency'; // ADD THIS
+
   // Month Analysis Component
   import MonthAnalysis from './components/MonthAnalysis.svelte';
   
@@ -96,14 +96,14 @@
     if (countriesInSubregion.length > 0) selectedCountry = countriesInSubregion[0].country;
   }
 
-  // Helper Functions
-  function formatPrice(price?: number): string {
-    if (!price) return '';
+  function formatPrice(price: number): string {
+    // Convert from USD to selected currency
+    const convertedPrice = convertCurrency(price, 'USD', $selectedCurrency);
     
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: $selectedCurrency
-    }).format(price);
+    }).format(convertedPrice);
   }
 
   function getFlightCounts() {
