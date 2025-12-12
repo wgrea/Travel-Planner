@@ -20,6 +20,10 @@ export default {
           '0%, 100%': { transform: 'translateY(0px) translateX(0px)' },
           '50%': { transform: 'translateY(-25px) translateX(15px)' },
         },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        },
         swim: {
           '0%, 100%': { transform: 'translateX(0px) translateY(0px)' },
           '50%': { transform: 'translateX(50px) translateY(-10px) scaleX(-1)' },
