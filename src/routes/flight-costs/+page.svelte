@@ -1,111 +1,46 @@
 <!-- src/routes/flight-costs/+page.svelte -->
-
-<!--
-Flight Costs Page Improvements
-Monthly price filtering: Show cheapest/sweet spot/expensive countries for selected month
-
-Enhance existing: Make month filter actually filter the results
-
-Visual improvements: Better data visualization for seasonal patterns
--->
-
-<!-- src/routes/flight-costs/+page.svelte -->
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import CountrySelector from '$lib/components/CountrySelector.svelte';
   import CurrencySelector from '$lib/components/CurrencySelector.svelte';
   import { selectedCurrency } from '$lib/stores/currency';
   
-  // Components - make sure these exist and have proper exports
+  // Core Components
+  import FlightControlPanel from './components/FlightControlPanel.svelte';
   import FlightCostSection from './components/FlightCostSection.svelte';
-  import PriceAnalysisSection from './components/PriceAnalysisSection.svelte';
-  import CitiesTipsSection from './components/CitiesTipsSection.svelte';
-  import CheapestCountries from './components/CheapestCountries.svelte';
-  import TipsSection from './components/TipsSection.svelte';
-  import IntelligenceItem from './components/IntelligenceItem.svelte';
   
-  // New components
+  // Country Analysis Components
   import SweetSpotSection from './components/SweetSpotSection.svelte';
   import MonthFilter from './components/MonthFilter.svelte';
   import BookingTimeline from './components/BookingTimeline.svelte';
   import BaggageOptions from './components/BaggageOptions.svelte';
+  import CheapestCountries from './components/CheapestCountries.svelte';
+  import TipsSection from './components/TipsSection.svelte';
   
-  // Utils
+  // Month Analysis Component
+  import MonthAnalysis from './components/MonthAnalysis.svelte';
+  
+  // Utils & Data
   import { getAllCountries, getCurrentFlightData } from '$lib/utils/flightUtils';
-  import type { CountryData } from '$lib/utils/flightUtils';
-  
-  // Data
   import { routeCosts } from '$lib/data/routeCosts';
-  import type { FlightInfo } from '$lib/types/flight';
-  import type { FlightPattern } from '$lib/data/flightPatternData';
-  import { getAllOriginCountries } from '$lib/utils/regionUtils';
-  import FlightControlPanel from './components/FlightControlPanel.svelte';
-  
-  // State
+  import type { CountryData } from '$lib/utils/flightUtils';
+
+  // State Management
   let selectedCountry = $state('Thailand');
   let selectedRegion = $state('Southeast Asia');
   let selectedSubregion = $state('');
-  let selectedMonth = $state('All Months');
+  let selectedMonth = $state('January'); // Set default month instead of 'All Months'
   let originCountry = $state('United States');
+  let analysisView = $state<'country' | 'month'>('country');
+  
+  // Derived State
   const currentCurrency = $derived($selectedCurrency);
-  
-  // Derived data
-  const flightPatternData = $derived(
-    getCurrentFlightData(selectedCountry)
-  );
-  
+  const flightPatternData = $derived(getCurrentFlightData(selectedCountry));
   const flightCostData = $derived(
-    // Use the new bidirectional check
     routeCosts[originCountry]?.[selectedCountry] || 
     routeCosts[selectedCountry]?.[originCountry]
   );
   
-  // Event handlers
-  function handleDestinationChange(country: string) {
-    selectedCountry = country;
-    const countryData = getAllCountries().find(c => c.country === country);
-    if (countryData?.region) selectedRegion = countryData.region;
-  }
-
-  function handleRegionChange(region: string) {
-    selectedRegion = region;
-    const countriesInRegion = getAllCountries().filter(c => c.region === region);
-    if (countriesInRegion.length > 0) {
-      selectedCountry = countriesInRegion[0].country;
-    }
-  }
-
-  // Add this to handle origin change
-  function handleOriginChange(country: string) {
-    originCountry = country;
-    // You might want to reset destination when origin changes
-    // or keep the current destination if it's available from new origin
-  }
-  
-  function handleSubregionChange(subregion: string) {
-    selectedSubregion = subregion;
-    const countryData = getAllCountries();
-    const countriesInSubregion = countryData.filter(
-      c => c.region === selectedRegion && c.subregion === subregion
-    );
-    if (countriesInSubregion.length > 0) selectedCountry = countriesInSubregion[0].country;
-  }
-
-  // Fix: Remove $derived from these and make them functions or computed values
-  const filteredCountryData = $derived.by(() => {
-    let data = getAllCountries();
-    
-    if (selectedRegion) {
-      data = data.filter(c => c.region === selectedRegion);
-    }
-    
-    if (selectedSubregion) {
-      data = data.filter(c => c.subregion === selectedSubregion);
-    }
-    
-    return data;
-  });
-  
+  // Flight Pattern Display
   const flightPatternForDisplay = $derived.by(() => {
     if (flightPatternData) {
       return {
@@ -133,18 +68,44 @@ Visual improvements: Better data visualization for seasonal patterns
     };
   });
 
-  // Update formatPrice to use current currency
+  // Event Handlers
+  function handleDestinationChange(country: string) {
+    selectedCountry = country;
+    const countryData = getAllCountries().find(c => c.country === country);
+    if (countryData?.region) selectedRegion = countryData.region;
+  }
+
+  function handleRegionChange(region: string) {
+    selectedRegion = region;
+    const countriesInRegion = getAllCountries().filter(c => c.region === region);
+    if (countriesInRegion.length > 0) {
+      selectedCountry = countriesInRegion[0].country;
+    }
+  }
+
+  function handleOriginChange(country: string) {
+    originCountry = country;
+  }
+  
+  function handleSubregionChange(subregion: string) {
+    selectedSubregion = subregion;
+    const countryData = getAllCountries();
+    const countriesInSubregion = countryData.filter(
+      c => c.region === selectedRegion && c.subregion === subregion
+    );
+    if (countriesInSubregion.length > 0) selectedCountry = countriesInSubregion[0].country;
+  }
+
+  // Helper Functions
   function formatPrice(price?: number): string {
     if (!price) return '';
     
-    const currency = $selectedCurrency;
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: currency
+      currency: $selectedCurrency
     }).format(price);
   }
 
-  // Update the getFlightCounts function
   function getFlightCounts() {
     const directFlights = routeCosts[originCountry] ? Object.keys(routeCosts[originCountry]).length : 0;
     
@@ -160,129 +121,128 @@ Visual improvements: Better data visualization for seasonal patterns
     return { totalFlights, directFlights, reverseFlights };
   }
   
-  // Add this derived value
   const flightCounts = $derived.by(() => getFlightCounts());
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-sky-50 to-blue-50 px-4 py-8 relative overflow-hidden">
-  <!-- Cloud Background -->
+  <!-- Animated Background -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <!-- Cloud shapes -->
-    <div class="absolute top-10 left-[10%] w-64 h-24 bg-white/30 rounded-full 
-      blur-xl animate-cloud-drift [animation-duration:60s]"></div>
-    <div class="absolute top-40 right-[15%] w-80 h-20 bg-white/25 rounded-full 
-      blur-xl animate-cloud-drift [animation-duration:45s] [animation-delay:10s]"></div>
-    <div class="absolute bottom-32 left-[20%] w-72 h-28 bg-white/20 rounded-full 
-      blur-xl animate-cloud-drift [animation-duration:50s] [animation-delay:5s]"></div>
+    <div class="absolute top-10 left-[10%] w-64 h-24 bg-white/30 rounded-full blur-xl animate-cloud-drift [animation-duration:60s]"></div>
+    <div class="absolute top-40 right-[15%] w-80 h-20 bg-white/25 rounded-full blur-xl animate-cloud-drift [animation-duration:45s] [animation-delay:10s]"></div>
+    <div class="absolute bottom-32 left-[20%] w-72 h-28 bg-white/20 rounded-full blur-xl animate-cloud-drift [animation-duration:50s] [animation-delay:5s]"></div>
     
-    <!-- Subtle airplane trails -->
-    <div class="absolute top-1/4 right-[30%] w-48 h-px bg-gradient-to-r from-transparent via-blue-300/20 to-transparent
-      animate-plane-trail"></div>
-    <div class="absolute top-1/3 left-[25%] w-64 h-px bg-gradient-to-r from-transparent via-sky-300/15 to-transparent
-      animate-plane-trail [animation-delay:2s]"></div>
+    <div class="absolute top-1/4 right-[30%] w-48 h-px bg-gradient-to-r from-transparent via-blue-300/20 to-transparent animate-plane-trail"></div>
+    <div class="absolute top-1/3 left-[25%] w-64 h-px bg-gradient-to-r from-transparent via-sky-300/15 to-transparent animate-plane-trail [animation-delay:2s]"></div>
   </div>
 
   <div class="max-w-6xl mx-auto relative z-10">
     
-    <!-- Navigation & Header -->
-    <button onclick={() => goto('/')} 
-      class="group mb-8 flex items-center gap-2 bg-white/30 backdrop-blur-sm 
-      px-4 py-2 rounded-xl border border-white/40 text-gray-700 hover:text-gray-900 
-      hover:bg-white/40 hover:border-white/60 transition-all duration-300">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-      <span class="font-medium text-sm">Back to Main Menu</span>
-    </button>
-
-    <div class="mb-6">
+    <!-- Currency Selector -->
+    <div class="mb-8">
       <CurrencySelector />
     </div>
 
-    <!-- Quick Links with cloud cards -->
-    <div class="mb-12 text-center">
-      <p class="text-gray-700 text-sm mb-4">Check these first if you haven't already</p>
-      <div class="flex gap-3 justify-center flex-wrap">
-        <button onclick={() => goto('/visa')} 
-          class="px-4 py-2 rounded-full bg-white/40 backdrop-blur-sm border border-white/50 
-          text-gray-800 hover:bg-white/60 hover:shadow-md hover:scale-105 
-          transition-all duration-300 font-medium text-sm flex items-center gap-2">
-          <span>📝</span> Visa Requirements
-        </button>
-        <button onclick={() => goto('/resonance')} 
-          class="px-4 py-2 rounded-full bg-white/40 backdrop-blur-sm border border-white/50 
-          text-gray-800 hover:bg-white/60 hover:shadow-md hover:scale-105 
-          transition-all duration-300 font-medium text-sm flex items-center gap-2">
-          <span>🔍</span> Destination Finder
-        </button>
-        <button onclick={() => goto('/travel-essentials')} 
-          class="px-4 py-2 rounded-full bg-white/40 backdrop-blur-sm border border-white/50 
-          text-gray-800 hover:bg-white/60 hover:shadow-md hover:scale-105 
-          transition-all duration-300 font-medium text-sm flex items-center gap-2">
-          <span>🎒</span> Packing Lists
-        </button>
+    <!-- Header Section -->
+    <header class="mb-12 text-center">
+      <div class="bg-white/30 backdrop-blur-sm rounded-2xl p-8 border border-white/40 shadow-lg">
+        <h1 class="text-5xl font-light mb-4 text-gray-900">✈️ Flight Intelligence</h1>
+        <p class="text-gray-700 text-lg max-w-2xl mx-auto mb-6">
+          Smart flight planning with seasonal pricing insights
+        </p>
+        
+        <!-- Analysis Mode Toggle -->
+        <div class="inline-flex bg-white/40 rounded-xl p-1 border border-white/50 shadow-lg">
+          <button
+            class="px-8 py-4 rounded-xl transition-all flex items-center gap-3 {analysisView === 'country' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/60'}"
+            onclick={() => analysisView = 'country'}
+          >
+            <div class="text-2xl">📍</div>
+            <div class="text-left">
+              <div class="font-bold">By Country</div>
+              <div class="text-sm opacity-90">Pick destination, see best months</div>
+            </div>
+          </button>
+          
+          <div class="w-px bg-white/50 mx-1"></div>
+          
+          <button
+            class="px-8 py-4 rounded-xl transition-all flex items-center gap-3 {analysisView === 'month' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/60'}"
+            onclick={() => analysisView = 'month'}
+          >
+            <div class="text-2xl">📅</div>
+            <div class="text-left">
+              <div class="font-bold">By Month</div>
+              <div class="text-sm opacity-90">Pick month, see best destinations</div>
+            </div>
+          </button>
+        </div>
       </div>
-    </div>
+    </header>
 
-    <!-- Header with floating effect -->
-    <div class="mb-12 text-center bg-white/30 backdrop-blur-sm rounded-2xl p-8 border border-white/40 shadow-lg">
-      <h1 class="text-5xl font-light mb-4 text-gray-900">Flight Costs</h1>
-      <p class="text-gray-700 text-lg max-w-2xl mx-auto">
-        Smart flight planning with seasonal pricing insights
-      </p>
-    </div>
+    <!-- Main Content -->
+<main class="space-y-8">
+  
+  {#if analysisView === 'country'}
+    <!-- COUNTRY ANALYSIS MODE -->
     
     <!-- Flight Control Panel -->
-    <div class="mb-12">
-      <FlightControlPanel 
-        originCountry={originCountry}
-        selectedDestination={selectedCountry}
-        selectedRegion={selectedRegion}
-        flightCounts={flightCounts}
-        onOriginChange={handleOriginChange}
-        onDestinationChange={handleDestinationChange}
-        onRegionChange={handleRegionChange}
-      />
-    </div>
+    <FlightControlPanel 
+      originCountry={originCountry}
+      selectedDestination={selectedCountry}
+      selectedRegion={selectedRegion}
+      flightCounts={flightCounts}
+      onOriginChange={handleOriginChange}
+      onDestinationChange={handleDestinationChange}
+      onRegionChange={handleRegionChange}
+    />
 
-    <!-- Flight Selection Debug - as a cloud card -->
-    <div class="mb-6 p-6 bg-gradient-to-r from-white/40 to-blue-50/40 backdrop-blur-sm 
-      border border-white/50 rounded-xl shadow-lg">
-      <div class="flex items-center justify-between mb-3">
-        <h4 class="font-bold text-blue-800 flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Flight Selection Debug
-        </h4>
-        <span class="text-xs bg-blue-100/50 text-blue-800 px-2 py-1 rounded-full backdrop-blur-sm">
-          {selectedCountry}
-        </span>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-        <div class="bg-white/60 p-3 rounded-lg border border-white/70">
-          <div class="text-blue-600 font-medium">From</div>
-          <div class="font-bold">{originCountry}</div>
+    <!-- Debug Connection Status -->
+    <div class="bg-white/40 backdrop-blur-sm border border-white/50 rounded-xl p-6 shadow-lg">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800">Flight Connection</h3>
+            <p class="text-sm text-gray-600">Debug checking flight data and patterns</p>
+          </div>
         </div>
-        <div class="bg-white/60 p-3 rounded-lg border border-white/70">
-          <div class="text-blue-600 font-medium">To</div>
-          <div class="font-bold">{selectedCountry}</div>
-        </div>
-        <div class="bg-white/60 p-3 rounded-lg border border-white/70">
-          <div class="text-blue-600 font-medium">Region</div>
-          <div class="font-bold">{selectedRegion || 'All'}</div>
-        </div>
-        <div class="bg-white/60 p-3 rounded-lg border border-white/70">
-          <div class="text-blue-600 font-medium">Data Status</div>
-          <div class="font-bold">
-            {flightPatternData ? '✅ Pattern' : '❌ No Pattern'}
-            {flightCostData ? ' ✅ Cost' : ' ❌ No Cost'}
+        <div class="flex items-center gap-3">
+          <div class="bg-white/60 px-4 py-2 rounded-lg border border-white/70">
+            <span class="text-sm text-gray-600">From</span>
+            <div class="font-bold text-blue-800">{originCountry}</div>
+          </div>
+          <div class="text-gray-400">→</div>
+          <div class="bg-white/60 px-4 py-2 rounded-lg border border-white/70">
+            <span class="text-sm text-gray-600">To</span>
+            <div class="font-bold text-blue-800">{selectedCountry}</div>
           </div>
         </div>
       </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white/60 p-4 rounded-lg border border-white/70">
+          <div class="text-sm text-gray-600">Flight Pattern</div>
+          <div class="font-bold text-green-700 flex items-center gap-2">
+            {flightPatternData ? '✅ Available' : '❌ Not Available'}
+          </div>
+        </div>
+        <div class="bg-white/60 p-4 rounded-lg border border-white/70">
+          <div class="text-sm text-gray-600">Price Data</div>
+          <div class="font-bold text-green-700 flex items-center gap-2">
+            {flightCostData ? '✅ Available' : '❌ Not Available'}
+          </div>
+        </div>
+        <div class="bg-white/60 p-4 rounded-lg border border-white/70">
+          <div class="text-sm text-gray-600">Region</div>
+          <div class="font-bold text-gray-800">{selectedRegion || 'Global'}</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Flight Cost Section with floating effect -->
+    <!-- Flight Cost Section -->
     <FlightCostSection 
       {originCountry}
       {selectedCountry}
@@ -290,128 +250,130 @@ Visual improvements: Better data visualization for seasonal patterns
       {currentCurrency}
     />
 
-    <!-- After the Price Analysis Section -->
-    {#if flightPatternData}
-      <!-- In +page.svelte -->
-      <div class="mb-8">
-        <SweetSpotSection 
-          sweetSpot={flightPatternData.sweetSpot}
-          expensiveMonths={flightPatternData.expensiveMonths}
-        />
-      </div>
-      
-      <!-- In your +page.svelte, update the MonthFilter usage: -->
+    <!-- Country Analysis Content -->
+    <div class="space-y-8">
+      <!-- Month Analysis -->
       {#if flightPatternData}
-        <div class="mb-8">
-          <MonthFilter 
-            selectedMonth={selectedMonth}
-            onMonthChange={(month) => selectedMonth = month}
-            cheapestMonths={flightPatternData.cheapestMonths || []}
-            sweetSpotMonths={flightPatternData.sweetSpot || []}
-            expensiveMonths={flightPatternData.expensiveMonths || []}
-          />
+        <div class="space-y-8">
+          <!-- Month Filter -->
+          <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-xl">
+            <MonthFilter 
+              selectedMonth={selectedMonth}
+              onMonthChange={(month) => selectedMonth = month}
+              cheapestMonths={flightPatternData.cheapestMonths || []}
+              sweetSpotMonths={flightPatternData.sweetSpot || []}
+              expensiveMonths={flightPatternData.expensiveMonths || []}
+            />
+          </div>
+
+          <!-- Booking Tools -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-xl">
+              <BookingTimeline 
+                averagePrice={flightPatternData.averagePrice}
+                {currentCurrency}
+              />
+            </div>
+            
+            <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-xl">
+              <BaggageOptions 
+                basePrice={flightPatternData.averagePrice}
+                currentCurrency={currentCurrency}
+              />
+            </div>
+          </div>
         </div>
       {/if}
-      
-      <!-- Booking Timeline -->
-      <div class="mb-8">
-        <BookingTimeline 
-          averagePrice={flightPatternData.averagePrice}
-          {currentCurrency}
-        />
-      </div>
-      
-      <!-- Baggage Options -->
-        <div class="mb-8">
-          <BaggageOptions 
-            basePrice={flightPatternData.averagePrice}
-            currentCurrency={currentCurrency}
-          />
+
+      <!-- Money-Saving Tips -->
+      <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-xl">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-500 rounded-full flex items-center justify-center">
+            <span class="text-2xl text-white">💡</span>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Money-Saving Tips for {selectedCountry}</h2>
+            <p class="text-gray-600 text-sm">Country-specific flight strategies</p>
+          </div>
         </div>
-      {/if}
-    
-    <!-- Two Column Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-      <!-- Cheapest Countries with elevation shadow -->
-      <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-xl 
-        hover:shadow-2xl transition-all duration-300">
-        <CheapestCountries 
-          filteredData={[flightPatternForDisplay]} 
-          {selectedCountry}
-          {originCountry}
-          selectedCurrency={currentCurrency}
-          flightCostData={flightCostData}
-        />
-      </div>
-      
-      <!-- Travel Intelligence - as a floating card -->
-      <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-xl 
-        hover:shadow-2xl transition-all duration-300">
-        <h2 class="text-xl font-light mb-4 pb-3 border-b border-white/60">Travel Intelligence</h2>
+        
         <div class="space-y-4">
-          <div class="bg-white/60 p-4 rounded-xl border border-white/70 hover:bg-white/80 
-            transition-colors duration-200">
-            <div class="flex items-center gap-3">
-              <div class="text-2xl">⏱️</div>
-              <div>
-                <h3 class="font-medium text-gray-900">Optimal Timing</h3>
-                <p class="text-gray-700 text-sm mt-1">Book 6-8 weeks ahead for best value</p>
+          {#if flightPatternData?.planningTips && flightPatternData.planningTips.length > 0}
+            {#each flightPatternData.planningTips as tip}
+              <div class="bg-white/60 p-4 rounded-xl border border-green-200 hover:bg-white/80 transition-colors group">
+                <div class="flex items-start gap-3">
+                  <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:bg-green-200 transition-colors">
+                    <span class="text-green-600 font-bold text-sm">•</span>
+                  </div>
+                  <p class="text-gray-700">{tip}</p>
+                </div>
+              </div>
+            {/each}
+          {:else}
+            <!-- Fallback tips -->
+            <div class="bg-white/60 p-4 rounded-xl border border-blue-200">
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <span class="text-blue-600 font-bold text-sm">💡</span>
+                </div>
+                <div>
+                  <h3 class="font-medium text-gray-900 mb-1">General Travel Tips</h3>
+                  <p class="text-gray-700 text-sm">
+                    Consider flexible dates and nearby airports for potential savings when flying to {selectedCountry}.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="bg-white/60 p-4 rounded-xl border border-white/70 hover:bg-white/80 
-            transition-colors duration-200">
-            <div class="flex items-center gap-3">
-              <div class="text-2xl">💡</div>
-              <div>
-                <h3 class="font-medium text-gray-900">Smart Routing</h3>
-                <p class="text-gray-700 text-sm mt-1">Consider nearby airports for savings</p>
+            
+            <div class="bg-white/60 p-4 rounded-xl border border-amber-200">
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <span class="text-amber-600 font-bold text-sm">✈️</span>
+                </div>
+                <div>
+                  <h3 class="font-medium text-gray-900 mb-1">Booking Strategy</h3>
+                  <p class="text-gray-700 text-sm">
+                    Book flights 6-8 weeks in advance and consider combining with nearby destinations for multi-city deals.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="bg-white/60 p-4 rounded-xl border border-white/70 hover:bg-white/80 
-            transition-colors duration-200">
-            <div class="flex items-center gap-3">
-              <div class="text-2xl">📊</div>
-              <div>
-                <h3 class="font-medium text-gray-900">Data Insights</h3>
-                <p class="text-gray-700 text-sm mt-1">Seasonal trends affect pricing by 20-40%</p>
-              </div>
-            </div>
-          </div>
+          {/if}
         </div>
       </div>
-    </div>
 
-    <!-- Tips Section as cloud card -->
-    <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-xl 
-      mb-12 hover:shadow-2xl transition-shadow duration-300">
-      <TipsSection />
-    </div>
-
-    <!-- Next Steps with floating buttons -->
-    <div class="text-center">
-      <p class="text-gray-700 text-sm mb-4">Continue your travel planning</p>
-      <div class="flex gap-3 justify-center flex-wrap">
-        <button onclick={() => goto('/living-costs')} 
-          class="px-4 py-2 rounded-full bg-white/40 backdrop-blur-sm border border-white/50 
-          text-gray-800 hover:bg-white/60 hover:shadow-md hover:scale-105 
-          transition-all duration-300 font-medium text-sm flex items-center gap-2">
-          <span>🏠</span> Living Costs
-        </button>
-        <button onclick={() => goto('/digital-nomad')} 
-          class="px-4 py-2 rounded-full bg-white/40 backdrop-blur-sm border border-white/50 
-          text-gray-800 hover:bg-white/60 hover:shadow-md hover:scale-105 
-          transition-all duration-300 font-medium text-sm flex items-center gap-2">
-          <span>💻</span> Digital Nomad Essentials
-        </button>
+      <!-- Tips Section -->
+      <div class="bg-gradient-to-r from-blue-50/40 to-sky-50/40 backdrop-blur-md rounded-2xl border border-white/50 p-8 shadow-xl">
+        <TipsSection />
       </div>
     </div>
+    
+  {:else}
+    <!-- MONTH ANALYSIS MODE - Clean and focused -->
+    
+
+    
+    <!-- Month Analysis Results -->
+    <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 p-6 shadow-xl">
+      {#if selectedMonth === 'All Months'}
+        <div class="text-center py-12">
+          <div class="text-4xl mb-4">📊</div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Select a Month</h3>
+          <p class="text-gray-600">Choose a month above to see destination analysis</p>
+        </div>
+      {:else}
+        <MonthAnalysis 
+          {selectedMonth}
+          {originCountry}
+        />
+      {/if}
+    </div>
+  {/if}
+</main>
   </div>
 </div>
 
 <style>
-  /* Add these animations to your app.css */
   @keyframes cloud-drift {
     0% { transform: translateX(-100px) translateY(0px); }
     50% { transform: translateX(100px) translateY(10px); }
@@ -422,6 +384,11 @@ Visual improvements: Better data visualization for seasonal patterns
     0% { transform: translateX(-100%) scaleX(0.5); opacity: 0; }
     50% { transform: translateX(0%) scaleX(1); opacity: 0.3; }
     100% { transform: translateX(100%) scaleX(0.5); opacity: 0; }
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   
   .animate-cloud-drift {
