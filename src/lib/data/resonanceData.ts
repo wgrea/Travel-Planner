@@ -1,13 +1,8 @@
 // src/lib/data/resonanceData.ts
 
-/* I think notes that should be taken should be in the data.ts
-There is only one country that is listed when I select #party, what else could party go to or how can I be specific for what types of parties?
-
-*/
 
 // ==================== DATA STRUCTURE ====================
 // This is where you add actual country/city data
-
 
 import type { CityResonanceProfile, RegionData } from '$lib/types/resonance';
 
@@ -102,7 +97,7 @@ export const resonanceDataByRegion: ResonanceRegion[] = [
         subregion: "Southern Europe",
         countries: [
           italyResonance,
-          greeceResonance,
+          greeceResonance, // Listed cities to add later
           turkeyResonance,
           // croatiaResonance,
         ]
@@ -186,21 +181,21 @@ export const tagCategories = {
     'expat-community', 'tech-hub', 'startup-scene', 'innovation-center',
     'spiritual-retreat', 'meditation', 'yoga', 'wildlife-experience', 'safari',
     'bird-watching', 'conventions', 'social-touch', 'dance-culture'
-  ] as const,
+  ],
   
   // Vibe & Atmosphere - How does it feel?
   vibe: [
     'magical', 'chaotic', 'chill', 'balanced', 'lively', 'laid-back', 'festive',
     'spiritual', 'hippie', 'cosmopolitan', 'traditional', 'passionate', 'progressive',
     'romantic', 'mysterious', 'energetic', 'peaceful', 'vibrant', 'exciting'
-  ] as const,
+  ],
   
   // Geography & Setting - Where is it?
   geography: [
     'beaches', 'mountains', 'islands', 'jungle', 'urban', 'rural',
     'coastal', 'river', 'nature', 'remote', 'scenic', 'biodiversity',
     'lakes', 'desert', 'volcano', 'forest', 'rainforest', 'archipelago'
-  ] as const,
+  ],
   
   // Culture & Activities - What's happening?
   culture: [
@@ -208,7 +203,7 @@ export const tagCategories = {
     'student-city', 'university', 'cafe-culture', 'sports', 'culinary',
     'anime', 'bollywood', 'k-pop', 'theater', 'opera', 'museums', 'galleries',
     'architecture', 'fashion', 'design', 'literature', 'film', 'gaming'
-  ] as const,
+  ],
   
   // Specific Features - Unique characteristics
   specific: [
@@ -217,7 +212,7 @@ export const tagCategories = {
     'afro-brazilian', 'gaucho', 'patagonia',
     'sushi', 'pizza', 'tapas', 'curry', 'bbq', 'chocolate', 'cheese',
     'whisky', 'tequila', 'vodka', 'rum', 'coffee', 'tea'
-  ] as const
+  ]
 };
 
 // ==================== ACTIVITY SYSTEM ====================
@@ -229,7 +224,7 @@ export const activityCategories = {
     // NEW: Additional outdoor
     'scuba diving', 'snorkeling', 'kayaking', 'rock climbing', 'camping',
     'horseback riding', 'skiing', 'snowboarding', 'ice skating', 'zip-lining'
-  ] as const,
+  ],
   
   cultural: [
     'temple visits', 'museums', 'art galleries', 'historical sites', 
@@ -237,7 +232,7 @@ export const activityCategories = {
     // NEW: Additional cultural
     'language classes', 'traditional crafts', 'local ceremonies', 'heritage tours',
     'archaeological sites', 'castle visits', 'palace tours', 'monument viewing'
-  ] as const,
+  ],
   
   food: [
     'street food tours', 'wine tasting', 'fine dining', 'local markets',
@@ -245,7 +240,7 @@ export const activityCategories = {
     // NEW: Additional food
     'brewery tours', 'distillery visits', 'cooking workshops', 'farm-to-table',
     'chocolate making', 'cheese tasting', 'coffee plantation tours', 'food festivals'
-  ] as const,
+  ],
   
   urban: [
     'city exploration', 'shopping', 'nightlife', 'rooftop bars',
@@ -253,7 +248,7 @@ export const activityCategories = {
     // NEW: Additional urban
     'museum hopping', 'gallery crawls', 'convention attendance', 'tech meetups',
     'startup events', 'networking mixers', 'speed dating', 'social dancing'
-  ] as const,
+  ],
   
   adventure: [
     'amazon river tours', 'elephant sanctuaries', 'canyon exploration',
@@ -261,7 +256,7 @@ export const activityCategories = {
     // NEW: Additional adventure
     'safari tours', 'wildlife photography', 'bird watching expeditions',
     'volcano hiking', 'cave exploration', 'glacier walking', 'desert camping'
-  ] as const,
+  ],
   
   relaxation: [
     'spa treatments', 'hot springs', 'yoga classes', 'meditation retreats',
@@ -269,7 +264,7 @@ export const activityCategories = {
     // NEW: Additional relaxation
     'wellness retreats', 'massage therapy', 'thermal baths', 'sound healing',
     'forest bathing', 'mindfulness workshops', 'stress relief programs'
-  ] as const,
+  ],
   
   social: [
     'samba clubs', 'tango dancing', 'beach parties', 'local music',
@@ -277,7 +272,7 @@ export const activityCategories = {
     // NEW: Additional social
     'expat meetups', 'language exchange', 'board game nights', 'dance classes',
     'singles events', 'community festivals', 'cultural mixers', 'hobby groups'
-  ] as const
+  ] 
 };
 
 // ==================== HELPER FUNCTIONS ====================
@@ -367,3 +362,26 @@ export const validateLocation = (location: CityResonanceProfile): string[] => {
   
   return errors;
 };
+
+/*
+Top Priority (Cover multiple interests):
+
+South Korea - Covers: k-pop, anime, tech-hub, conventions
+
+Australia - Covers: scuba-diving, surfing, wildlife, breweries
+
+Costa Rica - Covers: surfing, wildlife, yoga, bird-watching, expat-community
+
+South Africa - Covers: safari, wineries, mountain-exploration
+
+Second Tier:
+5. Philippines - Covers: scuba-diving, beaches, digital-nomad
+6. Egypt - Covers: scuba-diving (Red Sea), historical, spiritual
+7. Canada - Covers: skiing, mountain-exploration, multicultural
+8. Netherlands - Covers: raves, social-meetups, progressive culture
+
+Niche Focus:
+9. Switzerland/Austria - Covers: skiing, mountain-exploration
+10. Belgium - Covers: breweries, EU hub
+11. Cuba - Covers: dance-culture, vintage, music
+*/

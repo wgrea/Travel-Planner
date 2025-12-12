@@ -179,6 +179,8 @@ export const flyDataByRegion: RegionData[] = [
     ]
   }
 ];
+
+// src/lib/data/flightPatternData.ts
 // Rest of the file
 // Helper function to get all countries flat (for backward compatibility)
 export const getAllCountries = (): FlightPattern[] => {

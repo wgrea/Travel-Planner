@@ -1,6 +1,5 @@
 // src/lib/data/visa.ts
-
-
+    // What I think is Vietnam is selected in departure country, so what is on here will go into "Select Departure Country" and the file go into the "Browse Countries" section
 
 import type { VisaInfo } from '$lib/types/visa';
 import { mexicoVisaData } from './countries/north-america/mexico';
@@ -44,6 +43,7 @@ export const visaData: Record<string, Record<string, VisaInfo>> = {
   "Argentina": argentinaVisaData,
   "Brazil": brazilVisaData,
   "Portugal": portugalVisaData,
+  // Destination: Georgia | Visa requirements FOR entering Mexico
   "Georgia": georgiaVisaData,
   "Azerbaijan": azerbaijanVisaData,
   "Germany": germanyVisaData,

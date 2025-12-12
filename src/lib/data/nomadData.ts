@@ -109,18 +109,23 @@ export const nomadDataByRegion: RegionNomadData[] = [
 ];
 
 // src/lib/data/nomadData.ts
+// Countries are already imported above
 // Make sure to keep libraries in free. Do not put then in coworking spots. Do not put paid coworking spots in free UNLESS if the spot is free which so far, it is unlikey that the coworking spot is.
 // Make sure to show a good country example
-// Countries are imported at top
+// I do not think I am showing the coworking memberships on the page yet
+// Put each number in USD since the currency calculator default is USD
+
 
 // INTERFACE DEFINITIONS
+// src/lib/data/nomadData.ts
+
 export interface Workspace {
   name: string;
   city: string;
   country: string;
   type: 'coworking' | 'cafe' | 'hostel' | 'hotel' | 'library' | 'public_space' | 'cafe_coworking';
-  dayPassPrice?: number;
-  monthlyPrice?: number;
+  dayPassPrice?: number; // The default is USD so make sure the number is what USD would be. There is already a currency selector and the currency selector looked like it was made as USD as the default.
+  monthlyPrice?: number; // Put USD ammount here
   hourlyRate?: number;
   rating: number;
   amenities: string[];
@@ -135,6 +140,12 @@ export interface Workspace {
   membershipDiscount?: number;
   touristArea?: boolean;
   notes?: string;
+  
+  // ADD THESE NEW FIELDS:
+  budgetCategory?: 'zero_spend' | 'already_paid' | 'small_purchase' | 'direct_payment';
+  includedWithStay?: boolean; // true if workspace free when staying there
+  minimumPurchase?: number; // For cafes/malls
+  dayPassForNonGuests?: boolean; // If hostel/hotel offers day passes
 }
 
 export interface FreeWorkspace {
@@ -152,6 +163,9 @@ export interface FreeWorkspace {
   noiseLevel: number;
   address?: string;
   notes?: string;
+  
+  // ADD THIS:
+  budgetCategory?: 'zero_spend' | 'small_purchase'; // Maps to our selector
 }
 
 export interface CoworkingMembership {
@@ -261,4 +275,56 @@ export function getSubregionsByRegion(regionName: string): string[] {
   const region = nomadDataByRegion.find(r => r.region === regionName);
   if (!region || !region.subregions) return [];
   return region.subregions.map(subregion => subregion.subregion);
+}
+
+// In nomadData.ts, update the getBudgetCategory function:
+export function getBudgetCategory(workspace: Workspace | FreeWorkspace): string {
+  if ('cost' in workspace) {
+    // FreeWorkspace
+    if (workspace.cost === 'free') return 'zero_spend';
+    if (workspace.cost === 'purchase_required') return 'small_purchase';
+    return 'zero_spend';
+  } else {
+    // Workspace
+    const w = workspace as Workspace;
+    
+    // Cafes are small purchase
+    if (w.type === 'cafe') return 'small_purchase';
+    
+    // Free libraries
+    if (w.type === 'library' && (!w.dayPassPrice || w.dayPassPrice === 0)) 
+      return 'zero_spend';
+    
+    // Hostels and Hotels are "already_paid" if they have includedWithStay or low/no day pass
+    if ((w.type === 'hostel' || w.type === 'hotel')) {
+      // If workspace is explicitly marked as included with stay
+      if (w.includedWithStay === true) return 'already_paid';
+      
+      // If day pass is very cheap or free (typical for hostels)
+      if (w.dayPassPrice && w.dayPassPrice <= 50) return 'already_paid';
+      
+      // Default for hostels/hotels with no explicit pricing
+      return 'already_paid';
+    }
+    
+    // Coworking spaces with day passes
+    if (w.dayPassPrice && w.dayPassPrice > 0) return 'direct_payment';
+    
+    // Default for coworking spaces
+    if (w.type === 'coworking') return 'direct_payment';
+    
+    // Public spaces
+    if (w.type === 'public_space') return 'zero_spend';
+    
+    return 'direct_payment';
+  }
+}
+
+export function filterWorkspacesByBudget(
+  workspaces: Workspace[], 
+  freeWorkspaces: FreeWorkspace[], 
+  category: string
+): (Workspace | FreeWorkspace)[] {
+  const allSpaces = [...workspaces, ...freeWorkspaces];
+  return allSpaces.filter(space => getBudgetCategory(space) === category);
 }

@@ -3,7 +3,6 @@
 
 // flight costs based on where you are at needs to be added.
 
-// src/lib/data/routeCosts.ts
 import type { RouteCostData } from '$lib/types/flight';
 import { belizeRouteCost } from './countries/central-america/belize';
 import { costaRicaRouteCost } from './countries/central-america/costaRica';
@@ -70,6 +69,7 @@ export const routeCosts: Record<string, RouteCostData> = {
   "United Kingdom": ukRouteCost,
 };
 
+// src/lib/data/routeCosts.ts
 // Update helper functions to use new type
 export function getRoutePrice(origin: string, destination: string) {
   return routeCosts[origin]?.[destination] || null;

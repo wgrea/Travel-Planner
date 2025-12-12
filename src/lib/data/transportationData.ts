@@ -34,7 +34,7 @@ import { ukTransportation } from './countries/europe/western-europe/united-kingd
 
 export const transportationDataByRegion: RegionTransportationData[] = [
   {
-    region: "South Asia",
+    region: "East Asia",
     countries: [
       japanTransportation,
     ]
@@ -92,7 +92,7 @@ export const transportationDataByRegion: RegionTransportationData[] = [
     ]
   },
   {
-    region: "North Afirca",
+    region: "North Africa",
     countries: [
       moroccoTransportation,
 
