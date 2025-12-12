@@ -3,17 +3,16 @@
 // Import nomad data from all countries
 import { thailandNomadData } from './countries/southeast-asia/thailand/index'; 
 import { vietnamNomadData } from './countries/southeast-asia/vietnam/index'; 
-import { indonesiaNomadData } from './countries/southeast-asia/indonesia';
-import { portugalNomadData } from './countries/europe/western-europe/portugal';
-import { spainNomadData } from './countries/europe/western-europe/spain';
-import { georgiaNomadData } from './countries/europe/caucasus/georgia';
+import { indonesiaNomadData } from './countries/southeast-asia/indonesia/index';
+import { portugalNomadData } from './countries/europe/western-europe/portugal/index';
+import { spainNomadData } from './countries/europe/western-europe/spain/index';
+import { georgiaNomadData } from './countries/europe/caucasus/georgia/index';
 import { mexicoNomadData } from './countries/north-america/mexico';
-import { colombiaNomadData } from './countries/south-america/colombia';
-import { argentinaNomadData } from './countries/south-america/argentina';
-import { azerbaijanNomadData } from './countries/europe/caucasus/azerbaijan';
-import { brazilNomadData } from './countries/south-america/brazil';
-import { turkeyNomadData } from './countries/europe/southern-europe/turkey';
-import { unitedStatesNomadData } from './countries/north-america/united-states';
+import { argentinaNomadData } from './countries/south-america/argentina/index';
+import { azerbaijanNomadData } from './countries/europe/caucasus/azerbaijan/index';
+import { brazilNomadData } from './countries/south-america/brazil/index';
+import { turkeyNomadData } from './countries/europe/southern-europe/turkey/index';
+import { unitedStatesNomadData } from './countries/north-america/united-states/index';
 import { greeceNomadData } from './countries/europe/southern-europe/greece/index';
 import { panamaNomadData } from './countries/central-america/panama/index';
 import { japanNomadData } from './countries/east-asia/japan/index';
@@ -22,9 +21,9 @@ import { franceNomadData } from './countries/europe/western-europe/france/index'
 import { laosNomadData } from './countries/southeast-asia/laos/index';
 import { indiaNomadData } from './countries/south-asia/india/index';
 import { bangladeshNomadData} from './countries/south-asia/bangladesh/index';
-import { nepalNomadData } from './countries/south-asia/nepal';
-import { moroccoNomadData } from './countries/northern-africa/morocco';
-import { ukNomadData } from './countries/europe/western-europe/united-kingdom';
+import { nepalNomadData } from './countries/south-asia/nepal/index';
+import { moroccoNomadData } from './countries/northern-africa/morocco/index';
+import { ukNomadData } from './countries/europe/western-europe/united-kingdom/index';
 
 export const nomadDataByRegion: RegionNomadData[] = [
     {
@@ -101,7 +100,7 @@ export const nomadDataByRegion: RegionNomadData[] = [
   {
     region: "South America", 
     countries: [
-      colombiaNomadData,
+      // colombiaNomadData,
       argentinaNomadData,
       brazilNomadData,
     ]
