@@ -1,8 +1,8 @@
 // src/lib/data/nomadData.ts
 
 // Import nomad data from all countries
-import { thailandNomadData } from './countries/southeast-asia/thailand'; // Added New Data
-import { vietnamNomadData } from './countries/southeast-asia/vietnam'; // Added New Data
+import { thailandNomadData } from './countries/southeast-asia/thailand/index'; 
+import { vietnamNomadData } from './countries/southeast-asia/vietnam/index'; 
 import { indonesiaNomadData } from './countries/southeast-asia/indonesia';
 import { portugalNomadData } from './countries/europe/western-europe/portugal';
 import { spainNomadData } from './countries/europe/western-europe/spain';
@@ -14,14 +14,14 @@ import { azerbaijanNomadData } from './countries/europe/caucasus/azerbaijan';
 import { brazilNomadData } from './countries/south-america/brazil';
 import { turkeyNomadData } from './countries/europe/southern-europe/turkey';
 import { unitedStatesNomadData } from './countries/north-america/united-states';
-import { greeceNomadData } from './countries/europe/southern-europe/greece';
-import { panamaNomadData } from './countries/central-america/panama';
-import { japanNomadData } from './countries/east-asia/japan';
-import { italyNomadData } from './countries/europe/southern-europe/italy';
-import { franceNomadData } from './countries/europe/western-europe/france';
-import { laosNomadData } from './countries/southeast-asia/laos';
-import { indiaNomadData } from './countries/south-asia/india';
-import { bangladeshNomadData} from './countries/south-asia/bangladesh';
+import { greeceNomadData } from './countries/europe/southern-europe/greece/index';
+import { panamaNomadData } from './countries/central-america/panama/index';
+import { japanNomadData } from './countries/east-asia/japan/index';
+import { italyNomadData } from './countries/europe/southern-europe/italy/index';
+import { franceNomadData } from './countries/europe/western-europe/france/index';
+import { laosNomadData } from './countries/southeast-asia/laos/index';
+import { indiaNomadData } from './countries/south-asia/india/index';
+import { bangladeshNomadData} from './countries/south-asia/bangladesh/index';
 import { nepalNomadData } from './countries/south-asia/nepal';
 import { moroccoNomadData } from './countries/northern-africa/morocco';
 import { ukNomadData } from './countries/europe/western-europe/united-kingdom';
