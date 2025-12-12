@@ -2,31 +2,31 @@
     // What I think is Vietnam is selected in departure country, so what is on here will go into "Select Departure Country" and the file go into the "Browse Countries" section
 
 import type { VisaInfo } from '$lib/types/visa';
-import { mexicoVisaData } from './countries/north-america/mexico';
-import { azerbaijanVisaData } from './countries/europe/caucasus/azerbaijan';  // You're missing this!
-import { thailandVisaData } from './countries/southeast-asia/thailand';
-import { unitedStatesVisaData } from './countries/north-america/united-states/visa';
-import { vietnamVisaData } from './countries/southeast-asia/vietnam';
+import { mexicoVisaData } from './countries/north-america/mexico/index';
+import { azerbaijanVisaData } from './countries/europe/caucasus/azerbaijan/index'; 
+import { thailandVisaData } from './countries/southeast-asia/thailand/index';
+import { unitedStatesVisaData } from './countries/north-america/united-states/index';
+import { vietnamVisaData } from './countries/southeast-asia/vietnam/index';
 import { germanyVisaData } from './countries/europe/western-europe/germany';
-import { spainVisaData } from './countries/europe/western-europe/spain';
+import { spainVisaData } from './countries/europe/western-europe/spain/index';
 import { canadaVisaData } from './countries/north-america/canada';
-import { indonesiaVisaData } from './countries/southeast-asia/indonesia';
-import { argentinaVisaData } from './countries/south-america/argentina';
-import { brazilVisaData } from './countries/south-america/brazil';
-import { portugalVisaData } from './countries/europe/western-europe/portugal';
-import { georgiaVisaData } from './countries/europe/caucasus/georgia';
-import { greeceVisaData } from './countries/europe/southern-europe/greece';
-import { turkeyVisaData } from './countries/europe/southern-europe/turkey';
-import { panamaVisaData } from './countries/central-america/panama';
-import { japanVisaData } from './countries/east-asia/japan';
-import { italyVisaData } from './countries/europe/southern-europe/italy';
-import { franceVisaData} from './countries/europe/western-europe/france';
-import { laosVisaData} from './countries/southeast-asia/laos';
-import { indiaVisaData} from './countries/south-asia/india';
-import { bangladeshVisaData} from './countries/south-asia/bangladesh';
-import { nepalVisaData} from './countries/south-asia/nepal';
-import { moroccoVisaData} from './countries/northern-africa/morocco';
-import { ukVisaData} from './countries/europe/western-europe/united-kingdom';
+import { indonesiaVisaData } from './countries/southeast-asia/indonesia/index';
+import { argentinaVisaData } from './countries/south-america/argentina/index';
+import { brazilVisaData } from './countries/south-america/brazil/index';
+import { portugalVisaData } from './countries/europe/western-europe/portugal/index';
+import { georgiaVisaData } from './countries/europe/caucasus/georgia/index';
+import { greeceVisaData } from './countries/europe/southern-europe/greece/index';
+import { turkeyVisaData } from './countries/europe/southern-europe/turkey/index';
+import { panamaVisaData } from './countries/central-america/panama/index';
+import { japanVisaData } from './countries/east-asia/japan/index';
+import { italyVisaData } from './countries/europe/southern-europe/italy/index';
+import { franceVisaData} from './countries/europe/western-europe/france/index';
+import { laosVisaData} from './countries/southeast-asia/laos/index';
+import { indiaVisaData} from './countries/south-asia/india/index';
+import { bangladeshVisaData} from './countries/south-asia/bangladesh/index';
+import { nepalVisaData} from './countries/south-asia/nepal/index';
+import { moroccoVisaData} from './countries/northern-africa/morocco/index';
+import { ukVisaData} from './countries/europe/western-europe/united-kingdom/index';
 
 export const visaData: Record<string, Record<string, VisaInfo>> = {
   // Destination: Mexico | Visa requirements FOR entering Mexico

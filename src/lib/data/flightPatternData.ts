@@ -26,39 +26,39 @@ export interface RegionData {
 }
 
 // In flyData.ts - Update European imports to use subdirectories
-import { thailandFlightPattern } from './countries/southeast-asia/thailand';
-import { indonesiaFlightPattern } from './countries/southeast-asia/indonesia';
+import { thailandFlightPattern } from './countries/southeast-asia/thailand/index';
+import { indonesiaFlightPattern } from './countries/southeast-asia/indonesia/index';
 
 // Europe imports - now in subdirectories
-import { spainFlightPattern } from './countries/europe/western-europe/spain';
-import { portugalFlightPattern } from './countries/europe/western-europe/portugal';
+import { spainFlightPattern } from './countries/europe/western-europe/spain/index';
+import { portugalFlightPattern } from './countries/europe/western-europe/portugal/index';
 
 // Add the new European country imports
 // import { germanyFlightPattern } from './countries/europe/western-europe/germany';
-import { azerbaijanFlightPattern } from './countries/europe/caucasus/azerbaijan';
-import { georgiaFlightPattern } from './countries/europe/caucasus/georgia';
+import { azerbaijanFlightPattern } from './countries/europe/caucasus/azerbaijan/index';
+import { georgiaFlightPattern } from './countries/europe/caucasus/georgia/index';
 
 // Other regions
-import { brazilFlightPattern } from './countries/south-america/brazil';
-import { argentinaFlightPattern } from './countries/south-america/argentina';
-import { mexicoFlightPattern } from './countries/north-america/mexico';
-import { belizeFlightPattern } from './countries/central-america/belize';
-import { costaRicaFlightPattern } from './countries/central-america/costaRica';
-import { guatemalaFlightPattern } from './countries/central-america/guatemala';
-import { panamaFlightPattern } from './countries/central-america/panama';
-import { greeceFlightPattern } from './countries/europe/southern-europe/greece';
-import { turkeyFlightPattern } from './countries/europe/southern-europe/turkey';
-import { unitedStatesFlightPattern } from './countries/north-america/united-states';
+import { brazilFlightPattern } from './countries/south-america/brazil/index';
+import { argentinaFlightPattern } from './countries/south-america/argentina/index';
+import { mexicoFlightPattern } from './countries/north-america/mexico/index';
+// import { belizeFlightPattern } from './countries/central-america/belize/index';
+// import { costaRicaFlightPattern } from './countries/central-america/costaRica/index';
+// import { guatemalaFlightPattern } from './countries/central-america/guatemala/index';
+import { panamaFlightPattern } from './countries/central-america/panama/index';
+import { greeceFlightPattern } from './countries/europe/southern-europe/greece/index';
+import { turkeyFlightPattern } from './countries/europe/southern-europe/turkey/index';
+import { unitedStatesFlightPattern } from './countries/north-america/united-states/index';
 // Countries we've completed (add these to your imports):
-import { japanFlightPattern } from './countries/east-asia/japan';
-import { italyFlightPattern } from './countries/europe/southern-europe/italy';
-import { franceFlightPattern } from './countries/europe/western-europe/france';
-import { laosFlightPattern } from './countries/southeast-asia/laos';
-import { indiaFlightPattern } from './countries/south-asia/india';
-import { bangladeshFlightPattern } from './countries/south-asia/bangladesh';
-import { nepalFlightPattern } from './countries/south-asia/nepal';
-import { moroccoFlightPattern } from './countries/northern-africa/morocco';
-import { ukFlightPattern } from './countries/europe/western-europe/united-kingdom';
+import { japanFlightPattern } from './countries/east-asia/japan/index';
+import { italyFlightPattern } from './countries/europe/southern-europe/italy/index';
+import { franceFlightPattern } from './countries/europe/western-europe/france/index';
+import { laosFlightPattern } from './countries/southeast-asia/laos/index';
+import { indiaFlightPattern } from './countries/south-asia/india/index';
+import { bangladeshFlightPattern } from './countries/south-asia/bangladesh/index';
+import { nepalFlightPattern } from './countries/south-asia/nepal/index';
+import { moroccoFlightPattern } from './countries/northern-africa/morocco/index';
+import { ukFlightPattern } from './countries/europe/western-europe/united-kingdom/index';
 
 
 export const flyDataByRegion: RegionData[] = [
@@ -157,9 +157,9 @@ export const flyDataByRegion: RegionData[] = [
   {
     region: "Central America",
     countries: [
-      belizeFlightPattern,
-      costaRicaFlightPattern,
-      guatemalaFlightPattern,
+      // belizeFlightPattern,
+      // costaRicaFlightPattern,
+      // guatemalaFlightPattern,
       panamaFlightPattern
     ]
   },
