@@ -8,8 +8,8 @@ export const vietnamWorkspaces: Workspace[] = [
     city: 'Ho Chi Minh City',
     country: 'Vietnam',
     type: 'coworking',
-    dayPassPrice: 15,
-    monthlyPrice: 200,
+    dayPassPrice: 6,
+    monthlyPrice: 80,
     rating: 4.5,
     wifiSpeed: 80,
     powerOutlets: 5,
@@ -18,18 +18,21 @@ export const vietnamWorkspaces: Workspace[] = [
     bestFor: ['Professional meetings', 'Team work', 'Networking'],
     hours: '24/7',
     address: 'Multiple locations in District 1 and District 2',
-    // NEW FIELDS:
+    // NEW BUDGET FIELDS:
     freeTrialDays: 1,
-    membershipDiscount: 15, // 15% discount for quarterly
-    touristArea: true // District 1 is touristy
+    membershipDiscount: 15,
+    touristArea: true,
+    budgetCategory: 'direct_payment',
+    includedWithStay: false,
+    notes: 'Premium coworking space in tourist area'
   },
   {
     name: 'Saigon Coworking',
     city: 'Ho Chi Minh City',
     country: 'Vietnam',
     type: 'coworking',
-    dayPassPrice: 12,
-    monthlyPrice: 160,
+    dayPassPrice: 5,
+    monthlyPrice: 65,
     rating: 4.3,
     wifiSpeed: 75,
     powerOutlets: 4,
@@ -37,17 +40,20 @@ export const vietnamWorkspaces: Workspace[] = [
     amenities: ['24/7 Access', 'Kitchen', 'Printing', 'Lockers'],
     bestFor: ['Focused work', 'Long hours', 'Privacy'],
     hours: '24/7',
-    // NEW FIELDS:
+    // NEW BUDGET FIELDS:
     freeTrialDays: 2,
-    touristArea: false // Often in less touristy districts
+    touristArea: false,
+    budgetCategory: 'direct_payment',
+    includedWithStay: false,
+    notes: 'More affordable coworking option'
   },
   {
     name: 'Toong Coworking Space',
     city: 'Hanoi',
     country: 'Vietnam',
     type: 'coworking',
-    dayPassPrice: 14,
-    monthlyPrice: 180,
+    dayPassPrice: 6,
+    monthlyPrice: 72,
     rating: 4.4,
     wifiSpeed: 85,
     powerOutlets: 5,
@@ -55,17 +61,19 @@ export const vietnamWorkspaces: Workspace[] = [
     amenities: ['High-speed WiFi', 'Meeting Rooms', 'Cafe', 'Event Space'],
     bestFor: ['Creative work', 'Networking', 'Startups'],
     hours: '24/7',
-    // NEW FIELDS:
+    // NEW BUDGET FIELDS:
     freeTrialDays: 1,
-    touristArea: true // Usually in central areas
+    touristArea: true,
+    budgetCategory: 'direct_payment',
+    includedWithStay: false
   },
   {
     name: 'UP Coworking Space',
     city: 'Hanoi',
     country: 'Vietnam',
     type: 'coworking',
-    dayPassPrice: 10,
-    monthlyPrice: 140,
+    dayPassPrice: 4,
+    monthlyPrice: 56,
     rating: 4.2,
     wifiSpeed: 70,
     powerOutlets: 4,
@@ -73,10 +81,12 @@ export const vietnamWorkspaces: Workspace[] = [
     amenities: ['Quiet zones', 'Meeting Rooms', 'Kitchen', 'Printing'],
     bestFor: ['Focused work', 'Students', 'Remote workers'],
     hours: '7:00 AM - 10:00 PM',
-    // NEW FIELDS:
+    // NEW BUDGET FIELDS:
     freeTrialDays: 3,
     membershipDiscount: 10,
-    touristArea: false // Often near universities
+    touristArea: false,
+    budgetCategory: 'direct_payment',
+    includedWithStay: false
   },
   {
     name: 'The Workshop Coffee',
@@ -91,16 +101,19 @@ export const vietnamWorkspaces: Workspace[] = [
     amenities: ['Specialty Coffee', 'Power Outlets', 'WiFi', 'Food'],
     bestFor: ['Coffee lovers', 'Creative work', 'Short sessions'],
     hours: '7:30 AM - 10:00 PM',
-    // NEW FIELDS:
-    touristArea: true // Expensive specialty coffee shop
+    // NEW BUDGET FIELDS:
+    touristArea: true,
+    budgetCategory: 'small_purchase',
+    includedWithStay: false,
+    notes: 'Specialty coffee shop - purchase required'
   },
   {
     name: 'DNES Coworking Space',
     city: 'Da Nang',
     country: 'Vietnam',
     type: 'coworking',
-    dayPassPrice: 8,
-    monthlyPrice: 120,
+    dayPassPrice: 3,
+    monthlyPrice: 48,
     rating: 4.3,
     wifiSpeed: 75,
     powerOutlets: 4,
@@ -108,16 +121,18 @@ export const vietnamWorkspaces: Workspace[] = [
     amenities: ['Beach proximity', 'Meeting Rooms', 'Coffee', 'Events'],
     bestFor: ['Beach lifestyle', 'Digital nomads', 'Relaxed work'],
     hours: '24/7',
-    // NEW FIELDS:
+    // NEW BUDGET FIELDS:
     freeTrialDays: 2,
-    touristArea: true // Da Nang is tourist destination
+    touristArea: true,
+    budgetCategory: 'direct_payment',
+    includedWithStay: false
   },
   {
     name: 'National Library of Vietnam',
     city: 'Hanoi',
     country: 'Vietnam',
     type: 'library',
-    dayPassPrice: 0, // Free
+    dayPassPrice: 0,
     rating: 4.3,
     wifiSpeed: 35,
     powerOutlets: 4,
@@ -126,6 +141,10 @@ export const vietnamWorkspaces: Workspace[] = [
     bestFor: ['Academic research', 'Quiet study', 'Historical research'],
     hours: '8:00-20:00 (Mon-Fri), 8:00-17:00 (Sat)',
     address: '31 Trang Thi, Hoan Kiem, Hanoi',
+    // NEW BUDGET FIELDS:
+    touristArea: true,
+    budgetCategory: 'zero_spend',
+    includedWithStay: false,
     notes: 'Requires registration, excellent quiet environment'
   },
   {
@@ -133,7 +152,7 @@ export const vietnamWorkspaces: Workspace[] = [
     city: 'Hue',
     country: 'Vietnam',
     type: 'library',
-    dayPassPrice: 0, // Free
+    dayPassPrice: 0,
     rating: 4.0,
     wifiSpeed: 40,
     powerOutlets: 4,
@@ -142,6 +161,10 @@ export const vietnamWorkspaces: Workspace[] = [
     bestFor: ['Academic work', 'Quiet study', 'Research'],
     hours: '7:30-17:00 (Mon-Fri)',
     address: 'Hue University campus',
+    // NEW BUDGET FIELDS:
+    touristArea: false,
+    budgetCategory: 'zero_spend',
+    includedWithStay: false,
     notes: 'Visitor access may require permission'
   },
   {
@@ -149,7 +172,7 @@ export const vietnamWorkspaces: Workspace[] = [
     city: 'Da Nang',
     country: 'Vietnam',
     type: 'library',
-    dayPassPrice: 0, // Free
+    dayPassPrice: 0,
     rating: 3.8,
     wifiSpeed: 25,
     powerOutlets: 3,
@@ -157,27 +180,98 @@ export const vietnamWorkspaces: Workspace[] = [
     amenities: ['Local collection', 'Reading areas', 'AC', 'Basic facilities'],
     bestFor: ['Quiet work', 'Reading', 'Escaping heat'],
     hours: '7:30-17:00 (Mon-Fri), 7:30-11:30 (Sat)',
-    address: '46 Bach Dang, Hai Chau, Da Nang'
+    address: '46 Bach Dang, Hai Chau, Da Nang',
+    // NEW BUDGET FIELDS:
+    touristArea: true,
+    budgetCategory: 'zero_spend',
+    includedWithStay: false
+  },
+  // ADD HOSTEL/HOTEL EXAMPLES FOR VIETNAM
+  {
+    name: 'Vietnam Backpacker Hostels - Downtown',
+    city: 'Ho Chi Minh City',
+    country: 'Vietnam',
+    type: 'hostel',
+    dayPassPrice: 5, // For non-guests
+    monthlyPrice: 250, // Accommodation + workspace
+    rating: 4.4,
+    wifiSpeed: 60,
+    powerOutlets: 4,
+    noiseLevel: 3,
+    amenities: ['Co-working lounge', 'Bar', 'Tour desk', 'Social events', 'Laundry'],
+    bestFor: ['Social nomads', 'Backpackers', 'Networking', 'Fun environment'],
+    hours: '24/7 co-working lounge',
+    address: 'Pham Ngu Lao, District 1, HCMC',
+    // NEW BUDGET FIELDS:
+    touristArea: true,
+    budgetCategory: 'already_paid',
+    includedWithStay: true,
+    dayPassForNonGuests: true,
+    notes: 'Free workspace for guests, $5 day pass for non-guests. Very social atmosphere.'
+  },
+  {
+    name: 'Little Hanoi Hostel',
+    city: 'Hanoi',
+    country: 'Vietnam',
+    type: 'hostel',
+    dayPassPrice: 4,
+    monthlyPrice: 180,
+    rating: 4.6,
+    wifiSpeed: 65,
+    powerOutlets: 5,
+    noiseLevel: 2,
+    amenities: ['Quiet work area', 'Rooftop terrace', 'Kitchen', 'Bike rental', 'Book exchange'],
+    bestFor: ['Focused work', 'Budget travelers', 'Long-term stays'],
+    hours: 'Work area: 7:00-22:00',
+    address: 'Hang Be, Hoan Kiem, Hanoi',
+    // NEW BUDGET FIELDS:
+    touristArea: true,
+    budgetCategory: 'already_paid',
+    includedWithStay: true,
+    notes: 'Excellent WiFi and quiet work area in Old Quarter'
+  },
+  {
+    name: 'Fusion Suites Da Nang',
+    city: 'Da Nang',
+    country: 'Vietnam',
+    type: 'hotel',
+    dayPassPrice: 10, // Minimum spend at restaurant
+    monthlyPrice: 800,
+    rating: 4.7,
+    wifiSpeed: 80,
+    powerOutlets: 5,
+    noiseLevel: 1,
+    amenities: ['Lobby lounge', 'Business center', 'Restaurant', 'Pool', 'Spa'],
+    bestFor: ['Luxury work', 'Client meetings', 'Peaceful environment', 'Treat yourself'],
+    hours: '24/7 lobby access',
+    address: 'An Thuong 1, My An, Da Nang',
+    // NEW BUDGET FIELDS:
+    touristArea: false,
+    budgetCategory: 'already_paid',
+    includedWithStay: true,
+    notes: 'Beautiful ocean-view lobby. Free for guests, $10 minimum spend for non-guests.'
   }
 ];
 
-// NEW: Free Workspaces in Vietnam
+// NEW: Free Workspaces in Vietnam - ADD budgetCategory
 export const vietnamFreeWorkspaces: FreeWorkspace[] = [
   {
     name: 'General Sciences Library',
     city: 'Ho Chi Minh City',
     type: 'library',
-    description: 'Large public library with extensive collection and computer access', // ✅ REQUIRED
-    cost: 'free', // ✅ REQUIRED - 'free' | 'donation' | 'purchase_required'
-    wifi: true, // ✅ boolean, not number
-    wifiSpeed: 30, // ✅ Optional but allowed (wifiSpeed?: number)
-    powerOutlets: true, // ✅ boolean, not number
+    description: 'Large public library with extensive collection and computer access',
+    cost: 'free',
+    wifi: true,
+    wifiSpeed: 30,
+    powerOutlets: true,
     hours: '7:30-20:00 (Mon-Sat)',
     amenities: ['Large collection', 'Reading rooms', 'Computer access', 'AC', 'Study areas'],
     bestFor: ['Research', 'Quiet work', 'Academic study', 'Deep focus'],
     noiseLevel: 2,
     address: '69 Ly Tu Trong, District 1, HCMC',
-    notes: 'Can get crowded, arrive early for best spots'
+    notes: 'Can get crowded, arrive early for best spots',
+    // ADD budgetCategory
+    budgetCategory: 'zero_spend'
   },
   {
     name: 'Trang Tien Plaza Food Court',
@@ -193,7 +287,9 @@ export const vietnamFreeWorkspaces: FreeWorkspace[] = [
     bestFor: ['Casual work', 'Lunch breaks', 'Quick meetings'],
     noiseLevel: 4,
     address: '24 Hai Ba Trung, Hoan Kiem, Hanoi',
-    notes: 'Purchase required, busiest during lunch 11:30-13:30'
+    notes: 'Purchase required, busiest during lunch 11:30-13:30',
+    // ADD budgetCategory
+    budgetCategory: 'small_purchase'
   },
   {
     name: 'Vincom Center Food Court',
@@ -209,7 +305,9 @@ export const vietnamFreeWorkspaces: FreeWorkspace[] = [
     bestFor: ['Work sessions', 'Meetings', 'Comfortable environment'],
     noiseLevel: 3,
     address: '72 Le Thanh Ton, District 1, HCMC',
-    notes: 'Slightly more expensive but better facilities'
+    notes: 'Slightly more expensive but better facilities',
+    // ADD budgetCategory
+    budgetCategory: 'small_purchase'
   },
   {
     name: 'Local "Com" (Rice) Shops',
@@ -223,7 +321,9 @@ export const vietnamFreeWorkspaces: FreeWorkspace[] = [
     amenities: ['Local food', 'Authentic experience', 'Very cheap'],
     bestFor: ['Quick work', 'Email checking', 'Lunch breaks'],
     noiseLevel: 5,
-    notes: 'No WiFi, cash only, extremely authentic local experience'
+    notes: 'No WiFi, cash only, extremely authentic local experience',
+    // ADD budgetCategory
+    budgetCategory: 'small_purchase'
   },
   {
     name: 'Public Parks',
@@ -231,13 +331,15 @@ export const vietnamFreeWorkspaces: FreeWorkspace[] = [
     type: 'park',
     description: 'Public parks with benches and sometimes free WiFi',
     cost: 'free',
-    wifi: false, // Some parks have WiFi but unreliable
+    wifi: false,
     powerOutlets: false,
     hours: '5:00-22:00',
     amenities: ['Fresh air', 'Nature', 'Free', 'Exercise areas'],
     bestFor: ['Reading', 'Planning', 'Creative thinking', 'Break from screens'],
     noiseLevel: 3,
-    notes: 'Bring power bank, best in morning or late afternoon'
+    notes: 'Bring power bank, best in morning or late afternoon',
+    // ADD budgetCategory
+    budgetCategory: 'zero_spend'
   },
   {
     name: 'University Campuses',
@@ -252,12 +354,15 @@ export const vietnamFreeWorkspaces: FreeWorkspace[] = [
     amenities: ['Academic atmosphere', 'Quiet zones', 'Resources', 'Young energy'],
     bestFor: ['Study sessions', 'Research', 'Quiet work'],
     noiseLevel: 2,
-    notes: 'May need to ask permission, quieter during holidays'
+    notes: 'May need to ask permission, quieter during holidays',
+    // ADD budgetCategory
+    budgetCategory: 'zero_spend'
   }
 ];
 
-// NEW: Money Saving Tips for Vietnam
+// Money Saving Tips remains the same
 export const vietnamMoneySavingTips: MoneySavingTips = {
+  // ... (keep all existing tips the same)
   general: [
     'Use Grab app instead of taxis - prices are fixed and lower',
     'Eat at local "com tam" or "pho" shops (20,000-40,000 VND per meal)',
@@ -331,20 +436,20 @@ export const vietnamNomadData: NomadData = {
     speed: 65,
     reliability: 7,
     coworkingSpaces: 80,
-    freePublicWifiSpots: 6 // Many malls and some public spaces have free WiFi
+    freePublicWifiSpots: 6
   },
   
   costs: {
-    coworkingMonthly: 120,
+    coworkingMonthly: 65,
     simCardMonthly: 10,
     coffeeShopWork: 5,
-    libraryAccess: 0 // Public libraries are free
+    libraryAccess: 0
   },
   
   community: {
     expatSize: 8,
-    englishLevel: 5, // Basic in cities, limited outside
-    safety: 7, // Generally safe but watch for petty theft
+    englishLevel: 5,
+    safety: 7,
     nomadGroups: [
       "Digital Nomads Vietnam Facebook Group",
       "Saigon Expats & Digital Nomads",
@@ -356,16 +461,14 @@ export const vietnamNomadData: NomadData = {
   
   workspaces: vietnamWorkspaces,
   
-  // NEW SECTIONS
   freeWorkspaces: vietnamFreeWorkspaces,
   
   moneySavingTips: vietnamMoneySavingTips,
   
-  // Local coworking memberships available in Vietnam
   coworkingMemberships: [
     {
       name: "Toong Vietnam Network",
-      monthlyPrice: 150, // USD
+      monthlyPrice: 72,
       coverage: ["Hanoi", "Ho Chi Minh City"],
       dayPassAvailable: true,
       dayPassPrice: 12,
@@ -382,7 +485,7 @@ export const vietnamNomadData: NomadData = {
     },
     {
       name: "Dreamplex Premium",
-      monthlyPrice: 180,
+      monthlyPrice: 80,
       coverage: ["Ho Chi Minh City"],
       dayPassAvailable: true,
       dayPassPrice: 14,
@@ -399,7 +502,6 @@ export const vietnamNomadData: NomadData = {
     }
   ],
   
-  // Tourist-heavy areas in Vietnam
   touristyCities: [
     "Ho Chi Minh City District 1", 
     "Hanoi Old Quarter",

@@ -37,7 +37,6 @@ export const unitedStatesRouteCost: RouteCostData = {
     airports: ['JFK', 'LAX', 'ORD'],
     airlines: ['American', 'British Airways', 'United']
   },
-  
   // FROM: United States | TO: Australia
   'Australia': {
     economy: 1100,
@@ -233,10 +232,10 @@ export const unitedStatesRouteCost: RouteCostData = {
   
   // FROM: United States | TO: Laos
   'Laos': {
-    economy: 1100,
+    economy: 1300, // Adjusted for typical U.S.-Laos fare
     business: 2500,
     season: 'Peak: November-February (Cool & Dry), Shoulder: March-May (Hot), Off: June-October (Rainy Season)',
-    bestTimeToBook: '3-4 months in advance, often requires connecting through Bangkok or Hanoi',
+    bestTimeToBook: '3-6 months in advance, often requires connecting through Bangkok or Hanoi',
     airports: ['VTE (Vientiane)', 'LPQ (Luang Prabang) via connecting hubs'],
     airlines: ['Thai Airways', 'Qatar Airways', 'Korean Air', 'China Southern', 'Vietnam Airlines', 'Bangkok Airways']
   },

@@ -129,6 +129,7 @@ export const laosVisaData: Record<string, VisaInfo> = {
     },
     
     // Vietnamese citizens → Laos
+    // What I think is Vietnam is selected in departure country, so what is on here will go into "Select Departure Country" and the file go into the "Browse Countries" section
     'Vietnam': {
       ease: "Visa-free",
       freeLength: "30 days",

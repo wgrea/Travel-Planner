@@ -8,45 +8,36 @@ export const vietnamResonance: CityResonanceProfile[] = [
     country: 'Vietnam',
     type: 'country-overview',
     region: 'southeast-asia',
-    
-    // Personality & Vibe - FIXED: Only allowed values
-    travelStyle: ['slow', 'fast', 'cultural', 'adventure', 'relaxation'],
+    pace: 'fast',
     socialVibe: 'balanced',
     energyLevel: 'high',
-    
-    // Environment
     climate: 'warm',
     vibe: 'balanced',
     density: 'mixed',
-    
-    // Activities
     popularActivities: [
       'street food tours', 'historical sites', 'motorbike touring', 
-      'beach relaxation', 'jungle trekking', 'city exploration', 'temple visits'
+      'beach relaxation', 'jungle trekking', 'city exploration', 'temple visits',
+      'digital nomad meetups', 'street food tours', 'motorbike adventures', 'coffee tasting'
     ],
     foodScene: 'local',
     nightlife: 'vibrant',
-    
-    // Practical - FIXED: Only 'budget' | 'midrange' | 'luxury'
     costLevel: 'budget',
     internetQuality: 7,
     safetyScore: 7,
-    
-    // Tags
     tags: [
       'street-food', 'cultural', 'historical', 'adventure', 
-      'beaches', 'mountains', 'local-experience', 'traditional'
+      'beaches', 'mountains', 'local-experience', 'traditional',
+      'digital-nomad', 'street-food', 'motorbike-tours', 'halong-bay', 'coffee-culture'
     ],
-    
-    // Additional metadata
     rating: 4.4,
     highlights: [
       'World\'s best street food culture',
       'Motorbike trips through stunning landscapes',
       'Ancient cultural heritage and history',
-      'Diverse landscapes from mountains to beaches'
+      'Diverse landscapes from mountains to beaches',
+      'Growing digital nomad community and coffee culture'
     ],
-    description: 'A country of incredible natural beauty, rich history, and some of the world\'s best cuisine.'
+    description: 'A country of incredible natural beauty, rich history, world-class cuisine, and adventure opportunities.'
   },
   {
     name: 'Hanoi',
@@ -54,40 +45,29 @@ export const vietnamResonance: CityResonanceProfile[] = [
     country: 'Vietnam',
     type: 'city',
     region: 'southeast-asia',
-    
-    // Personality & Vibe - FIXED
-    travelStyle: ['cultural', 'slow', 'adventure'],
+    pace: 'fast',
     socialVibe: 'balanced',
     energyLevel: 'high',
-    
-    // Environment
     climate: 'warm',
     vibe: 'chaotic',
     density: 'urban',
-    
-    // Activities
-    popularActivities: ['street food tours', 'historical sites', 'city exploration', 'motorbike touring', 'temple visits'],
+    popularActivities: ['street food tours', 'historical sites', 'city exploration', 'motorbike touring', 'temple visits', 'coffee tasting', 'digital nomad meetups'],
     foodScene: 'local',
     nightlife: 'moderate',
-    
-    // Practical - FIXED
     costLevel: 'budget',
     internetQuality: 8,
     safetyScore: 7,
-    
-    // Tags
-    tags: ['cultural', 'street-food', 'historical', 'urban', 'traditional', 'buddhist', 'temples'],
-    
-    // Additional metadata
+    tags: ['cultural', 'street-food', 'historical', 'urban', 'traditional', 'buddhist', 'temples', 'coffee-culture', 'street-food'],
     rating: 4.3,
     highlights: [
       'Ancient Old Quarter with 36 streets',
       'Ho Chi Minh Mausoleum complex',
       'Street food capital of Vietnam',
       'French colonial architecture',
-      'Vibrant night markets'
+      'Vibrant night markets',
+      'Strong coffee and digital nomad scene'
     ],
-    description: 'The historic capital with chaotic energy, rich culture, and incredible street food.'
+    description: 'The historic capital with chaotic energy, rich culture, incredible street food, and growing digital nomad community.'
   },
   {
     name: 'Ho Chi Minh City',
@@ -95,36 +75,29 @@ export const vietnamResonance: CityResonanceProfile[] = [
     country: 'Vietnam',
     type: 'city',
     region: 'southeast-asia',
-    
-    // FIXED: 'party' is not allowed, use 'fast' instead
-    travelStyle: ['fast', 'cultural', 'adventure'],
+    pace: 'fast',
     socialVibe: 'social',
     energyLevel: 'high',
-    
     climate: 'warm',
     vibe: 'chaotic',
     density: 'urban',
-    
-    popularActivities: ['nightlife', 'shopping', 'historical sites', 'food tours', 'city exploration'],
+    popularActivities: ['nightlife', 'shopping', 'historical sites', 'food tours', 'city exploration', 'digital nomad meetups', 'street food tours'],
     foodScene: 'mixed',
     nightlife: 'vibrant',
-    
-    // FIXED: 'budget-midrange' is not allowed, choose one
     costLevel: 'budget',
     internetQuality: 9,
     safetyScore: 6,
-    
-    tags: ['urban', 'nightlife', 'shopping', 'historical', 'cosmopolitan'],
-    
+    tags: ['urban', 'nightlife', 'shopping', 'historical', 'cosmopolitan', 'digital-nomad', 'street-food'],
     rating: 4.2,
     highlights: [
       'War Remnants Museum',
       'Ben Thanh Market',
       'Bui Vien Walking Street',
       'French colonial landmarks',
-      'Modern skyscrapers and rooftop bars'
+      'Modern skyscrapers and rooftop bars',
+      'Digital nomad hubs and tech meetups'
     ],
-    description: 'Vietnam\'s bustling economic hub with vibrant nightlife and fascinating history.'
+    description: 'Vietnam\'s bustling economic hub with vibrant nightlife, fascinating history, and growing startup scene.'
   },
   {
     name: 'Da Nang',
@@ -132,35 +105,29 @@ export const vietnamResonance: CityResonanceProfile[] = [
     country: 'Vietnam',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['relaxation', 'slow', 'adventure'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
-    
     climate: 'warm',
     vibe: 'balanced',
     density: 'mixed',
-    
-    popularActivities: ['beach relaxation', 'water sports', 'mountain biking', 'city exploration', 'food tours'],
+    popularActivities: ['beach relaxation', 'water sports', 'mountain biking', 'city exploration', 'food tours', 'digital nomad meetups', 'motorbike adventures'],
     foodScene: 'mixed',
     nightlife: 'moderate',
-    
-    // FIXED
     costLevel: 'midrange',
     internetQuality: 8,
     safetyScore: 8,
-    
-    tags: ['beaches', 'relaxation', 'balanced', 'coastal', 'digital-nomad'],
-    
+    tags: ['beaches', 'relaxation', 'balanced', 'coastal', 'digital-nomad', 'motorbike-tours', 'street-food'],
     rating: 4.4,
     highlights: [
       'My Khe Beach (China Beach)',
       'Marble Mountains',
       'Dragon Bridge',
       'Ba Na Hills with Golden Bridge',
-      'Excellent seafood restaurants'
+      'Excellent seafood restaurants',
+      'Digital nomad community and coworking spaces'
     ],
-    description: 'Coastal city with beautiful beaches, modern infrastructure, and easy access to cultural sites.'
+    description: 'Coastal city with beautiful beaches, modern infrastructure, and a thriving digital nomad scene.'
   },
   {
     name: 'Hoi An',
@@ -168,35 +135,29 @@ export const vietnamResonance: CityResonanceProfile[] = [
     country: 'Vietnam',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['slow', 'cultural', 'relaxation'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'low',
-    
     climate: 'warm',
     vibe: 'chill',
     density: 'mixed',
-    
-    popularActivities: ['historical sites', 'beach relaxation', 'cooking classes', 'shopping', 'bicycle tours'],
+    popularActivities: ['historical sites', 'beach relaxation', 'cooking classes', 'shopping', 'bicycle tours', 'street food tours', 'coffee tasting'],
     foodScene: 'local',
     nightlife: 'quiet',
-    
-    // FIXED
     costLevel: 'midrange',
     internetQuality: 7,
     safetyScore: 9,
-    
-    tags: ['cultural', 'relaxation', 'chill', 'historical', 'traditional', 'arts'],
-    
+    tags: ['cultural', 'relaxation', 'chill', 'historical', 'traditional', 'arts', 'street-food', 'coffee-culture'],
     rating: 4.6,
     highlights: [
       'Ancient Town UNESCO World Heritage',
       'Tailor shops for custom clothing',
       'Lantern-lit streets at night',
       'An Bang Beach',
-      'Cooking classes and food tours'
+      'Cooking classes and food tours',
+      'Coffee shops and local food scene'
     ],
-    description: 'Ancient trading port with preserved architecture, lantern-lit streets, and charming atmosphere.'
+    description: 'Ancient trading port with preserved architecture, lantern-lit streets, charming atmosphere, and great food.'
   },
   {
     name: 'Ha Long Bay',
@@ -204,35 +165,29 @@ export const vietnamResonance: CityResonanceProfile[] = [
     country: 'Vietnam',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['adventure', 'relaxation'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
-    
     climate: 'warm',
     vibe: 'chill',
     density: 'nature',
-    
-    popularActivities: ['boat expeditions', 'kayaking', 'cave exploration', 'sunset watching', 'photography'],
+    popularActivities: ['boat expeditions', 'kayaking', 'cave exploration', 'sunset watching', 'photography', 'motorbike adventures'],
     foodScene: 'local',
     nightlife: 'quiet',
-    
-    // FIXED: 'midrange-luxury' is not allowed
     costLevel: 'midrange',
     internetQuality: 5,
     safetyScore: 8,
-    
-    tags: ['nature', 'scenic', 'adventure', 'biodiversity', 'coastal', 'remote'],
-    
+    tags: ['nature', 'scenic', 'adventure', 'biodiversity', 'coastal', 'remote', 'halong-bay', 'motorbike-tours'],
     rating: 4.7,
     highlights: [
       'UNESCO World Heritage limestone karsts',
       'Overnight cruise experiences',
       'Sung Sot Cave (Surprise Cave)',
       'Ti Top Island',
-      'Floating fishing villages'
+      'Floating fishing villages',
+      'Stunning coastal motorbike routes'
     ],
-    description: 'UNESCO World Heritage site with thousands of limestone islands and emerald waters.'
+    description: 'UNESCO World Heritage site with thousands of limestone islands, emerald waters, and adventure activities.'
   },
   {
     name: 'Sapa',
@@ -240,33 +195,28 @@ export const vietnamResonance: CityResonanceProfile[] = [
     country: 'Vietnam',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['adventure', 'cultural', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
-    
     climate: 'temperate',
     vibe: 'chill',
     density: 'nature',
-    
-    popularActivities: ['hiking', 'mountain trekking', 'rice terrace views', 'local village visits', 'photography'],
+    popularActivities: ['hiking', 'mountain trekking', 'rice terrace views', 'local village visits', 'photography', 'motorbike adventures'],
     foodScene: 'local',
     nightlife: 'quiet',
-    
     costLevel: 'budget',
     internetQuality: 4,
     safetyScore: 8,
-    
-    tags: ['mountains', 'nature', 'adventure', 'cultural', 'rural', 'scenic'],
-    
+    tags: ['mountains', 'nature', 'adventure', 'cultural', 'rural', 'scenic', 'motorbike-tours', 'historical'],
     rating: 4.5,
     highlights: [
       'Terraced rice fields',
       'Fansipan Mountain (Indochina\'s highest peak)',
       'Local hill tribe villages',
       'Trekking through valleys',
-      'Cool mountain climate'
+      'Cool mountain climate',
+      'Scenic motorbike routes'
     ],
-    description: 'Mountainous region with stunning terraced rice fields and ethnic minority cultures.'
+    description: 'Mountainous region with stunning terraced rice fields, ethnic minority cultures, and adventure trekking.'
   }
 ];

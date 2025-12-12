@@ -7,7 +7,7 @@ export const panamaResonance: CityResonanceProfile[] = [
     country: 'Panama',
     type: 'country-overview',
     region: 'central-america',
-    travelStyle: ['adventure', 'relaxation', 'cultural'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'tropical',
@@ -15,7 +15,9 @@ export const panamaResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'canal viewing', 'beach hopping', 'rainforest hiking', 'island exploring',
-      'coffee tasting', 'surfing', 'snorkeling', 'bird watching'
+      'coffee tasting', 'surfing', 'snorkeling', 'bird watching',
+      'scuba diving', 'whale watching', 'monkey spotting', 'kayaking',
+      'fishing trips', 'cultural festivals', 'colonial architecture tours'
     ],
     foodScene: 'mixed',
     nightlife: 'moderate',
@@ -24,7 +26,9 @@ export const panamaResonance: CityResonanceProfile[] = [
     safetyScore: 7,
     tags: [
       'panama-canal', 'tropical', 'expat-friendly', 'beaches',
-      'rainforest', 'biodiversity', 'tax-haven'
+      'rainforest', 'biodiversity', 'tax-haven',
+      'scuba-diving', 'surfing', 'expat-community', 'digital-nomad',
+      'bird-watching', 'rainforest-exploration', 'island-hopping', 'architecture'
     ],
     rating: 4.4,
     highlights: [
@@ -40,7 +44,7 @@ export const panamaResonance: CityResonanceProfile[] = [
     country: 'Panama',
     type: 'city',
     region: 'central-america',
-    travelStyle: ['fast', 'luxury', 'cultural'],
+    pace: 'fast', // Added: Panama City is fast-paced
     socialVibe: 'balanced',
     energyLevel: 'high',
     climate: 'tropical',
@@ -74,7 +78,7 @@ export const panamaResonance: CityResonanceProfile[] = [
     country: 'Panama',
     type: 'city',
     region: 'central-america',
-    travelStyle: ['slow', 'nature', 'wellness'],
+    pace: 'slow', // Changed from travelStyle array
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'spring-like',
@@ -91,7 +95,9 @@ export const panamaResonance: CityResonanceProfile[] = [
     safetyScore: 9,
     tags: [
       'cloud-forest', 'coffee', 'retirees', 'nature',
-      'mountains', 'spring-climate', 'expat-community'
+      'mountains', 'spring-climate', 'expat-community',
+      'digital-nomad', 'retirement-community', 'coffee-tours',
+      'volcano-hiking', 'bird-watching', 'wellness-retreats'
     ],
     rating: 4.7,
     highlights: [
@@ -108,7 +114,7 @@ export const panamaResonance: CityResonanceProfile[] = [
     country: 'Panama',
     type: 'city',
     region: 'central-america',
-    travelStyle: ['relaxation', 'beach', 'adventure'],
+    pace: 'medium', // Changed from travelStyle array
     socialVibe: 'social',
     energyLevel: 'medium',
     climate: 'tropical',
@@ -125,7 +131,9 @@ export const panamaResonance: CityResonanceProfile[] = [
     safetyScore: 7,
     tags: [
       'caribbean', 'islands', 'surfing', 'beach-life',
-      'backpacker', 'laid-back', 'biodiversity'
+      'backpacker', 'laid-back', 'biodiversity',
+      'surf-spots', 'scuba-diving', 'snorkeling', 'reggae-culture',
+      'bioluminescent-bays', 'sloth-sanctuary', 'stilt-houses'
     ],
     rating: 4.6,
     highlights: [
@@ -142,7 +150,7 @@ export const panamaResonance: CityResonanceProfile[] = [
     country: 'Panama',
     type: 'city',
     region: 'central-america',
-    travelStyle: ['relaxation', 'luxury', 'beach'],
+    pace: 'slow', // Changed from travelStyle array
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'tropical',
@@ -176,7 +184,7 @@ export const panamaResonance: CityResonanceProfile[] = [
     country: 'Panama',
     type: 'city',
     region: 'central-america',
-    travelStyle: ['slow', 'nature', 'wellness'],
+    pace: 'slow', // Changed from travelStyle array
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'spring-like',
@@ -204,4 +212,4 @@ export const panamaResonance: CityResonanceProfile[] = [
     ],
     description: 'Unique town located in a volcanic crater, known for hot springs, waterfalls, and weekend getaways.'
   }
-];
+]

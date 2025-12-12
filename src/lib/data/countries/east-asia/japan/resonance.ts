@@ -8,7 +8,7 @@ export const japanResonance: CityResonanceProfile[] = [
     country: 'Japan',
     type: 'country-overview',
     region: 'asia',
-    travelStyle: ['cultural', 'urban', 'historical', 'nature'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -16,7 +16,8 @@ export const japanResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'temple visits', 'cherry blossom viewing', 'onsen (hot springs)', 'shopping districts',
-      'sushi dining', 'mountain hiking', 'historical sites', 'nightlife', 'tea ceremonies'
+      'sushi dining', 'mountain hiking', 'historical sites', 'nightlife', 'tea ceremonies',
+      'anime', 'tech-hub','conventions', 'meditation','architecture', 'onsen', 'sushi'
     ],
     foodScene: 'world-class',
     nightlife: 'vibrant',
@@ -24,9 +25,11 @@ export const japanResonance: CityResonanceProfile[] = [
     internetQuality: 10,
     safetyScore: 10,
     tags: [
-      'advanced-technology', 'traditional-culture', 'seasonal-beauty', 'efficiency',
-      'safety', 'culinary-excellence', 'urban-density', 'natural-beauty'
-    ],
+    'advanced-technology', 'traditional-culture', 'seasonal-beauty', 'efficiency',
+    'safety', 'culinary-excellence', 'urban-density', 'natural-beauty',
+    'anime', 'manga', 'tech-hub', 'conventions', 'meditation',
+    'zen-culture', 'innovation', 'gaming-culture', 'architecture'
+  ] ,
     rating: 4.8,
     highlights: [
       'Perfect blend of ancient traditions and cutting-edge technology',
@@ -41,15 +44,17 @@ export const japanResonance: CityResonanceProfile[] = [
     country: 'Japan',
     type: 'city',
     region: 'asia',
-    travelStyle: ['urban', 'fast', 'luxury', 'cultural'],
+    pace: 'fast',
     socialVibe: 'balanced',
     energyLevel: 'high',
     climate: 'temperate',
     vibe: 'urban',
     density: 'dense',
     popularActivities: [
-      'shibuya crossing', 'shinjuku nightlife', 'akihabara electronics', 'harajuku fashion',
-      'tsukiji fish market', 'tokyo skytree', 'imperial palace', 'museums', 'robot restaurant'
+    'shibuya crossing', 'shinjuku nightlife', 'akihabara electronics', 'harajuku fashion',
+    'tsukiji fish market', 'tokyo skytree', 'imperial palace', 'museums', 'robot restaurant',
+    'anime shopping', 'tech exhibitions', 'convention attendance', 'manga cafes',
+    'video game arcades', 'tech startups visits', 'architecture tours', 'sushi making classes'
     ],
     foodScene: 'world-class',
     nightlife: 'vibrant',
@@ -57,8 +62,10 @@ export const japanResonance: CityResonanceProfile[] = [
     internetQuality: 10,
     safetyScore: 10,
     tags: [
-      'megalopolis', 'technology', 'fashion', 'food-paradise',
-      'efficiency', 'neon-lights', 'pop-culture', 'business-hub'
+    'megalopolis', 'technology', 'fashion', 'food-paradise',
+    'efficiency', 'neon-lights', 'pop-culture', 'business-hub',
+    'anime', 'tech-hub', 'conventions', 'manga', 'electronics',
+    'robot-restaurants', 'arcades', 'innovation'
     ],
     rating: 4.9,
     highlights: [
@@ -75,15 +82,17 @@ export const japanResonance: CityResonanceProfile[] = [
     country: 'Japan',
     type: 'city',
     region: 'asia',
-    travelStyle: ['cultural', 'historical', 'slow', 'nature'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
     vibe: 'traditional',
     density: 'mixed',
     popularActivities: [
-      'golden pavilion', 'fushimi inari shrine', 'geisha districts', 'bamboo forest',
-      'traditional tea houses', 'temple hopping', 'kimono wearing', 'kaiseki dining'
+    'golden pavilion', 'fushimi inari shrine', 'geisha districts', 'bamboo forest',
+    'traditional tea houses', 'temple hopping', 'kimono wearing', 'kaiseki dining',
+    'zen meditation', 'temple stays', 'garden contemplation', 'spiritual retreats',
+    'architecture photography', 'tea ceremonies'
     ],
     foodScene: 'traditional',
     nightlife: 'moderate',
@@ -91,8 +100,10 @@ export const japanResonance: CityResonanceProfile[] = [
     internetQuality: 9,
     safetyScore: 10,
     tags: [
-      'traditional', 'temples', 'history', 'cultural-heart',
-      'geisha', 'tea-ceremony', 'zen', 'unesco'
+    'traditional', 'temples', 'history', 'cultural-heart',
+    'geisha', 'tea-ceremony', 'zen', 'unesco',
+    'meditation', 'zen-buddhism', 'spiritual', 'temples', 'gardens',
+    'tea-meditation', 'mindfulness', 'architecture'
     ],
     rating: 4.8,
     highlights: [
@@ -109,7 +120,7 @@ export const japanResonance: CityResonanceProfile[] = [
     country: 'Japan',
     type: 'city',
     region: 'asia',
-    travelStyle: ['food', 'urban', 'fun'],
+    pace: 'fast',
     socialVibe: 'social',
     energyLevel: 'high',
     climate: 'temperate',
@@ -143,7 +154,7 @@ export const japanResonance: CityResonanceProfile[] = [
     country: 'Japan',
     type: 'city',
     region: 'asia',
-    travelStyle: ['slow', 'food', 'relaxation'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'subtropical',
@@ -177,7 +188,7 @@ export const japanResonance: CityResonanceProfile[] = [
     country: 'Japan',
     type: 'city',
     region: 'asia',
-    travelStyle: ['winter', 'food', 'nature'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'subarctic',
@@ -211,7 +222,7 @@ export const japanResonance: CityResonanceProfile[] = [
     country: 'Japan',
     type: 'city',
     region: 'asia',
-    travelStyle: ['beach', 'relaxation', 'slow', 'nature'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'tropical',

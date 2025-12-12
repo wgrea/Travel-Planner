@@ -8,31 +8,25 @@ export const indonesiaResonance: CityResonanceProfile[] = [
     country: 'Indonesia',
     type: 'country-overview',
     region: 'southeast-asia',
-    
-    travelStyle: ['adventure', 'relaxation', 'cultural', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
-    
     climate: 'warm',
     vibe: 'balanced',
     density: 'mixed',
-    
     popularActivities: [
       'island hopping', 'beach relaxation', 'temple visits', 'surfing',
       'jungle trekking', 'diving', 'volcano hiking', 'cultural festivals'
     ],
     foodScene: 'local',
     nightlife: 'vibrant',
-    
     costLevel: 'budget',
     internetQuality: 6,
     safetyScore: 7,
-    
     tags: [
       'islands', 'beaches', 'biodiversity', 'volcanoes',
       'surfing', 'diving', 'cultural', 'adventure'
     ],
-    
     rating: 4.5,
     highlights: [
       'Over 17,000 islands to explore',
@@ -48,39 +42,36 @@ export const indonesiaResonance: CityResonanceProfile[] = [
     country: 'Indonesia',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['relaxation', 'cultural', 'slow', 'adventure'],
+    pace: 'slow',
     socialVibe: 'social',
     energyLevel: 'medium',
-    
     climate: 'warm',
     vibe: 'chill',
     density: 'mixed',
-    
     popularActivities: [
       'beach relaxation', 'surfing', 'yoga classes', 'temple visits',
-      'rice terrace walks', 'waterfalls', 'nightlife', 'spa treatments'
+      'rice terrace walks', 'waterfalls', 'nightlife', 'spa treatments',
+      'surfing lessons', 'yoga retreats', 'digital nomad meetups', 'beach club parties'
     ],
     foodScene: 'mixed',
     nightlife: 'vibrant',
-    
     costLevel: 'midrange',
     internetQuality: 7,
     safetyScore: 8,
-    
     tags: [
       'island', 'beaches', 'spiritual', 'yoga', 'surfing',
-      'digital-nomad', 'relaxation', 'cultural'
+      'digital-nomad', 'relaxation', 'cultural',
+      'surfing', 'yoga-retreats', 'spiritual-retreat', 'digital-nomad', 'beach-clubs', 'wellness'
     ],
-    
     rating: 4.6,
     highlights: [
       'Ubud - cultural and spiritual heart',
       'Canggu - surf and digital nomad hub',
       'Uluwatu - stunning cliffs and temples',
-      'Seminyak - upscale dining and beaches'
+      'Seminyak - upscale dining and beaches',
+      'World-class yoga retreats and wellness centers'
     ],
-    description: 'The Island of Gods, famous for its Hindu culture, stunning beaches, and wellness scene.'
+    description: 'The Island of Gods, famous for its Hindu culture, stunning beaches, yoga, surfing, and wellness scene.'
   },
   {
     name: 'Jakarta',
@@ -88,31 +79,25 @@ export const indonesiaResonance: CityResonanceProfile[] = [
     country: 'Indonesia',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['fast', 'cultural'],
+    pace: 'fast',
     socialVibe: 'social',
     energyLevel: 'high',
-    
     climate: 'warm',
     vibe: 'chaotic',
     density: 'urban',
-    
     popularActivities: [
       'city exploration', 'shopping malls', 'museums', 'food tours',
       'nightlife', 'historical sites', 'markets'
     ],
     foodScene: 'local',
     nightlife: 'vibrant',
-    
     costLevel: 'midrange',
     internetQuality: 8,
     safetyScore: 6,
-    
     tags: [
       'megacity', 'urban', 'shopping', 'nightlife',
       'chaotic', 'business', 'cosmopolitan'
     ],
-    
     rating: 4.0,
     highlights: [
       'National Monument (Monas)',
@@ -128,31 +113,25 @@ export const indonesiaResonance: CityResonanceProfile[] = [
     country: 'Indonesia',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['cultural', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
-    
     climate: 'warm',
     vibe: 'chill',
     density: 'urban',
-    
     popularActivities: [
       'temple visits', 'cultural performances', 'batik workshops',
       'volcano hiking', 'palace tours', 'silver jewelry making'
     ],
     foodScene: 'local',
     nightlife: 'moderate',
-    
     costLevel: 'budget',
     internetQuality: 6,
     safetyScore: 8,
-    
     tags: [
       'cultural', 'historical', 'traditional', 'arts',
       'student-city', 'temples', 'university'
     ],
-    
     rating: 4.4,
     highlights: [
       'Borobudur Temple (largest Buddhist temple)',
@@ -168,31 +147,25 @@ export const indonesiaResonance: CityResonanceProfile[] = [
     country: 'Indonesia',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['adventure', 'relaxation', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
-    
     climate: 'warm',
     vibe: 'chill',
     density: 'mixed',
-    
     popularActivities: [
       'hiking', 'beach relaxation', 'surfing', 'waterfalls',
       'island hopping', 'snorkeling', 'village tours'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
-    
     costLevel: 'budget',
     internetQuality: 5,
     safetyScore: 8,
-    
     tags: [
       'island', 'adventure', 'nature', 'mountains',
       'beaches', 'surfing', 'traditional'
     ],
-    
     rating: 4.5,
     highlights: [
       'Mount Rinjani (active volcano trek)',
@@ -208,31 +181,25 @@ export const indonesiaResonance: CityResonanceProfile[] = [
     country: 'Indonesia',
     type: 'city',
     region: 'southeast-asia',
-    
-    travelStyle: ['adventure'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'high',
-    
     climate: 'warm',
     vibe: 'chill',
     density: 'nature',
-    
     popularActivities: [
       'diving', 'snorkeling', 'hiking', 'boat tours',
       'wildlife spotting', 'pink beach visits'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
-    
     costLevel: 'midrange',
     internetQuality: 4,
     safetyScore: 7,
-    
     tags: [
       'adventure', 'biodiversity', 'diving', 'wildlife',
       'nature', 'remote', 'islands'
     ],
-    
     rating: 4.7,
     highlights: [
       'Komodo National Park (see Komodo dragons)',

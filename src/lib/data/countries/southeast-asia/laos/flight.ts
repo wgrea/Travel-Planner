@@ -6,8 +6,8 @@ export const laosFlightPattern: FlightPattern = {
   country: "Laos",
   cities: ["Vientiane", "Luang Prabang", "Vang Vieng"],
   cheapestMonths: ["April", "May", "June"],
-  expensiveMonths: ["December", "January"],
-  sweetSpot: ["October", "November", "December", "January", "February", "March"],
+  expensiveMonths: ["November", "December", "January", "February"],
+  sweetSpot: ["October", "March"],
   averagePrice: 800,
   planningTips: ["Often combined with Vietnam and Cambodia trips"],
   notes: "Landlocked country with rich cultural heritage"
@@ -106,7 +106,7 @@ export const laosRouteCost: RouteCostData = {
   
   // FROM: Laos | TO: United States
   'United States': {
-    economy: 1100,
+    economy: 1300, // Adjusted for typical Laos-U.S. fare
     business: 2500,
     season: 'Year-round with slight peak in dry season (Nov-Apr)',
     bestTimeToBook: '4-6 months in advance',
