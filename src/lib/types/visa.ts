@@ -27,8 +27,9 @@ export type VisaInfo = {
   costRange?: string;         // e.g., "$40-$80", "Free"
 };
 
-// Add new types for filtering
+// Visa categories - THIS IS THE SINGLE SOURCE OF TRUTH
 export type VisaCategory = 
+  | 'Instant'
   | 'Visa-Free'
   | 'Visa on Arrival'
   | 'e-Visa'
@@ -42,6 +43,26 @@ export type VisaCategory =
   | 'Transit Visa'
   | 'Other';
 
+// Visa filter interface
+export interface VisaFilter {
+  categories: VisaCategory[];
+  workAllowed?: boolean;
+  nomadFriendly?: boolean;
+  processingTime?: string;
+}
+
+// Visa type details interface
+export interface VisaTypeDetails {
+  type: VisaCategory;
+  processingTime: string;
+  cost: string;
+  duration: string;
+  requirements: string[];
+  workAllowed: boolean;
+  nomadFriendly: boolean;
+}
+
+// Old interface (if you still need it)
 export interface VisaFilterOptions {
   categories: VisaCategory[];
   subtypes: string[];

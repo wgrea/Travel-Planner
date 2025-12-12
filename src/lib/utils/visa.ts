@@ -502,16 +502,14 @@ export function getCostEstimate(visaInfo: VisaInfo): string {
   }
 }
 
-// In your visa.ts, update the formatVisaCost function:
+// Format cost with currency conversion
 export function formatVisaCost(cost: string, targetCurrency: string = 'USD'): string {
-  console.log('💰 Formatting visa cost:', cost, 'to', targetCurrency); // Debug
-  
   if (!cost || cost.toLowerCase() === 'free' || cost.toLowerCase() === 'varies') {
     return cost;
   }
   
   // Extract numeric values from cost string
-  const matches = cost.match(/\$?([\d,.]+)/g); // Added \$? to match with or without $
+  const matches = cost.match(/\$([\d,.]+)/g);
   if (!matches) return cost;
   
   // Convert each amount found
@@ -540,22 +538,19 @@ export function extractVisaCostValue(cost: string): number | null {
   return parseFloat(amountStr);
 }
 
-// In your visa.ts
+// Get visa costs in specific currency
 export function getVisaCostInCurrency(
   visaInfo: VisaInfo, 
   targetCurrency: string = 'USD'
 ): string {
-  console.log('💸 Getting visa cost in currency:', targetCurrency, visaInfo.cost);
-  
   // First try to use the cost field
-  if (visaInfo.cost && visaInfo.cost > 0) {
+  if (visaInfo.cost) {
     const convertedAmount = convertCurrency(visaInfo.cost, 'USD', targetCurrency);
     return formatCurrency(convertedAmount, targetCurrency);
   }
   
   // Fall back to estimated cost
   const costEstimate = getCostEstimate(visaInfo);
-  console.log('📊 Cost estimate:', costEstimate);
   return formatVisaCost(costEstimate, targetCurrency);
 }
 

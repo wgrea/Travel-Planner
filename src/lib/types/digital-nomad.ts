@@ -24,3 +24,16 @@ export interface WorkspaceData {
   community?: any;
   safety?: any;
 }
+
+// ADD NEW BUDGET TYPES
+export type BudgetCategory = 'zero_spend' | 'already_paid' | 'small_purchase' | 'direct_payment';
+
+export interface BudgetFilteredWorkspace {
+  name: string;
+  type: string;
+  budgetCategory: BudgetCategory;
+  price?: number;
+  includedWithStay?: boolean;
+  minimumPurchase?: number;
+  notes?: string;
+}

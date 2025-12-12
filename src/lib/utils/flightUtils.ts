@@ -1,10 +1,12 @@
-// src/lib/utils/flightUtils.ts
-import { 
-  flyDataByRegion, 
-  type FlightPattern as FlightPatternType,
-  type RegionData,
-  type SubRegionData
+import { routeCosts } from '$lib/data/routeCosts';
+import { flyDataByRegion } from '$lib/data/flightPatternData';
+import type { 
+  FlightPattern, 
+  RegionData, 
+  SubRegionData,
+  FlightPattern as FlightPatternType 
 } from '$lib/data/flightPatternData';
+import type { RouteCostData, FlightInfo } from '$lib/types/flight';
 
 // Update CountryData interface to include subregion
 export interface CountryData {
@@ -15,6 +17,7 @@ export interface CountryData {
   averagePrice?: number;
   sweetSpot?: string[];
   cheapestMonths?: string[];
+  expensiveMonths?: string[];
 }
 
 // Month filtering utility with proper typing
@@ -22,7 +25,7 @@ interface FlightPatternWithMonthStatus extends FlightPatternType {
   monthStatus?: 'cheapest' | 'expensive' | 'sweet-spot' | 'normal';
 }
 
-// Helper function to get all flight pattern countries (moved from flightPatternData)
+// Helper function to get all flight pattern countries
 function getAllFlightPatterns(): FlightPatternType[] {
   const allCountries: FlightPatternType[] = [];
   
@@ -122,7 +125,8 @@ export function getAllCountries(): CountryData[] {
             cities: flightPattern.cities,
             averagePrice: flightPattern.averagePrice,
             sweetSpot: flightPattern.sweetSpot,
-            cheapestMonths: flightPattern.cheapestMonths
+            cheapestMonths: flightPattern.cheapestMonths,
+            expensiveMonths: flightPattern.expensiveMonths
           });
         });
       });
@@ -136,7 +140,8 @@ export function getAllCountries(): CountryData[] {
           cities: flightPattern.cities,
           averagePrice: flightPattern.averagePrice,
           sweetSpot: flightPattern.sweetSpot,
-          cheapestMonths: flightPattern.cheapestMonths
+          cheapestMonths: flightPattern.cheapestMonths,
+          expensiveMonths: flightPattern.expensiveMonths
         });
       });
     }
@@ -149,19 +154,19 @@ export function getCurrentFlightData(selectedCountry: string): FlightPatternType
   return getAllFlightPatterns().find(country => country.country === selectedCountry);
 }
 
-// NEW: Get countries by region
+// Get countries by region
 export function getCountriesByRegion(regionName: string): CountryData[] {
   return getAllCountries().filter(country => country.region === regionName);
 }
 
-// NEW: Get all unique regions
+// Get all unique regions
 export function getAllRegions(): string[] {
   const regions = new Set<string>();
   getAllCountries().forEach(country => regions.add(country.region));
   return Array.from(regions).sort();
 }
 
-// NEW: Get all unique subregions for a region
+// Get all unique subregions for a region
 export function getSubregionsForRegion(regionName: string): string[] {
   const subregions = new Set<string>();
   getAllCountries()
@@ -171,3 +176,108 @@ export function getSubregionsForRegion(regionName: string): string[] {
     });
   return Array.from(subregions).sort();
 }
+
+// Get countries for a specific month analysis
+export function getCountriesForMonthAnalysis(
+  month: string, 
+  originCountry: string
+): {
+  cheapest: Array<{country: string, region: string, price: number, pattern: FlightPatternType}>;
+  sweetspot: Array<{country: string, region: string, price: number, pattern: FlightPatternType}>;
+  expensive: Array<{country: string, region: string, price: number, pattern: FlightPatternType}>;
+} {
+  const allPatterns = getAllFlightPatterns();
+  const result = {
+    cheapest: [] as Array<{country: string, region: string, price: number, pattern: FlightPatternType}>,
+    sweetspot: [] as Array<{country: string, region: string, price: number, pattern: FlightPatternType}>,
+    expensive: [] as Array<{country: string, region: string, price: number, pattern: FlightPatternType}>,
+  };
+
+  allPatterns.forEach(pattern => {
+    // Get price from route costs
+    const routeData = routeCosts[originCountry]?.[pattern.country] || 
+                     routeCosts[pattern.country]?.[originCountry];
+    
+    // Skip if no price data available
+    if (!routeData?.economy) return;
+
+    const price = routeData.economy;
+
+    // Get region for the country
+    const countryInfo = getAllCountries().find(c => c.country === pattern.country);
+    const region = countryInfo?.region || 'Unknown';
+
+    // Categorize based on flight pattern months
+    if (pattern.cheapestMonths?.includes(month)) {
+      result.cheapest.push({
+        country: pattern.country,
+        region: region,
+        price,
+        pattern
+      });
+    } else if (pattern.expensiveMonths?.includes(month)) {
+      result.expensive.push({
+        country: pattern.country,
+        region: region,
+        price,
+        pattern
+      });
+    } else if (pattern.sweetSpot?.includes(month)) {
+      result.sweetspot.push({
+        country: pattern.country,
+        region: region,
+        price,
+        pattern
+      });
+    }
+  });
+
+  // Sort each category by price
+  result.cheapest.sort((a, b) => a.price - b.price);
+  result.sweetspot.sort((a, b) => a.price - b.price);
+  result.expensive.sort((a, b) => a.price - b.price);
+
+  return result;
+}
+
+// Get flight pattern for a specific country
+export function getFlightPattern(countryName: string): FlightPatternType | undefined {
+  return getAllFlightPatterns().find(pattern => pattern.country === countryName);
+}
+
+// Helper to get region for a country
+export function getCountryRegion(country: string): string {
+  const countryData = getAllCountries().find(c => c.country === country);
+  return countryData?.region || 'Unknown';
+}
+
+// Get month analysis summary
+export function getMonthAnalysisSummary(month: string, originCountry: string) {
+  const analysis = getCountriesForMonthAnalysis(month, originCountry);
+  
+  return {
+    totalCountries: analysis.cheapest.length + analysis.sweetspot.length + analysis.expensive.length,
+    cheapest: {
+      count: analysis.cheapest.length,
+      avgPrice: analysis.cheapest.length > 0 
+        ? analysis.cheapest.reduce((sum, c) => sum + c.price, 0) / analysis.cheapest.length 
+        : 0,
+      sample: analysis.cheapest.slice(0, 3)
+    },
+    sweetspot: {
+      count: analysis.sweetspot.length,
+      avgPrice: analysis.sweetspot.length > 0 
+        ? analysis.sweetspot.reduce((sum, c) => sum + c.price, 0) / analysis.sweetspot.length 
+        : 0,
+      sample: analysis.sweetspot.slice(0, 3)
+    },
+    expensive: {
+      count: analysis.expensive.length,
+      avgPrice: analysis.expensive.length > 0 
+        ? analysis.expensive.reduce((sum, c) => sum + c.price, 0) / analysis.expensive.length 
+        : 0,
+      sample: analysis.expensive.slice(0, 3)
+    }
+  };
+}
+

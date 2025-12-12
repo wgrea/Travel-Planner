@@ -22,18 +22,20 @@ export function getAllRegions(): string[] {
   return regions;
 }
 
+// src/lib/utils/living-costs.ts - SIMPLER FIX
 export function getAllCountries(): CountryData[] {
   const allCountries: CountryData[] = [];
   
   livingCostsByRegion.forEach((region: RegionData) => {
     if (region.subregions) {
+      // Handle Europe and other regions with subregions
       region.subregions.forEach((subregion: SubRegionLivingCosts) => {
         if (subregion?.countries) {
           subregion.countries.forEach((country: LivingCostData) => {
             if (country && country.country) {
               allCountries.push({
                 country: country.country,
-                region: subregion.subregion || region.region || 'Unknown',
+                region: region.region, // Main region (e.g., "Europe")
                 cities: Object.keys(country.cities || {}),
                 averagePrice: undefined
               });
@@ -41,12 +43,15 @@ export function getAllCountries(): CountryData[] {
           });
         }
       });
-    } else if (region.countries) {
+    }
+    
+    // Also check for direct countries in the region
+    if (region.countries) {
       region.countries.forEach((country: LivingCostData) => {
         if (country && country.country) {
           allCountries.push({
             country: country.country,
-            region: region.region || 'Unknown',
+            region: region.region,
             cities: Object.keys(country.cities || {}),
             averagePrice: undefined
           });
@@ -55,28 +60,42 @@ export function getAllCountries(): CountryData[] {
     }
   });
   
-  return allCountries.sort((a, b) => a.country.localeCompare(b.country));
+  // Remove duplicates just in case
+  const uniqueCountries = allCountries.filter((country, index, self) =>
+    index === self.findIndex(c => c.country === country.country)
+  );
+  
+  return uniqueCountries.sort((a, b) => a.country.localeCompare(b.country));
 }
 
+// Also fix getCountriesByRegion()
 export function getCountriesByRegion(regionName: string): CountryData[] {
   if (!regionName) return getAllCountries();
   
-  const europeRegion = livingCostsByRegion.find((r: RegionData) => r.region === "Europe");
-  if (europeRegion?.subregions) {
-    const subregion = europeRegion.subregions.find((sr: SubRegionLivingCosts) => sr.subregion === regionName);
-    if (subregion?.countries) {
-      return subregion.countries
-        .filter((country: LivingCostData) => country && country.country)
-        .map((country: LivingCostData) => ({
-          country: country.country,
-          region: regionName,
-          cities: Object.keys(country.cities || {}),
-          averagePrice: 700
-        }));
+  const allCountries = getAllCountries();
+  
+  // First check if it's a main region (like "Europe", "Southeast Asia")
+  let filtered = allCountries.filter(country => country.region === regionName);
+  
+  if (filtered.length === 0) {
+    // Check if it's a European subregion (like "Southern Europe")
+    const europeRegion = livingCostsByRegion.find(r => r.region === "Europe");
+    if (europeRegion?.subregions) {
+      const subregion = europeRegion.subregions.find(sr => sr.subregion === regionName);
+      if (subregion?.countries) {
+        filtered = subregion.countries
+          .filter(country => country && country.country)
+          .map(country => ({
+            country: country.country,
+            region: "Europe", // Return "Europe" as the region
+            cities: Object.keys(country.cities || {}),
+            averagePrice: undefined
+          }));
+      }
     }
   }
   
-  return getAllCountries().filter((country: CountryData) => country.region === regionName);
+  return filtered.sort((a, b) => a.country.localeCompare(b.country));
 }
 
 // Helper function to get city costs
