@@ -1,5 +1,50 @@
-/* app.css */
+/* src/app.css */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ===== DESIGN SYSTEM ===== */
+@layer components {
+  /* Card Standard */
+  .card-standard {
+    @apply bg-white/80 backdrop-blur-md rounded-2xl 
+      border border-white/50 shadow-lg 
+      hover:shadow-xl transition-all duration-300;
+  }
+  
+  /* Button Primary */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl bg-white/90 
+      border border-gray-200 shadow-sm
+      hover:shadow-md hover:scale-[1.02]
+      active:scale-[0.98] transition-all duration-200;
+  }
+  
+  /* Section spacing utilities */
+  .section-padding {
+    @apply py-8 md:py-12;
+  }
+  
+  .card-padding {
+    @apply p-6 md:p-8;
+  }
+  
+  /* Gap utilities */
+  .gap-standard {
+    @apply gap-4 md:gap-6;
+  }
+  
+  /* Radius system */
+  .radius-large {
+    @apply rounded-2xl;
+  }
+  
+  .radius-medium {
+    @apply rounded-xl;
+  }
+  
+  .radius-small {
+    @apply rounded-lg;
+  }
+}
