@@ -8,7 +8,7 @@ export const georgiaResonance: CityResonanceProfile[] = [
     country: 'Georgia',
     type: 'country-overview',
     region: 'europe',
-    travelStyle: ['cultural', 'adventure', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -16,7 +16,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'wine tasting', 'mountain hiking', 'monastery visits', 'cave exploration',
-      'food tours', 'skiing', 'historical sites', 'thermal baths'
+      'food tours', 'skiing', 'historical sites', 'thermal baths',
+      'wine cellar tours', 'mountain trekking', 'traditional feasts', 'cooking classes',
+      'bird watching', 'medieval church visits', 'cheese making workshops'
     ],
     foodScene: 'local',
     nightlife: 'moderate',
@@ -25,7 +27,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'wine', 'mountains', 'historical', 'adventure', 'affordable',
-      'caucasus', 'hospitality', 'unesco'
+      'caucasus', 'hospitality', 'unesco',
+      'wineries', 'qvevri-wine', 'mountain-hiking', 'traditional-feasts',
+      'medieval-architecture', 'bird-watching', 'thermal-springs', 'culinary'
     ],
     rating: 4.6,
     highlights: [
@@ -41,7 +45,7 @@ export const georgiaResonance: CityResonanceProfile[] = [
     country: 'Georgia',
     type: 'city',
     region: 'europe',
-    travelStyle: ['cultural', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -49,7 +53,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     density: 'urban',
     popularActivities: [
       'old town exploration', 'sulfur baths', 'narikala fortress', 'wine bars',
-      'cable car rides', 'food tours', 'nightlife', 'flea markets'
+      'cable car rides', 'food tours', 'nightlife', 'flea markets',
+      'wine tasting tours', 'thermal spa treatments', 'street food sampling',
+      'art gallery visits', 'live music performances', 'architecture photography'
     ],
     foodScene: 'local',
     nightlife: 'moderate',
@@ -58,7 +64,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'capital', 'historical', 'thermal-baths', 'wine',
-      'bohemian', 'affordable', 'cultural-mix'
+      'bohemian', 'affordable', 'cultural-mix',
+      'wine-bars', 'architecture', 'digital-nomad', 'art-galleries',
+      'street-food', 'thermal-spas', 'medieval', 'creative'
     ],
     rating: 4.7,
     highlights: [
@@ -75,7 +83,7 @@ export const georgiaResonance: CityResonanceProfile[] = [
     country: 'Georgia',
     type: 'city',
     region: 'europe',
-    travelStyle: ['relaxation', 'slow', 'cultural'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'subtropical',
@@ -83,7 +91,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'beach relaxation', 'botanical garden', 'boulevard walks', 'casino visits',
-      'dolphin watching', 'cable car rides', 'nightlife', 'day trips'
+      'dolphin watching', 'cable car rides', 'nightlife', 'day trips',
+      'beach sports', 'garden photography', 'sunset watching', 'seafood dining',
+      'amusement park rides', 'fountain light shows', 'coastal cycling'
     ],
     foodScene: 'mixed',
     nightlife: 'moderate',
@@ -92,7 +102,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'beach', 'black-sea', 'subtropical', 'casino',
-      'botanical-garden', 'seaside', 'modern'
+      'botanical-garden', 'seaside', 'modern',
+      'coastal', 'architecture', 'family-friendly', 'seafood',
+      'amusement-park', 'fountains', 'palm-trees'
     ],
     rating: 4.4,
     highlights: [
@@ -109,7 +121,7 @@ export const georgiaResonance: CityResonanceProfile[] = [
     country: 'Georgia',
     type: 'city',
     region: 'europe',
-    travelStyle: ['adventure', 'nature', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'cool',
@@ -117,7 +129,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     density: 'nature',
     popularActivities: [
       'mountain hiking', 'gergeti trinity church', 'glacier views', 'horse riding',
-      'village visits', 'photography', 'nature walks', 'skiing'
+      'village visits', 'photography', 'nature walks', 'skiing',
+      'trekking expeditions', 'wildlife spotting', 'sunrise photography',
+      'river rafting', 'camping', 'stargazing', 'mountain biking'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
@@ -126,7 +140,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'mountains', 'hiking', 'glaciers', 'remote',
-      'scenic', 'alpine', 'monastery'
+      'scenic', 'alpine', 'monastery',
+      'mountain-exploration', 'photography', 'trekking', 'wildlife',
+      'glacier-hiking', 'stargazing', 'adventure'
     ],
     rating: 4.8,
     highlights: [
@@ -143,7 +159,7 @@ export const georgiaResonance: CityResonanceProfile[] = [
     country: 'Georgia',
     type: 'city',
     region: 'europe',
-    travelStyle: ['slow', 'cultural'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'temperate',
@@ -151,7 +167,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     density: 'rural',
     popularActivities: [
       'wine tasting', 'city wall walks', 'monastery visits', 'valley views',
-      'food tours', 'photography', 'local markets', 'cooking classes'
+      'food tours', 'photography', 'local markets', 'cooking classes',
+      'qvevri wine cellar tours', 'romantic dinners', 'sunset valley views',
+      'traditional bread baking', 'local cheese tasting', 'honey production visits'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
@@ -160,7 +178,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     safetyScore: 9,
     tags: [
       'wine', 'romantic', 'city-of-love', 'historic',
-      'rural', 'scenic', 'traditional'
+      'rural', 'scenic', 'traditional',
+      'wineries', 'qvevri', 'valley-views', 'culinary',
+      'honey', 'cheese', 'bread-making', 'photogenic'
     ],
     rating: 4.5,
     highlights: [
@@ -177,7 +197,7 @@ export const georgiaResonance: CityResonanceProfile[] = [
     country: 'Georgia',
     type: 'city',
     region: 'europe',
-    travelStyle: ['adventure', 'nature', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'cool',
@@ -185,7 +205,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     density: 'nature',
     popularActivities: [
       'hiking to ushguli', 'medieval towers', 'museum of history', 'skiing',
-      'horse riding', 'photography', 'village exploration', 'glacier treks'
+      'horse riding', 'photography', 'village exploration', 'glacier treks',
+      'medieval tower climbing', 'local folklore learning', 'wilderness camping',
+      'mountain photography', 'traditional crafts', 'remote village stays'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
@@ -194,7 +216,9 @@ export const georgiaResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'svaneti', 'mountains', 'medieval', 'hiking',
-      'remote', 'towers', 'unesco'
+      'remote', 'towers', 'unesco',
+      'mountain-exploration', 'medieval-architecture', 'wilderness',
+      'traditional-culture', 'glaciers', 'trekking', 'historical'
     ],
     rating: 4.7,
     highlights: [

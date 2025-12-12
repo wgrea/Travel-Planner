@@ -8,7 +8,7 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     country: 'Azerbaijan',
     type: 'country-overview',
     region: 'europe',
-    travelStyle: ['cultural', 'adventure', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -16,7 +16,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'old city exploration', 'fire temple visits', 'mud volcano viewing', 'carpet museum',
-      'oil history tours', 'mountain hiking', 'caspian sea', 'traditional tea houses'
+      'oil history tours', 'mountain hiking', 'caspian sea', 'traditional tea houses',
+      'petroglyph viewing', 'thermal baths', 'carpet weaving workshops', 'local cuisine tours',
+      'bird watching', 'historical reenactments', 'music performances'
     ],
     foodScene: 'local',
     nightlife: 'moderate',
@@ -25,7 +27,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'caspian-sea', 'oil-rich', 'fire-culture', 'carpets',
-      'caucasus', 'modern-traditional', 'soviet-heritage'
+      'caucasus', 'modern-traditional', 'soviet-heritage',
+      'petroglyphs', 'mud-volcanoes', 'architecture', 'thermal-springs',
+      'carpet-weaving', 'tea-culture', 'historical', 'adventure'
     ],
     rating: 4.5,
     highlights: [
@@ -41,7 +45,7 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     country: 'Azerbaijan',
     type: 'city',
     region: 'europe',
-    travelStyle: ['cultural', 'fast', 'adventure'],
+    pace: 'fast',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -49,7 +53,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     density: 'urban',
     popularActivities: [
       'flame towers viewing', 'old city (icherisheher)', 'heydar aliyev center', 'boulevard walks',
-      'carpet museum', 'fire temple', 'nightlife', 'modern architecture tours'
+      'carpet museum', 'fire temple', 'nightlife', 'modern architecture tours',
+      'oil history museums', 'caspian sea cruises', 'traditional music shows',
+      'contemporary art galleries', 'rooftop dining', 'expat meetups'
     ],
     foodScene: 'mixed',
     nightlife: 'moderate',
@@ -58,7 +64,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'capital', 'modern-architecture', 'caspian-sea', 'oil-wealth',
-      'flame-towers', 'unesco', 'cosmopolitan'
+      'flame-towers', 'unesco', 'cosmopolitan',
+      'expat-community', 'zaha-hadid-architecture', 'oil-museum',
+      'nightlife', 'cultural-mix', 'boulevard', 'contemporary-art'
     ],
     rating: 4.6,
     highlights: [
@@ -75,7 +83,7 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     country: 'Azerbaijan',
     type: 'city',
     region: 'europe',
-    travelStyle: ['relaxation', 'slow', 'nature'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'temperate',
@@ -83,7 +91,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'mountain views', 'cable car rides', 'waterfall visits', 'ski resort',
-      'nature walks', 'local crafts', 'photography', 'family activities'
+      'nature walks', 'local crafts', 'photography', 'family activities',
+      'skiing lessons', 'snowboarding', 'mountain biking', 'horseback riding',
+      'picnics', 'bird watching', 'stargazing'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
@@ -92,7 +102,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     safetyScore: 9,
     tags: [
       'mountains', 'resort-town', 'family-friendly', 'nature',
-      'skiing', 'cable-car', 'scenic'
+      'skiing', 'cable-car', 'scenic',
+      'mountain-exploration', 'winter-sports', 'photography',
+      'bird-watching', 'stargazing', 'fresh-air', 'tranquil'
     ],
     rating: 4.4,
     highlights: [
@@ -109,7 +121,7 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     country: 'Azerbaijan',
     type: 'city',
     region: 'europe',
-    travelStyle: ['cultural', 'slow', 'historical'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'temperate',
@@ -117,7 +129,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'sheki khan palace', 'caravanserai visits', 'stained glass workshops', 'castle ruins',
-      'local cuisine', 'historical sites', 'craft shopping', 'mountain views'
+      'local cuisine', 'historical sites', 'craft shopping', 'mountain views',
+      'traditional silk weaving', 'halva making', 'copper craft workshops',
+      'photography tours', 'historical reenactments', 'local market shopping'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
@@ -126,7 +140,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     safetyScore: 9,
     tags: [
       'historical', 'palace', 'caravanserai', 'traditional',
-      'mountains', 'silk-road', 'unesco'
+      'mountains', 'silk-road', 'unesco',
+      'architecture', 'stained-glass', 'silk-weaving',
+      'crafts', 'historical-preservation', 'cultural-heritage', 'shopping'
     ],
     rating: 4.7,
     highlights: [
@@ -143,15 +159,17 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     country: 'Azerbaijan',
     type: 'city',
     region: 'europe',
-    travelStyle: ['adventure', 'cultural', 'historical'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
-    climate: 'arid',
+    climate: 'desert',
     vibe: 'chill',
     density: 'nature',
     popularActivities: [
       'petroglyph viewing', 'mud volcano visits', 'gaval dash stone', 'museum tour',
-      'desert landscape', 'photography', 'historical exploration', 'day trip from baku'
+      'desert landscape', 'photography', 'historical exploration', 'day trip from baku',
+      'archaeological tours', 'geological exploration', 'desert hiking',
+      'sunset photography', 'rock formation study', 'fossil hunting'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
@@ -160,7 +178,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'petroglyphs', 'mud-volcanoes', 'unesco', 'desert',
-      'historical', 'archaeological', 'unique-landscape'
+      'historical', 'archaeological', 'unique-landscape',
+      'photography', 'geology', 'rock-art', 'ancient-history',
+      'desert-exploration', 'outdoor-museum', 'prehistoric'
     ],
     rating: 4.5,
     highlights: [
@@ -177,7 +197,7 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     country: 'Azerbaijan',
     type: 'city',
     region: 'europe',
-    travelStyle: ['slow', 'relaxation', 'nature'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'subtropical',
@@ -185,7 +205,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'tea plantation tours', 'beach relaxation', 'lankaran fortress', 'thermal springs',
-      'bird watching', 'local cuisine', 'nature reserves', 'subtropical gardens'
+      'bird watching', 'local cuisine', 'nature reserves', 'subtropical gardens',
+      'thermal spa treatments', 'tea tasting', 'beachcombing', 'swamp exploration',
+      'local festival attendance', 'health retreats', 'medicinal herb tours'
     ],
     foodScene: 'local',
     nightlife: 'quiet',
@@ -194,7 +216,9 @@ export const azerbaijanResonance: CityResonanceProfile[] = [
     safetyScore: 9,
     tags: [
       'subtropical', 'tea', 'thermal-springs', 'beach',
-      'nature-reserve', 'relaxed', 'local-cuisine'
+      'nature-reserve', 'relaxed', 'local-cuisine',
+      'bird-watching', 'wellness', 'thermal-spas', 'tea-plantations',
+      'beach-resort', 'subtropical-climate', 'health-retreat'
     ],
     rating: 4.3,
     highlights: [

@@ -8,15 +8,17 @@ export const franceResonance: CityResonanceProfile[] = [
     country: 'France',
     type: 'country-overview',
     region: 'europe',
-    travelStyle: ['cultural', 'food', 'historical', 'romantic'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
     vibe: 'sophisticated',
     density: 'mixed',
     popularActivities: [
-      'museum visits', 'wine tasting', 'cafe culture', 'historical sites',
-      'gourmet dining', 'shopping', 'countryside exploration', 'beach relaxation'
+    'museum visits', 'wine tasting', 'cafe culture', 'historical sites',
+    'gourmet dining', 'shopping', 'countryside exploration', 'beach relaxation',
+    'wine cellar tours', 'art gallery visits', 'architecture tours', 'festival attendance',
+    'cooking classes', 'castle tours', 'skiing', 'beach clubs'
     ],
     foodScene: 'world-class',
     nightlife: 'vibrant',
@@ -24,8 +26,10 @@ export const franceResonance: CityResonanceProfile[] = [
     internetQuality: 8,
     safetyScore: 7,
     tags: [
-      'art-de-vivre', 'haute-cuisine', 'fashion', 'wine',
-      'romantic', 'historical', 'cultural-heritage', 'diversity'
+    'art-de-vivre', 'haute-cuisine', 'fashion', 'wine',
+    'romantic', 'historical', 'cultural-heritage', 'diversity',
+    'wineries', 'art-history', 'architecture', 'music-festivals',
+    'art-festivals', 'culinary', 'vineyards', 'castles'
     ],
     rating: 4.7,
     highlights: [
@@ -41,7 +45,7 @@ export const franceResonance: CityResonanceProfile[] = [
     country: 'France',
     type: 'city',
     region: 'europe',
-    travelStyle: ['romantic', 'cultural', 'urban', 'luxury'],
+    pace: 'fast',
     socialVibe: 'sophisticated',
     energyLevel: 'high',
     climate: 'temperate',
@@ -57,8 +61,10 @@ export const franceResonance: CityResonanceProfile[] = [
     internetQuality: 9,
     safetyScore: 6,
     tags: [
-      'city-of-light', 'romantic', 'fashion-capital', 'artistic',
-      'historical', 'cosmopolitan', 'river-city', 'grandeur'
+    'city-of-light', 'romantic', 'fashion-capital', 'artistic',
+    'historical', 'cosmopolitan', 'river-city', 'grandeur',
+    'art-museums', 'architecture', 'social-touch', 'fashion-weeks',
+    'exhibitions', 'cafe-culture', 'boulevards', 'haute-couture'
     ],
     rating: 4.8,
     highlights: [
@@ -75,7 +81,7 @@ export const franceResonance: CityResonanceProfile[] = [
     country: 'France',
     type: 'city',
     region: 'europe',
-    travelStyle: ['food', 'cultural', 'slow'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -91,8 +97,10 @@ export const franceResonance: CityResonanceProfile[] = [
     internetQuality: 8,
     safetyScore: 8,
     tags: [
-      'gastronomic-capital', 'silk-city', 'unesco', 'rivers',
-      'historical', 'culinary-tradition', 'presqu\'île'
+    'gastronomic-capital', 'silk-city', 'unesco', 'rivers',
+    'historical', 'culinary-tradition', 'presqu\'île',
+    'culinary-schools', 'wine-bars', 'roman-architecture',
+    'food-markets', 'traboules', 'silk-history', 'gourmet'
     ],
     rating: 4.7,
     highlights: [
@@ -109,7 +117,7 @@ export const franceResonance: CityResonanceProfile[] = [
     country: 'France',
     type: 'city',
     region: 'europe',
-    travelStyle: ['beach', 'relaxation', 'luxury'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'mediterranean',
@@ -125,8 +133,10 @@ export const franceResonance: CityResonanceProfile[] = [
     internetQuality: 8,
     safetyScore: 7,
     tags: [
-      'côte-d\'azur', 'mediterranean', 'beach-resort', 'riviera',
-      'sophisticated', 'old-town', 'promenade'
+    'côte-d\'azur', 'mediterranean', 'beach-resort', 'riviera',
+    'sophisticated', 'old-town', 'promenade',
+    'beach-clubs', 'art-festivals', 'yachting', 'carnival',
+    'contemporary-art', 'coastal-walks', 'luxury-shopping'
     ],
     rating: 4.6,
     highlights: [
@@ -143,7 +153,7 @@ export const franceResonance: CityResonanceProfile[] = [
     country: 'France',
     type: 'city',
     region: 'europe',
-    travelStyle: ['authentic', 'cultural', 'coastal'],
+    pace: 'medium',
     socialVibe: 'vibrant',
     energyLevel: 'high',
     climate: 'mediterranean',
@@ -177,7 +187,7 @@ export const franceResonance: CityResonanceProfile[] = [
     country: 'France',
     type: 'city',
     region: 'europe',
-    travelStyle: ['food', 'wine', 'slow'],
+    pace: 'slow',
     socialVibe: 'sophisticated',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -193,8 +203,10 @@ export const franceResonance: CityResonanceProfile[] = [
     internetQuality: 8,
     safetyScore: 8,
     tags: [
-      'wine-capital', 'neoclassical', 'unesco', 'gironde',
-      'sophisticated', 'riverfront', 'gourmet'
+    'wine-capital', 'neoclassical', 'unesco', 'gironde',
+    'sophisticated', 'riverfront', 'gourmet',
+    'wineries', 'wine-tasting', 'neoclassical-architecture',
+    'culinary-tours', 'vineyard-visits', 'wine-museums'
     ],
     rating: 4.6,
     highlights: [
@@ -211,7 +223,7 @@ export const franceResonance: CityResonanceProfile[] = [
     country: 'France',
     type: 'city',
     region: 'europe',
-    travelStyle: ['slow', 'nature', 'romantic'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'mediterranean',
@@ -227,8 +239,10 @@ export const franceResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 9,
     tags: [
-      'lavender', 'provençal', 'countryside', 'hilltop-villages',
-      'mediterranean', 'idyllic', 'artist-inspiration'
+    'lavender', 'provençal', 'countryside', 'hilltop-villages',
+    'mediterranean', 'idyllic', 'artist-inspiration',
+    'wine-regions', 'photography', 'outdoor-markets', 'olive-oil',
+    'herbs', 'sunflowers', 'countryside-cycling'
     ],
     rating: 4.7,
     highlights: [

@@ -8,15 +8,17 @@ export const italyResonance: CityResonanceProfile[] = [
     country: 'Italy',
     type: 'country-overview',
     region: 'europe',
-    travelStyle: ['cultural', 'food', 'historical', 'relaxation'],
+    pace: 'medium',
     socialVibe: 'social',
     energyLevel: 'medium',
     climate: 'mediterranean',
     vibe: 'balanced',
     density: 'mixed',
     popularActivities: [
-      'historical site visits', 'food tours', 'wine tasting', 'beach relaxation',
-      'mountain hiking', 'art museum visits', 'shopping', 'piazza sitting'
+    'historical site visits', 'food tours', 'wine tasting', 'beach relaxation',
+    'mountain hiking', 'art museum visits', 'shopping', 'piazza sitting',
+    'wine cellar tours', 'cooking classes', 'architecture tours', 'opera performances',
+    'fashion shopping', 'motorcycle tours', 'festival attendance'
     ],
     foodScene: 'world-class',
     nightlife: 'vibrant',
@@ -24,8 +26,10 @@ export const italyResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 7,
     tags: [
-      'renaissance-art', 'roman-history', 'mediterranean-cuisine', 'fashion',
-      'coastal-beauty', 'alps', 'slow-living', 'cultural-heritage'
+    'renaissance-art', 'roman-history', 'mediterranean-cuisine', 'fashion',
+    'coastal-beauty', 'alps', 'slow-living', 'cultural-heritage',
+    'wineries', 'architecture', 'art-history', 'culinary',
+    'opera', 'fashion-design', 'historical-preservation'
     ],
     rating: 4.7,
     highlights: [
@@ -41,11 +45,11 @@ export const italyResonance: CityResonanceProfile[] = [
     country: 'Italy',
     type: 'city',
     region: 'europe',
-    travelStyle: ['historical', 'cultural', 'urban'],
+    pace: 'fast',
     socialVibe: 'social',
     energyLevel: 'high',
     climate: 'mediterranean',
-    vibe: 'historic',
+    vibe: 'historical',
     density: 'urban',
     popularActivities: [
       'colosseum visit', 'vatican museums', 'trevi fountain', 'roman forum',
@@ -57,8 +61,10 @@ export const italyResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 6,
     tags: [
-      'eternal-city', 'roman-empire', 'vatican', 'ancient-ruins',
-      'baroque-art', 'historical-layers', 'chaotic-beauty'
+    'eternal-city', 'roman-empire', 'vatican', 'ancient-ruins',
+    'baroque-art', 'historical-layers', 'chaotic-beauty',
+    'architecture', 'social-culture', 'piazzas', 'fountains',
+    'ancient-engineering', 'religious-art', 'urban-exploration'
     ],
     rating: 4.8,
     highlights: [
@@ -75,7 +81,7 @@ export const italyResonance: CityResonanceProfile[] = [
     country: 'Italy',
     type: 'city',
     region: 'europe',
-    travelStyle: ['art', 'cultural', 'slow'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -91,8 +97,10 @@ export const italyResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 8,
     tags: [
-      'renaissance', 'medici', 'art-capital', 'tuscan-cuisine',
-      'duomo', 'historical-preservation', 'walkable-city'
+    'renaissance', 'medici', 'art-capital', 'tuscan-cuisine',
+    'duomo', 'historical-preservation', 'walkable-city',
+    'art-galleries', 'wine-tasting', 'architecture-history',
+    'sculpture', 'frescoes', 'artisan-crafts', 'tuscan-countryside'
     ],
     rating: 4.7,
     highlights: [
@@ -109,7 +117,7 @@ export const italyResonance: CityResonanceProfile[] = [
     country: 'Italy',
     type: 'city',
     region: 'europe',
-    travelStyle: ['urban', 'luxury', 'fast'],
+    pace: 'fast',
     socialVibe: 'balanced',
     energyLevel: 'high',
     climate: 'continental',
@@ -125,8 +133,10 @@ export const italyResonance: CityResonanceProfile[] = [
     internetQuality: 8,
     safetyScore: 7,
     tags: [
-      'fashion-capital', 'business-hub', 'design', 'modern-architecture',
-      'financial-center', 'cosmopolitan', 'northern-efficiency'
+    'fashion-capital', 'business-hub', 'design', 'modern-architecture',
+    'financial-center', 'cosmopolitan', 'northern-efficiency',
+    'fashion-weeks', 'startup-scene', 'design-fairs', 'exhibitions',
+    'luxury-shopping', 'contemporary-art', 'innovation'
     ],
     rating: 4.6,
     highlights: [
@@ -143,7 +153,7 @@ export const italyResonance: CityResonanceProfile[] = [
     country: 'Italy',
     type: 'city',
     region: 'europe',
-    travelStyle: ['authentic', 'food', 'historical'],
+    pace: 'fast',
     socialVibe: 'vibrant',
     energyLevel: 'high',
     climate: 'mediterranean',
@@ -177,7 +187,7 @@ export const italyResonance: CityResonanceProfile[] = [
     country: 'Italy',
     type: 'city',
     region: 'europe',
-    travelStyle: ['food', 'academic', 'slow'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'continental',
@@ -193,8 +203,10 @@ export const italyResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 8,
     tags: [
-      'university-city', 'food-capital', 'learned-city', 'porticoes',
-      'student-life', 'medieval-towers', 'emilia-romagna'
+    'university-city', 'food-capital', 'learned-city', 'porticoes',
+    'student-life', 'medieval-towers', 'emilia-romagna',
+    'culinary-education', 'student-bars', 'food-markets',
+    'academic-history', 'library-visits', 'food-festivals'
     ],
     rating: 4.6,
     highlights: [
@@ -211,7 +223,7 @@ export const italyResonance: CityResonanceProfile[] = [
     country: 'Italy',
     type: 'city',
     region: 'europe',
-    travelStyle: ['historical', 'beach', 'slow'],
+    pace: 'slow',
     socialVibe: 'vibrant',
     energyLevel: 'medium',
     climate: 'mediterranean',
@@ -227,8 +239,10 @@ export const italyResonance: CityResonanceProfile[] = [
     internetQuality: 6,
     safetyScore: 6,
     tags: [
-      'island-life', 'cross-cultural', 'volcanic', 'ancient-greek',
-      'arab-norman', 'street-food', 'mediterranean'
+    'island-life', 'cross-cultural', 'volcanic', 'ancient-greek',
+    'arab-norman', 'street-food', 'mediterranean',
+    'wine-regions', 'beach-resorts', 'volcano-tours',
+    'festivals', 'seafood', 'historical-layers', 'architecture'
     ],
     rating: 4.5,
     highlights: [

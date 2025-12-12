@@ -7,7 +7,7 @@ export const turkeyResonance: CityResonanceProfile[] = [
     country: 'Turkey',
     type: 'country-overview',
     region: 'southern-europe',
-    travelStyle: ['cultural', 'historical', 'adventure', 'relaxation'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -23,8 +23,10 @@ export const turkeyResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 7,
     tags: [
-      'historical', 'ottoman', 'byzantine', 'bazaars',
-      'hospitality', 'mediterranean', 'crossroads', 'ancient'
+    'historical', 'ottoman', 'byzantine', 'bazaars',
+    'hospitality', 'mediterranean', 'crossroads', 'ancient',
+    'hot-air-balloons', 'hammam-culture', 'social-touch',
+    'tea-culture', 'bazaar-shopping', 'coastal', 'mountain'
     ],
     rating: 4.4,
     highlights: [
@@ -40,7 +42,7 @@ export const turkeyResonance: CityResonanceProfile[] = [
     country: 'Turkey',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['fast', 'cultural', 'historical'],
+    pace: 'fast',
     socialVibe: 'social',
     energyLevel: 'high',
     climate: 'temperate',
@@ -56,8 +58,10 @@ export const turkeyResonance: CityResonanceProfile[] = [
     internetQuality: 8,
     safetyScore: 7,
     tags: [
-      'cosmopolitan', 'historical', 'bosphorus', 'bazaar',
-      'ottoman', 'byzantine', 'vibrant', 'chaotic'
+    'cosmopolitan', 'historical', 'bosphorus', 'bazaar',
+    'ottoman', 'byzantine', 'vibrant', 'chaotic',
+    'social-touch', 'tea-houses', 'mosque-architecture',
+    'bridge-between-continents', 'street-food', 'nightlife'
     ],
     rating: 4.5,
     highlights: [
@@ -74,7 +78,7 @@ export const turkeyResonance: CityResonanceProfile[] = [
     country: 'Turkey',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['slow', 'adventure', 'nature'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -90,8 +94,10 @@ export const turkeyResonance: CityResonanceProfile[] = [
     internetQuality: 6,
     safetyScore: 8,
     tags: [
-      'fairy-chimneys', 'cave-dwellings', 'hot-air-balloons', 'volcanic',
-      'historical', 'photogenic', 'unique', 'ancient'
+    'fairy-chimneys', 'cave-dwellings', 'hot-air-balloons', 'volcanic',
+    'historical', 'photogenic', 'unique', 'ancient',
+    'photography', 'adventure-tourism', 'cave-hotels',
+    'sunrise-photography', 'rock-formations', 'underground-cities'
     ],
     rating: 4.7,
     highlights: [
@@ -108,7 +114,7 @@ export const turkeyResonance: CityResonanceProfile[] = [
     country: 'Turkey',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['slow', 'relaxation', 'historical'],
+    pace: 'slow',
     socialVibe: 'social',
     energyLevel: 'medium',
     climate: 'warm',
@@ -124,8 +130,10 @@ export const turkeyResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 7,
     tags: [
-      'beach', 'mediterranean', 'historical', 'resort',
-      'coastal', 'turquoise-coast', 'ancient', 'sunny'
+    'beach', 'mediterranean', 'historical', 'resort',
+    'coastal', 'turquoise-coast', 'ancient', 'sunny',
+    'wellness', 'spa-resorts', 'beach-clubs', 'water-sports',
+    'thermal-springs', 'family-resorts'
     ],
     rating: 4.4,
     highlights: [
@@ -142,7 +150,7 @@ export const turkeyResonance: CityResonanceProfile[] = [
     country: 'Turkey',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['slow', 'cultural', 'urban'],
+    pace: 'medium',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -176,7 +184,7 @@ export const turkeyResonance: CityResonanceProfile[] = [
     country: 'Turkey',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['slow', 'relaxation', 'cultural'],
+    pace: 'slow',
     socialVibe: 'social',
     energyLevel: 'medium',
     climate: 'warm',
@@ -192,8 +200,10 @@ export const turkeyResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 8,
     tags: [
-      'luxury', 'beach', 'yachting', 'nightlife',
-      'castle', 'aegean', 'resort', 'upmarket'
+    'luxury', 'beach', 'yachting', 'nightlife',
+    'castle', 'aegean', 'resort', 'upmarket',
+    'yacht-parties', 'beach-clubs', 'luxury-shopping',
+    'marina-life', 'sunset-bars', 'dining-experiences'
     ],
     rating: 4.4,
     highlights: [

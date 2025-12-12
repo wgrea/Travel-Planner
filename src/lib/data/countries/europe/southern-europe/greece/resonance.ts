@@ -7,15 +7,17 @@ export const greeceResonance: CityResonanceProfile[] = [
     country: 'Greece',
     type: 'country-overview',
     region: 'southern-europe',
-    travelStyle: ['slow', 'cultural', 'relaxation', 'historical', 'nature'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'warm',
     vibe: 'chill',
     density: 'mixed',
     popularActivities: [
-      'beach relaxation', 'historical sites', 'island hopping', 'food tours',
-      'hiking', 'boat tours', 'museum visits', 'sunset watching'
+    'beach relaxation', 'historical sites', 'island hopping', 'food tours',
+    'hiking', 'boat tours', 'museum visits', 'sunset watching',
+    'wine tasting', 'scuba diving', 'sailing', 'photography tours',
+    'cooking classes', 'olive oil tasting', 'ancient ruins exploration'
     ],
     foodScene: 'local',
     nightlife: 'vibrant',
@@ -23,8 +25,11 @@ export const greeceResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 8,
     tags: [
-      'historical', 'islands', 'beaches', 'ancient',
-      'mediterranean', 'hospitality', 'sunny', 'seafood'
+    'historical', 'islands', 'beaches', 'ancient',
+    'mediterranean', 'hospitality', 'sunny', 'seafood',
+    'wineries', 'scuba-diving', 'sailing', 'photography',
+    'romantic-getaways', 'architecture', 'food-tours',
+    'music-festivals', 'archaeological-sites', 'olive-oil'
     ],
     rating: 4.5,
     highlights: [
@@ -40,7 +45,7 @@ export const greeceResonance: CityResonanceProfile[] = [
     country: 'Greece',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['cultural', 'historical', 'urban'],
+    pace: 'fast',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'warm',
@@ -74,7 +79,7 @@ export const greeceResonance: CityResonanceProfile[] = [
     country: 'Greece',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['slow', 'relaxation', 'romantic'],
+    pace: 'slow',
     socialVibe: 'social',
     energyLevel: 'medium',
     climate: 'warm',
@@ -82,7 +87,8 @@ export const greeceResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'caldera views', 'sunset watching', 'wine tasting', 'volcano tours',
-      'beach visits', 'boat cruises', 'white village exploration', 'photography'
+      'beach visits', 'boat cruises', 'white village exploration', 'photography',
+      'volcano-hiking', 'catamaran-cruises', 'wine-cellars', 'romantic-dining'
     ],
     foodScene: 'mixed',
     nightlife: 'vibrant',
@@ -90,8 +96,10 @@ export const greeceResonance: CityResonanceProfile[] = [
     internetQuality: 6,
     safetyScore: 8,
     tags: [
-      'romantic', 'caldera', 'sunset', 'volcanic',
-      'white-buildings', 'luxury', 'photogenic', 'honeymoon'
+    'romantic', 'caldera', 'sunset', 'volcanic',
+    'white-buildings', 'luxury', 'photogenic', 'honeymoon',
+    'wineries', 'wine-tasting', 'volcano', 'catamaran-sunsets',
+    'honeymoon-destination', 'luxury-resorts', 'architecture'
     ],
     rating: 4.7,
     highlights: [
@@ -108,7 +116,7 @@ export const greeceResonance: CityResonanceProfile[] = [
     country: 'Greece',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['slow', 'cultural', 'nature'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'medium',
     climate: 'warm',
@@ -116,7 +124,8 @@ export const greeceResonance: CityResonanceProfile[] = [
     density: 'mixed',
     popularActivities: [
       'knossos palace', 'archeological museum', 'venetian harbor', 'mountain villages',
-      'beach days', 'greek cooking classes', 'samaria gorge hike', 'local markets'
+      'beach days', 'greek cooking classes', 'samaria gorge hike', 'local markets',
+      'scuba-diving', 'wine-tasting', 'olive-oil-tours', 'traditional-music', 'mountain-hiking'
     ],
     foodScene: 'local',
     nightlife: 'moderate',
@@ -124,8 +133,10 @@ export const greeceResonance: CityResonanceProfile[] = [
     internetQuality: 7,
     safetyScore: 8,
     tags: [
-      'minoan', 'traditional', 'mountains', 'beaches',
-      'archeological', 'hospitality', 'food', 'nature'
+    'minoan', 'traditional', 'mountains', 'beaches',
+    'archeological', 'hospitality', 'food', 'nature',
+    'mountain-hiking', 'gorges', 'cooking-classes', 'ancient-ruins',
+    'olive-oil-tours', 'traditional-villages', 'archaeology'
     ],
     rating: 4.4,
     highlights: [
@@ -142,7 +153,7 @@ export const greeceResonance: CityResonanceProfile[] = [
     country: 'Greece',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['slow', 'cultural', 'urban'],
+    pace: 'medium',
     socialVibe: 'social',
     energyLevel: 'medium',
     climate: 'temperate',
@@ -159,7 +170,8 @@ export const greeceResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'byzantine', 'student', 'foodie', 'cultural',
-      'laid-back', 'historical', 'festivals', 'university'
+      'laid-back', 'historical', 'festivals', 'university',
+      'food-markets', 'student-city', 'cultural-festivals', 'street-food', 'music-scene'
     ],
     rating: 4.3,
     highlights: [
@@ -176,7 +188,7 @@ export const greeceResonance: CityResonanceProfile[] = [
     country: 'Greece',
     type: 'city',
     region: 'southern-europe',
-    travelStyle: ['slow', 'historical', 'relaxation'],
+    pace: 'slow',
     socialVibe: 'balanced',
     energyLevel: 'low',
     climate: 'warm',
@@ -193,7 +205,9 @@ export const greeceResonance: CityResonanceProfile[] = [
     safetyScore: 8,
     tags: [
       'medieval', 'knights', 'castle', 'historical',
-      'island', 'beaches', 'unesco', 'ancient'
+      'island', 'beaches', 'unesco', 'ancient',
+      'medieval-architecture', 'crusader-history', 
+      'butterfly-watching', 'castle-tours'
     ],
     rating: 4.4,
     highlights: [
@@ -205,3 +219,67 @@ export const greeceResonance: CityResonanceProfile[] = [
     description: 'The medieval island with crusader castles, ancient ruins, and beautiful beaches'
   }
 ];
+
+/* To add later - with pace property:
+
+// **Mykonos** - For party/social scene
+{
+  name: 'Mykonos',
+  pace: 'fast',
+  socialVibe: 'social',
+  energyLevel: 'high',
+  climate: 'warm',
+  vibe: 'vibrant',
+  density: 'mixed',
+  popularActivities: ['beach clubs', 'nightlife', 'windmills', 'little venice', 'party scene'],
+  foodScene: 'mixed',
+  nightlife: 'vibrant',
+  costLevel: 'luxury',
+  internetQuality: 7,
+  safetyScore: 8,
+  tags: ['party-island', 'beach-clubs', 'lgbtq-friendly', 'luxury', 'nightlife'],
+  rating: 4.6,
+  description: 'The famous party island with vibrant nightlife and luxury beach clubs'
+}
+
+// **Corfu** - For nature/wellness
+{
+  name: 'Corfu',
+  pace: 'slow',
+  socialVibe: 'balanced',
+  energyLevel: 'low',
+  climate: 'mediterranean',
+  vibe: 'chill',
+  density: 'mixed',
+  popularActivities: ['olive grove walks', 'venetian architecture', 'beaches', 'hiking', 'wellness retreats'],
+  foodScene: 'local',
+  nightlife: 'moderate',
+  costLevel: 'midrange',
+  internetQuality: 6,
+  safetyScore: 8,
+  tags: ['green-island', 'venetian-architecture', 'olive-groves', 'hiking', 'wellness-retreats'],
+  rating: 4.4,
+  description: 'The lush green island with Venetian architecture and wellness retreats'
+}
+
+// **Meteora** - For spiritual/unique experiences
+{
+  name: 'Meteora',
+  pace: 'slow',
+  socialVibe: 'balanced',
+  energyLevel: 'low',
+  climate: 'temperate',
+  vibe: 'spiritual',
+  density: 'nature',
+  popularActivities: ['monastery visits', 'rock formations', 'hiking', 'photography', 'spiritual retreats'],
+  foodScene: 'local',
+  nightlife: 'quiet',
+  costLevel: 'budget',
+  internetQuality: 5,
+  safetyScore: 9,
+  tags: ['monasteries', 'rock-formations', 'spiritual', 'unique-landscape', 'photography'],
+  rating: 4.7,
+  description: 'The breathtaking rock formations with ancient monasteries perched on top'
+}
+
+*/
