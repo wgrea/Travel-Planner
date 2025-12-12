@@ -2,41 +2,22 @@
 <!-- Tailwind CSS --> 
 
 <!-- 
-🚧 REMAINING HIGH PRIORITY:
-
-🚧 STILL IN PROGRESS:
-Flight Costs Page Improvements:
-🚧 Two-country price comparison (data ready, needs implementation) - NOT STARTED
-- Your routeCosts data structure supports this, but we haven't implemented the UI
-🚧 Cheapest countries by specific month - NOT STARTED
-🚧 Most expensive months for specific countries - NOT STARTED
-🚧 Multi-leg flight pricing suggestions - NOT STARTED
-🚧 Price tips for flights over $800 - NOT STARTED
-🚧 Frutiger Aero aesthetic implementation - NOT STARTED
-
-Visa Page Improvements:
-🚧 Filter by visa type across countries
-🚧 Filter by country to see available visas
-🚧 Fix "Prepare" buttons in Document Checklist
-🚧 Improve navigation structure
+1. Modify How to WFA and Support
+2. Clean up the redundant parts + Aesthetic improvements
 
 
-📋 MEDIUM PRIORITY:
-Living Costs Page:
-🚧 Fix responsive layout (Trip Duration & Budget squeezing)
-🚧 Consistent currency display across all pages
-🚧 Add transportation page with city selector
+Looking at your Travel Planner project structure and your goals, here are my recommendations:
 
-Design & UX:
-🚧 Standardize fonts across all pages
-🚧 Implement note-taking feature that follows users
-🚧 Add country data validation before sharing project
+## 1. **Cheapest/Most Expensive Month Feature**
+## 2. **Global Coworking Memberships Page**
+## 3. **Navigation & User Flow**
+## 4. **Mobile Responsiveness
+## 5. **Aesthetics of the Components**
+## 6. ## Make sure every file is pushed to github ##
 
 -->
 
 <!--
-Before posting, I should probably check each country, region, and just check that each one shows data.
-
 Make sure the visa page and the flight costs page don't list countries that don't have data ready yet.
 
 Maybe keep the header and footer the same throughout the site.
@@ -78,6 +59,11 @@ Countries to still add, but make sure you show certain files first to remain goo
 - Nicaragua
 - Honduras
 
+
+-->
+
+<!--
+I need to add trust like where does the information come from besides DeepSeek, Perplexity, etc.
 
 -->
 
@@ -301,17 +287,6 @@ Countries to still add, but make sure you show certain files first to remain goo
           </p>
         </div>
       </div>
-    </div>
-
-    <!-- Documentation Link -->
-    <div class="text-center mt-8">
-      <p class="text-gray-700 text-sm font-light">
-        Process
-        <a href="/docs"
-          class="btn-primary inline-flex items-center gap-2 ml-2">
-          📚 Documentation
-        </a>
-      </p>
     </div>
   </div>
 </div>
