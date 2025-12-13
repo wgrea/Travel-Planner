@@ -1,260 +1,261 @@
 // src/lib/data/countries/middle-east/morocco/living-costs.ts
-import type { LivingCosts } from '$lib/types/livingCosts';
+import type { LivingCostData } from '$lib/types/living-costs';
 
-export const moroccoLivingCosts: LivingCosts = {
+export const moroccoLivingCosts: LivingCostData = {
   country: "Morocco",
-  region: "North Africa",
-  currency: "MAD (Moroccan Dirham)",
-  cities: {
-    "Marrakech": {
-      city: "Marrakech",
+  currency: "USD", // Changed to USD since you want prices in USD
+  lastUpdated: "2024-01-15",
+  
+  // Country-level AVERAGES (in USD) - Converted from MAD at ≈10 MAD = 1 USD
+  baseCosts: {
+    accommodation: {
+      budget: {
+        hostel: 10,        // ~$10 USD (≈100 MAD)
+        budgetHotel: 25,   // ~$25 USD (≈250 MAD)
+        guesthouse: 20     // ~$20 USD (≈200 MAD)
+      },
+      midrange: {
+        hotel: 60,         // ~$60 USD (≈600 MAD)
+        apartment: 50,     // ~$50 USD (≈500 MAD)
+        boutiqueHotel: 90  // ~$90 USD (≈900 MAD)
+      },
+      luxury: {
+        hotel: 150,        // ~$150 USD (≈1,500 MAD)
+        resort: 220,       // ~$220 USD (≈2,200 MAD)
+        villa: 350         // ~$350 USD (≈3,500 MAD)
+      },
       monthlyRent: {
-        studio: 3000,
-        oneBedroom: 4500,
-        twoBedroom: 7000,
-        threeBedroom: 10000
-      },
-      utilities: {
-        basic: 800,
-        internet: 300,
-        mobilePlan: 100
-      },
-      food: {
-        groceriesMonthly: 1500,
-        restaurantMeal: 60,
-        coffee: 20,
-        waterBottle: 5
-      },
-      transportation: {
-        monthlyPass: 300,
-        taxiStart: 10,
-        gasPerLiter: 12
-      },
-      lifestyle: {
-        fitnessMembership: 400,
-        cinemaTicket: 50,
-        beerAtBar: 40
-      },
-      summary: {
-        budgetTraveler: 5000,
-        digitalNomad: 9000,
-        expatFamily: 18000
-      },
-      notes: "Medina area authentic but noisy, Gueliz/Hivernage modern/expensive, Palmeraie for luxury"
+        studio: 300,       // ~$300 USD (≈3,000 MAD)
+        oneBedroom: 430,   // ~$430 USD (≈4,300 MAD)
+        threeBedroom: 1000 // ~$1,000 USD (≈10,000 MAD)
+      }
     },
-    "Casablanca": {
-      city: "Casablanca",
-      monthlyRent: {
-        studio: 4000,
-        oneBedroom: 6000,
-        twoBedroom: 9000,
-        threeBedroom: 14000
-      },
-      utilities: {
-        basic: 1000,
-        internet: 350,
-        mobilePlan: 100
-      },
-      food: {
-        groceriesMonthly: 1800,
-        restaurantMeal: 80,
-        coffee: 25,
-        waterBottle: 5
-      },
-      transportation: {
-        monthlyPass: 350,
-        taxiStart: 12,
-        gasPerLiter: 12
-      },
-      lifestyle: {
-        fitnessMembership: 500,
-        cinemaTicket: 60,
-        beerAtBar: 50
-      },
-      summary: {
-        budgetTraveler: 7000,
-        digitalNomad: 12000,
-        expatFamily: 22000
-      },
-      notes: "Business capital, most expensive city. Maarif/Anfa upscale, Ain Diab coastal, working-class areas more affordable"
-    },
-    "Fes": {
-      city: "Fes",
-      monthlyRent: {
-        studio: 2500,
-        oneBedroom: 3500,
-        twoBedroom: 5500,
-        threeBedroom: 8500
-      },
-      utilities: {
-        basic: 700,
-        internet: 300,
-        mobilePlan: 100
-      },
-      food: {
-        groceriesMonthly: 1300,
-        restaurantMeal: 50,
-        coffee: 15,
-        waterBottle: 4
-      },
-      transportation: {
-        monthlyPass: 250,
-        taxiStart: 8,
-        gasPerLiter: 12
-      },
-      lifestyle: {
-        fitnessMembership: 350,
-        cinemaTicket: 40,
-        beerAtBar: 35
-      },
-      summary: {
-        budgetTraveler: 4000,
-        digitalNomad: 8000,
-        expatFamily: 15000
-      },
-      notes: "Historic imperial city, Fes el Bali (old medina) authentic, Ville Nouvelle modern, more conservative"
-    },
-    "Tangier": {
-      city: "Tangier",
-      monthlyRent: {
-        studio: 2800,
-        oneBedroom: 4000,
-        twoBedroom: 6500,
-        threeBedroom: 9500
-      },
-      utilities: {
-        basic: 750,
-        internet: 300,
-        mobilePlan: 100
-      },
-      food: {
-        groceriesMonthly: 1400,
-        restaurantMeal: 55,
-        coffee: 18,
-        waterBottle: 5
-      },
-      transportation: {
-        monthlyPass: 280,
-        taxiStart: 10,
-        gasPerLiter: 12
-      },
-      lifestyle: {
-        fitnessMembership: 380,
-        cinemaTicket: 45,
-        beerAtBar: 38
-      },
-      summary: {
-        budgetTraveler: 4500,
-        digitalNomad: 8500,
-        expatFamily: 16000
-      },
-      notes: "Gateway to Europe, international vibe, Kasbah area historic, modern developments along coast"
-    },
-    "Agadir": {
-      city: "Agadir",
-      monthlyRent: {
-        studio: 3200,
-        oneBedroom: 4800,
-        twoBedroom: 7500,
-        threeBedroom: 11000
-      },
-      utilities: {
-        basic: 850,
-        internet: 300,
-        mobilePlan: 100
-      },
-      food: {
-        groceriesMonthly: 1600,
-        restaurantMeal: 70,
-        coffee: 22,
-        waterBottle: 5
-      },
-      transportation: {
-        monthlyPass: 320,
-        taxiStart: 11,
-        gasPerLiter: 12
-      },
-      lifestyle: {
-        fitnessMembership: 420,
-        cinemaTicket: 55,
-        beerAtBar: 45
-      },
-      summary: {
-        budgetTraveler: 5500,
-        digitalNomad: 10000,
-        expatFamily: 19000
-      },
-      notes: "Beach resort city, modern rebuild after earthquake, tourist infrastructure, European retirees"
-    },
-    "Essaouira": {
-      city: "Essaouira",
-      monthlyRent: {
-        studio: 2200,
-        oneBedroom: 3200,
-        twoBedroom: 5000,
-        threeBedroom: 7500
-      },
-      utilities: {
-        basic: 650,
-        internet: 300,
-        mobilePlan: 100
-      },
-      food: {
-        groceriesMonthly: 1200,
-        restaurantMeal: 45,
-        coffee: 15,
-        waterBottle: 4
-      },
-      transportation: {
-        monthlyPass: 200,
-        taxiStart: 7,
-        gasPerLiter: 12
-      },
-      lifestyle: {
-        fitnessMembership: 300,
-        cinemaTicket: 35,
-        beerAtBar: 30
-      },
-      summary: {
-        budgetTraveler: 3500,
-        digitalNomad: 7000,
-        expatFamily: 13000
-      },
-      notes: "Coastal fortified town, artsy/bohemian vibe, popular with surfers and creative expats, windy climate"
-    }
-  },
-  nationalAverage: {
-    monthlyRent: {
-      studio: 3000,
-      oneBedroom: 4300,
-      twoBedroom: 6800,
-      threeBedroom: 10000
-    },
-    utilities: {
-      basic: 800,
-      internet: 300,
-      mobilePlan: 100
-    },
-    food: {
-      groceriesMonthly: 1500,
-      restaurantMeal: 60,
-      coffee: 19,
-      waterBottle: 5
+    dailyLiving: {
+      budget: 30,          // ~$30 USD
+      midrange: 60,        // ~$60 USD
+      luxury: 120,         // ~$120 USD
+      breakdown: {
+        food: 15,
+        transport: 5,
+        activities: 8,
+        misc: 2
+      }
     },
     transportation: {
-      monthlyPass: 300,
-      taxiStart: 10,
-      gasPerLiter: 12
+      localBus: 0.30,      // ~$0.30 USD (≈3 MAD)
+      taxi: 3,             // ~$3 USD (≈30 MAD)
+      intercityBus: 15,    // ~$15 USD (≈150 MAD)
+      train: 25           // ~$25 USD (≈250 MAD)
     },
-    lifestyle: {
-      fitnessMembership: 390,
-      cinemaTicket: 48,
-      beerAtBar: 40
+    food: {
+      streetFood: 2,       // ~$2 USD (≈20 MAD)
+      restaurantMeal: 6,   // ~$6 USD (≈60 MAD)
+      groceryWeekly: 40,   // ~$40 USD (≈400 MAD)
+      coffee: 2,           // ~$2 USD (≈20 MAD)
+      waterBottle: 0.50    // ~$0.50 USD (≈5 MAD)
+    }
+  },
+  
+  tips: [
+    "MAD (Moroccan Dirham) is the local currency",
+    "Bargain at markets (souks) but not in fixed-price stores",
+    "Avoid drinking tap water - buy bottled water",
+    "Learn basic French or Arabic phrases for better prices"
+  ],
+  
+  bestAreas: {
+    budget: ["Medina outskirts", "Ville Nouvelle areas"],
+    midrange: ["Gueliz (Marrakech)", "Ville Nouvelle centers"],
+    luxury: ["Palmeraie (Marrakech)", "Anfa (Casablanca)", "Coastal resorts"]
+  },
+  
+  // City-specific data - ONLY what's DIFFERENT (in USD)
+  cities: {
+    "Marrakech": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 12,       // +$2 from country average
+            budgetHotel: 30   // +$5 from country average
+          },
+          midrange: {
+            hotel: 70,        // +$10 from country average
+            apartment: 60     // +$10 from country average
+          },
+          luxury: {
+            hotel: 180,       // +$30 from country average
+            resort: 250       // +$30 from country average
+          },
+          monthlyRent: {
+            studio: 320,      // +$20 from country average
+            oneBedroom: 480   // +$50 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 35,         // +$5 from country average
+          midrange: 70,       // +$10 from country average
+          luxury: 140         // +$20 from country average
+        },
+        food: {
+          restaurantMeal: 8,  // +$2 from country average
+          coffee: 2.50        // +$0.50 from country average
+        }
+      },
+      tips: [
+        "Medina area is authentic but noisy",
+        "Gueliz/Hivernage are modern and more expensive",
+        "Palmeraie area for luxury accommodations",
+        "Tourist prices common in main squares"
+      ]
     },
-    summary: {
-      budgetTraveler: 4800,
-      digitalNomad: 9000,
-      expatFamily: 17000
+
+    "Casablanca": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 15,       // +$5 from country average
+            budgetHotel: 35   // +$10 from country average
+          },
+          midrange: {
+            hotel: 80,        // +$20 from country average
+            apartment: 70     // +$20 from country average
+          },
+          luxury: {
+            hotel: 200,       // +$50 from country average
+            resort: 280       // +$60 from country average
+          },
+          monthlyRent: {
+            studio: 400,      // +$100 from country average
+            oneBedroom: 600   // +$170 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 40,         // +$10 from country average
+          midrange: 80,       // +$20 from country average
+          luxury: 160         // +$40 from country average
+        },
+        food: {
+          restaurantMeal: 10, // +$4 from country average
+          coffee: 3           // +$1 from country average
+        }
+      },
+      tips: [
+        "Business capital and most expensive city",
+        "Maarif/Anfa are upscale neighborhoods",
+        "Ain Diab is coastal and popular",
+        "Working-class areas more affordable"
+      ]
+    },
+
+    "Fes": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 8,        // -$2 from country average
+            budgetHotel: 20   // -$5 from country average
+          },
+          midrange: {
+            hotel: 50,        // -$10 from country average
+            apartment: 40     // -$10 from country average
+          },
+          luxury: {
+            hotel: 130,       // -$20 from country average
+            resort: 190       // -$30 from country average
+          },
+          monthlyRent: {
+            studio: 250,      // -$50 from country average
+            oneBedroom: 350   // -$80 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 25,         // -$5 from country average
+          midrange: 50        // -$10 from country average
+        },
+        food: {
+          restaurantMeal: 5,  // -$1 from country average
+          coffee: 1.50        // -$0.50 from country average
+        }
+      },
+      tips: [
+        "Historic imperial city with ancient medina",
+        "Fes el Bali (old medina) is authentic experience",
+        "Ville Nouvelle is modern part of city",
+        "More conservative culture than coastal cities"
+      ]
+    },
+
+    "Essaouira": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 7,        // -$3 from country average
+            budgetHotel: 18   // -$7 from country average
+          },
+          midrange: {
+            hotel: 45,        // -$15 from country average
+            apartment: 35     // -$15 from country average
+          },
+          luxury: {
+            hotel: 120,       // -$30 from country average
+            resort: 180       // -$40 from country average
+          },
+          monthlyRent: {
+            studio: 220,      // -$80 from country average
+            oneBedroom: 320   // -$110 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 20,         // -$10 from country average
+          midrange: 45        // -$15 from country average
+        },
+        food: {
+          restaurantMeal: 4.50, // -$1.50 from country average
+          coffee: 1.20        // -$0.80 from country average
+        }
+      },
+      tips: [
+        "Coastal fortified town with artsy/bohemian vibe",
+        "Popular with surfers and creative expats",
+        "Windy climate - good for wind/kite surfing",
+        "More relaxed pace than major cities"
+      ]
+    },
+
+    "Agadir": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 11,       // +$1 from country average
+            budgetHotel: 28   // +$3 from country average
+          },
+          midrange: {
+            hotel: 65,        // +$5 from country average
+            apartment: 55     // +$5 from country average
+          },
+          luxury: {
+            hotel: 170,       // +$20 from country average
+            resort: 240       // +$20 from country average
+          },
+          monthlyRent: {
+            studio: 320,      // +$20 from country average
+            oneBedroom: 480   // +$50 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 35,         // +$5 from country average
+          midrange: 70        // +$10 from country average
+        },
+        food: {
+          restaurantMeal: 7,  // +$1 from country average
+          coffee: 2.20        // +$0.20 from country average
+        }
+      },
+      tips: [
+        "Beach resort city rebuilt after 1960 earthquake",
+        "Modern tourist infrastructure",
+        "Popular with European retirees",
+        "Good water sports and beach activities"
+      ]
     }
   }
 };
