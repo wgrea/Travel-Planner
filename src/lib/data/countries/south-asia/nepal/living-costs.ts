@@ -1,224 +1,215 @@
 // src/lib/data/countries/south-asia/nepal/living-costs.ts
-import type { LivingCosts } from '$lib/types/livingCosts';
+import type { LivingCostData } from '$lib/types/living-costs'; // Note: living-costs (with hyphen)
 
-export const nepalLivingCosts: LivingCosts = {
+export const nepalLivingCosts: LivingCostData = {
   country: "Nepal",
-  region: "South Asia",
-  currency: "NPR (Nepalese Rupee), USD accepted in tourist areas",
-  cities: {
-    "Kathmandu": {
-      city: "Kathmandu",
+  currency: "USD", // Changed to USD since you want prices in USD
+  lastUpdated: "2024-01-15",
+  
+  // Country-level AVERAGES (in USD)
+  baseCosts: {
+    accommodation: {
+      budget: {
+        hostel: 5,        // ~$5 USD
+        budgetHotel: 10,  // ~$10 USD
+        guesthouse: 8     // ~$8 USD
+      },
+      midrange: {
+        hotel: 25,        // ~$25 USD
+        apartment: 20,    // ~$20 USD
+        boutiqueHotel: 35 // ~$35 USD
+      },
+      luxury: {
+        hotel: 70,        // ~$70 USD
+        resort: 100,      // ~$100 USD
+        villa: 150        // ~$150 USD
+      },
       monthlyRent: {
-        studio: 20000,
-        oneBedroom: 30000,
-        twoBedroom: 50000,
-        threeBedroom: 80000
-      },
-      utilities: {
-        basic: 4000,
-        internet: 1500,
-        mobilePlan: 500
-      },
-      food: {
-        groceriesMonthly: 8000,
-        restaurantMeal: 300,
-        coffee: 120,
-        waterBottle: 20
-      },
-      transportation: {
-        monthlyPass: 1200,
-        taxiStart: 100,
-        gasPerLiter: 135
-      },
-      lifestyle: {
-        fitnessMembership: 2500,
-        cinemaTicket: 250,
-        beerAtBar: 300
-      },
-      summary: {
-        budgetTraveler: 30000,
-        digitalNomad: 60000,
-        expatFamily: 120000
-      },
-      notes: "Thamel area touristy/expensive, Boudha/Patan more authentic/affordable, frequent power cuts"
+        studio: 150,      // ~$150 USD (converted from 20000 NPR)
+        oneBedroom: 220,  // ~$220 USD (converted from 30000 NPR)
+        threeBedroom: 580  // ~$580 USD (converted from 80000 NPR)
+      }
     },
-    "Pokhara": {
-      city: "Pokhara",
-      monthlyRent: {
-        studio: 15000,
-        oneBedroom: 22000,
-        twoBedroom: 35000,
-        threeBedroom: 55000
-      },
-      utilities: {
-        basic: 3500,
-        internet: 1500,
-        mobilePlan: 500
-      },
-      food: {
-        groceriesMonthly: 7000,
-        restaurantMeal: 250,
-        coffee: 100,
-        waterBottle: 15
-      },
-      transportation: {
-        monthlyPass: 800,
-        taxiStart: 80,
-        gasPerLiter: 140
-      },
-      lifestyle: {
-        fitnessMembership: 2000,
-        cinemaTicket: 200,
-        beerAtBar: 250
-      },
-      summary: {
-        budgetTraveler: 25000,
-        digitalNomad: 50000,
-        expatFamily: 100000
-      },
-      notes: "Lakeside area touristy, other areas more local/affordable, popular with trekkers and digital nomads"
-    },
-    "Chitwan": {
-      city: "Chitwan",
-      monthlyRent: {
-        studio: 12000,
-        oneBedroom: 18000,
-        twoBedroom: 28000,
-        threeBedroom: 45000
-      },
-      utilities: {
-        basic: 3000,
-        internet: 2000,
-        mobilePlan: 500
-      },
-      food: {
-        groceriesMonthly: 6000,
-        restaurantMeal: 200,
-        coffee: 80,
-        waterBottle: 15
-      },
-      transportation: {
-        monthlyPass: 600,
-        taxiStart: 70,
-        gasPerLiter: 145
-      },
-      lifestyle: {
-        fitnessMembership: 1500,
-        cinemaTicket: 150,
-        beerAtBar: 200
-      },
-      summary: {
-        budgetTraveler: 20000,
-        digitalNomad: 40000,
-        expatFamily: 80000
-      },
-      notes: "Jungle/national park area, Sauraha tourist center, more remote/authentic experience"
-    },
-    "Lumbini": {
-      city: "Lumbini",
-      monthlyRent: {
-        studio: 10000,
-        oneBedroom: 15000,
-        twoBedroom: 24000,
-        threeBedroom: 40000
-      },
-      utilities: {
-        basic: 2800,
-        internet: 1800,
-        mobilePlan: 500
-      },
-      food: {
-        groceriesMonthly: 5500,
-        restaurantMeal: 180,
-        coffee: 70,
-        waterBottle: 12
-      },
-      transportation: {
-        monthlyPass: 500,
-        taxiStart: 60,
-        gasPerLiter: 150
-      },
-      lifestyle: {
-        fitnessMembership: 1200,
-        cinemaTicket: 120,
-        beerAtBar: 180
-      },
-      summary: {
-        budgetTraveler: 18000,
-        digitalNomad: 35000,
-        expatFamily: 70000
-      },
-      notes: "Birthplace of Buddha, pilgrimage site, very peaceful and spiritual atmosphere"
-    },
-    "Nagarkot": {
-      city: "Nagarkot",
-      monthlyRent: {
-        studio: 18000,
-        oneBedroom: 25000,
-        twoBedroom: 40000,
-        threeBedroom: 65000
-      },
-      utilities: {
-        basic: 3800,
-        internet: 2000,
-        mobilePlan: 500
-      },
-      food: {
-        groceriesMonthly: 7500,
-        restaurantMeal: 350,
-        coffee: 150,
-        waterBottle: 25
-      },
-      transportation: {
-        monthlyPass: 1000,
-        taxiStart: 120,
-        gasPerLiter: 155
-      },
-      lifestyle: {
-        fitnessMembership: 2200,
-        cinemaTicket: 300,
-        beerAtBar: 350
-      },
-      summary: {
-        budgetTraveler: 28000,
-        digitalNomad: 55000,
-        expatFamily: 110000
-      },
-      notes: "Mountain viewpoint town near Kathmandu, tourist prices, spectacular Himalayan views"
-    }
-  },
-  nationalAverage: {
-    monthlyRent: {
-      studio: 15000,
-      oneBedroom: 22000,
-      twoBedroom: 35000,
-      threeBedroom: 58000
-    },
-    utilities: {
-      basic: 3400,
-      internet: 1700,
-      mobilePlan: 500
-    },
-    food: {
-      groceriesMonthly: 6800,
-      restaurantMeal: 260,
-      coffee: 104,
-      waterBottle: 17
+    dailyLiving: {
+      budget: 15,         // ~$15 USD
+      midrange: 30,       // ~$30 USD
+      luxury: 60,         // ~$60 USD
+      breakdown: {
+        food: 8,
+        transport: 3,
+        activities: 3,
+        misc: 1
+      }
     },
     transportation: {
-      monthlyPass: 800,
-      taxiStart: 86,
-      gasPerLiter: 145
+      localBus: 0.10,     // ~$0.10 USD
+      taxi: 1,            // ~$1 USD
+      intercityBus: 5,    // ~$5 USD
+      train: 8           // ~$8 USD (if applicable)
     },
-    lifestyle: {
-      fitnessMembership: 1900,
-      cinemaTicket: 204,
-      beerAtBar: 256
+    food: {
+      streetFood: 1,      // ~$1 USD
+      restaurantMeal: 3,  // ~$3 USD (converted from 300 NPR)
+      groceryWeekly: 20,  // ~$20 USD
+      coffee: 1,          // ~$1 USD
+      waterBottle: 0.20   // ~$0.20 USD
+    }
+  },
+  
+  tips: [
+    "USD widely accepted in tourist areas alongside NPR",
+    "Thamel (Kathmandu) is touristy/expensive, Boudha/Patan more authentic/affordable",
+    "Frequent power cuts - consider backup power options",
+    "Bargain at markets but not in fixed-price stores"
+  ],
+  
+  bestAreas: {
+    budget: ["Thamel outskirts", "Pokhara non-lakeside areas"],
+    midrange: ["Boudha (Kathmandu)", "Patan", "Pokhara lakeside"],
+    luxury: ["Kathmandu expat areas", "Pokhara luxury resorts", "Nagarkot hotels"]
+  },
+  
+  // City-specific data - ONLY what's DIFFERENT (in USD)
+  cities: {
+    "Kathmandu": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 6,        // +$1 from country average
+            budgetHotel: 12   // +$2 from country average
+          },
+          midrange: {
+            hotel: 30,        // +$5 from country average
+            apartment: 25     // +$5 from country average
+          },
+          luxury: {
+            hotel: 80,        // +$10 from country average
+            resort: 120       // +$20 from country average
+          },
+          monthlyRent: {
+            studio: 200,      // +$50 from country average
+            oneBedroom: 300   // +$80 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 18,         // +$3 from country average
+          midrange: 35,       // +$5 from country average
+          luxury: 70          // +$10 from country average
+        },
+        transportation: {
+          taxi: 1.20,        // +$0.20 from country average
+          localBus: 0.12     // +$0.02 from country average
+        },
+        food: {
+          restaurantMeal: 4,  // +$1 from country average
+          coffee: 1.20        // +$0.20 from country average
+        }
+      },
+      tips: [
+        "Thamel area is touristy and expensive",
+        "Boudha and Patan offer more authentic experiences at better prices",
+        "Prepare for frequent power cuts and traffic"
+      ]
     },
-    summary: {
-      budgetTraveler: 24200,
-      digitalNomad: 48000,
-      expatFamily: 96000
+
+    "Pokhara": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 5,        // same as average
+            budgetHotel: 9    // -$1 from country average
+          },
+          midrange: {
+            hotel: 22,        // -$3 from country average
+            apartment: 18     // -$2 from country average
+          },
+          luxury: {
+            hotel: 65,        // -$5 from country average
+            resort: 90        // -$10 from country average
+          },
+          monthlyRent: {
+            studio: 150,      // same as average
+            oneBedroom: 220   // same as average
+          }
+        },
+        dailyLiving: {
+          budget: 12,         // -$3 from country average
+          midrange: 25        // -$5 from country average
+        },
+        food: {
+          restaurantMeal: 2.50, // -$0.50 from country average
+          coffee: 0.80         // -$0.20 from country average
+        }
+      },
+      tips: [
+        "Lakeside area is touristy - other areas more local/affordable",
+        "Popular with trekkers and digital nomads",
+        "Beautiful mountain views and relaxed atmosphere"
+      ]
+    },
+
+    "Chitwan": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 4,        // -$1 from country average
+            budgetHotel: 7    // -$3 from country average
+          },
+          midrange: {
+            hotel: 18,        // -$7 from country average
+            apartment: 15     // -$5 from country average
+          },
+          monthlyRent: {
+            studio: 120,      // -$30 from country average
+            oneBedroom: 180   // -$40 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 10,         // -$5 from country average
+          midrange: 20        // -$10 from country average
+        },
+        food: {
+          restaurantMeal: 2,  // -$1 from country average
+          coffee: 0.60        // -$0.40 from country average
+        }
+      },
+      tips: [
+        "Jungle/national park area - Sauraha is the tourist center",
+        "More remote/authentic experience",
+        "Wildlife safaris and nature activities"
+      ]
+    },
+
+    "Lumbini": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 3,        // -$2 from country average
+            budgetHotel: 6    // -$4 from country average
+          },
+          midrange: {
+            hotel: 15,        // -$10 from country average
+            apartment: 12     // -$8 from country average
+          },
+          monthlyRent: {
+            studio: 100,      // -$50 from country average
+            oneBedroom: 150   // -$70 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 9,          // -$6 from country average
+          midrange: 18        // -$12 from country average
+        },
+        food: {
+          restaurantMeal: 1.80, // -$1.20 from country average
+          coffee: 0.50         // -$0.50 from country average
+        }
+      },
+      tips: [
+        "Birthplace of Buddha - pilgrimage site",
+        "Very peaceful and spiritual atmosphere",
+        "Simple accommodations and facilities"
+      ]
     }
   }
 };

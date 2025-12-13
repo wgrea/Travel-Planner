@@ -1,259 +1,265 @@
-import type { LivingCosts } from '$lib/types/livingCosts';
+// src/lib/data/countries/europe/western-europe/united-kingdom/living-costs.ts
+import type { LivingCostData } from '$lib/types/living-costs';
 
-export const ukLivingCosts: LivingCosts = {
+export const ukLivingCosts: LivingCostData = {
   country: "United Kingdom",
-  region: "Western Europe",
-  currency: "GBP (£)",
-  cities: {
-    "London": {
-      city: "London",
+  currency: "USD", // Changed to USD since you want prices in USD
+  lastUpdated: "2024-01-15",
+  
+  // Country-level AVERAGES (in USD) - Converted from GBP at ≈0.79 GBP = 1 USD
+  // Note: UK prices are already in GBP which is stronger than USD
+  baseCosts: {
+    accommodation: {
+      budget: {
+        hostel: 25,        // ~$25 USD (≈£20)
+        budgetHotel: 80,   // ~$80 USD (≈£63)
+        guesthouse: 60     // ~$60 USD (≈£47)
+      },
+      midrange: {
+        hotel: 150,        // ~$150 USD (≈£119)
+        apartment: 130,    // ~$130 USD (≈£103)
+        boutiqueHotel: 200 // ~$200 USD (≈£158)
+      },
+      luxury: {
+        hotel: 350,        // ~$350 USD (≈£277)
+        resort: 500,       // ~$500 USD (≈£395)
+        villa: 800         // ~$800 USD (≈£632)
+      },
       monthlyRent: {
-        studio: 1200,
-        oneBedroom: 1600,
-        twoBedroom: 2200,
-        threeBedroom: 3000
-      },
-      utilities: {
-        basic: 200,
-        internet: 40,
-        mobilePlan: 20
-      },
-      food: {
-        groceriesMonthly: 300,
-        restaurantMeal: 20,
-        coffee: 3.5,
-        waterBottle: 1
-      },
-      transportation: {
-        monthlyPass: 150,
-        taxiStart: 3.5,
-        gasPerLiter: 1.6
-      },
-      lifestyle: {
-        fitnessMembership: 60,
-        cinemaTicket: 12,
-        beerAtBar: 6
-      },
-      summary: {
-        budgetTraveler: 1500,
-        digitalNomad: 2500,
-        expatFamily: 4000
-      },
-      notes: "Zones 1-2 most expensive, Zones 3-6 more affordable. East London (Shoreditch, Hackney) popular with digital nomads"
+        studio: 1000,      // ~$1,000 USD (≈£790)
+        oneBedroom: 1270,  // ~$1,270 USD (≈£1,003)
+        threeBedroom: 2530 // ~$2,530 USD (≈£2,000)
+      }
     },
-    "Manchester": {
-      city: "Manchester",
-      monthlyRent: {
-        studio: 700,
-        oneBedroom: 900,
-        twoBedroom: 1300,
-        threeBedroom: 1800
-      },
-      utilities: {
-        basic: 150,
-        internet: 35,
-        mobilePlan: 18
-      },
-      food: {
-        groceriesMonthly: 250,
-        restaurantMeal: 15,
-        coffee: 3,
-        waterBottle: 0.8
-      },
-      transportation: {
-        monthlyPass: 80,
-        taxiStart: 3,
-        gasPerLiter: 1.55
-      },
-      lifestyle: {
-        fitnessMembership: 40,
-        cinemaTicket: 10,
-        beerAtBar: 4.5
-      },
-      summary: {
-        budgetTraveler: 1000,
-        digitalNomad: 1800,
-        expatFamily: 2800
-      },
-      notes: "Northern Quarter creative hub, Spinningfields business district, suburbs more affordable. Growing tech scene"
-    },
-    "Edinburgh": {
-      city: "Edinburgh",
-      monthlyRent: {
-        studio: 750,
-        oneBedroom: 950,
-        twoBedroom: 1400,
-        threeBedroom: 1900
-      },
-      utilities: {
-        basic: 160,
-        internet: 35,
-        mobilePlan: 18
-      },
-      food: {
-        groceriesMonthly: 260,
-        restaurantMeal: 16,
-        coffee: 3.2,
-        waterBottle: 0.8
-      },
-      transportation: {
-        monthlyPass: 60,
-        taxiStart: 3.2,
-        gasPerLiter: 1.58
-      },
-      lifestyle: {
-        fitnessMembership: 42,
-        cinemaTicket: 10.5,
-        beerAtBar: 5
-      },
-      summary: {
-        budgetTraveler: 1100,
-        digitalNomad: 1900,
-        expatFamily: 2900
-      },
-      notes: "Historic Old Town expensive, Leith more affordable. Festival period (Aug) prices skyrocket"
-    },
-    "Bristol": {
-      city: "Bristol",
-      monthlyRent: {
-        studio: 800,
-        oneBedroom: 1000,
-        twoBedroom: 1500,
-        threeBedroom: 2100
-      },
-      utilities: {
-        basic: 155,
-        internet: 35,
-        mobilePlan: 18
-      },
-      food: {
-        groceriesMonthly: 270,
-        restaurantMeal: 17,
-        coffee: 3.3,
-        waterBottle: 0.9
-      },
-      transportation: {
-        monthlyPass: 70,
-        taxiStart: 3.3,
-        gasPerLiter: 1.57
-      },
-      lifestyle: {
-        fitnessMembership: 44,
-        cinemaTicket: 11,
-        beerAtBar: 5.2
-      },
-      summary: {
-        budgetTraveler: 1150,
-        digitalNomad: 2000,
-        expatFamily: 3000
-      },
-      notes: "Creative and tech hub, Clifton upscale, Stokes Croft alternative/artsy. Strong startup ecosystem"
-    },
-    "Birmingham": {
-      city: "Birmingham",
-      monthlyRent: {
-        studio: 650,
-        oneBedroom: 800,
-        twoBedroom: 1200,
-        threeBedroom: 1700
-      },
-      utilities: {
-        basic: 145,
-        internet: 35,
-        mobilePlan: 18
-      },
-      food: {
-        groceriesMonthly: 240,
-        restaurantMeal: 14,
-        coffee: 2.9,
-        waterBottle: 0.7
-      },
-      transportation: {
-        monthlyPass: 75,
-        taxiStart: 2.8,
-        gasPerLiter: 1.56
-      },
-      lifestyle: {
-        fitnessMembership: 38,
-        cinemaTicket: 9.5,
-        beerAtBar: 4
-      },
-      summary: {
-        budgetTraveler: 950,
-        digitalNomad: 1700,
-        expatFamily: 2600
-      },
-      notes: "UK's second city, Jewellery Quarter trendy, Digbeth creative district. More affordable than London"
-    },
-    "Glasgow": {
-      city: "Glasgow",
-      monthlyRent: {
-        studio: 600,
-        oneBedroom: 750,
-        twoBedroom: 1100,
-        threeBedroom: 1600
-      },
-      utilities: {
-        basic: 140,
-        internet: 35,
-        mobilePlan: 18
-      },
-      food: {
-        groceriesMonthly: 230,
-        restaurantMeal: 13,
-        coffee: 2.8,
-        waterBottle: 0.7
-      },
-      transportation: {
-        monthlyPass: 55,
-        taxiStart: 2.7,
-        gasPerLiter: 1.57
-      },
-      lifestyle: {
-        fitnessMembership: 35,
-        cinemaTicket: 9,
-        beerAtBar: 3.8
-      },
-      summary: {
-        budgetTraveler: 900,
-        digitalNomad: 1600,
-        expatFamily: 2500
-      },
-      notes: "West End trendy/expensive, Southside more affordable. Friendly atmosphere, strong arts scene"
-    }
-  },
-  nationalAverage: {
-    monthlyRent: {
-      studio: 780,
-      oneBedroom: 1000,
-      twoBedroom: 1450,
-      threeBedroom: 2000
-    },
-    utilities: {
-      basic: 158,
-      internet: 36,
-      mobilePlan: 18
-    },
-    food: {
-      groceriesMonthly: 258,
-      restaurantMeal: 16,
-      coffee: 3.1,
-      waterBottle: 0.8
+    dailyLiving: {
+      budget: 80,          // ~$80 USD
+      midrange: 150,       // ~$150 USD
+      luxury: 300,         // ~$300 USD
+      breakdown: {
+        food: 40,
+        transport: 20,
+        activities: 15,
+        misc: 5
+      }
     },
     transportation: {
-      monthlyPass: 82,
-      taxiStart: 3.1,
-      gasPerLiter: 1.57
+      localBus: 2.50,      // ~$2.50 USD (≈£1.98)
+      taxi: 15,            // ~$15 USD (≈£11.85)
+      intercityBus: 40,    // ~$40 USD (≈£31.60)
+      train: 80           // ~$80 USD (≈£63.20)
     },
-    lifestyle: {
-      fitnessMembership: 43,
-      cinemaTicket: 10.5,
-      beerAtBar: 4.9
+    food: {
+      streetFood: 8,       // ~$8 USD (≈£6.32)
+      restaurantMeal: 25,  // ~$25 USD (≈£19.75)
+      groceryWeekly: 100,  // ~$100 USD (≈£79)
+      coffee: 4,           // ~$4 USD (≈£3.16)
+      waterBottle: 1.20    // ~$1.20 USD (≈£0.95)
+    }
+  },
+  
+  tips: [
+    "UK is expensive, especially London",
+    "Book train tickets in advance for significant savings",
+    "Pub meals often offer good value compared to restaurants",
+    "Consider travel cards for public transportation savings"
+  ],
+  
+  bestAreas: {
+    budget: ["Manchester Northern Quarter", "Glasgow Southside", "Birmingham Digbeth"],
+    midrange: ["Bristol Clifton", "Edinburgh Leith", "London Zones 3-4"],
+    luxury: ["London Zones 1-2", "Edinburgh New Town", "Bristol Clifton Village"]
+  },
+  
+  // City-specific data - ONLY what's DIFFERENT (in USD)
+  cities: {
+    "London": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 35,       // +$10 from country average
+            budgetHotel: 120  // +$40 from country average
+          },
+          midrange: {
+            hotel: 250,       // +$100 from country average
+            apartment: 200    // +$70 from country average
+          },
+          luxury: {
+            hotel: 500,       // +$150 from country average
+            resort: 700       // +$200 from country average
+          },
+          monthlyRent: {
+            studio: 1520,     // +$520 from country average
+            oneBedroom: 2030  // +$760 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 120,        // +$40 from country average
+          midrange: 200,      // +$50 from country average
+          luxury: 400         // +$100 from country average
+        },
+        transportation: {
+          taxi: 20,          // +$5 from country average
+          localBus: 3.50     // +$1 from country average
+        },
+        food: {
+          restaurantMeal: 35, // +$10 from country average
+          coffee: 5.50        // +$1.50 from country average
+        }
+      },
+      tips: [
+        "Zones 1-2 are most expensive, consider Zones 3-6",
+        "East London (Shoreditch, Hackney) popular with digital nomads",
+        "Use Oyster card or contactless for cheapest transport",
+        "Markets like Borough Market offer quality but are pricey"
+      ]
     },
-    summary: {
-      budgetTraveler: 1100,
-      digitalNomad: 1900,
-      expatFamily: 2800
+
+    "Manchester": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 20,       // -$5 from country average
+            budgetHotel: 60   // -$20 from country average
+          },
+          midrange: {
+            hotel: 120,       // -$30 from country average
+            apartment: 100    // -$30 from country average
+          },
+          luxury: {
+            hotel: 280,       // -$70 from country average
+            resort: 400       // -$100 from country average
+          },
+          monthlyRent: {
+            studio: 880,      // -$120 from country average
+            oneBedroom: 1140  // -$130 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 60,         // -$20 from country average
+          midrange: 120       // -$30 from country average
+        },
+        food: {
+          restaurantMeal: 20, // -$5 from country average
+          coffee: 3.50        // -$0.50 from country average
+        }
+      },
+      tips: [
+        "Northern Quarter is creative hub with coworking spaces",
+        "Spinningfields is business district",
+        "Suburbs more affordable with good transport links",
+        "Growing tech and startup scene"
+      ]
+    },
+
+    "Edinburgh": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 22,       // -$3 from country average
+            budgetHotel: 70   // -$10 from country average
+          },
+          midrange: {
+            hotel: 140,       // -$10 from country average
+            apartment: 120    // -$10 from country average
+          },
+          luxury: {
+            hotel: 320,       // -$30 from country average
+            resort: 450       // -$50 from country average
+          },
+          monthlyRent: {
+            studio: 950,      // -$50 from country average
+            oneBedroom: 1200  // -$70 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 70,         // -$10 from country average
+          midrange: 140       // -$10 from country average
+        },
+        food: {
+          restaurantMeal: 22, // -$3 from country average
+          coffee: 4.20        // +$0.20 from country average
+        }
+      },
+      tips: [
+        "Historic Old Town is expensive but charming",
+        "Leith is more affordable and up-and-coming",
+        "Festival period (August) prices skyrocket - book early",
+        "Beautiful but can be touristy in center"
+      ]
+    },
+
+    "Bristol": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 24,       // -$1 from country average
+            budgetHotel: 75   // -$5 from country average
+          },
+          midrange: {
+            hotel: 160,       // +$10 from country average
+            apartment: 140    // +$10 from country average
+          },
+          luxury: {
+            hotel: 340,       // -$10 from country average
+            resort: 480       // -$20 from country average
+          },
+          monthlyRent: {
+            studio: 1010,     // +$10 from country average
+            oneBedroom: 1270  // same as average
+          }
+        },
+        dailyLiving: {
+          budget: 75,         // -$5 from country average
+          midrange: 155       // +$5 from country average
+        },
+        food: {
+          restaurantMeal: 24, // -$1 from country average
+          coffee: 4.30        // +$0.30 from country average
+        }
+      },
+      tips: [
+        "Creative and tech hub with strong startup ecosystem",
+        "Clifton is upscale and expensive",
+        "Stokes Croft is alternative/artsy area",
+        "Good public transport and cycling infrastructure"
+      ]
+    },
+
+    "Glasgow": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 18,       // -$7 from country average
+            budgetHotel: 55   // -$25 from country average
+          },
+          midrange: {
+            hotel: 110,       // -$40 from country average
+            apartment: 95     // -$35 from country average
+          },
+          luxury: {
+            hotel: 250,       // -$100 from country average
+            resort: 380       // -$120 from country average
+          },
+          monthlyRent: {
+            studio: 760,      // -$240 from country average
+            oneBedroom: 950   // -$320 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 55,         // -$25 from country average
+          midrange: 120       // -$30 from country average
+        },
+        food: {
+          restaurantMeal: 18, // -$7 from country average
+          coffee: 3.80        // -$0.20 from country average
+        }
+      },
+      tips: [
+        "West End is trendy but expensive",
+        "Southside is more affordable with good amenities",
+        "Friendly atmosphere and strong arts scene",
+        "Most affordable major UK city"
+      ]
     }
   }
 };

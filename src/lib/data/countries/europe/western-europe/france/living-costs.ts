@@ -1,260 +1,264 @@
 // src/lib/data/countries/europe/western-europe/france/living-costs.ts
-import type { LivingCosts } from '$lib/types/livingCosts';
+import type { LivingCostData } from '$lib/types/living-costs';
 
-export const franceLivingCosts: LivingCosts = {
+export const franceLivingCosts: LivingCostData = {
   country: "France",
-  region: "Western Europe",
-  currency: "EUR",
-  cities: {
-    "Paris": {
-      city: "Paris",
+  currency: "USD", // Changed to USD since you want prices in USD
+  lastUpdated: "2024-01-15",
+  
+  // Country-level AVERAGES (in USD) - Converted from EUR at ≈0.92 EUR = 1 USD
+  baseCosts: {
+    accommodation: {
+      budget: {
+        hostel: 25,        // ~$25 USD (≈23 EUR)
+        budgetHotel: 80,   // ~$80 USD (≈74 EUR)
+        guesthouse: 60     // ~$60 USD (≈55 EUR)
+      },
+      midrange: {
+        hotel: 150,        // ~$150 USD (≈138 EUR)
+        apartment: 130,    // ~$130 USD (≈120 EUR)
+        boutiqueHotel: 200 // ~$200 USD (≈184 EUR)
+      },
+      luxury: {
+        hotel: 300,        // ~$300 USD (≈276 EUR)
+        resort: 450,       // ~$450 USD (≈414 EUR)
+        villa: 700         // ~$700 USD (≈644 EUR)
+      },
       monthlyRent: {
-        studio: 900,
-        oneBedroom: 1200,
-        twoBedroom: 1800,
-        threeBedroom: 2500
-      },
-      utilities: {
-        basic: 180,
-        internet: 35,
-        mobilePlan: 20
-      },
-      food: {
-        groceriesMonthly: 350,
-        restaurantMeal: 20,
-        coffee: 3.5,
-        waterBottle: 1.5
-      },
-      transportation: {
-        monthlyPass: 75,
-        taxiStart: 7,
-        gasPerLiter: 1.9
-      },
-      lifestyle: {
-        fitnessMembership: 60,
-        cinemaTicket: 12,
-        beerAtBar: 7
-      },
-      summary: {
-        budgetTraveler: 1500,
-        digitalNomad: 2200,
-        expatFamily: 4000
-      },
-      notes: "Arrondissements vary greatly in price. 1st-8th most expensive, 11th-20th more affordable"
+        studio: 710,       // ~$710 USD (≈653 EUR)
+        oneBedroom: 925,   // ~$925 USD (≈851 EUR)
+        threeBedroom: 2010 // ~$2,010 USD (≈1,849 EUR)
+      }
     },
-    "Lyon": {
-      city: "Lyon",
-      monthlyRent: {
-        studio: 600,
-        oneBedroom: 800,
-        twoBedroom: 1200,
-        threeBedroom: 1700
-      },
-      utilities: {
-        basic: 150,
-        internet: 30,
-        mobilePlan: 18
-      },
-      food: {
-        groceriesMonthly: 300,
-        restaurantMeal: 18,
-        coffee: 3,
-        waterBottle: 1.2
-      },
-      transportation: {
-        monthlyPass: 65,
-        taxiStart: 6,
-        gasPerLiter: 1.85
-      },
-      lifestyle: {
-        fitnessMembership: 45,
-        cinemaTicket: 10,
-        beerAtBar: 5
-      },
-      summary: {
-        budgetTraveler: 1200,
-        digitalNomad: 1800,
-        expatFamily: 3200
-      },
-      notes: "Gastronomic capital, Presqu'île most expensive, Croix-Rousse more bohemian/affordable"
-    },
-    "Marseille": {
-      city: "Marseille",
-      monthlyRent: {
-        studio: 550,
-        oneBedroom: 700,
-        twoBedroom: 1000,
-        threeBedroom: 1500
-      },
-      utilities: {
-        basic: 140,
-        internet: 30,
-        mobilePlan: 17
-      },
-      food: {
-        groceriesMonthly: 280,
-        restaurantMeal: 16,
-        coffee: 2.8,
-        waterBottle: 1
-      },
-      transportation: {
-        monthlyPass: 55,
-        taxiStart: 5.5,
-        gasPerLiter: 1.85
-      },
-      lifestyle: {
-        fitnessMembership: 40,
-        cinemaTicket: 9,
-        beerAtBar: 4.5
-      },
-      summary: {
-        budgetTraveler: 1000,
-        digitalNomad: 1600,
-        expatFamily: 2800
-      },
-      notes: "Mediterranean port city, Vieux-Port area expensive, northern neighborhoods more affordable"
-    },
-    "Nice": {
-      city: "Nice",
-      monthlyRent: {
-        studio: 650,
-        oneBedroom: 850,
-        twoBedroom: 1300,
-        threeBedroom: 1900
-      },
-      utilities: {
-        basic: 160,
-        internet: 32,
-        mobilePlan: 18
-      },
-      food: {
-        groceriesMonthly: 320,
-        restaurantMeal: 22,
-        coffee: 3.2,
-        waterBottle: 1.3
-      },
-      transportation: {
-        monthlyPass: 40,
-        taxiStart: 6,
-        gasPerLiter: 1.9
-      },
-      lifestyle: {
-        fitnessMembership: 50,
-        cinemaTicket: 10,
-        beerAtBar: 6
-      },
-      summary: {
-        budgetTraveler: 1300,
-        digitalNomad: 1900,
-        expatFamily: 3500
-      },
-      notes: "Côte d'Azur resort city, Promenade des Anglais area premium, Liberation more local/affordable"
-    },
-    "Toulouse": {
-      city: "Toulouse",
-      monthlyRent: {
-        studio: 550,
-        oneBedroom: 750,
-        twoBedroom: 1100,
-        threeBedroom: 1600
-      },
-      utilities: {
-        basic: 145,
-        internet: 30,
-        mobilePlan: 17
-      },
-      food: {
-        groceriesMonthly: 290,
-        restaurantMeal: 17,
-        coffee: 2.9,
-        waterBottle: 1.1
-      },
-      transportation: {
-        monthlyPass: 50,
-        taxiStart: 5.5,
-        gasPerLiter: 1.84
-      },
-      lifestyle: {
-        fitnessMembership: 42,
-        cinemaTicket: 9.5,
-        beerAtBar: 4.8
-      },
-      summary: {
-        budgetTraveler: 1100,
-        digitalNomad: 1700,
-        expatFamily: 3000
-      },
-      notes: "Aerospace hub, Capitole area central/expensive, Saint-Cyprien across river more affordable"
-    },
-    "Bordeaux": {
-      city: "Bordeaux",
-      monthlyRent: {
-        studio: 600,
-        oneBedroom: 800,
-        twoBedroom: 1200,
-        threeBedroom: 1800
-      },
-      utilities: {
-        basic: 155,
-        internet: 31,
-        mobilePlan: 18
-      },
-      food: {
-        groceriesMonthly: 310,
-        restaurantMeal: 19,
-        coffee: 3.1,
-        waterBottle: 1.2
-      },
-      transportation: {
-        monthlyPass: 48,
-        taxiStart: 5.8,
-        gasPerLiter: 1.86
-      },
-      lifestyle: {
-        fitnessMembership: 44,
-        cinemaTicket: 9.8,
-        beerAtBar: 5
-      },
-      summary: {
-        budgetTraveler: 1150,
-        digitalNomad: 1750,
-        expatFamily: 3200
-      },
-      notes: "Wine capital, historic center premium, Bastide across river emerging/affordable"
-    }
-  },
-  nationalAverage: {
-    monthlyRent: {
-      studio: 650,
-      oneBedroom: 850,
-      twoBedroom: 1250,
-      threeBedroom: 1850
-    },
-    utilities: {
-      basic: 155,
-      internet: 31,
-      mobilePlan: 18
-    },
-    food: {
-      groceriesMonthly: 310,
-      restaurantMeal: 18,
-      coffee: 3.1,
-      waterBottle: 1.2
+    dailyLiving: {
+      budget: 70,          // ~$70 USD
+      midrange: 140,       // ~$140 USD
+      luxury: 280,         // ~$280 USD
+      breakdown: {
+        food: 35,
+        transport: 15,
+        activities: 15,
+        misc: 5
+      }
     },
     transportation: {
-      monthlyPass: 55,
-      taxiStart: 6,
-      gasPerLiter: 1.87
+      localBus: 2,         // ~$2 USD (≈1.84 EUR)
+      taxi: 15,            // ~$15 USD (≈13.80 EUR)
+      intercityBus: 40,    // ~$40 USD (≈36.80 EUR)
+      train: 80           // ~$80 USD (≈73.60 EUR)
     },
-    lifestyle: {
-      fitnessMembership: 47,
-      cinemaTicket: 10,
-      beerAtBar: 5.4
+    food: {
+      streetFood: 5,       // ~$5 USD (≈4.60 EUR)
+      restaurantMeal: 25,  // ~$25 USD (≈23 EUR)
+      groceryWeekly: 80,   // ~$80 USD (≈73.60 EUR)
+      coffee: 3.50,        // ~$3.50 USD (≈3.22 EUR)
+      waterBottle: 1.50    // ~$1.50 USD (≈1.38 EUR)
+    }
+  },
+  
+  tips: [
+    "France has high quality but can be expensive",
+    "Buy train tickets in advance for best prices",
+    "Lunch menus (formule) offer better value than dinner",
+    "Boulangeries and markets offer fresh food at good prices"
+  ],
+  
+  bestAreas: {
+    budget: ["Marseille northern neighborhoods", "Lyon Croix-Rousse", "Paris 11th-20th arrondissements"],
+    midrange: ["Bordeaux Bastide", "Toulouse Saint-Cyprien", "Nice Liberation"],
+    luxury: ["Paris 1st-8th arrondissements", "Nice Promenade des Anglais", "Bordeaux historic center"]
+  },
+  
+  // City-specific data - ONLY what's DIFFERENT (in USD)
+  cities: {
+    "Paris": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 35,       // +$10 from country average
+            budgetHotel: 120  // +$40 from country average
+          },
+          midrange: {
+            hotel: 220,       // +$70 from country average
+            apartment: 180    // +$50 from country average
+          },
+          luxury: {
+            hotel: 400,       // +$100 from country average
+            resort: 600       // +$150 from country average
+          },
+          monthlyRent: {
+            studio: 980,      // +$270 from country average
+            oneBedroom: 1305  // +$380 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 100,        // +$30 from country average
+          midrange: 180,      // +$40 from country average
+          luxury: 350         // +$70 from country average
+        },
+        transportation: {
+          taxi: 20,          // +$5 from country average
+          localBus: 2.50     // +$0.50 from country average
+        },
+        food: {
+          restaurantMeal: 35, // +$10 from country average
+          coffee: 4.50        // +$1 from country average
+        }
+      },
+      tips: [
+        "Arrondissements vary greatly in price",
+        "1st-8th arrondissements most expensive",
+        "11th-20th arrondissements more affordable",
+        "Use Navigo card for monthly transport pass"
+      ]
     },
-    summary: {
-      budgetTraveler: 1200,
-      digitalNomad: 1800,
-      expatFamily: 3300
+
+    "Lyon": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 20,       // -$5 from country average
+            budgetHotel: 65   // -$15 from country average
+          },
+          midrange: {
+            hotel: 130,       // -$20 from country average
+            apartment: 110    // -$20 from country average
+          },
+          luxury: {
+            hotel: 250,       // -$50 from country average
+            resort: 380       // -$70 from country average
+          },
+          monthlyRent: {
+            studio: 655,      // -$55 from country average
+            oneBedroom: 870   // -$55 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 60,         // -$10 from country average
+          midrange: 120       // -$20 from country average
+        },
+        food: {
+          restaurantMeal: 22, // -$3 from country average
+          coffee: 3.20        // -$0.30 from country average
+        }
+      },
+      tips: [
+        "Gastronomic capital of France",
+        "Presqu'île area is most expensive",
+        "Croix-Rousse is more bohemian and affordable",
+        "Excellent public transportation system"
+      ]
+    },
+
+    "Marseille": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 18,       // -$7 from country average
+            budgetHotel: 60   // -$20 from country average
+          },
+          midrange: {
+            hotel: 120,       // -$30 from country average
+            apartment: 100    // -$30 from country average
+          },
+          luxury: {
+            hotel: 230,       // -$70 from country average
+            resort: 350       // -$100 from country average
+          },
+          monthlyRent: {
+            studio: 600,      // -$110 from country average
+            oneBedroom: 760   // -$165 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 50,         // -$20 from country average
+          midrange: 110       // -$30 from country average
+        },
+        food: {
+          restaurantMeal: 20, // -$5 from country average
+          coffee: 3           // -$0.50 from country average
+        }
+      },
+      tips: [
+        "Mediterranean port city with vibrant culture",
+        "Vieux-Port area is expensive and touristy",
+        "Northern neighborhoods more affordable",
+        "Excellent fresh seafood markets"
+      ]
+    },
+
+    "Nice": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 22,       // -$3 from country average
+            budgetHotel: 75   // -$5 from country average
+          },
+          midrange: {
+            hotel: 160,       // +$10 from country average
+            apartment: 140    // +$10 from country average
+          },
+          luxury: {
+            hotel: 350,       // +$50 from country average
+            resort: 500       // +$50 from country average
+          },
+          monthlyRent: {
+            studio: 710,      // same as average
+            oneBedroom: 925   // same as average
+          }
+        },
+        dailyLiving: {
+          budget: 75,         // +$5 from country average
+          midrange: 155       // +$15 from country average
+        },
+        food: {
+          restaurantMeal: 28, // +$3 from country average
+          coffee: 3.70        // +$0.20 from country average
+        }
+      },
+      tips: [
+        "Côte d'Azur resort city with Mediterranean climate",
+        "Promenade des Anglais area is premium",
+        "Liberation neighborhood more local and affordable",
+        "Tourist prices in summer, better deals offseason"
+      ]
+    },
+
+    "Bordeaux": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 21,       // -$4 from country average
+            budgetHotel: 70   // -$10 from country average
+          },
+          midrange: {
+            hotel: 145,       // -$5 from country average
+            apartment: 125    // -$5 from country average
+          },
+          luxury: {
+            hotel: 280,       // -$20 from country average
+            resort: 420       // -$30 from country average
+          },
+          monthlyRent: {
+            studio: 655,      // -$55 from country average
+            oneBedroom: 870   // -$55 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 65,         // -$5 from country average
+          midrange: 135       // -$5 from country average
+        },
+        food: {
+          restaurantMeal: 24, // -$1 from country average
+          coffee: 3.40        // -$0.10 from country average
+        }
+      },
+      tips: [
+        "Wine capital of the world",
+        "Historic center is premium and UNESCO-listed",
+        "Bastide area across river is emerging and more affordable",
+        "Excellent public bike system (VCub)"
+      ]
     }
   }
 };

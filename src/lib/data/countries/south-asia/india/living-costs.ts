@@ -1,296 +1,257 @@
-// src/lib/data/visa/destinations/south-asia/india.ts
-import type { LivingCosts } from '$lib/types/livingCosts';
+// src/lib/data/countries/south-asia/india/living-costs.ts
+import type { LivingCostData } from '$lib/types/living-costs';
 
-export const indiaLivingCosts: LivingCosts = {
+export const indiaLivingCosts: LivingCostData = {
   country: "India",
-  region: "South Asia",
-  currency: "INR (Indian Rupee)",
-  cities: {
-    "Delhi": {
-      city: "Delhi",
+  currency: "USD", // Changed to USD since you want prices in USD
+  lastUpdated: "2024-01-15",
+  
+  // Country-level AVERAGES (in USD)
+  baseCosts: {
+    accommodation: {
+      budget: {
+        hostel: 8,        // ~$8 USD (≈600 INR)
+        budgetHotel: 15,  // ~$15 USD (≈1,125 INR)
+        guesthouse: 12    // ~$12 USD (≈900 INR)
+      },
+      midrange: {
+        hotel: 40,        // ~$40 USD (≈3,000 INR)
+        apartment: 35,    // ~$35 USD (≈2,625 INR)
+        boutiqueHotel: 60 // ~$60 USD (≈4,500 INR)
+      },
+      luxury: {
+        hotel: 100,       // ~$100 USD (≈7,500 INR)
+        resort: 150,      // ~$150 USD (≈11,250 INR)
+        villa: 250        // ~$250 USD (≈18,750 INR)
+      },
       monthlyRent: {
-        studio: 25000,
-        oneBedroom: 35000,
-        twoBedroom: 55000,
-        threeBedroom: 80000
-      },
-      utilities: {
-        basic: 5000,
-        internet: 1000,
-        mobilePlan: 300
-      },
-      food: {
-        groceriesMonthly: 8000,
-        restaurantMeal: 500,
-        coffee: 200,
-        waterBottle: 20
-      },
-      transportation: {
-        monthlyPass: 1500,
-        taxiStart: 50,
-        gasPerLiter: 100
-      },
-      lifestyle: {
-        fitnessMembership: 2500,
-        cinemaTicket: 300,
-        beerAtBar: 400
-      },
-      summary: {
-        budgetTraveler: 30000,
-        digitalNomad: 60000,
-        expatFamily: 120000
-      },
-      notes: "NCR region expensive, South Delhi most upscale, Gurgaon/Noida more affordable but further"
+        studio: 300,      // ~$300 USD (≈22,500 INR)
+        oneBedroom: 420,  // ~$420 USD (≈31,500 INR)
+        threeBedroom: 1020 // ~$1,020 USD (≈76,500 INR)
+      }
     },
-    "Mumbai": {
-      city: "Mumbai",
-      monthlyRent: {
-        studio: 40000,
-        oneBedroom: 60000,
-        twoBedroom: 90000,
-        threeBedroom: 150000
-      },
-      utilities: {
-        basic: 7000,
-        internet: 1200,
-        mobilePlan: 300
-      },
-      food: {
-        groceriesMonthly: 10000,
-        restaurantMeal: 800,
-        coffee: 250,
-        waterBottle: 25
-      },
-      transportation: {
-        monthlyPass: 1200,
-        taxiStart: 60,
-        gasPerLiter: 105
-      },
-      lifestyle: {
-        fitnessMembership: 4000,
-        cinemaTicket: 350,
-        beerAtBar: 500
-      },
-      summary: {
-        budgetTraveler: 50000,
-        digitalNomad: 80000,
-        expatFamily: 180000
-      },
-      notes: "Most expensive city in India, South Mumbai premium, suburbs more affordable but commute long"
-    },
-    "Bangalore": {
-      city: "Bangalore",
-      monthlyRent: {
-        studio: 30000,
-        oneBedroom: 45000,
-        twoBedroom: 70000,
-        threeBedroom: 100000
-      },
-      utilities: {
-        basic: 6000,
-        internet: 1000,
-        mobilePlan: 300
-      },
-      food: {
-        groceriesMonthly: 9000,
-        restaurantMeal: 600,
-        coffee: 200,
-        waterBottle: 20
-      },
-      transportation: {
-        monthlyPass: 2000,
-        taxiStart: 50,
-        gasPerLiter: 100
-      },
-      lifestyle: {
-        fitnessMembership: 3000,
-        cinemaTicket: 300,
-        beerAtBar: 400
-      },
-      summary: {
-        budgetTraveler: 40000,
-        digitalNomad: 70000,
-        expatFamily: 130000
-      },
-      notes: "Tech hub, Indiranagar/Koramangala expensive, Whitefield/Electronic City more affordable"
-    },
-    "Goa": {
-      city: "Goa",
-      monthlyRent: {
-        studio: 20000,
-        oneBedroom: 30000,
-        twoBedroom: 45000,
-        threeBedroom: 70000
-      },
-      utilities: {
-        basic: 4000,
-        internet: 1500,
-        mobilePlan: 300
-      },
-      food: {
-        groceriesMonthly: 7000,
-        restaurantMeal: 500,
-        coffee: 150,
-        waterBottle: 15
-      },
-      transportation: {
-        monthlyPass: 1000,
-        taxiStart: 40,
-        gasPerLiter: 100
-      },
-      lifestyle: {
-        fitnessMembership: 2000,
-        cinemaTicket: 250,
-        beerAtBar: 200
-      },
-      summary: {
-        budgetTraveler: 25000,
-        digitalNomad: 50000,
-        expatFamily: 90000
-      },
-      notes: "North Goa (Anjuna, Vagator) popular with expats/digital nomads, South Goa more relaxed"
-    },
-    "Pune": {
-      city: "Pune",
-      monthlyRent: {
-        studio: 20000,
-        oneBedroom: 30000,
-        twoBedroom: 45000,
-        threeBedroom: 70000
-      },
-      utilities: {
-        basic: 4500,
-        internet: 1000,
-        mobilePlan: 300
-      },
-      food: {
-        groceriesMonthly: 7500,
-        restaurantMeal: 450,
-        coffee: 180,
-        waterBottle: 20
-      },
-      transportation: {
-        monthlyPass: 1500,
-        taxiStart: 45,
-        gasPerLiter: 100
-      },
-      lifestyle: {
-        fitnessMembership: 2500,
-        cinemaTicket: 250,
-        beerAtBar: 350
-      },
-      summary: {
-        budgetTraveler: 30000,
-        digitalNomad: 55000,
-        expatFamily: 100000
-      },
-      notes: "University city with growing tech scene, Koregaon Park upscale, Kothrud more affordable"
-    },
-    "Chennai": {
-      city: "Chennai",
-      monthlyRent: {
-        studio: 18000,
-        oneBedroom: 25000,
-        twoBedroom: 40000,
-        threeBedroom: 60000
-      },
-      utilities: {
-        basic: 4000,
-        internet: 1000,
-        mobilePlan: 300
-      },
-      food: {
-        groceriesMonthly: 7000,
-        restaurantMeal: 400,
-        coffee: 150,
-        waterBottle: 20
-      },
-      transportation: {
-        monthlyPass: 1000,
-        taxiStart: 40,
-        gasPerLiter: 100
-      },
-      lifestyle: {
-        fitnessMembership: 2000,
-        cinemaTicket: 200,
-        beerAtBar: 350
-      },
-      summary: {
-        budgetTraveler: 25000,
-        digitalNomad: 50000,
-        expatFamily: 90000
-      },
-      notes: "More conservative culture, Besant Nagar/Adyar popular with expats, less expensive than other metros"
-    },
-    "Hyderabad": {
-      city: "Hyderabad",
-      monthlyRent: {
-        studio: 15000,
-        oneBedroom: 22000,
-        twoBedroom: 35000,
-        threeBedroom: 50000
-      },
-      utilities: {
-        basic: 3500,
-        internet: 1000,
-        mobilePlan: 300
-      },
-      food: {
-        groceriesMonthly: 6000,
-        restaurantMeal: 350,
-        coffee: 120,
-        waterBottle: 15
-      },
-      transportation: {
-        monthlyPass: 800,
-        taxiStart: 35,
-        gasPerLiter: 100
-      },
-      lifestyle: {
-        fitnessMembership: 1800,
-        cinemaTicket: 200,
-        beerAtBar: 300
-      },
-      summary: {
-        budgetTraveler: 20000,
-        digitalNomad: 45000,
-        expatFamily: 80000
-      },
-      notes: "Affordable tech hub, Banjara Hills/Jubilee Hills upscale, Gachibowli/HITEC City for tech professionals"
-    }
-  },
-  nationalAverage: {
-    monthlyRent: {
-      studio: 25000,
-      oneBedroom: 35000,
-      twoBedroom: 55000,
-      threeBedroom: 85000
-    },
-    utilities: {
-      basic: 5000,
-      internet: 1100,
-      mobilePlan: 300
-    },
-    food: {
-      groceriesMonthly: 8000,
-      restaurantMeal: 500,
-      coffee: 180,
-      waterBottle: 20
+    dailyLiving: {
+      budget: 20,         // ~$20 USD
+      midrange: 40,       // ~$40 USD
+      luxury: 80,         // ~$80 USD
+      breakdown: {
+        food: 10,
+        transport: 4,
+        activities: 5,
+        misc: 1
+      }
     },
     transportation: {
-      monthlyPass: 1400,
-      taxiStart: 50,
-      gasPerLiter: 100
+      localBus: 0.20,     // ~$0.20 USD (≈15 INR)
+      taxi: 2,            // ~$2 USD (≈150 INR)
+      intercityBus: 10,   // ~$10 USD (≈750 INR)
+      train: 15          // ~$15 USD (≈1,125 INR)
     },
-    lifestyle: {
-      fitnessMembership: 2500,
-      cinemaTicket: 280,
-      beerAtBar: 380
+    food: {
+      streetFood: 1,      // ~$1 USD (≈75 INR)
+      restaurantMeal: 6,  // ~$6 USD (≈450 INR)
+      groceryWeekly: 25,  // ~$25 USD (≈1,875 INR)
+      coffee: 2,          // ~$2 USD (≈150 INR)
+      waterBottle: 0.25   // ~$0.25 USD (≈19 INR)
+    }
+  },
+  
+  tips: [
+    "Haggle at markets but not in fixed-price stores",
+    "Use Uber/Ola apps for transparent taxi pricing",
+    "Avoid drinking tap water - buy bottled or filtered water",
+    "Metro cities are much more expensive than smaller towns"
+  ],
+  
+  bestAreas: {
+    budget: ["Paharganj (Delhi)", "Colaba Causeway (Mumbai)", "Majestic (Bangalore)"],
+    midrange: ["South Delhi", "Bandra (Mumbai)", "Indiranagar (Bangalore)"],
+    luxury: ["Lutyens Delhi", "South Mumbai", "Whitefield (Bangalore)"]
+  },
+  
+  // City-specific data - ONLY what's DIFFERENT (in USD)
+  cities: {
+    "Delhi": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 10,       // +$2 from country average
+            budgetHotel: 18   // +$3 from country average
+          },
+          midrange: {
+            hotel: 45,        // +$5 from country average
+            apartment: 40     // +$5 from country average
+          },
+          luxury: {
+            hotel: 120,       // +$20 from country average
+            resort: 180       // +$30 from country average
+          },
+          monthlyRent: {
+            studio: 350,      // +$50 from country average
+            oneBedroom: 500   // +$80 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 25,         // +$5 from country average
+          midrange: 50,       // +$10 from country average
+          luxury: 100         // +$20 from country average
+        },
+        transportation: {
+          taxi: 2.50,        // +$0.50 from country average
+          localBus: 0.25     // +$0.05 from country average
+        },
+        food: {
+          restaurantMeal: 8,  // +$2 from country average
+          coffee: 2.50        // +$0.50 from country average
+        }
+      },
+      tips: [
+        "NCR region expensive, South Delhi most upscale",
+        "Gurgaon/Noida more affordable but further commute",
+        "Use Delhi Metro for efficient transportation"
+      ]
     },
-    summary: {
-      budgetTraveler: 32000,
-      digitalNomad: 60000,
-      expatFamily: 110000
+
+    "Mumbai": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 15,       // +$7 from country average
+            budgetHotel: 25   // +$10 from country average
+          },
+          midrange: {
+            hotel: 60,        // +$20 from country average
+            apartment: 55     // +$20 from country average
+          },
+          luxury: {
+            hotel: 150,       // +$50 from country average
+            resort: 220       // +$70 from country average
+          },
+          monthlyRent: {
+            studio: 500,      // +$200 from country average
+            oneBedroom: 750   // +$330 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 30,         // +$10 from country average
+          midrange: 60,       // +$20 from country average
+          luxury: 120         // +$40 from country average
+        },
+        food: {
+          restaurantMeal: 12, // +$6 from country average
+          coffee: 3.50        // +$1.50 from country average
+        }
+      },
+      tips: [
+        "Most expensive city in India",
+        "South Mumbai premium, suburbs more affordable but long commute",
+        "Use local trains during off-peak hours"
+      ]
+    },
+
+    "Bangalore": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 9,        // +$1 from country average
+            budgetHotel: 18   // +$3 from country average
+          },
+          midrange: {
+            hotel: 50,        // +$10 from country average
+            apartment: 45     // +$10 from country average
+          },
+          luxury: {
+            hotel: 120,       // +$20 from country average
+            resort: 180       // +$30 from country average
+          },
+          monthlyRent: {
+            studio: 400,      // +$100 from country average
+            oneBedroom: 600   // +$180 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 25,         // +$5 from country average
+          midrange: 50,       // +$10 from country average
+          luxury: 100         // +$20 from country average
+        },
+        food: {
+          restaurantMeal: 8,  // +$2 from country average
+          coffee: 2.50        // +$0.50 from country average
+        }
+      },
+      tips: [
+        "Tech hub with growing costs",
+        "Indiranagar/Koramangala expensive areas",
+        "Whitefield/Electronic City more affordable for tech professionals"
+      ]
+    },
+
+    "Goa": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 6,        // -$2 from country average
+            budgetHotel: 12   // -$3 from country average
+          },
+          midrange: {
+            hotel: 35,        // -$5 from country average
+            apartment: 30     // -$5 from country average
+          },
+          luxury: {
+            hotel: 80,        // -$20 from country average
+            resort: 120       // -$30 from country average
+          },
+          monthlyRent: {
+            studio: 250,      // -$50 from country average
+            oneBedroom: 360   // -$60 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 15,         // -$5 from country average
+          midrange: 30        // -$10 from country average
+        },
+        food: {
+          restaurantMeal: 6,  // same as average
+          coffee: 1.50        // -$0.50 from country average
+        }
+      },
+      tips: [
+        "North Goa (Anjuna, Vagator) popular with expats/digital nomads",
+        "South Goa more relaxed and less crowded",
+        "Rent a scooter for easy transportation"
+      ]
+    },
+
+    "Hyderabad": {
+      baseCosts: {
+        accommodation: {
+          budget: {
+            hostel: 5,        // -$3 from country average
+            budgetHotel: 10   // -$5 from country average
+          },
+          midrange: {
+            hotel: 30,        // -$10 from country average
+            apartment: 25     // -$10 from country average
+          },
+          monthlyRent: {
+            studio: 180,      // -$120 from country average
+            oneBedroom: 260   // -$160 from country average
+          }
+        },
+        dailyLiving: {
+          budget: 15,         // -$5 from country average
+          midrange: 30        // -$10 from country average
+        },
+        food: {
+          restaurantMeal: 4,  // -$2 from country average
+          coffee: 1.20        // -$0.80 from country average
+        }
+      },
+      tips: [
+        "Affordable tech hub",
+        "Banjara Hills/Jubilee Hills upscale areas",
+        "Gachibowli/HITEC City for tech professionals"
+      ]
     }
   }
 };
