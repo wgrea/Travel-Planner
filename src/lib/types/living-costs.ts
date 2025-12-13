@@ -14,6 +14,9 @@ export interface FoodCosts {
   streetFood?: number;
   restaurantMeal?: number;
   groceryWeekly?: number;
+  coffee?: number;           // Add this
+  waterBottle?: number;      // Add this
+  // Add any other common food/drink items
 }
 
 export interface AccommodationBudget {
