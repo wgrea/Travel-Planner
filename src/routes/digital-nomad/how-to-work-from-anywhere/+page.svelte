@@ -63,7 +63,7 @@
           <h3 class="font-semibold text-gray-900">Tech</h3>
           <p class="text-gray-600 text-sm">
             Web development, DevOps, Cybersecurity<br/>
-            <span class="text-gray-500 text-xs">Examples of portable skills: web development, product design, systems programming, and embedded systems. These overlap well with remote work needs and are transferable across companies and countries.</span>
+            <span class="text-gray-500 text-xs">Examples of portable skills: web development, product design, cloud/backend development, and cybersecurity. These overlap well with remote work needs and are transferable across companies and countries.</span>
           </p>
         </div>
         <div class="p-4 bg-yellow-50 rounded-lg text-center">
