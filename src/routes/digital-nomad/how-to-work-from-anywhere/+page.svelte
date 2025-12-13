@@ -32,11 +32,17 @@
             <li>• LinkedIn Remote Groups</li>
             <li>• Digital Nomad Facebook Groups</li>
             <li>• Remote Work Meetups</li>
-            <li>• 1st‑degree connections → comment meaningfully</li>
+            <li>• <strong>UX Designers & Product Managers</strong> - Easy to talk to, often have contractor needs</li>
+            <li>• Freelancers - Network for opportunities (if freelancing interests you)</li>
+            <li>• 1st‑degree connections → comment meaningfully on their posts</li>
             <li>• 2nd‑degree connections → send intro messages, ask for referrals when natural</li>
+            <li>• 3rd‑degree connections → engage with their content if it resonates</li>
           </ul>
           <p class="text-gray-500 text-xs mt-2">
             Authentic conversations and referral bridges often matter more than listings.
+            <strong>UX professionals and product managers</strong> are particularly approachable 
+            and frequently need contractors. For those interested in freelancing, connecting with 
+            established freelancers can reveal client opportunities.
           </p>
         </div>
       </div>
