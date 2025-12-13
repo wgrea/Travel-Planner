@@ -1,4 +1,4 @@
-// src/lib/data/countries/asia/japan/index.ts
+// src/lib/data/countries/east-asia/japan/index.ts
 export { japanFlightPattern, japanRouteCost } from './flight';
 export { japanLivingCosts } from './living-costs';
 export { japanVisaData } from './visa';
