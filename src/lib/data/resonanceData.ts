@@ -180,8 +180,9 @@ export const tagCategories = {
     'art-festivals', 'raves', 'speed-dating', 'singles-mixers', 'social-meetups',
     'expat-community', 'tech-hub', 'startup-scene', 'innovation-center',
     'spiritual-retreat', 'meditation', 'yoga', 'wildlife-experience', 'safari',
-    'bird-watching', 'conventions', 'social-touch', 'dance-culture'
+    'bird-watching', 'conventions', 'dance-culture'
   ],
+  // Removed:  'social-touch' - I might want to be more specific
   
   // Vibe & Atmosphere - How does it feel?
   vibe: [
