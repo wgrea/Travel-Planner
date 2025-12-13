@@ -107,7 +107,7 @@
     
     <!-- DEBUG: Show region info -->
     <div class="text-xs text-gray-500 mt-1">
-      DEBUG: {regions.length} regions available
+      {regions.length} regions available
     </div>
   </div>
 
@@ -156,11 +156,9 @@
             Showing all {filteredCountries.length} countries across all regions
           {/if}
         </div>
-        <!-- DEBUG: Show which regions are included -->
-        {#if !selectedRegion}
+        {#if !selectedRegion && filteredCountries.length > 0}
           <div class="text-gray-400">
-            DEBUG: Includes {[...new Set(filteredCountries.map(c => c.region))].length} regions: 
-            {[...new Set(filteredCountries.map(c => c.region))].sort().join(', ')}
+            Browse destinations across {[...new Set(filteredCountries.map(c => c.region))].length} regions
           </div>
         {/if}
       </div>

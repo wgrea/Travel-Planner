@@ -161,6 +161,7 @@
           </div>
         </div>
         
+        <!-- In Flight Control Panel, find this section: -->
         <div class="text-center p-3 bg-white/60 rounded-lg border border-gray-100">
           <p class="text-sm text-gray-700">
             From <span class="font-medium">{originCountry}</span> to 

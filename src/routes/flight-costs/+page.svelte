@@ -359,7 +359,7 @@
         <div class="text-center py-12">
           <div class="text-4xl mb-4">📊</div>
           <h3 class="text-xl font-semibold text-gray-800 mb-2">Select a Month</h3>
-          <p class="text-gray-600">Choose a month above to see destination analysis</p>
+          <p class="text-gray-600">Choose any month in 'By Country' to see a list of months here.</p>
         </div>
       {:else}
         <MonthAnalysis 

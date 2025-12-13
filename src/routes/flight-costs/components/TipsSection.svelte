@@ -6,10 +6,6 @@
 <div class="space-y-4">
   <h3 class="text-xl font-semibold mb-4 text-gray-800">💡 Travel Tips</h3>
   <div class="space-y-3">
-    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-      <p class="font-medium text-blue-800 mb-1">Book in Advance</p>
-      <p class="text-sm text-blue-700">Best prices typically available 6-8 weeks before travel</p>
-    </div>
     <div class="bg-green-50 p-4 rounded-lg border border-green-200">
       <p class="font-medium text-green-800 mb-1">Flexible Dates</p>
       <p class="text-sm text-green-700">Consider mid-week flights for better rates</p>

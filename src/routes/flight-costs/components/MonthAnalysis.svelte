@@ -354,7 +354,7 @@
     <div class="text-center py-12 bg-white/40 rounded-xl border border-white/50">
       <div class="text-4xl mb-4">✈️</div>
       <h3 class="text-xl font-semibold text-gray-700 mb-2">Select a Month to Begin Analysis</h3>
-      <p class="text-gray-600">Choose a month to see which countries are in their cheapest, sweet spot, or peak seasons.</p>
+      <p class="text-gray-600">Choose a month in 'By Country' to see a list of months here.</p>
       <div class="mt-4 text-sm text-gray-500">
         <p>• <strong>Cheapest</strong>: Low season, best prices</p>
         <p>• <strong>Sweet Spot</strong>: Good weather & reasonable prices</p>

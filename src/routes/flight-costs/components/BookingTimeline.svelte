@@ -46,7 +46,7 @@
             {#if months === 4 || months === 5}
               <div class="text-xs text-green-600">⭐ Recommended</div>
             {:else if months === 1}
-              <div class="text-xs text-red-600">Avoid if possible</div>
+              <div class="text-xs text-red-600">Try to avoid if possible</div>
             {/if}
           </div>
         </div>
@@ -66,9 +66,11 @@
   </div>
   
   <div class="mt-4 pt-4 border-t border-gray-200">
-    <p class="text-sm text-gray-600">
-      <span class="font-medium">💡 Tip:</span> For international flights, booking 4-5 months in advance 
-      typically offers the best balance of price and availability.
+  <p class="text-sm text-gray-600">
+      <span class="font-medium">💡 Tip:</span> For international flights, booking <strong>4-5 months in advance</strong> 
+      typically offers the best balance of price and availability. 
+      While last-minute deals (6-8 weeks out) can sometimes work, 
+      <strong>booking early is generally safer and often cheaper</strong>.
     </p>
   </div>
 </div>
