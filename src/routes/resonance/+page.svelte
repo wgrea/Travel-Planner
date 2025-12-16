@@ -1,5 +1,4 @@
 <!-- src/routes/resonance/+page.svelte -->
-
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
@@ -10,10 +9,10 @@
   import ResonanceFilters from './components/ResonanceFilters.svelte';
   import ResonanceTabs from './components/ResonanceTabs.svelte';
   import ResonanceResults from './components/ResonanceResults.svelte';
-  import CountrySelector from './components/CountrySelector.svelte'; // FIXED: Use CountrySelector
+  import CountrySelector from './components/CountrySelector.svelte';
 
   let preferences: ResonancePreferences = {
-    pace: 'medium', // Changed from travelStyle: 'slow'
+    pace: 'medium',
     socialPreference: 'balanced',
     energyLevel: 'medium',
     climate: 'any',
@@ -27,7 +26,7 @@
     safetyImportance: 8,
     country: 'any',
     region: 'any',
-    interests: [] // Add this since it's required by the interface
+    interests: []
   };
 
   let matches: ResonanceScore[] = [];
@@ -35,6 +34,7 @@
   let selectedCategory: string = 'all';
   let selectedTags: string[] = [];
   let activeTab: 'tags' | 'activities' = 'tags';
+  let hasSearched = false;
 
   // Get all available data
   const allLocations = getAllLocations();
@@ -49,7 +49,7 @@
     console.log('=====================');
   });
 
-  // FIXED: Type-safe activity filtering with proper type assertion
+  // Type-safe activity filtering with proper type assertion
   $: filteredActivities = selectedCategory === 'all' 
     ? allActivities 
     : (activityCategories as Record<string, string[]>)[selectedCategory] || [];
@@ -57,7 +57,7 @@
   // Get unique countries from all locations
   $: allCountries = [...new Set(allLocations.map((loc: CityResonanceProfile) => loc.country))].sort();
   
-    // FIXED: Update event handlers
+  // Update event handlers
   function handleRegionChange(event: { detail: string }) {
     preferences = { ...preferences, region: event.detail };
   }
@@ -66,12 +66,26 @@
     preferences = { ...preferences, country: event.detail };
   }
 
-  // FIXED: Make sure findMatches uses region instead of city
+  // Debug function to show tag connections
+  function debugTagConnections(tag: string) {
+    const matchingLocations = allLocations.filter(l => l.tags && l.tags.includes(tag));
+    console.log(`=== DEBUG: Tag "${tag}" ===`);
+    console.log(`Total matches: ${matchingLocations.length}`);
+    console.log('Countries:', [...new Set(matchingLocations.map(l => l.country))]);
+    console.log('Sample cities:', matchingLocations.slice(0, 3).map(l => `${l.name}, ${l.country}`));
+    if (matchingLocations.length === 0) {
+      console.warn(`⚠️ WARNING: Tag "${tag}" has NO connected locations!`);
+    }
+    console.log('=====================');
+  }
+
+  // In +page.svelte, update the findMatches function:
   function findMatches() {
+    hasSearched = true;
     isLoading = true;
     setTimeout(() => {
       let filteredLocations = allLocations.filter((location: CityResonanceProfile) => {
-        // Region filter (NOT city)
+        // Region filter
         if (preferences.region !== 'any' && location.region !== preferences.region) {
           return false;
         }
@@ -81,7 +95,7 @@
           return false;
         }
         
-        // FIXED: Complete budget hierarchy
+        // Budget filter
         if (preferences.budget !== 'any') {
           const budgetHierarchy = {
             'budget': ['budget'],
@@ -97,35 +111,54 @@
           }
         }
         
-        // Climate filter - only apply if not 'any'
+        // Climate filter
         if (preferences.climate !== 'any' && location.climate !== preferences.climate) return false;
         
-        // Internet quality filter (meets minimum)
+        // Internet quality filter
         if (location.internetQuality < preferences.internetImportance - 2) return false;
         
-        // Safety filter (meets minimum)  
+        // Safety filter  
         if (location.safetyScore < preferences.safetyImportance - 2) return false;
         
         return true;
       });
       
-      // 2. THEN: Filter by selected tags (experience characteristics)
+      // Debug: Log what filters we're applying
+      console.log('=== MATCHING DEBUG ===');
+      console.log('Selected tags:', selectedTags);
+      console.log('Selected activities:', preferences.activities);
+      console.log('Initial filtered locations:', filteredLocations.length);
+      
+      // Filter by selected tags
       if (selectedTags.length > 0) {
         filteredLocations = filteredLocations.filter((location: CityResonanceProfile) =>
-          selectedTags.some(tag => location.tags.includes(tag))
+          selectedTags.some(tag => location.tags && location.tags.includes(tag))
         );
+        console.log('After tag filter:', filteredLocations.length);
       }
       
-      console.log('=== MATCHING DEBUG ===');
-      console.log('Country filter:', preferences.country);
-      console.log('Region filter:', preferences.region); // FIXED: Change city to region
-      console.log('Budget filter:', preferences.budget);
-      console.log('After location filters:', filteredLocations.map((l: CityResonanceProfile) => l.name));
-      console.log('Selected tags:', selectedTags);
+      // Filter by selected activities - FIXED: Use popularActivities
+      if (preferences.activities.length > 0) {
+        filteredLocations = filteredLocations.filter((location: CityResonanceProfile) =>
+          preferences.activities.some(activity => 
+            location.popularActivities && 
+            location.popularActivities.some(a => a.toLowerCase().includes(activity.toLowerCase()))
+          )
+        );
+        console.log('After activity filter:', filteredLocations.length);
+      }
+      
+      // If we have no filters at all, show all locations
+      if (selectedTags.length === 0 && preferences.activities.length === 0 && 
+          preferences.budget === 'any' && preferences.climate === 'any' &&
+          preferences.country === 'any' && preferences.region === 'any') {
+        console.log('No filters selected, showing all locations');
+        filteredLocations = allLocations;
+      }
       
       matches = ResonanceMatcher.findTopMatches(preferences, filteredLocations);
       
-      console.log('Final matches:', matches);
+      console.log('Final matches:', matches.length);
       console.log('=====================');
       
       isLoading = false;
@@ -143,8 +176,10 @@
   function toggleTag(tag: string) {
     if (selectedTags.includes(tag)) {
       selectedTags = selectedTags.filter(t => t !== tag);
+      console.log(`Removed tag: ${tag}. Current tags:`, selectedTags);
     } else {
       selectedTags = [...selectedTags, tag];
+      debugTagConnections(tag);
     }
   }
 
@@ -152,27 +187,27 @@
     selectedCategory = category;
   }
 
-  // FIXED: Update clearAllFilters to use region instead of city
+  // Update clearAllFilters to use region instead of city
   function clearAllFilters() {
     selectedTags = [];
     preferences.activities = [];
-    // FIXED: Use region instead of city
     preferences = { ...preferences, country: 'any', region: 'any' };
     matches = [];
+    hasSearched = false;
   }
 
   function updatePreferences(event: { detail: { field: string; value: any } }) {
     preferences = { ...preferences, [event.detail.field]: event.detail.value };
   }
 
-  // FIXED: Update totalFilters - use region instead of city
+  // Update totalFilters - use region instead of city
   $: totalFilters = selectedTags.length + preferences.activities.length + 
     (preferences.country !== 'any' ? 1 : 0) + 
-    (preferences.region !== 'any' ? 1 : 0) + // ← This should be region, not city
+    (preferences.region !== 'any' ? 1 : 0) +
     (preferences.budget !== 'any' ? 1 : 0) +
     (preferences.climate !== 'any' ? 1 : 0);
 
-  // FIX: Update event handlers to accept the correct parameter types
+  // Update event handlers to accept the correct parameter types
   function removeTag(event: { detail: string }) {
     selectedTags = selectedTags.filter(t => t !== event.detail);
   }
@@ -180,7 +215,6 @@
   function removeActivity(event: { detail: string }) {
     preferences.activities = preferences.activities.filter(a => a !== event.detail);
   }
-
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-teal-50 px-4 py-8 relative overflow-hidden">
@@ -204,37 +238,20 @@
   </div>
 
   <div class="max-w-7xl mx-auto relative z-10">
-  
     <!-- Header with glass effect -->
-    <div class="text-center mb-12 bg-white/30 backdrop-blur-sm rounded-2xl p-8 border border-white/40 shadow-lg">
+    <div class="text-center mb-8 bg-white/30 backdrop-blur-sm rounded-2xl p-8 border border-white/40 shadow-lg">
       <h1 class="text-5xl font-light mb-4 text-gray-900">Destination Resonance Finder</h1>
       <p class="text-gray-700 text-lg font-light max-w-2xl mx-auto">
         Discover countries and cities that match your travel personality, interests, and style
       </p>
     </div>
 
-
     <!-- Main Content -->
     <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
-                <!-- Filters Sidebar with glass effect -->
-      <div class="xl:col-span-1 space-y-6">
-        <div class="bg-white/40 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg">
-          <CountrySelector
-            {allLocations}
-            selectedRegion={preferences.region}
-            selectedCountry={preferences.country}
-            on:regionChange={handleRegionChange}
-            on:countryChange={handleCountryChange}
-          />
-
-          
-        </div>
-
-
-      </div>
+      <!-- Filters Sidebar with glass effect -->
+      <!-- Update the Main Content Area section -->
       <!-- Main Content Area -->
       <div class="xl:col-span-3">
-        
         <!-- Tabs with glass effect -->
         <div class="bg-white/40 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg mb-6">
           <ResonanceTabs
@@ -252,23 +269,23 @@
             on:selectCategory={(e) => selectCategory(e.detail)}
             on:changeTab={(e) => activeTab = e.detail}
           />
-                  <ResonanceFilters
-          {preferences}
-          {selectedTags}
-          {isLoading}
-          on:updatePreferences={updatePreferences}
-          on:toggleTag={(e) => toggleTag(e.detail)}
-          on:removeTag={removeTag}
-          on:removeActivity={removeActivity}
-          on:clearAll={clearAllFilters}
-          on:findMatches={findMatches}
-        />
-        
-          
         </div>
 
-        
-        
+        <!-- Resonance Filters -->
+        <div class="mb-6">
+          <ResonanceFilters
+            {preferences}
+            {selectedTags}
+            {isLoading}
+            {allLocations}
+            on:updatePreferences={updatePreferences}
+            on:toggleTag={(e) => toggleTag(e.detail)}
+            on:removeTag={removeTag}
+            on:removeActivity={removeActivity}
+            on:clearAll={clearAllFilters}
+            on:findMatches={findMatches}
+          />
+        </div>
 
         <!-- Results with glass effect -->
         <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 shadow-lg">
@@ -276,6 +293,7 @@
             {matches}
             {isLoading}
             {totalFilters}
+            {hasSearched} 
           />
         </div>
       </div>
