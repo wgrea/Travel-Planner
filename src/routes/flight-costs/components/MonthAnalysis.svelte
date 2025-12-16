@@ -266,51 +266,101 @@
           </div>
         </div>
       {:else}
-        <!-- List View -->
-        <div class="bg-white/60 backdrop-blur-sm rounded-xl overflow-hidden border border-white/50">
-          <div class="grid grid-cols-12 gap-4 p-4 bg-white/80 border-b border-white/70">
-            <div class="col-span-3 font-semibold text-gray-700">Country</div>
-            <div class="col-span-2 font-semibold text-gray-700">Region</div>
-            <div class="col-span-3 font-semibold text-gray-700">Seasonal Pattern</div>
-            <div class="col-span-2 font-semibold text-gray-700">Months</div>
-            <div class="col-span-2 font-semibold text-gray-700 text-right">Price</div>
-          </div>
-          
-          <div class="divide-y divide-white/50 max-h-96 overflow-y-auto">
-            {#each analyzedCountries as country}
-              <div class="grid grid-cols-12 gap-4 p-4 hover:bg-white/50 transition-colors">
-                <div class="col-span-3 font-medium text-gray-900">{country.country}</div>
-                <div class="col-span-2 text-gray-600 text-sm">{country.region}</div>
-                <div class="col-span-3">
-                  <span class="px-3 py-1 rounded-full text-xs font-medium 
-                    {country.monthCategory === 'cheapest' ? 'bg-green-100 text-green-800' : 
-                     country.monthCategory === 'sweetspot' ? 'bg-yellow-100 text-yellow-800' : 
-                     'bg-red-100 text-red-800'}">
-                    {country.monthCategory === 'cheapest' ? '💰 Cheapest Season' :
-                     country.monthCategory === 'sweetspot' ? '🎯 Sweet Spot' : '💸 Peak Season'}
-                  </span>
-                </div>
-                <div class="col-span-2 text-xs text-gray-600">
-                  {#if country.monthCategory === 'cheapest'}
-                    Cheap: {country.pattern.cheapestMonths?.join(', ')}
-                  {:else if country.monthCategory === 'sweetspot'}
-                    Sweet: {country.pattern.sweetSpot?.join(', ')}
-                  {:else}
-                    Peak: {country.pattern.expensiveMonths?.join(', ')}
-                  {/if}
-                </div>
-                <div class="col-span-2 text-right font-bold 
-                  {country.monthCategory === 'cheapest' ? 'text-green-700' : 
+  <!-- Responsive List View -->
+  <div class="bg-white/60 backdrop-blur-sm rounded-xl overflow-hidden border border-white/50">
+    <!-- Desktop Table Header -->
+    <div class="hidden md:grid md:grid-cols-12 gap-4 p-4 bg-white/80 border-b border-white/70">
+      <div class="col-span-3 font-semibold text-gray-700">Country</div>
+      <div class="col-span-2 font-semibold text-gray-700">Region</div>
+      <div class="col-span-3 font-semibold text-gray-700">Seasonal Pattern</div>
+      <div class="col-span-2 font-semibold text-gray-700">Months</div>
+      <div class="col-span-2 font-semibold text-gray-700 text-right">Price</div>
+    </div>
+    
+    <!-- Mobile/Desktop Content -->
+    <div class="divide-y divide-white/50 max-h-96 overflow-y-auto">
+      {#each analyzedCountries as country}
+        <!-- Mobile Card View -->
+        <div class="md:hidden p-4 border-b border-white/50 bg-white/40">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <div class="font-bold text-gray-900">{country.country}</div>
+              <div class="text-sm text-gray-600">{country.region}</div>
+            </div>
+            <div class="text-right">
+              <div class="font-bold text-lg {country.monthCategory === 'cheapest' ? 'text-green-700' : 
                    country.monthCategory === 'sweetspot' ? 'text-yellow-700' : 
                    'text-red-700'}">
-                  {formatPrice(country.price)}
-                </div>
+                {formatPrice(country.price)}
               </div>
-            {/each}
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <span class="px-3 py-1 rounded-full text-xs font-medium 
+              {country.monthCategory === 'cheapest' ? 'bg-green-100 text-green-800' : 
+               country.monthCategory === 'sweetspot' ? 'bg-yellow-100 text-yellow-800' : 
+               'bg-red-100 text-red-800'}">
+              {country.monthCategory === 'cheapest' ? '💰 Cheapest Season' :
+               country.monthCategory === 'sweetspot' ? '🎯 Sweet Spot' : '💸 Peak Season'}
+            </span>
+          </div>
+          
+          <div class="text-sm text-gray-600">
+            <div class="font-medium mb-1">
+              {#if country.monthCategory === 'cheapest'}
+                Best Months:
+              {:else if country.monthCategory === 'sweetspot'}
+                Sweet Spot Months:
+              {:else}
+                Peak Months:
+              {/if}
+            </div>
+            <div class="text-xs">
+              {#if country.monthCategory === 'cheapest'}
+                {country.pattern.cheapestMonths?.join(', ')}
+              {:else if country.monthCategory === 'sweetspot'}
+                {country.pattern.sweetSpot?.join(', ')}
+              {:else}
+                {country.pattern.expensiveMonths?.join(', ')}
+              {/if}
+            </div>
           </div>
         </div>
-      {/if}
-
+        
+        <!-- Desktop Grid View -->
+        <div class="hidden md:grid md:grid-cols-12 gap-4 p-4 hover:bg-white/50 transition-colors">
+          <div class="col-span-3 font-medium text-gray-900">{country.country}</div>
+          <div class="col-span-2 text-gray-600 text-sm">{country.region}</div>
+          <div class="col-span-3">
+            <span class="px-3 py-1 rounded-full text-xs font-medium 
+              {country.monthCategory === 'cheapest' ? 'bg-green-100 text-green-800' : 
+               country.monthCategory === 'sweetspot' ? 'bg-yellow-100 text-yellow-800' : 
+               'bg-red-100 text-red-800'}">
+              {country.monthCategory === 'cheapest' ? '💰 Cheapest Season' :
+               country.monthCategory === 'sweetspot' ? '🎯 Sweet Spot' : '💸 Peak Season'}
+            </span>
+          </div>
+          <div class="col-span-2 text-xs text-gray-600">
+            {#if country.monthCategory === 'cheapest'}
+              Cheap: {country.pattern.cheapestMonths?.join(', ')}
+            {:else if country.monthCategory === 'sweetspot'}
+              Sweet: {country.pattern.sweetSpot?.join(', ')}
+            {:else}
+              Peak: {country.pattern.expensiveMonths?.join(', ')}
+            {/if}
+          </div>
+          <div class="col-span-2 text-right font-bold 
+            {country.monthCategory === 'cheapest' ? 'text-green-700' : 
+             country.monthCategory === 'sweetspot' ? 'text-yellow-700' : 
+             'text-red-700'}">
+            {formatPrice(country.price)}
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
+{/if}
       <!-- Summary Statistics -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
         <div class="bg-white/60 p-4 rounded-xl border border-white/70">
