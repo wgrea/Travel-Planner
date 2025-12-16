@@ -150,29 +150,30 @@
           Smart flight planning with seasonal pricing insights
         </p>
         
-        <!-- Analysis Mode Toggle -->
-        <div class="inline-flex bg-white/40 rounded-xl p-1 border border-white/50 shadow-lg">
+        <!-- Analysis Mode Toggle - Mobile Responsive -->
+        <div class="inline-flex flex-col sm:flex-row bg-white/40 rounded-2xl sm:rounded-xl p-1 border border-white/50 shadow-lg w-full max-w-md sm:max-w-none">
           <button
-            class="px-8 py-4 rounded-xl transition-all flex items-center gap-3 {analysisView === 'country' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/60'}"
+            class="px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl transition-all flex items-center justify-center sm:justify-start gap-2 sm:gap-3 w-full sm:w-auto {analysisView === 'country' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/60'}"
             onclick={() => analysisView = 'country'}
           >
-            <div class="text-2xl">📍</div>
-            <div class="text-left">
-              <div class="font-bold">By Country</div>
-              <div class="text-sm opacity-90">Pick destination, see best months</div>
+            <div class="text-xl sm:text-2xl">📍</div>
+            <div class="text-center sm:text-left">
+              <div class="font-bold text-sm sm:text-base">By Country</div>
+              <div class="text-xs sm:text-sm opacity-90 hidden sm:block">Pick destination, see best months</div>
             </div>
           </button>
           
-          <div class="w-px bg-white/50 mx-1"></div>
+          <div class="hidden sm:block w-px bg-white/50 mx-1"></div>
+          <div class="sm:hidden my-1 h-px bg-white/30 w-full"></div>
           
           <button
-            class="px-8 py-4 rounded-xl transition-all flex items-center gap-3 {analysisView === 'month' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/60'}"
+            class="px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl transition-all flex items-center justify-center sm:justify-start gap-2 sm:gap-3 w-full sm:w-auto {analysisView === 'month' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/60'}"
             onclick={() => analysisView = 'month'}
           >
-            <div class="text-2xl">📅</div>
-            <div class="text-left">
-              <div class="font-bold">By Month</div>
-              <div class="text-sm opacity-90">Pick month, see best destinations</div>
+            <div class="text-xl sm:text-2xl">📅</div>
+            <div class="text-center sm:text-left">
+              <div class="font-bold text-sm sm:text-base">By Month</div>
+              <div class="text-xs sm:text-sm opacity-90 hidden sm:block">Pick month, see best destinations</div>
             </div>
           </button>
         </div>
