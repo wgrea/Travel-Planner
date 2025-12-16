@@ -152,12 +152,6 @@
         
         <!-- Analysis Mode Toggle - Mobile Responsive + Clear Two Options Layout -->
         <div class="flex flex-col items-center mb-8">
-          <!-- Title -->
-          <div class="text-center mb-6">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">✈️ Flight Intelligence</h1>
-            <p class="text-gray-600 text-sm sm:text-base">Smart flight planning with seasonal pricing insights</p>
-          </div>
-          
           <!-- Two Options Only - Clear Binary Choice -->
           <div class="relative flex flex-col sm:flex-row items-center justify-center bg-white/40 rounded-2xl p-1.5 border border-white/50 shadow-lg w-full max-w-lg mx-auto">
             <!-- Country Option -->
