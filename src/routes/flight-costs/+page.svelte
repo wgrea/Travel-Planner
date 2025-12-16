@@ -150,32 +150,58 @@
           Smart flight planning with seasonal pricing insights
         </p>
         
-        <!-- Analysis Mode Toggle - Mobile Responsive -->
-        <div class="inline-flex flex-col sm:flex-row bg-white/40 rounded-2xl sm:rounded-xl p-1 border border-white/50 shadow-lg w-full max-w-md sm:max-w-none">
-          <button
-            class="px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl transition-all flex items-center justify-center sm:justify-start gap-2 sm:gap-3 w-full sm:w-auto {analysisView === 'country' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/60'}"
-            onclick={() => analysisView = 'country'}
-          >
-            <div class="text-xl sm:text-2xl">📍</div>
-            <div class="text-center sm:text-left">
-              <div class="font-bold text-sm sm:text-base">By Country</div>
-              <div class="text-xs sm:text-sm opacity-90 hidden sm:block">Pick destination, see best months</div>
-            </div>
-          </button>
+        <!-- Analysis Mode Toggle - Mobile Responsive + Clear Two Options Layout -->
+        <div class="flex flex-col items-center mb-8">
+          <!-- Title -->
+          <div class="text-center mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">✈️ Flight Intelligence</h1>
+            <p class="text-gray-600 text-sm sm:text-base">Smart flight planning with seasonal pricing insights</p>
+          </div>
           
-          <div class="hidden sm:block w-px bg-white/50 mx-1"></div>
-          <div class="sm:hidden my-1 h-px bg-white/30 w-full"></div>
-          
-          <button
-            class="px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl transition-all flex items-center justify-center sm:justify-start gap-2 sm:gap-3 w-full sm:w-auto {analysisView === 'month' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-white/60'}"
-            onclick={() => analysisView = 'month'}
-          >
-            <div class="text-xl sm:text-2xl">📅</div>
-            <div class="text-center sm:text-left">
-              <div class="font-bold text-sm sm:text-base">By Month</div>
-              <div class="text-xs sm:text-sm opacity-90 hidden sm:block">Pick month, see best destinations</div>
+          <!-- Two Options Only - Clear Binary Choice -->
+          <div class="relative flex flex-col sm:flex-row items-center justify-center bg-white/40 rounded-2xl p-1.5 border border-white/50 shadow-lg w-full max-w-lg mx-auto">
+            <!-- Country Option -->
+            <button
+              class="relative flex items-center gap-3 px-5 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl transition-all w-full sm:w-1/2 text-center group {analysisView === 'country' ? 'bg-blue-600 text-white shadow-lg z-10' : 'hover:bg-white/60'}"
+              onclick={() => analysisView = 'country'}
+            >
+              <!-- Active indicator (only shows when active) -->
+              {#if analysisView === 'country'}
+                <div class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-white"></div>
+              {/if}
+              
+              <div class="text-2xl">📍</div>
+              <div class="text-left flex-1">
+                <div class="font-bold text-sm sm:text-base">By Country</div>
+                <div class="text-xs sm:text-sm opacity-90">Pick destination, see best months</div>
+              </div>
+            </button>
+            
+            <!-- Divider with "OR" label -->
+            <div class="relative my-2 sm:my-0 sm:mx-2">
+              <div class="h-px w-16 sm:h-8 sm:w-px bg-white/50 sm:mx-1"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-xs font-medium bg-white/80 backdrop-blur-sm px-2 py-0.5 rounded-full text-gray-700">OR</span>
+              </div>
             </div>
-          </button>
+            
+            <!-- Month Option -->
+            <button
+              class="relative flex items-center gap-3 px-5 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl transition-all w-full sm:w-1/2 text-center group {analysisView === 'month' ? 'bg-blue-600 text-white shadow-lg z-10' : 'hover:bg-white/60'}"
+              onclick={() => analysisView = 'month'}
+            >
+              <!-- Active indicator (only shows when active) -->
+              {#if analysisView === 'month'}
+                <div class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-white"></div>
+              {/if}
+              
+              <div class="text-2xl">📅</div>
+              <div class="text-left flex-1">
+                <div class="font-bold text-sm sm:text-base">By Month</div>
+                <div class="text-xs sm:text-sm opacity-90">Pick month, see best destinations</div>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </header>
