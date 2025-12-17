@@ -1,7 +1,10 @@
-<!-- src/routes/resonance/components/ResonanceFilters.svelte -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import type { ResonancePreferences, CityResonanceProfile } from '$lib/types/resonance';
+  
+  // Import our new components
+  import FilterDebugItem from './FilterDebugItem.svelte';
+  import ActiveFiltersSummary from './ActiveFiltersSummary.svelte';
   
   export let preferences: ResonancePreferences;
   export let selectedTags: string[] = [];
@@ -34,49 +37,59 @@
     findMatches: void;
   }>();
 
+  // Track if filters are expanded
+  let filtersExpanded = false;
+  
+  // Track expanded individual filters
+  let expandedFilters: Set<string> = new Set();
+
   // Get tag debug info
   function getTagDebugInfo(tag: string) {
     if (!allLocations || !allLocations.length) return { 
       hasMatches: false, 
-      count: 0, 
-      countries: [], 
-      sampleCities: [] 
+      count: 0,
+      locations: []
     };
     
     const matchingLocations = allLocations.filter(l => l.tags && l.tags.includes(tag));
-    const countries = [...new Set(matchingLocations.map(l => l.country))];
+    
+    const locations = matchingLocations.map(l => ({
+      city: l.name,
+      country: l.country,
+      fullText: `${l.name}, ${l.country}`
+    }));
     
     return {
       hasMatches: matchingLocations.length > 0,
       count: matchingLocations.length,
-      countries: countries,
-      sampleCities: matchingLocations.slice(0, 2).map(l => l.name)
+      locations: locations
     };
   }
 
-  // Get activity debug info - FIXED: Use popularActivities instead of activities
+  // Get activity debug info
   function getActivityDebugInfo(activity: string) {
     if (!allLocations || !allLocations.length) return { 
       hasMatches: false, 
-      count: 0, 
-      countries: [], 
-      sampleCities: [] 
+      count: 0,
+      locations: []
     };
     
-    // Convert activity to lowercase for case-insensitive matching
     const activityLower = activity.toLowerCase();
     const matchingLocations = allLocations.filter(l => 
       l.popularActivities && 
       l.popularActivities.some(a => a.toLowerCase().includes(activityLower))
     );
     
-    const countries = [...new Set(matchingLocations.map(l => l.country))];
+    const locations = matchingLocations.map(l => ({
+      city: l.name,
+      country: l.country,
+      fullText: `${l.name}, ${l.country}`
+    }));
     
     return {
       hasMatches: matchingLocations.length > 0,
       count: matchingLocations.length,
-      countries: countries,
-      sampleCities: matchingLocations.slice(0, 2).map(l => l.name)
+      locations: locations
     };
   }
 
@@ -113,6 +126,36 @@
   ];
 
   $: totalActiveFilters = activeFiltersWithDebug.length;
+  
+  // Count how many filters have matches (tags & activities only)
+  $: connectedFiltersCount = activeFiltersWithDebug.filter(filter => 
+    (filter.type === 'tag' || filter.type === 'activity') 
+      ? filter.debugInfo?.hasMatches 
+      : false
+  ).length;
+
+  // Helper to get unconnected filters
+  function getUnconnectedFilters() {
+    return activeFiltersWithDebug.filter(filter => 
+      (filter.type === 'tag' || filter.type === 'activity') 
+        ? !filter.debugInfo?.hasMatches 
+        : false
+    );
+  }
+
+  // Toggle expanded view for individual filter locations
+  function toggleFilterExpand(filterValue: string) {
+    if (expandedFilters.has(filterValue)) {
+      expandedFilters.delete(filterValue);
+    } else {
+      expandedFilters.add(filterValue);
+    }
+  }
+
+  // Check if a filter is expanded
+  function isFilterExpanded(filterValue: string): boolean {
+    return expandedFilters.has(filterValue);
+  }
 
   function handleRemoveFilter(filter: { type: string; value: string }) {
     switch (filter.type) {
@@ -224,6 +267,59 @@
 
 <div class="bg-white/40 backdrop-blur-md rounded-2xl p-6 border border-white/50 shadow-lg sticky top-8">
   
+  <!-- Combined Active Filters & Tag Connections Box -->
+  {#if totalActiveFilters > 0}
+    <div class="mb-6 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 backdrop-blur-sm rounded-xl border border-blue-200/60 overflow-hidden">
+      <!-- Active Filters Summary Component -->
+      <ActiveFiltersSummary
+        {totalActiveFilters}
+        {selectedTags}
+        activities={preferences.activities}
+        budgetSelected={preferences.budget !== 'any'}
+        climateSelected={preferences.climate !== 'any'}
+        {connectedFiltersCount}
+        {filtersExpanded}
+        onToggleExpanded={() => filtersExpanded = !filtersExpanded}
+        onClearAll={() => dispatch('clearAll')}
+      />
+      
+      <!-- Expanded Filters Content (Collapsible) -->
+      {#if filtersExpanded}
+        <div class="p-4 max-h-96 overflow-y-auto">
+          <div class="space-y-3">
+            {#each activeFiltersWithDebug as filter}
+              <FilterDebugItem
+                {filter}
+                onRemove={handleRemoveFilter}
+                expanded={isFilterExpanded(filter.value)}
+                onToggleExpand={toggleFilterExpand}
+              />
+            {/each}
+          </div>
+        </div>
+      {:else}
+        <!-- Collapsed View - Show only unconnected filters as warnings -->
+        {#if getUnconnectedFilters().length > 0}
+          <div class="p-3 bg-amber-50/50 border-t border-amber-200/50">
+            <div class="flex items-center gap-2 text-xs text-amber-800">
+              <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              <span>
+                {getUnconnectedFilters().length} filters not connected to any locations
+                <button 
+                  on:click={() => filtersExpanded = true}
+                  class="text-amber-700 hover:text-amber-900 underline ml-1"
+                >
+                  Review
+                </button>
+              </span>
+            </div>
+          </div>
+        {/if}
+      {/if}
+    </div>
+  {/if}
 
   <!-- Budget & Practical -->
   <div class="space-y-6 mb-6">
@@ -372,97 +468,6 @@
         opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-slow"></div>
     {/if}
   </button>
-
-    <!-- Combined Active Filters & Tag Connections Box -->
-  {#if totalActiveFilters > 0}
-    <div class="mb-6 p-4 bg-gradient-to-br from-blue-50/70 to-cyan-50/70 backdrop-blur-sm rounded-xl border border-blue-200/60">
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h4 class="text-sm font-semibold text-blue-900">Active Filters ({totalActiveFilters})</h4>
-          <p class="text-xs text-blue-700 mt-1">Click X to remove individual filters</p>
-        </div>
-        <button
-          on:click={() => dispatch('clearAll')}
-          class="text-xs text-red-600 hover:text-red-800 font-medium bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors"
-        >
-          Clear All
-        </button>
-      </div>
-      
-      <div class="space-y-3">
-        {#each activeFiltersWithDebug as filter}
-          <div class="group bg-white/90 rounded-lg border {filter.debugInfo?.hasMatches ? 'border-blue-200' : 'border-red-200'} p-3 shadow-sm">
-            <!-- Filter header with remove button -->
-            <div class="flex justify-between items-start mb-2">
-              <div class="flex items-center gap-2">
-                <span class="font-medium text-gray-800 text-sm">{filter.label}</span>
-                {#if filter.type === 'tag' || filter.type === 'activity'}
-                  {#if filter.debugInfo?.hasMatches}
-                    <span class="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-                      {filter.debugInfo.count} match{#if filter.debugInfo.count !== 1}es{/if}
-                    </span>
-                  {:else}
-                    <span class="text-xs text-red-600 bg-red-50 px-2 py-0.5 rounded-full">
-                      No matches
-                    </span>
-                  {/if}
-                {/if}
-              </div>
-              <button
-                on:click={() => handleRemoveFilter(filter)}
-                class="text-gray-400 hover:text-red-500 text-lg leading-none p-1 hover:bg-red-50 rounded"
-                title="Remove this filter"
-              >
-                ×
-              </button>
-            </div>
-            
-            <!-- Debug info for tags and activities -->
-            {#if (filter.type === 'tag' || filter.type === 'activity') && filter.debugInfo}
-              {#if filter.debugInfo.hasMatches}
-                <div class="text-xs text-gray-600 space-y-2">
-                  <!-- Countries -->
-                  <div>
-                    <div class="font-medium text-gray-700 mb-1">Connected to:</div>
-                    <div class="flex flex-wrap gap-1">
-                      {#each filter.debugInfo.countries as country}
-                        <span class="inline-block bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs">
-                          {country}
-                        </span>
-                      {/each}
-                    </div>
-                  </div>
-                  
-                  <!-- Sample cities -->
-                  {#if filter.debugInfo.sampleCities.length > 0}
-                    <div>
-                      <div class="font-medium text-gray-700 mb-1">Sample locations:</div>
-                      <div class="flex flex-wrap gap-1">
-                        {#each filter.debugInfo.sampleCities as city}
-                          <span class="inline-block bg-green-50 text-green-700 px-2 py-0.5 rounded text-xs">
-                            {city}
-                          </span>
-                        {/each}
-                        {#if filter.debugInfo.count > 2}
-                          <span class="text-gray-500 text-xs self-center">
-                            +{filter.debugInfo.count - 2} more
-                          </span>
-                        {/if}
-                      </div>
-                    </div>
-                  {/if}
-                </div>
-              {:else}
-                <p class="text-xs text-red-600 italic">
-                  ⚠️ This {filter.type} isn't connected to any locations in our database.
-                </p>
-              {/if}
-            {/if}
-          </div>
-        {/each}
-      </div>
-    </div>
-  {/if}
 
   <style>
     button.active {
