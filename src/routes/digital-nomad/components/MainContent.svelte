@@ -2,30 +2,36 @@
 <script lang="ts">
   import InternetQualityCard from './InternetQualityCard.svelte';
   import CommunitySafetyCard from './CommunitySafetyCard.svelte';
-  import WorkspaceFinder from './WorkspaceFinder.svelte'; // This should work
+  import WorkspaceFinder from './WorkspaceFinder.svelte';
   import type { NomadData } from '$lib/data/nomadData';
 
-  // Use $props() instead of export let
-  let {
-    selectedCountry,
-    selectedCity,
-    countryData,
-    visaData,
+  // Use $props() with proper typing
+  const { 
+    selectedCountry = '',
+    selectedCity = '',
+    countryData = null,
+    visaData = null,
     currency = 'USD'
-  } = $props();
+  } = $props<{
+    selectedCountry?: string;
+    selectedCity?: string;
+    countryData?: NomadData | null;
+    visaData?: any;
+    currency?: string;
+  }>();
 </script>
 
 <div>
   <!-- Workspace Finder -->
   <div class="mb-12">
     <WorkspaceFinder
-      {countryData}
+      countryData={countryData}
       {selectedCity}
       {currency}
     />
   </div>
 
-    <!-- Optional: Small stats inline with workspace finder -->
+  <!-- Optional: Small stats inline with workspace finder -->
   {#if countryData}
     <div class="mt-8 p-4 bg-gray-50 rounded-xl border border-gray-200">
       <div class="grid grid-cols-2 gap-4 text-sm">

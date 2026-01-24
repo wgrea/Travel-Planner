@@ -1,84 +1,129 @@
 <!-- src/routes/living-costs/components/AccommodationSelector.svelte -->
 <script lang="ts">
-  import type { LivingCostData } from '$lib/types/living-costs';
-  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
-
-  export let accommodationType: string;
-  export let selectedCurrency: string = 'USD';
-  export let livingCostData: LivingCostData | undefined; // Add this prop
-
-  const accommodationTypes = [
-    { value: 'hostel', label: 'Hostel', icon: '🛏️', description: 'Dorm beds, shared facilities' },
-    { value: 'guesthouse', label: 'Guesthouse', icon: '🏡', description: 'Private rooms, local vibe' },
-    { value: 'airbnb', label: 'Airbnb', icon: '🏠', description: 'Apartments, home experience' },
-    { value: 'hotel', label: 'Hotel', icon: '🏨', description: 'Hotels, resorts, amenities' }
-  ];
-
-  // Function to get formatted accommodation price
-  function getAccommodationPrice(type: string): string {
-    if (!livingCostData) {
-      // Fallback to approximate ranges if no data
-      const fallbackRanges: Record<string, string> = {
-        hostel: '15-25',
-        guesthouse: '25-45',
-        airbnb: '45-80',
-        hotel: '80-150'
-      };
-      return `${fallbackRanges[type]}/night`;
+  import type { LivingCostData, TravelStyle } from '$lib/types/living-costs';
+  
+  // Use $props() instead of export let
+  let {
+    livingCostData = null,
+    travelStyle = 'midrange' as TravelStyle
+  } = $props<{
+    livingCostData?: LivingCostData | null;
+    travelStyle?: TravelStyle;
+  }>();
+  
+  // Helper function to safely get accommodation costs
+  function getAccommodationCost(type: 'hostel' | 'budgetHotel' | 'guesthouse' | 'hotel' | 'apartment' | 'boutiqueHotel'): number {
+    if (!livingCostData?.baseCosts?.accommodation) return 0;
+    
+    const accommodation = livingCostData.baseCosts.accommodation;
+    
+    // Check budget accommodation
+    if (['hostel', 'budgetHotel', 'guesthouse'].includes(type)) {
+      const budget = accommodation.budget;
+      if (!budget) return 0;
+      
+      switch (type) {
+        case 'hostel': return budget.hostel || 0;
+        case 'budgetHotel': return budget.budgetHotel || 0;
+        case 'guesthouse': return budget.guesthouse || 0;
+        default: return 0;
+      }
     }
-
-    let basePrice: number;
+    
+    // Check midrange accommodation
+    if (['hotel', 'apartment', 'boutiqueHotel'].includes(type)) {
+      const midrange = accommodation.midrange;
+      if (!midrange) return 0;
+      
+      switch (type) {
+        case 'hotel': return midrange.hotel || 0;
+        case 'apartment': return midrange.apartment || 0;
+        case 'boutiqueHotel': return midrange.boutiqueHotel || 0;
+        default: return 0;
+      }
+    }
+    
+    return 0;
+  }
+  
+  // Helper to get monthly rent
+  function getMonthlyRent(type: 'studio' | 'oneBedroom' | 'threeBedroom'): number {
+    if (!livingCostData?.baseCosts?.accommodation?.monthlyRent) return 0;
+    
+    const monthlyRent = livingCostData.baseCosts.accommodation.monthlyRent;
     
     switch (type) {
-      case 'hostel':
-        basePrice = livingCostData.baseCosts.accommodation.budget.hostel;
-        break;
-      case 'guesthouse':
-        basePrice = livingCostData.baseCosts.accommodation.budget.guesthouse;
-        break;
-      case 'airbnb':
-        basePrice = livingCostData.baseCosts.accommodation.midrange.apartment;
-        break;
-      case 'hotel':
-        basePrice = livingCostData.baseCosts.accommodation.midrange.hotel;
-        break;
-      default:
-        basePrice = livingCostData.baseCosts.accommodation.midrange.hotel;
+      case 'studio': return monthlyRent.studio || 0;
+      case 'oneBedroom': return monthlyRent.oneBedroom || 0;
+      case 'threeBedroom': return monthlyRent.threeBedroom || 0;
+      default: return 0;
     }
-
-    const convertedPrice = convertCurrency(
-      basePrice, 
-      livingCostData.currency, 
-      selectedCurrency
-    );
-    
-    // Format as range (±20% for visual appeal)
-    const min = Math.round(convertedPrice * 0.8);
-    const max = Math.round(convertedPrice * 1.2);
-    
-    return `${formatCurrency(min, selectedCurrency)}-${formatCurrency(max, selectedCurrency)}/night`;
   }
+  
+  // Safe getters with defaults using $derived
+  const hostelCost = $derived(getAccommodationCost('hostel'));
+  const budgetHotelCost = $derived(getAccommodationCost('budgetHotel'));
+  const guesthouseCost = $derived(getAccommodationCost('guesthouse'));
+  const hotelCost = $derived(getAccommodationCost('hotel'));
+  const apartmentCost = $derived(getAccommodationCost('apartment'));
+  const boutiqueHotelCost = $derived(getAccommodationCost('boutiqueHotel'));
+  
+  const studioRent = $derived(getMonthlyRent('studio'));
+  const oneBedroomRent = $derived(getMonthlyRent('oneBedroom'));
+  const threeBedroomRent = $derived(getMonthlyRent('threeBedroom'));
 </script>
 
-<div class="bg-white rounded-2xl p-6 mb-8 border border-gray-200 shadow-sm">
-  <h2 class="text-xl font-semibold text-gray-900 mb-4">🛌 Accommodation Type</h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-    {#each accommodationTypes as accommodation}
-      <button
-        class={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
-          accommodationType === accommodation.value 
-            ? 'bg-emerald-50 border-emerald-200 shadow-sm' 
-            : 'bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300'
-        }`}
-        on:click={() => accommodationType = accommodation.value}
-      >
-        <div class="text-2xl mb-2">{accommodation.icon}</div>
-        <div class="text-gray-900 font-medium mb-1">{accommodation.label}</div>
-        <div class="text-gray-600 text-sm mb-3">{accommodation.description}</div>
-        <div class="text-emerald-600 font-semibold text-sm">
-          {getAccommodationPrice(accommodation.value)}
+<div class="accommodation-selector">
+  {#if !livingCostData}
+    <div class="text-center text-gray-500 py-4">
+      No accommodation data available
+    </div>
+  {:else}
+    <!-- Example UI - customize based on your actual component -->
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 bg-emerald-50 rounded-lg">
+          <div class="text-sm text-emerald-600">Hostel</div>
+          <div class="text-lg font-semibold">${hostelCost}/night</div>
         </div>
-      </button>
-    {/each}
-  </div>
+        <div class="p-4 bg-emerald-50 rounded-lg">
+          <div class="text-sm text-emerald-600">Budget Hotel</div>
+          <div class="text-lg font-semibold">${budgetHotelCost}/night</div>
+        </div>
+        <div class="p-4 bg-blue-50 rounded-lg">
+          <div class="text-sm text-blue-600">Hotel</div>
+          <div class="text-lg font-semibold">${hotelCost}/night</div>
+        </div>
+        <div class="p-4 bg-blue-50 rounded-lg">
+          <div class="text-sm text-blue-600">Apartment</div>
+          <div class="text-lg font-semibold">${apartmentCost}/night</div>
+        </div>
+      </div>
+      
+      <!-- Monthly Rent Section -->
+      <div class="border-t pt-4">
+        <h4 class="text-sm font-medium text-gray-700 mb-3">Monthly Rent</h4>
+        <div class="grid grid-cols-3 gap-3">
+          <div class="p-3 bg-gray-50 rounded">
+            <div class="text-xs text-gray-600">Studio</div>
+            <div class="font-medium">${studioRent}/month</div>
+          </div>
+          <div class="p-3 bg-gray-50 rounded">
+            <div class="text-xs text-gray-600">1 Bedroom</div>
+            <div class="font-medium">${oneBedroomRent}/month</div>
+          </div>
+          <div class="p-3 bg-gray-50 rounded">
+            <div class="text-xs text-gray-600">3 Bedroom</div>
+            <div class="font-medium">${threeBedroomRent}/month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
+
+<style>
+  .accommodation-selector {
+    min-height: 200px;
+  }
+</style>
