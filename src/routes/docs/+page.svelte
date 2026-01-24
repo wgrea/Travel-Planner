@@ -1,289 +1,125 @@
-<!-- src/routes/docs/+page.svelte -->
+<script lang="ts">
+  // Clean import using barrel file - 1 line instead of 16!
+  import * as Sections from './sections/index.js';
+</script>
 
-<!-- I think this is really stupid, but it seems like I have to explicitly say "lets do what I did from the other files" for the ai bot to know that is what I am trying to do instead of just showing what I have done consistently -->
+<!-- Navigation sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-gray-50 border-r border-gray-200 overflow-y-auto p-6 hidden md:block">
+  <nav class="space-y-2">
+    <h3 class="font-semibold text-gray-800 mb-3">Documentation</h3>
+    {#each [
+      { id: 'overview', label: 'Overview' },
+      { id: 'user-research', label: 'User Research' },
+      { id: 'decision-rationale', label: 'Decision Rationale' },
+      { id: 'developer-experience', label: 'Developer Experience' },
+      { id: 'ai-prompting', label: 'AI Prompting Strategies' },
+      { id: 'iteration-log', label: 'Iteration Log' },
+      { id: 'accessibility', label: 'Accessibility' },
+      { id: 'technical-challenges', label: 'Technical Challenges' },
+      { id: 'architecture', label: 'Architecture' },
+      { id: 'data-structure', label: 'Data Structure' },
+      { id: 'design', label: 'Design' },
+      { id: 'ux-goals', label: 'UX Goals' },
+      { id: 'ai-collaboration', label: 'AI Collaboration' },
+      { id: 'dev-notes', label: 'Developer Notes' },
+      { id: 'lessons-learned', label: 'Lessons Learned' },
+      { id: 'project-expansion', label: 'Project Expansion' }
+    ] as item}
+      <a 
+        href={`#${item.id}`} 
+        class="block py-2 px-3 rounded hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition-colors"
+        on:click|preventDefault={() => {
+          const el = document.getElementById(item.id);
+          el?.scrollIntoView({ behavior: 'smooth' });
+        }}
+      >
+        {item.label}
+      </a>
+    {/each}
+  </nav>
+</aside>
 
-<!-- This is for documentation of how the project was built, not for filling forms -->
-<div class="min-h-screen bg-gray-50 text-gray-900">
-  <div class="flex flex-col lg:flex-row">
-    <!-- Sidebar Navigation -->
-    <aside class="w-full lg:w-1/4 border-r border-gray-200 bg-white p-6 space-y-4 min-h-screen">
-      <h2 class="text-2xl font-semibold text-gray-700">Contents</h2>
-      <nav class="space-y-2">
-        <a href="#overview" class="block text-gray-600 hover:text-gray-900 transition">Overview</a>
-        <a href="#setup" class="block text-gray-600 hover:text-gray-900 transition">Setup</a>
-        <a href="#architecture" class="block text-gray-600 hover:text-gray-900 transition">Architecture</a>
-        <a href="#data-structure" class="block text-gray-600 hover:text-gray-900 transition">Data Structure</a>
-        <a href="#design" class="block text-gray-600 hover:text-gray-900 transition">Design Choices</a>
-        <a href="#ux" class="block text-gray-600 hover:text-gray-900 transition">UX Goals</a>
-        <a href="#dev-notes" class="block text-gray-600 hover:text-gray-900 transition">Dev Notes</a>
-        <a href="#lessons" class="block text-gray-600 hover:text-gray-900 transition">Lessons Learned</a>
-        <a href="#expansion" class="block text-gray-600 hover:text-gray-900 transition">Project Expansion</a>
-      </nav>
-    </aside>
-
-    <!-- Main Documentation Content -->
-    <main class="flex-1 p-8 space-y-10">
-      <section id="overview">
-        <h1 class="text-4xl font-bold mb-4 text-gray-900">📚 Internal Project Documentation</h1>
-        <p class="text-gray-800 text-lg">Technical documentation of the travel planning app, including development notes, challenges, and rationale for technical decisions.</p>
-      </section>
-
-      <section id="setup">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🚀 Setup & Foundation</h2>
-        <ul class="list-disc ml-6 text-gray-700 space-y-2">
-          <li>Downloaded and initialized SvelteKit using CLI</li>
-          <li>Integrated Tailwind CSS for styling and rapid prototyping</li>
-          <li>Structured files with smaller components for modularity and reusability</li>
-          <li>Set up TypeScript for type safety and better developer experience</li>
-        </ul>
-      </section>
-
-      <section id="architecture">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🏗️ Architecture Evolution</h2>
-        <div class="space-y-4">
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Initial Approach</h3>
-            <p class="text-gray-700">Started with flat data structures and simple components</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Scalability Realization</h3>
-            <p class="text-gray-700">Recognized need for organized country data as project grew beyond flight costs</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Current Structure</h3>
-            <p class="text-gray-700">Modular country files with region-based organization supporting multiple data types</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="data-structure">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">💾 Data Structure Breakthrough</h2>
-        <div class="space-y-4">
-          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-            <h3 class="font-semibold text-green-800">Key Insight</h3>
-            <p class="text-green-700"><strong>Data structure ≠ Page structure</strong> - The same country data can power multiple pages with different views and filters</p>
-          </div>
-          <ul class="list-disc ml-6 text-gray-700 space-y-2">
-            <li><strong>Country-based organization</strong>: Each country file contains all relevant data (flight patterns, living costs, visa info)</li>
-            <li><strong>Region hierarchy</strong>: Supports main regions and European subregions for flexible filtering</li>
-            <li><strong>TypeScript interfaces</strong>: Ensures data consistency across the application</li>
-            <li><strong>Gradual enhancement</strong>: Can add new data types to countries without breaking existing features</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="design">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🎨 Design Choices</h2>
-        <p class="text-gray-700 mb-4">
-          Chose practical, modern UI conventions using Tailwind for utility and quick layout adjustments.
-        </p>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Clean Aesthetic</h3>
-            <p class="text-gray-700">Sophisticated retro-futuristic design with clear information hierarchy</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Component-Based</h3>
-            <p class="text-gray-700">Reusable components like CountrySelector reduce duplication and ensure consistency</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="ux">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🤔 UX Goals & Philosophy</h2>
-        <ul class="list-disc ml-6 text-gray-700 space-y-2">
-          <li><strong>Start personalized</strong>: Begin with countries you plan to visit, then generalize</li>
-          <li><strong>Progressive disclosure</strong>: Show relevant information without overwhelming users</li>
-          <li><strong>Flexible journeys</strong>: Support both destination-first and criteria-first discovery</li>
-          <li><strong>Optional features</strong>: Digital nomad sections that vacationers can skip</li>
-          <li><strong>Actionable insights</strong>: Provide practical tips rather than abstract ratings</li>
-        </ul>
-      </section>
-
-      <!-- New Development Notes Section -->
-      <section id="dev-notes">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🔧 Development Notes & Process</h2>
-        <div class="space-y-6">
-          <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <h3 class="font-semibold text-blue-800">Development Philosophy</h3>
-            <ul class="list-disc ml-6 text-blue-700 space-y-2">
-              <li><strong>Wait until everything is working</strong> before worrying about perfect structure</li>
-              <li><strong>Page files do not need to be 500 pages long</strong> - keep them focused</li>
-              <li><strong>Start with what's working</strong> and modify rather than creating new pages from scratch</li>
-              <li>Cleanup of early files (flight costs, visa pages) showed improvement: "Seeing a rough version does really show how much you have improved"</li>
-            </ul>
-          </div>
-          
-          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-            <h3 class="font-semibold text-green-800">Debugging & Testing Strategies</h3>
-            <ul class="list-disc ml-6 text-green-700 space-y-2">
-              <li><strong>Digital nomad page</strong>: "It was hard to test. Have live debug shown in front of me really helped. I ended up putting a lot of debug messages. I may keep the live debug in for now even if I share my site publicly."</li>
-              <li><strong>Flight page origin filter</strong>: "It was tough to only show one origin country. That was a silly problem to have and I showed DeepSeek my component/CheapestCountry.svelte file and it took a few rounds of debugging to finally show just one country. Rediculous."</li>
-              <li><strong>Currency conversion</strong>: "It was a nightmare just to move the working function of changing the currencies to the other pages."</li>
-            </ul>
-          </div>
-          
-          <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-            <h3 class="font-semibold text-purple-800">Quick Wins vs. Challenges</h3>
-            <ul class="list-disc ml-6 text-purple-700 space-y-2">
-              <li><strong>Resonance filters page</strong>: "The resonance filters page was the quickest and easiest to make. I filtered by cities just for any yellow area filters."</li>
-              <li><strong>AI collaboration</strong>: "I need to show the chatbot two files of the resonance filters to make sure I don't need to look back over it and not need to fix that much."</li>
-              <li><strong>Show more functionality</strong>: "Make sure 'show more' works"</li>
-            </ul>
-          </div>
-          
-          <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-            <h3 class="font-semibold text-yellow-800">AI Collaboration Protocol</h3>
-            <p class="text-yellow-700 mb-2">When asking a chatbot to add resonance data for new countries:</p>
-            <ul class="list-disc ml-6 text-yellow-700 space-y-1">
-              <li>Show <strong>data structure</strong> (the resonance.ts files)</li>
-              <li>Include <strong>type definitions</strong> (ResonancePreferences, CityResonanceProfile)</li>
-              <li>Share <strong>tag and activity categories</strong> from resonanceData.ts</li>
-              <li>Provide <strong>existing country examples</strong> (Thailand, Brazil, Argentina)</li>
-              <li>"Before asking a bot to add resonance data for another country, make sure you show these files"</li>
-            </ul>
-          </div>
-          
-          <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-            <h3 class="font-semibold text-red-800">Deployment & Maintenance Notes</h3>
-            <ul class="list-disc ml-6 text-red-700 space-y-2">
-              <li>"I ended up having to update a few files at a time but had to remind myself to make sure I save the country files when I deploy the app"</li>
-              <li>Incremental updates are safer than bulk changes</li>
-              <li>Keep backup of country data files before deployment</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="lessons">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">💡 Lessons Learned & Challenges</h2>
-        <div class="space-y-4">
-          <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <h3 class="font-semibold text-blue-800">Early Worries</h3>
-            <ul class="list-disc ml-6 text-blue-700 space-y-1">
-              <li>"Do I need to create duplicate data for different pages?" → No, same data different views</li>
-              <li>"Should I add all countries at once?" → No, focus on data quality over quantity</li>
-              <li>"How to handle complex filtering?" → Build flexible data structure first</li>
-            </ul>
-          </div>
-          <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-            <h3 class="font-semibold text-purple-800">Technical Breakthroughs</h3>
-            <ul class="list-disc ml-6 text-purple-700 space-y-1">
-              <li>TypeScript interfaces prevent data inconsistency</li>
-              <li>Reactive declarations in Svelte simplify state management</li>
-              <li>Modular imports make scaling manageable</li>
-              <li>Region/subregion pattern enables sophisticated filtering</li>
-            </ul>
-          </div>
-          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-            <h3 class="font-semibold text-green-800">Living Costs Page Breakthroughs</h3>
-            <ul class="list-disc ml-6 text-green-700 space-y-1">
-              <li><strong>Specialized components</strong> beat one-size-fits-all solutions</li>
-              <li><strong>Currency conversion</strong> must be handled at the data level, not display level</li>
-              <li><strong>Reactive statements</strong> in Svelte make complex state changes manageable</li>
-              <li><strong>Debugging with console.log</strong> quickly reveals data flow issues</li>
-              <li><strong>NaN errors</strong> usually mean missing data or currency rates</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="european-subregions">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🇪🇺 European Subregions Challenge</h2>
-        <div class="space-y-4">
-          <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
-            <h3 class="font-semibold text-orange-800">The Problem</h3>
-            <p class="text-orange-700"><strong>Europe is too diverse</strong> - Treating all European countries as one region made filtering useless for users looking for specific experiences</p>
-          </div>
-          
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">The Solution: Nested Region Structure</h3>
-            <div class="bg-gray-100 p-4 rounded text-sm font-mono">
-              <p>Europe uses nested subregions (Western, Southern, Eastern, Northern, Caucasus)</p>
-              <p>Other regions use flat country lists (Southeast Asia, South Asia, etc.)</p>
-              <p class="mt-2 text-gray-600">// Flexible data structure supports both patterns</p>
-            </div>
-          </div>
-
-          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-            <h3 class="font-semibold text-green-800">Component-Based Breakthrough</h3>
-            <p class="text-green-700"><strong>LivingCostCountrySelector</strong> - Created a dedicated component when generic CountrySelector became too complex</p>
-            <ul class="list-disc ml-6 text-green-700 space-y-1 mt-2">
-              <li><strong>Simplified interface</strong>: No need for flight-specific properties like sweetSpot and cheapestMonths</li>
-              <li><strong>Better UX</strong>: Cleaner design focused on living costs use case</li>
-              <li><strong>Maintainable</strong>: Easier to update without breaking other pages</li>
-              <li><strong>Currency integration</strong>: Built-in currency conversion display</li>
-            </ul>
-          </div>
-
-          <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <h3 class="font-semibold text-blue-800">Key Technical Insight</h3>
-            <p class="text-blue-700"><strong>Different pages need different component variations</strong> - What works for visa requirements might not work for living costs, even with the same underlying data</p>
-            <p class="text-blue-600 mt-2">The solution wasn't forcing one component to handle all cases, but creating specialized components that share the same data structure.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="currency-integration">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">💱 Currency Conversion Implementation</h2>
-        <div class="space-y-4">
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">The Challenge</h3>
-            <p class="text-gray-700">Living costs data comes in local currencies, but users want to see prices in their preferred currency</p>
-          </div>
-          
-          <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-            <h3 class="font-semibold text-purple-800">Solution Architecture</h3>
-            <ul class="list-disc ml-6 text-purple-700 space-y-2">
-              <li><strong>Centralized currency utilities</strong>: Single source of truth for exchange rates</li>
-              <li><strong>Reactive conversion</strong>: Costs update automatically when currency changes</li>
-              <li><strong>Fallback handling</strong>: Graceful degradation when currencies are missing</li>
-              <li><strong>Local storage</strong>: Remember user's currency preference</li>
-            </ul>
-          </div>
-
-          <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-            <h3 class="font-semibold text-green-800">Code Pattern</h3>
-            <div class="bg-gray-100 p-4 rounded text-sm font-mono">
-              <p>// Reactive conversion in +page.svelte</p>
-              <p>$: convertedDailyLiving = currentLivingCostData ? {'{'}</p>
-              <p class="ml-4">budget: convertCurrency(currentLivingCostData.baseCosts.dailyLiving.budget, </p>
-              <p class="ml-8">currentLivingCostData.currency, selectedCurrency),</p>
-              <p class="ml-4">midrange: convertCurrency(...),</p>
-              <p class="ml-4">luxury: convertCurrency(...)</p>
-              <p>{'}'} : null;</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="expansion">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">🚀 Project Expansion Strategy</h2>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Immediate Next Steps</h3>
-            <ul class="list-disc ml-6 text-gray-700 space-y-1">
-              <li>Add living costs data to existing countries</li>
-              <li>Build digital nomad page using same data structure</li>
-              <li>Implement criteria-first filtering page</li>
-              <li>Enhance country data with safety notes and local tips</li>
-            </ul>
-          </div>
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <h3 class="font-semibold text-gray-800">Future Vision</h3>
-            <ul class="list-disc ml-6 text-gray-700 space-y-1">
-              <li>User preference saving and comparison features</li>
-              <li>Integration with local event APIs</li>
-              <li>Community-driven content and reviews</li>
-              <li>Personalized travel itinerary generation</li>
-            </ul>
-          </div>
-        </div>
-        <div class="mt-4 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-          <h3 class="font-semibold text-yellow-800">Core Philosophy</h3>
-          <p class="text-yellow-700">"Build a flexible foundation that can grow with user needs, not a rigid structure that limits possibilities."</p>
-        </div>
-      </section>
-    </main>
+<!-- Main content -->
+<main class="md:ml-64 p-6">
+  <div class="max-w-4xl mx-auto space-y-12">
+    <!-- Add IDs for navigation -->
+    <div id="overview">
+      <Sections.Overview />
+    </div>
+    
+    <div id="user-research">
+      <Sections.UserResearch />
+    </div>
+    
+    <div id="decision-rationale">
+      <Sections.DecisionRationale />
+    </div>
+    
+    <!-- NEW: Developer Experience Section -->
+    <div id="developer-experience">
+      <Sections.DeveloperExperience />
+    </div>
+    
+    <!-- NEW: AI Prompting Strategies -->
+    <div id="ai-prompting">
+      <Sections.AIPromptingStrategies />
+    </div>
+    
+    <div id="iteration-log">
+      <Sections.IterationLog />
+    </div>
+    
+    <div id="accessibility">
+      <Sections.Accessibility />
+    </div>
+    
+    <div id="technical-challenges">
+      <Sections.TechnicalChallenges />
+    </div>
+    
+    <div id="architecture">
+      <Sections.Architecture />
+    </div>
+    
+    <div id="data-structure">
+      <Sections.DataStructure />
+    </div>
+    
+    <div id="design">
+      <Sections.Design />
+    </div>
+    
+    <div id="ux-goals">
+      <Sections.UXGoals />
+    </div>
+    
+    <div id="ai-collaboration">
+      <Sections.AICollaboration />
+    </div>
+    
+    <div id="dev-notes">
+      <Sections.DevNotes />
+    </div>
+    
+    <div id="lessons-learned">
+      <Sections.LessonsLearned />
+    </div>
+    
+    <div id="project-expansion">
+      <Sections.ProjectExpansion />
+    </div>
   </div>
-</div>
+</main>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
+  }
+  
+  /* Highlight current section in sidebar */
+  :global(.active-section) {
+    background-color: #3b82f6;
+    color: white;
+  }
+</style>
