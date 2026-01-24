@@ -30,21 +30,58 @@
 
       <!-- Coming Soon -->
       <div>
-        <h4 class="font-semibold text-gray-800 mb-4">Future Updates</h4>
+        <h4 class="font-semibold text-gray-800 mb-4">🚀 What's Next</h4> 
         <div class="space-y-3">
-          <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-3 border border-gray-200">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-lg">💾</span>
-              <span class="font-medium text-gray-700">Saved Plans</span>
-              <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Planned</span>
+          
+          <!-- CURRENT PRIORITY: DX Cleanup -->
+          <div class="bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg p-3 border border-amber-200">
+            <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🛠️</span>
+                <span class="font-medium text-gray-700">DX Cleanup</span>
+              </div>
             </div>
             <p class="text-xs text-gray-600">
-              Save, organize, and share your travel plans.
+              Standardizing data structures across all pages
             </p>
+          </div>
+          
+          <!-- UP NEXT: Saved Plans -->
+          <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-3 border border-blue-200">
+            <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">💾</span>
+                <span class="font-medium text-gray-700">Saved Plans</span>
+              </div>
+            </div>
+            <p class="text-xs text-gray-600">
+              Save flight & living cost plans (testing on 2 pages first)
+            </p>
+          </div>
+          
+          <!-- PLANNED: Digital Nomad Filters -->
+          <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-3 border border-green-200">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-lg">💻</span>
+              <span class="font-medium text-gray-700">Smart Nomad Filters</span>
+            </div>
+            <p class="text-xs text-gray-600">
+              Internet-first hostel/coliving filters
+            </p>
+          </div>
+          
+          <!-- ROADMAP LINK -->
+          <div class="pt-4 text-center">
+            <a href="/roadmap" class="inline-flex items-center gap-1.5 text-sm text-gray-700 hover:text-gray-900 font-medium group">
+              View Full Roadmap
+              <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
           </div>
         </div>
       </div>
-    </div>
+    </div> <!-- THIS WAS MISSING: Closing div for grid container -->
 
     <!-- Bottom Bar -->
     <div class="border-t border-gray-200 mt-8 pt-6 text-center">
