@@ -30,7 +30,9 @@ const exclude = [
   '.npmrc',
   'package-lock.json',
   'pnpm-lock.yaml',
-  'yarn.lock'
+  'yarn.lock',
+  'docs',
+  'staging'
 ];
 
 function listFiles(dir, indent = '') {
