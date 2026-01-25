@@ -13,27 +13,6 @@
 
   const phases: RoadmapPhase[] = [
     {
-      name: "🛠️ DX Foundation",
-      description: "Improving code structure and maintainability before adding features",
-      items: [
-        { 
-          name: "Standardize data structures across all pages", 
-        },
-        { 
-          name: "Improve file consistency (Living Costs first)", 
-        },
-        { 
-          name: "Create reusable filter components", 
-        },
-        { 
-          name: "Setup shared country/city data utilities", 
-        },
-        { 
-          name: "Clean up Digital Nomad page data structure", 
-        }
-      ]
-    },
-    {
       name: "🚀 Core Feature Enhancement",
       description: "Key user-facing improvements with thorough testing",
       items: [
