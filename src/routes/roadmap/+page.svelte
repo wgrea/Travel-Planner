@@ -12,48 +12,29 @@
   }
 
   const phases: RoadmapPhase[] = [
-    {
-      name: "🚀 Core Feature Enhancement",
-      description: "Key user-facing improvements with thorough testing",
-      items: [
-        { 
-          name: "Saved Plans & Itineraries system", 
-          note: "Testing with two pages first"
-        },
-        { 
-          name: "Smart Digital Nomad filters (internet-first)", 
-          note: "Party vs quiet, hostel vs coliving"
-        },
-        { 
-          name: "Seasonal price insights", 
-        },
-        { 
-          name: "Enhanced visa browsing by type", 
-        },
-        { 
-          name: "Event type filtering (debug to feature)", 
-        }
-      ]
-    },
-    {
-      name: "✨ Advanced Features",
-      description: "Major feature additions and strategy pages",
-      items: [
-        { 
-          name: "Hostel & accommodation system", 
-        },
-        { 
-          name: "Traveler strategy pages", 
-        },
-        { 
-          name: "Event discovery system", 
-        },
-        { 
-          name: "Travel essentials revamp", 
-        }
-      ]
-    }
-  ];
+  {
+    name: "✅ Core Feature Enhancement (IN PROGRESS)",
+    description: "Digital Nomad + Living Costs = LIVE",
+    items: [
+      { name: "✅ Saved Plans & Itineraries system", note: "Testing with two pages first" },
+      { name: "✅ Smart Digital Nomad filters", note: "Azerbaijan: party/quiet/wifi/hostel" },
+      { name: "✅ Seasonal price insights", note: "Low/Sweet/Peak tabs" },
+      { name: "Enhanced visa browsing by type" },
+      { name: "Event type filtering (debug to feature)" }
+    ]
+  },
+  {
+    name: "🚀 Next: Advanced Features", 
+    description: "Resonance + Strategy pages after DX cleanup",
+    items: [
+      { name: "Hostel & accommodation system" },
+      { name: "Traveler strategy pages" },
+      { name: "Event discovery system" },
+      { name: "Travel essentials revamp" },
+      { name: "✨ Resonance page polish" }
+    ]
+  }
+];
 </script>
 
 <div class="max-w-6xl mx-auto px-4 py-8">
