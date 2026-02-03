@@ -13,25 +13,25 @@ import { thailandResonance } from './countries/southeast-asia/thailand/index';
 import { brazilResonance } from './countries/south-america/brazil/index';
 import { vietnamResonance } from './countries/southeast-asia/vietnam/index';
 import { indonesiaResonance } from './countries/southeast-asia/indonesia/index';
-import { portugalResonance } from './countries/europe/western-europe/portugal/index';
-import { spainResonance } from './countries/europe/western-europe/spain/index';
-import { georgiaResonance } from './countries/europe/caucasus/georgia/index';
+import { portugalResonance } from './countries/western-europe/portugal/index';
+import { spainResonance } from './countries/western-europe/spain/index';
+import { georgiaResonance } from './countries/caucasus/georgia/index';
 import { mexicoResonance } from './countries/north-america/mexico/index';
-import { azerbaijanResonance } from './countries/europe/caucasus/azerbaijan/index';
-import { turkeyResonance } from './countries/europe/southern-europe/turkey/index';
+import { azerbaijanResonance } from './countries/caucasus/azerbaijan/index';
+import { turkeyResonance } from './countries/southern-europe/turkey/index';
 import { unitedStatesResonance } from './countries/north-america/united-states/index';
-import { greeceResonance } from './countries/europe/southern-europe/greece/index';
+import { greeceResonance } from './countries/southern-europe/greece/index';
 import { panamaResonance } from './countries/central-america/panama/index';
 // Countries we've completed (add these to your imports):
 import { japanResonance } from './countries/east-asia/japan/index';
-import { italyResonance } from './countries/europe/southern-europe/italy/index';
-import { franceResonance } from './countries/europe/western-europe/france/index';
+import { italyResonance } from './countries/southern-europe/italy/index';
+import { franceResonance } from './countries/western-europe/france/index';
 import { laosResonance } from './countries/southeast-asia/laos/index';
 import { indiaResonance } from './countries/south-asia/india/index';
 import { bangladeshResonance} from './countries/south-asia/bangladesh/index';
 import { nepalResonance } from './countries/south-asia/nepal/index';
 import { moroccoResonance } from './countries/northern-africa/morocco/index';
-import { ukResonance } from './countries/europe/western-europe/united-kingdom/index';
+import { ukResonance } from './countries/western-europe/united-kingdom/index';
 
 // Define proper TypeScript interfaces for the data structure
 interface ResonanceSubregion {

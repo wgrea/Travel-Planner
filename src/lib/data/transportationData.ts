@@ -10,27 +10,27 @@ import type {
 import { thailandTransportation } from './countries/southeast-asia/thailand/index';
 import { vietnamTransportation } from './countries/southeast-asia/vietnam/index';
 import { indonesiaTransportation } from './countries/southeast-asia/indonesia/index';
-import { portugalTransportation } from './countries/europe/western-europe/portugal/index';
-import { spainTransportation } from './countries/europe/western-europe/spain/index';
-import { georgiaTransportation } from './countries/europe/caucasus/georgia/index';
+import { portugalTransportation } from './countries/western-europe/portugal/index';
+import { spainTransportation } from './countries/western-europe/spain/index';
+import { georgiaTransportation } from './countries/caucasus/georgia/index';
 import { mexicoTransportation } from './countries/north-america/mexico/index';
 import { brazilTransportation } from './countries/south-america/brazil/index';
-import { azerbaijanTransportation } from './countries/europe/caucasus/azerbaijan/index';
+import { azerbaijanTransportation } from './countries/caucasus/azerbaijan/index';
 import { argentinaTransportation } from './countries/south-america/argentina/index';
-import { turkeyTransportation } from './countries/europe/southern-europe/turkey/index';
+import { turkeyTransportation } from './countries/southern-europe/turkey/index';
 import { unitedStatesTransportation } from './countries/north-america/united-states/index';
-import { greeceTransportation } from './countries/europe/southern-europe/greece/index';
+import { greeceTransportation } from './countries/southern-europe/greece/index';
 import { panamaTransportation } from './countries/central-america/panama/index';
 // Countries we've completed (add these to your imports):
 import { japanTransportation } from './countries/east-asia/japan/index';
-import { italyTransportation } from './countries/europe/southern-europe/italy/index';
-import { franceTransportation } from './countries/europe/western-europe/france/index';
+import { italyTransportation } from './countries/southern-europe/italy/index';
+import { franceTransportation } from './countries/western-europe/france/index';
 import { laosTransportation} from './countries/southeast-asia/laos/index';
 import { indiaTransportation } from './countries/south-asia/india/index';
 import { bangladeshTransportation} from './countries/south-asia/bangladesh/index';
 import { nepalTransportation } from './countries/south-asia/nepal/index';
 import { moroccoTransportation} from './countries/northern-africa/morocco/index';
-import { ukTransportation } from './countries/europe/western-europe/united-kingdom/index';
+import { ukTransportation } from './countries/western-europe/united-kingdom/index';
 
 export const transportationDataByRegion: RegionTransportationData[] = [
   {

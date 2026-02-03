@@ -1,29 +1,30 @@
 // src/lib/data/nomadData.ts
+// Might need to change the name since this is about coworking spaces while there are other pages that talk about how to work abroad and also a support page
 
 // Import nomad data from all countries
 import { thailandNomadData } from './countries/southeast-asia/thailand/index'; 
 import { vietnamNomadData } from './countries/southeast-asia/vietnam/index'; 
 import { indonesiaNomadData } from './countries/southeast-asia/indonesia/index';
-import { portugalNomadData } from './countries/europe/western-europe/portugal/index';
-import { spainNomadData } from './countries/europe/western-europe/spain/index';
-import { georgiaNomadData } from './countries/europe/caucasus/georgia/index';
+import { portugalNomadData } from './countries/western-europe/portugal/index';
+import { spainNomadData } from './countries/western-europe/spain/index';
+import { georgiaNomadData } from './countries/caucasus/georgia/index';
 import { mexicoNomadData } from './countries/north-america/mexico';
 import { argentinaNomadData } from './countries/south-america/argentina/index';
-import { azerbaijanNomadData } from './countries/europe/caucasus/azerbaijan/index';
+import { azerbaijanNomadData } from './countries/caucasus/azerbaijan/index';
 import { brazilNomadData } from './countries/south-america/brazil/index';
-import { turkeyNomadData } from './countries/europe/southern-europe/turkey/index';
+import { turkeyNomadData } from './countries/southern-europe/turkey/index';
 import { unitedStatesNomadData } from './countries/north-america/united-states/index';
-import { greeceNomadData } from './countries/europe/southern-europe/greece/index';
+import { greeceNomadData } from './countries/southern-europe/greece/index';
 import { panamaNomadData } from './countries/central-america/panama/index';
 import { japanNomadData } from './countries/east-asia/japan/index';
-import { italyNomadData } from './countries/europe/southern-europe/italy/index';
-import { franceNomadData } from './countries/europe/western-europe/france/index';
+import { italyNomadData } from './countries/southern-europe/italy/index';
+import { franceNomadData } from './countries/western-europe/france/index';
 import { laosNomadData } from './countries/southeast-asia/laos/index';
 import { indiaNomadData } from './countries/south-asia/india/index';
 import { bangladeshNomadData} from './countries/south-asia/bangladesh/index';
 import { nepalNomadData } from './countries/south-asia/nepal/index';
 import { moroccoNomadData } from './countries/northern-africa/morocco/index';
-import { ukNomadData } from './countries/europe/western-europe/united-kingdom/index';
+import { ukNomadData } from './countries/western-europe/united-kingdom/index';
 
 export const nomadDataByRegion: RegionNomadData[] = [
     {
@@ -114,17 +115,13 @@ export const nomadDataByRegion: RegionNomadData[] = [
 // I do not think I am showing the coworking memberships on the page yet
 // Put each number in USD since the currency calculator default is USD
 
-
-// INTERFACE DEFINITIONS
-// src/lib/data/nomadData.ts
-
 export interface Workspace {
   name: string;
   city: string;
   country: string;
-  type: 'coworking' | 'cafe' | 'hostel' | 'hotel' | 'library' | 'public_space' | 'cafe_coworking';
-  dayPassPrice?: number; // The default is USD so make sure the number is what USD would be. There is already a currency selector and the currency selector looked like it was made as USD as the default.
-  monthlyPrice?: number; // Put USD ammount here
+  type: 'coworking' | 'cafe' | 'hostel' | 'hotel' | 'library' | 'public_space' | 'cafe_coworking' | 'coliving' | 'coliving_hostel'; // ADD 'coliving' and 'coliving_hostel'
+  dayPassPrice?: number;
+  monthlyPrice?: number;
   hourlyRate?: number;
   rating: number;
   amenities: string[];
@@ -140,11 +137,37 @@ export interface Workspace {
   touristArea?: boolean;
   notes?: string;
   
-  // ADD THESE NEW FIELDS:
+  // Budget and categorization
   budgetCategory?: 'zero_spend' | 'already_paid' | 'small_purchase' | 'direct_payment';
-  includedWithStay?: boolean; // true if workspace free when staying there
-  minimumPurchase?: number; // For cafes/malls
-  dayPassForNonGuests?: boolean; // If hostel/hotel offers day passes
+  includedWithStay?: boolean;
+  minimumPurchase?: number;
+  dayPassForNonGuests?: boolean;
+  
+  // Hostel-specific
+  hostelType?: 'party' | 'quiet_work' | 'wifi_focused' | 'basic' | 'social';
+  
+  // Seasonal pricing
+  seasonalPricingRef?: string;
+  peakStayLimit?: string;
+  peakStayMin?: string;
+  communityEvents?: string;
+  dedicatedDesks?: boolean;
+  // Also add to NomadData:
+  hostelTypes?: Record<string, {
+    description: string;
+    recommendedFor: string[];
+    notRecommendedFor: string[];
+    avgWifiSpeed: number;
+    noiseLevel: string;
+    examples: string[];
+  }>;
+  seasonalStrategies?: Record<string, {
+    months: string[];
+    strategy: string;
+    priceAdjustment: string;
+    bookingAdvice: string;
+    workEnvironment: string;
+  }>;
 }
 
 export interface FreeWorkspace {
@@ -218,6 +241,25 @@ export interface NomadData {
   moneySavingTips?: MoneySavingTips;
   coworkingMemberships?: CoworkingMembership[];
   touristyCities?: string[];
+  hostelTypes?: {
+    [key: string]: {
+      description: string;
+      recommendedFor: string[];
+      notRecommendedFor: string[];
+      avgWifiSpeed: number;
+      noiseLevel: string;
+      examples: string[];
+    };
+  };
+  seasonalStrategies?: {
+    [key: string]: {
+      months: string[];
+      strategy: string;
+      priceAdjustment: string;
+      bookingAdvice: string;
+      workEnvironment: string;
+    };
+  };
 }
 
 export interface SubregionNomadData {

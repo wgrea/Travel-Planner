@@ -3,30 +3,30 @@
 
 import type { VisaInfo } from '$lib/types/visa';
 import { mexicoVisaData } from './countries/north-america/mexico/index';
-import { azerbaijanVisaData } from './countries/europe/caucasus/azerbaijan/index'; 
+import { azerbaijanVisaData } from './countries/caucasus/azerbaijan/index'; 
 import { thailandVisaData } from './countries/southeast-asia/thailand/index';
 import { unitedStatesVisaData } from './countries/north-america/united-states/index';
 import { vietnamVisaData } from './countries/southeast-asia/vietnam/index';
-import { germanyVisaData } from './countries/europe/western-europe/germany';
-import { spainVisaData } from './countries/europe/western-europe/spain/index';
-import { canadaVisaData } from './countries/north-america/canada';
+// import { germanyVisaData } from './countries/western-europe/germany';
+import { spainVisaData } from './countries/western-europe/spain/index';
+// import { canadaVisaData } from './countries/north-america/canada';
 import { indonesiaVisaData } from './countries/southeast-asia/indonesia/index';
 import { argentinaVisaData } from './countries/south-america/argentina/index';
 import { brazilVisaData } from './countries/south-america/brazil/index';
-import { portugalVisaData } from './countries/europe/western-europe/portugal/index';
-import { georgiaVisaData } from './countries/europe/caucasus/georgia/index';
-import { greeceVisaData } from './countries/europe/southern-europe/greece/index';
-import { turkeyVisaData } from './countries/europe/southern-europe/turkey/index';
+import { portugalVisaData } from './countries/western-europe/portugal/index';
+import { georgiaVisaData } from './countries/caucasus/georgia/index';
+import { greeceVisaData } from './countries/southern-europe/greece/index';
+import { turkeyVisaData } from './countries/southern-europe/turkey/index';
 import { panamaVisaData } from './countries/central-america/panama/index';
 import { japanVisaData } from './countries/east-asia/japan/index';
-import { italyVisaData } from './countries/europe/southern-europe/italy/index';
-import { franceVisaData} from './countries/europe/western-europe/france/index';
+import { italyVisaData } from './countries/southern-europe/italy/index';
+import { franceVisaData} from './countries/western-europe/france/index';
 import { laosVisaData} from './countries/southeast-asia/laos/index';
 import { indiaVisaData} from './countries/south-asia/india/index';
 import { bangladeshVisaData} from './countries/south-asia/bangladesh/index';
 import { nepalVisaData} from './countries/south-asia/nepal/index';
 import { moroccoVisaData} from './countries/northern-africa/morocco/index';
-import { ukVisaData} from './countries/europe/western-europe/united-kingdom/index';
+import { ukVisaData} from './countries/western-europe/united-kingdom/index';
 
 export const visaData: Record<string, Record<string, VisaInfo>> = {
   // Destination: Mexico | Visa requirements FOR entering Mexico
@@ -38,7 +38,7 @@ export const visaData: Record<string, Record<string, VisaInfo>> = {
   // Destination: United States | Visa requirements FOR entering USA
   "United States": unitedStatesVisaData,  // Various citizens → USA
   // Destination: Canada | Visa requirements FOR entering Mexico
-  "Canada": canadaVisaData,
+  // "Canada": canadaVisaData,
   "Indonesia": indonesiaVisaData,
   "Argentina": argentinaVisaData,
   "Brazil": brazilVisaData,
@@ -46,7 +46,7 @@ export const visaData: Record<string, Record<string, VisaInfo>> = {
   // Destination: Georgia | Visa requirements FOR entering Mexico
   "Georgia": georgiaVisaData,
   "Azerbaijan": azerbaijanVisaData,
-  "Germany": germanyVisaData,
+  // "Germany": germanyVisaData,
   "Spain": spainVisaData,
   "Greece": greeceVisaData,
   "Turkey": turkeyVisaData,

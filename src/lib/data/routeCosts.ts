@@ -7,32 +7,32 @@ import type { RouteCostData } from '$lib/types/flight';
 import { panamaRouteCost } from './countries/central-america/panama/index';
 import { argentinaRouteCost } from './countries/south-america/argentina/index';
 import { brazilRouteCost } from './countries/south-america/brazil/index';
-import { canadaRouteCost } from './countries/north-america/canada';
+// import { canadaRouteCost } from './countries/north-america/canada';
 import { unitedStatesRouteCost } from './countries/north-america/united-states/index';
 import { thailandRouteCost } from './countries/southeast-asia/thailand/index';
 import { vietnamRouteCost } from './countries/southeast-asia/vietnam/index';
 import { indonesiaRouteCost } from './countries/southeast-asia/indonesia/index';
-import { portugalRouteCost } from './countries/europe/western-europe/portugal/index';
-import { spainRouteCost } from './countries/europe/western-europe/spain/index';
-import { georgiaRouteCost } from './countries/europe/caucasus/georgia/index';
-import { azerbaijanRouteCost } from './countries/europe/caucasus/azerbaijan/index';
+import { portugalRouteCost } from './countries/western-europe/portugal/index';
+import { spainRouteCost } from './countries/western-europe/spain/index';
+import { georgiaRouteCost } from './countries/caucasus/georgia/index';
+import { azerbaijanRouteCost } from './countries/caucasus/azerbaijan/index';
 import { mexicoRouteCost } from './countries/north-america/mexico/index';
-import { turkeyRouteCost } from './countries/europe/southern-europe/turkey/index';
-import { greeceRouteCost } from './countries/europe/southern-europe/greece/index';
+import { turkeyRouteCost } from './countries/southern-europe/turkey/index';
+import { greeceRouteCost } from './countries/southern-europe/greece/index';
 // Countries we've completed (add these to your imports):
 import { japanRouteCost } from './countries/east-asia/japan/index';
-import { italyRouteCost } from './countries/europe/southern-europe/italy/index';
-import { franceRouteCost } from './countries/europe/western-europe/france/index';
+import { italyRouteCost } from './countries/southern-europe/italy/index';
+import { franceRouteCost } from './countries/western-europe/france/index';
 import { laosRouteCost } from './countries/southeast-asia/laos/index';
 import { indiaRouteCost } from './countries/south-asia/india/index';
 import { bangladeshRouteCost} from './countries/south-asia/bangladesh/index';
 import { nepalRouteCost } from './countries/south-asia/nepal/index';
 import { moroccoRouteCost } from './countries/northern-africa/morocco/index';
-import { ukRouteCost } from './countries/europe/western-europe/united-kingdom/index';
+import { ukRouteCost } from './countries/western-europe/united-kingdom/index';
 
 export const routeCosts: Record<string, RouteCostData> = {
   // Origin: Canada | Contains destinations FROM Canada TO other countries
-  "Canada": canadaRouteCost,
+  // "Canada": canadaRouteCost,
   // Origin: Mexico | Contains flights FROM Mexico TO other countries
   "Mexico": mexicoRouteCost,  // Mexico → various destinations 
   // Origin: United States | Contains flights FROM USA TO other countries

@@ -7,12 +7,12 @@ import type { RegionData, LivingCostData } from '$lib/types/living-costs';
 // Your imports
 import { thailandLivingCosts } from './countries/southeast-asia/thailand/index';
 import { vietnamLivingCosts } from './countries/southeast-asia/vietnam/index';
-import { turkeyLivingCosts } from './countries/europe/southern-europe/turkey/index';
-import { greeceLivingCosts } from './countries/europe/southern-europe/greece/index';
-import { georgiaLivingCosts } from './countries/europe/caucasus/georgia/index';
-import { azerbaijanLivingCosts } from './countries/europe/caucasus/azerbaijan/index';
-import { spainLivingCosts } from './countries/europe/western-europe/spain/index';
-import { portugalLivingCosts } from './countries/europe/western-europe/portugal/index';
+import { turkeyLivingCosts } from './countries/southern-europe/turkey/index';
+import { greeceLivingCosts } from './countries/southern-europe/greece/index';
+import { georgiaLivingCosts } from './countries/caucasus/georgia/index';
+import { azerbaijanLivingCosts } from './countries/caucasus/azerbaijan/index';
+import { spainLivingCosts } from './countries/western-europe/spain/index';
+import { portugalLivingCosts } from './countries/western-europe/portugal/index';
 import { argentinaLivingCosts } from './countries/south-america/argentina/index';
 import { brazilLivingCosts } from './countries/south-america/brazil/index';
 import { panamaLivingCosts } from './countries/central-america/panama/index';
@@ -20,14 +20,14 @@ import { unitedStatesLivingCosts } from './countries/north-america/united-states
 import { mexicoLivingCosts } from './countries/north-america/mexico/index';
 import { indonesiaLivingCosts } from './countries/southeast-asia/indonesia/index';
 import { japanLivingCosts } from './countries/east-asia/japan/index';
-import { italyLivingCosts } from './countries/europe/southern-europe/italy/index';
-import { franceLivingCosts } from './countries/europe/western-europe/france/index';
+import { italyLivingCosts } from './countries/southern-europe/italy/index';
+import { franceLivingCosts } from './countries/western-europe/france/index';
 import { laosLivingCosts } from './countries/southeast-asia/laos/index';
 import { indiaLivingCosts } from './countries/south-asia/india/index';
 import { bangladeshLivingCosts} from './countries/south-asia/bangladesh/index';
 import { nepalLivingCosts } from './countries/south-asia/nepal/index';
 import { moroccoLivingCosts } from './countries/northern-africa/morocco/index';
-import { ukLivingCosts } from './countries/europe/western-europe/united-kingdom/index';
+import { ukLivingCosts } from './countries/western-europe/united-kingdom/index';
 
 export const livingCostsByRegion: RegionData[] = [
   {
