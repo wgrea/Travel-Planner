@@ -1,34 +1,42 @@
 <!-- src/routes/living-costs/components/MainContent.svelte -->
 <script lang="ts">
   import { livingCostsByRegion } from '$lib/data/livingCostData';
-  import { convertCurrency, formatCurrency } from '$lib/utils/currency'; // Remove currencySymbols import
+  import { convertCurrency, formatCurrency } from '$lib/utils/currency';
   import { getDailyCostForCity } from '$lib/utils/living-costs';
   import type { TravelStyle, LivingCostData } from '$lib/types/living-costs';
   
   // Import CostDetails component
   import CostDetails from './CostDetails.svelte';
   
-  // Props
-  export let selectedCountry: string = '';
-  export let selectedCity: string = '';
-  export let travelStyle: TravelStyle = 'midrange';
-  export let tripLength: number = 30;
-  export let travelerCount: number = 1;
-  export let selectedCurrency: string = 'USD'; // Keep this prop
+  // Props - UPDATE to include seasonalPricing
+  let {
+    selectedCountry = '',
+    selectedCity = '',
+    travelStyle = 'midrange',
+    tripLength = 30,
+    travelerCount = 1,
+    selectedCurrency = 'USD',
+    seasonalPricing = 'sweet' as 'low' | 'sweet' | 'peak'
+  } = $props<{
+    selectedCountry: string;
+    selectedCity: string;
+    travelStyle: TravelStyle;
+    tripLength: number;
+    travelerCount: number;
+    selectedCurrency: string;
+    seasonalPricing: 'low' | 'sweet' | 'peak';
+  }>();
   
-  // Events - REMOVE currencyChange event
+  // Events
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher<{
     travelStyleChange: TravelStyle;
     tripLengthChange: number;
     travelerCountChange: number;
-    // Remove currencyChange from here
   }>();
 
-  // Data - REMOVE availableCurrencies
-
-  // Get current country data with proper type handling
-  $: currentCountryData = (() => {
+  // Get current country data with proper type handling - FIXED: Use const without arrow function
+  const currentCountryData = $derived.by(() => {
     const country = livingCostsByRegion
       .flatMap(region => {
         if (region.subregions) {
@@ -36,30 +44,28 @@
         }
         return region.countries || [];
       })
-      .find(country => country.country === selectedCountry);
+      .find(country => country?.country === selectedCountry);
 
-    // Ensure the data matches our LivingCostData type
     if (country && country.baseCosts) {
       return country as LivingCostData;
     }
     return null;
-  })();
+  });
 
-  // Calculate total cost using the helper function
-  $: totalCost = (() => {
+  // Calculate total cost using the helper function - FIXED: Use const without arrow function
+  const totalCost = $derived.by(() => {
     if (!selectedCountry || !tripLength || !travelerCount) return 0;
     
     const dailyCost = getDailyCostForCity(selectedCountry, selectedCity, travelStyle);
     let cost = dailyCost * tripLength * travelerCount;
     
+    // Now currentCountryData is a value, not a function
     if (currentCountryData?.currency && currentCountryData.currency !== selectedCurrency) {
       cost = convertCurrency(cost, currentCountryData.currency, selectedCurrency);
     }
     
     return cost;
-  })();
-
-  // Event handlers - REMOVE handleCurrencyChange function
+  });
 
   function handleTravelStyleChange(e: CustomEvent<TravelStyle>) {
     dispatch('travelStyleChange', e.detail);
@@ -75,8 +81,6 @@
 </script>
 
 <div class="max-w-6xl mx-auto">
-  <!-- REMOVE the entire Currency Selector section that was here -->
-  
   <!-- Content based on selection -->
   {#if !selectedCountry}
     <!-- Welcome state -->
@@ -85,15 +89,16 @@
       <p class="text-gray-600">Choose a country from the selector above to get started.</p>
     </div>
   {:else if currentCountryData}
-    <!-- Cost details -->
+    <!-- Cost details - PASS seasonalPricing to CostDetails -->
     <CostDetails 
-      {currentCountryData}
+      currentCountryData={currentCountryData} 
       {selectedCountry}
       {selectedCity}
       {travelStyle}
       {tripLength}
-      {totalCost}
+      totalCost={totalCost} 
       {selectedCurrency}
+      {seasonalPricing}
       on:travelStyleChange={handleTravelStyleChange}
       on:tripLengthChange={handleTripLengthChange}
       on:travelerCountChange={handleTravelerCountChange}

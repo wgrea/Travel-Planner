@@ -7,16 +7,21 @@
   import type { TravelStyle } from '$lib/types/living-costs';
   import { createEventDispatcher } from 'svelte';
   
-  export let currentCurrency = '';
+  // Use $props() instead of export let
+  let {
+    currentCurrency = '',
+    seasonalPricing = 'sweet' as 'low' | 'sweet' | 'peak'
+  } = $props();
   
   const dispatch = createEventDispatcher();
   
-  let selectedCountry = '';
-  let selectedRegion = '';
-  let selectedCity = '';
-  let travelStyle: TravelStyle = 'midrange';
-  let tripLength = 30;
-  let travelerCount = 1;
+  // FIX: Add $state for reactive variables
+  let selectedCountry = $state('');
+  let selectedRegion = $state('');
+  let selectedCity = $state('');
+  let travelStyle = $state<TravelStyle>('midrange');
+  let tripLength = $state(30);
+  let travelerCount = $state(1);
   
   // Event handlers
   function handleCountryChange(country: string) {
@@ -32,7 +37,6 @@
     selectedCity = event.detail;
   }
   
-  // FIXED LINE: Added proper closing > in type annotation
   function handleSelectCity(event: CustomEvent<{ city: string; country: string }>) {
     selectedCity = event.detail.city;
   }
@@ -108,6 +112,7 @@
           {tripLength}
           {travelerCount}
           selectedCurrency={currentCurrency}
+          {seasonalPricing}
           on:travelStyleChange={handleTravelStyleChange}
           on:tripLengthChange={handleTripLengthChange}
           on:travelerCountChange={handleTravelerCountChange}
@@ -140,3 +145,4 @@
     <BudgetReminder />
   </div>
 </div>
+<!-- REMOVE any extra closing </div> tags that might be at the end -->

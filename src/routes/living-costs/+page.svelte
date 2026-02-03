@@ -4,14 +4,15 @@
   import PageWrapper from '$lib/components/PageWrapper.svelte';
   import SingleCountryView from './components/SingleCountryView.svelte';
   import ComparisonModal from '$lib/components/comparison/Modal.svelte';
-  import ComparisonView from './components/ComparisonView.svelte'; // Your living-costs specific one
+  import ComparisonView from './components/ComparisonView.svelte';
   import { selectedCurrency } from '$lib/stores/currency';
   
-  // State
-  let viewMode: 'single' | 'compare' = 'single';
-  let comparisonCountries: string[] = [];
-  let showComparisonModal = false;
-  let currentCurrency = '';
+  // State - USE $state for reactive variables
+  let viewMode = $state<'single' | 'compare'>('single');
+  let comparisonCountries = $state<string[]>([]);
+  let showComparisonModal = $state(false);
+  let currentCurrency = $state('');
+  let seasonalPricing = $state<'low' | 'sweet' | 'peak'>('sweet');
   
   // Mock data for available countries
   const availableCountries = [
@@ -22,7 +23,7 @@
   // Store subscription
   onMount(() => {
     const unsubscribe = selectedCurrency.subscribe(value => {
-      currentCurrency = value;
+      currentCurrency = value; // This works because currentCurrency is $state
     });
     return unsubscribe;
   });
@@ -61,13 +62,47 @@
   subtitle="Precise budgeting with clean data visualization and detailed breakdowns"
   mode="living-costs"
 >
+  <!-- NEW: Seasonal Pricing Tabs - MOVE ABOVE everything -->
+  <div class="mb-8 flex bg-white rounded-xl border border-gray-200 p-1">
+    <button
+      class={`px-6 py-3 rounded-lg font-medium flex-1 transition-all ${
+        seasonalPricing === 'low' 
+          ? 'bg-emerald-500 text-white shadow-sm' 
+          : 'hover:bg-gray-50 text-gray-700'
+      }`}
+      onclick={() => seasonalPricing = 'low'}
+    >
+      🌡️ Low Season
+    </button>
+    <button
+      class={`px-6 py-3 rounded-lg font-medium flex-1 transition-all ${
+        seasonalPricing === 'sweet' 
+          ? 'bg-amber-500 text-white shadow-sm' 
+          : 'hover:bg-gray-50 text-gray-700'
+      }`}
+      onclick={() => seasonalPricing = 'sweet'}
+    >
+      ⭐ Sweet Spot
+    </button>
+    <button
+      class={`px-6 py-3 rounded-lg font-medium flex-1 transition-all ${
+        seasonalPricing === 'peak' 
+          ? 'bg-red-500 text-white shadow-sm' 
+          : 'hover:bg-gray-50 text-gray-700'
+      }`}
+      onclick={() => seasonalPricing = 'peak'}
+    >
+      🔥 Peak Season
+    </button>
+  </div>
+
   {#if viewMode === 'single'}
     <SingleCountryView 
       {currentCurrency}
+      {seasonalPricing}
       on:showcomparison={handleShowComparison}
     />
   {:else}
-    <!-- Use your living-costs specific ComparisonView -->
     <ComparisonView
       countries={comparisonCountries}
       on:countryclick={handleCountryClick}

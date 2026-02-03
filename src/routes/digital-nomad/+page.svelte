@@ -8,7 +8,6 @@
 
   // Import available components
   import MainContent from './components/MainContent.svelte';
-  import WorkspaceCard from './components/WorkspaceCard.svelte';
   import WorkspaceFinder from './components/WorkspaceFinder.svelte';
   import CoworkingSpacesCard from './components/CoworkingSpacesCard.svelte';
   import CoworkingMemberships from './components/CoworkingMemberships.svelte';
@@ -19,9 +18,9 @@
   import NextSteps from './components/NextSteps.svelte';
 
   // State
-  let selectedCountry = $state('Thailand');
-  let selectedCity = $state('Bangkok');
-  let workPreference = $state('zero_spend');
+  let selectedCountry = $state('Azerbaijan');
+  let selectedCity = $state(''); // Initialize as empty
+  let workPreference = $state('already_paid');
 
   // Derived values
   const currentCurrency = $derived($selectedCurrency);
@@ -33,17 +32,49 @@
     .map(item => item.country)
   )).sort();
   
-  // Get cities for selected country
-  function getCitiesForCountry(country: string): string[] {
+  // Get all cities for selected country (from workspaces)
+  function getAllCitiesForCountry(country: string): string[] {
     const countryData = nomadData.find(item => item.country === country);
-    return countryData?.cities || [];
+    if (!countryData) return [];
+    
+    const cities = new Set<string>();
+    
+    // Add cities from workspaces
+    if (countryData.workspaces) {
+      countryData.workspaces.forEach(workspace => {
+        if (workspace.city) cities.add(workspace.city);
+      });
+    }
+    
+    // Add cities from free workspaces
+    if (countryData.freeWorkspaces) {
+      countryData.freeWorkspaces.forEach(workspace => {
+        if (workspace.city) cities.add(workspace.city);
+      });
+    }
+    
+    // Add predefined cities if available
+    if (countryData.cities) {
+      countryData.cities.forEach(city => cities.add(city));
+    }
+    
+    return Array.from(cities).sort();
   }
   
+  // Handle city selection when country changes
   $effect(() => {
-    // Update city when country changes
-    const cities = getCitiesForCountry(selectedCountry);
-    if (cities.length > 0 && !cities.includes(selectedCity)) {
-      selectedCity = cities[0];
+    if (selectedCountry) {
+      const cities = getAllCitiesForCountry(selectedCountry);
+      
+      // If current city not in new country's cities, reset or use first city
+      if (selectedCity && !cities.includes(selectedCity)) {
+        selectedCity = cities.length > 0 ? cities[0] : '';
+      }
+      
+      // If no city selected and country has cities, select first one
+      if (!selectedCity && cities.length > 0) {
+        selectedCity = cities[0];
+      }
     }
   });
   
@@ -64,9 +95,10 @@
     <BeforeYouStart />
   </div>
 
+<!-- Remove the city selector section -->
   <!-- Simple Country/City Selector -->
   <div class="mb-12 bg-white rounded-xl border border-gray-200 p-6">
-    <div class="space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-6"> <!-- Change to 1 column -->
       <div>
         <label for={countrySelectId} class="block text-sm font-medium text-gray-700 mb-2">
           Select Country
@@ -81,24 +113,7 @@
           {/each}
         </select>
       </div>
-      
-      {#if selectedCountry}
-        <div>
-          <label for={citySelectId} class="block text-sm font-medium text-gray-700 mb-2">
-            Select City
-          </label>
-          <select 
-            id={citySelectId}
-            bind:value={selectedCity}
-            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="">All cities</option>
-            {#each getCitiesForCountry(selectedCountry) as city}
-              <option value={city}>{city}</option>
-            {/each}
-          </select>
-        </div>
-      {/if}
+      <!-- REMOVE the city selector -->
     </div>
   </div>
 
@@ -108,23 +123,14 @@
       <!-- Main Overview -->
       <MainContent
         {selectedCountry}
-        {selectedCity}
+        selectedCity=""
         countryData={currentCountryData}
         visaData={null}
         currency={currentCurrency}
       />
 
-      <!-- Grid Layout for Workspaces -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Left: Work-Friendly Accommodations -->
-        <WorkspaceCard
-          data={currentCountryData}
-          city={selectedCity} 
-          currency={currentCurrency}
-        />
-        
-      </div>
-      
+      <!-- Another WorkspaceFinder Creates a duplicate. I wonder where the other one that is on the page is comming from? -->
+
       <!-- Memberships Section -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Local Coworking Memberships -->

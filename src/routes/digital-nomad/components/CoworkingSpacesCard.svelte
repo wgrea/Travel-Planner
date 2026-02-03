@@ -10,7 +10,7 @@
     currency = 'USD',
     selectedCountry,
     selectedCity,
-    workPreference
+    workPreference = 'already_paid'  // ← ADD THIS
   } = $props();
 
   // Simple state for showing all

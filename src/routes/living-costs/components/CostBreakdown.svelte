@@ -4,10 +4,23 @@
   import { getNumericCost } from '$lib/utils/living-costs';
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
 
-  export let livingCostData: any;
-  export let selectedCurrency: string = 'USD';
-  export let travelStyle: 'budget' | 'midrange' | 'luxury';
+  // FIXED: Use $props() only once - remove the duplicate declarations below
+  let {
+    livingCostData,
+    selectedCurrency = 'USD',
+    travelStyle = 'budget',
+    seasonalPricing = 'sweet'
+  } = $props<{
+    livingCostData: any;
+    selectedCurrency: string;
+    travelStyle: 'budget' | 'midrange' | 'luxury' | 'nomad';
+    seasonalPricing: 'low' | 'sweet' | 'peak';
+  }>();
   
+  // NEW: Get seasonal price modifier
+  function getSeasonalMultiplier(season: string): number {
+    return season === 'low' ? 0.8 : season === 'sweet' ? 1.0 : 1.3;
+  }
 </script>
 
 {#if livingCostData}
@@ -128,6 +141,38 @@
         </div>
       </div>
     </div>
+
+    <!-- Accommodation section - ADD Coliving row + seasonal pricing -->
+<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+  <div class="text-gray-700 flex items-center gap-2">
+    🏠 <span>Hostel</span>
+    {#if seasonalPricing !== 'sweet'}
+      <span class="text-xs px-2 py-1 bg-amber-100 rounded-full">
+        {seasonalPricing}
+      </span>
+    {/if}
+  </div>
+  <div class="text-emerald-600 font-semibold">
+    {formatCurrency(
+      convertCurrency(
+        livingCostData.baseCosts.accommodation.budget.hostel * getSeasonalMultiplier(seasonalPricing),
+        livingCostData.currency, selectedCurrency
+      ), selectedCurrency
+    )}
+  </div>
+</div>
+
+
+<!-- NEW: Coliving row (links to nomad page) -->
+<div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+  <div class="text-gray-700 flex items-center gap-2">
+    🏢 <span>Coliving</span>
+    <a href="/digital-nomad" class="text-blue-600 hover:text-blue-800 text-xs underline">
+      → 15 workspaces
+    </a>
+  </div>
+  <div class="text-emerald-600 font-semibold">$350<span class="text-sm">/mo</span></div>
+</div>
   </div>
 </div>
 

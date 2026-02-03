@@ -1,3 +1,4 @@
+<!-- src/routes/living-costs/components/CostDetails.svelte -->
 <script lang="ts">
   import { convertCurrency, formatCurrency } from '$lib/utils/currency';
   import type { LivingCostData, TravelStyle } from '$lib/types/living-costs';
@@ -8,6 +9,7 @@
   import TripBudgetCalculator from './TripBudgetCalculator.svelte';
   import MoneySavingTips from './MoneySavingTips.svelte';
 
+  // Props - ADD seasonalPricing
   export let currentCountryData: LivingCostData;
   export let selectedCountry: string;
   export let selectedCity: string;
@@ -15,6 +17,7 @@
   export let tripLength: number;
   export let totalCost: number;
   export let selectedCurrency: string;
+  export let seasonalPricing: 'low' | 'sweet' | 'peak' = 'sweet';
 
   // Events
   import { createEventDispatcher } from 'svelte';
@@ -26,6 +29,12 @@
 
   // Helper function to safely get cost with fallback
   function getSafeDailyCost(costData: LivingCostData, style: TravelStyle): number {
+    // Handle 'nomad' style specially
+    if (style === 'nomad') {
+      const hostelCost = costData.baseCosts?.accommodation?.budget?.hostel || 30;
+      const cafeCost = costData.baseCosts?.food?.streetFood || 5;
+      return hostelCost + (cafeCost * 2);
+    }
     return costData.baseCosts?.dailyLiving?.[style] || 0;
   }
 
@@ -34,9 +43,10 @@
   }
 
   // Provide the setTravelStyle function that TravelStyleSelector expects
-  function setTravelStyle(style: TravelStyle) {
-    travelStyle = style;
-    dispatch('travelStyleChange', style);
+  // FIXED: Match the type expected by TravelStyleSelector
+  function setTravelStyle(style: 'budget' | 'midrange' | 'luxury' | 'nomad') {
+    travelStyle = style as TravelStyle;
+    dispatch('travelStyleChange', style as TravelStyle);
   }
 
   function handleTripLengthChange(e: CustomEvent<number>) {
@@ -48,11 +58,12 @@
   }
 
   // Helper function to get cost data for current selection (country or city)
+  // FIXED: Use type assertion to handle the merged data
   $: currentCostData = (() => {
     if (selectedCity && currentCountryData?.cities?.[selectedCity]) {
       const cityData = currentCountryData.cities[selectedCity];
       // Use city data if available, fall back to country data
-      return {
+      const mergedData = {
         ...currentCountryData,
         ...cityData,
         baseCosts: {
@@ -61,6 +72,7 @@
         },
         tips: cityData.tips || currentCountryData.tips
       };
+      return mergedData as LivingCostData;
     }
     return currentCountryData;
   })();
@@ -137,18 +149,19 @@
 <TripBudgetCalculator 
     {tripLength}
     {totalCost}
-    {travelStyle}
+    travelStyle={travelStyle as 'budget' | 'midrange' | 'luxury'} 
     {selectedCurrency}
     on:tripLengthChange={handleTripLengthChange}
     on:travelerCountChange={handleTravelerCountChange}
   />
 
-<!-- Cost Breakdown -->
+<!-- Cost Breakdown - PASS seasonalPricing -->
 <div class="mb-12">
   <CostBreakdown 
     livingCostData={currentCountryData}
     {selectedCurrency}
     {travelStyle}
+    {seasonalPricing} 
   />
 </div>
 

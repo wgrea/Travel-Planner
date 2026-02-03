@@ -1,5 +1,4 @@
 <!-- src/routes/living-costs/components/CitySelector.svelte -->
-<!-- Replace the entire file with this version -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   
