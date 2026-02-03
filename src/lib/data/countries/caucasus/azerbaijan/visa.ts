@@ -1,0 +1,52 @@
+// /src/lib/data/countries/europe/caucasus/azerbaijan/visa.ts
+import type { VisaInfo } from '$lib/types/visa';
+
+export const azerbaijanVisaData: Record<string, VisaInfo> = {
+    // Don't know if this is going to the United States or from the United States but I have a comment written in another file that says what this file is supposed to mean and the same goes for the flight.ts
+    'United States': {
+      ease: "E-Visa available",
+      freeLength: "30 days",
+      workPolicy: "No specific digital nomad visa",
+      nomadVisa: false,
+      incomeReq: "Not applicable",
+      category: "Easy",
+      duration: 30,
+      cost: 25,
+      applicationTime: "3 business days",
+      entryType: "single",
+      extensionsPossible: true,
+      extensionDuration: 60,
+          region: "Europe",           // ← MAIN REGION
+    subregion: "Caucasus",      // ← SUBREGION (optional)
+    },
+    'Germany': {
+      ease: "Visa-free",
+      freeLength: "30 days",
+      workPolicy: "No local work allowed",
+      nomadVisa: false,
+      incomeReq: "Not applicable",
+      category: "Easy",
+      duration: 30,
+      cost: 0,
+      applicationTime: "Not applicable",
+      entryType: "single",
+          region: "Europe",           // ← MAIN REGION
+    subregion: "Caucasus",      // ← SUBREGION (optional)
+    },
+    'United Kingdom': {
+      ease: "E-Visa available",
+      freeLength: "30 days",
+      workPolicy: "No specific digital nomad visa",
+      nomadVisa: false,
+      incomeReq: "Not applicable",
+      category: "Easy",
+      duration: 30,
+      cost: 25,
+      applicationTime: "3 business days",
+      entryType: "single",
+      extensionsPossible: true,
+      extensionDuration: 60,
+          region: "Europe",           // ← MAIN REGION
+    subregion: "Caucasus",      // ← SUBREGION (optional)
+    }
+};
