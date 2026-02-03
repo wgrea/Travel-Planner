@@ -131,6 +131,7 @@ export function getNumericCost(
 }
 
 // Helper function to get daily cost for a city
+// In src/lib/utils/living-costs.ts, update the function:
 export function getDailyCostForCity(countryName: string, cityName: string, travelStyle: TravelStyle): number {
   const cityData = getCityCosts(countryName, cityName);
   const country = livingCostsByRegion
@@ -144,7 +145,24 @@ export function getDailyCostForCity(countryName: string, cityName: string, trave
 
   let dailyCost = 0;
 
-  if (cityData?.baseCosts?.dailyLiving?.[travelStyle]) {
+  // Handle 'nomad' style specially
+  if (travelStyle === 'nomad') {
+    // For nomad style, calculate hostel + cafe costs
+    if (cityData?.baseCosts) {
+      const hostelCost = cityData.baseCosts.accommodation?.budget?.hostel || 
+                        country?.baseCosts?.accommodation?.budget?.hostel || 30;
+      const cafeCost = cityData.baseCosts.food?.streetFood || 
+                      country?.baseCosts?.food?.streetFood || 5;
+      // Nomad: hostel + 2 cafe meals per day
+      dailyCost = hostelCost + (cafeCost * 2);
+    } else if (country?.baseCosts) {
+      const hostelCost = country.baseCosts.accommodation?.budget?.hostel || 30;
+      const cafeCost = country.baseCosts.food?.streetFood || 5;
+      dailyCost = hostelCost + (cafeCost * 2);
+    }
+  } 
+  // Handle other styles
+  else if (cityData?.baseCosts?.dailyLiving?.[travelStyle]) {
     dailyCost = cityData.baseCosts.dailyLiving[travelStyle] || 0;
   } else if (country?.baseCosts?.dailyLiving?.[travelStyle]) {
     dailyCost = country.baseCosts.dailyLiving[travelStyle] || 0;

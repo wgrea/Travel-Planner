@@ -1,5 +1,5 @@
-// src/lib/types/living-costs.ts - KEEP THIS FILE AS IS
-export type TravelStyle = 'budget' | 'midrange' | 'luxury';
+// src/lib/types/living-costs.ts
+export type TravelStyle = 'budget' | 'midrange' | 'luxury' | 'nomad';
 export type AccommodationType = 'hostel' | 'guesthouse' | 'hotel' | 'apartment' | 'luxury' | 'boutiqueHotel';
 
 // Make all nested interfaces partial to allow overrides
@@ -21,6 +21,7 @@ export interface FoodCosts {
 
 export interface AccommodationBudget {
   hostel?: number;
+  coliving?: number; 
   budgetHotel?: number;
   guesthouse?: number;
 }
@@ -58,9 +59,10 @@ export interface DailyLivingBreakdown {
 }
 
 export interface DailyLivingCosts {
-  budget?: number;
-  midrange?: number;
-  luxury?: number;
+  budget: number;
+  midrange: number;
+  luxury: number;
+  nomad?: number; // ADD THIS
   breakdown?: DailyLivingBreakdown;
 }
 
@@ -73,6 +75,11 @@ export interface BaseCosts {
 
 export interface CityData {
   baseCosts: BaseCosts;
+  seasonalPricing?: {     // ← ADD THIS
+    hostel: { low: number; sweet: number; peak: number };
+    coliving?: { low: number; sweet: number; peak: number };
+    note?: string;
+  };
   tips?: string[];
 }
 
@@ -91,6 +98,13 @@ export interface LivingCostData {
   
   cities: {
     [cityName: string]: CityData;
+  };
+
+  seasonalPricing?: {
+    hostel: { low: number; sweet: number; peak: number };
+    coliving: { low: number; sweet: number; peak: number };
+    budgetHotel?: { low: number; sweet: number; peak: number };
+    months?: { low: string[]; sweet: string[]; peak: string[] };
   };
 }
 
