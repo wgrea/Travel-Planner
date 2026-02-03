@@ -33,31 +33,24 @@
         <h4 class="font-semibold text-gray-800 mb-4">🚀 What's Next</h4> 
         <div class="space-y-3">
           
-          <!-- CURRENT PRIORITY: DX Cleanup -->
-          <div class="bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg p-3 border border-amber-200">
-            <div class="flex items-center justify-between mb-1">
-              <div class="flex items-center gap-2">
-                <span class="text-lg">🛠️</span>
-                <span class="font-medium text-gray-700">DX Cleanup</span>
-              </div>
-            </div>
-            <p class="text-xs text-gray-600">
-              Standardizing data structures across all pages
-            </p>
-          </div>
-          
-          <!-- UP NEXT: Saved Plans -->
-          <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-3 border border-blue-200">
-            <div class="flex items-center justify-between mb-1">
-              <div class="flex items-center gap-2">
-                <span class="text-lg">💾</span>
-                <span class="font-medium text-gray-700">Saved Plans</span>
-              </div>
-            </div>
-            <p class="text-xs text-gray-600">
-              Save flight & living cost plans (testing on 2 pages first)
-            </p>
-          </div>
+<!-- CURRENT PRIORITY: Living Costs Seasonal -->
+<div class="bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-lg p-3 border border-emerald-200">
+  <div class="flex items-center gap-2">
+    <span class="text-lg">🌡️</span>
+    <span class="font-medium text-gray-700">Seasonal Pricing</span>
+  </div>
+  <p class="text-xs text-gray-600">Low/Sweet/Peak tabs → Azerbaijan live</p>
+</div>
+
+<!-- UP NEXT: Resonance -->
+<div class="bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg p-3 border border-purple-200">
+  <div class="flex items-center gap-2">
+    <span class="text-lg">✨</span>
+    <span class="font-medium text-gray-700">Resonance Page</span>
+  </div>
+  <p class="text-xs text-gray-600">Filter polish + seasonal integration</p>
+</div>
+
           
           <!-- PLANNED: Digital Nomad Filters -->
           <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-3 border border-green-200">

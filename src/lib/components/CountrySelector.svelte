@@ -7,7 +7,7 @@
     getOriginCountriesByRegion,
     getRegionForCountry,
     getDestinationCount
-  } from '$lib/utils/regionUtils';
+  } from '$lib/utils/region';
   import { visaData } from '$lib/data/visa';
 
   export interface CountryData {
